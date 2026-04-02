@@ -215,19 +215,26 @@ async def render_topic_screen(update: Update, context: ContextTypes.DEFAULT_TYPE
     ud["state"] = "topic"
     questions  = ud["questions"]
     topics     = available_topics(questions)
-    sel: set   = ud.setdefault("topics_selected", set(topics))
+    mode       = ud.get("mode", Mode.STUDY)
+    default_sel = set(topics) if mode == Mode.EXAM else set()
+    sel: set   = ud.setdefault("topics_selected", default_sel)
     t_ranges   = build_topic_ranges(questions)
 
     rows = []
     for t in topics:
         lo, hi, cnt = t_ranges[t]
-        icon  = "✅" if t in sel else "⬜"
+        icon  = "🔘" if (mode == Mode.STUDY and t in sel) else \
+                "⚪" if mode == Mode.STUDY else \
+                "✅" if t in sel else "⬜"
         label = f"{icon} {esc(t)}  #{lo}–#{hi}  ({cnt})"
         rows.append([(label, f"topic:{t}")])
 
-    rows.append([("✅ All", "topic_all"), ("❌ None", "topic_none")])
+    if mode == Mode.EXAM:
+        rows.append([("✅ All", "topic_all"), ("❌ None", "topic_none")])
     rows.append([("▶ Next →", "topic_done")] + [_nav()[0]])
-    await _edit(update, "🧩 <b>Select Topics</b> — tap to toggle:", _kb(rows))
+    prompt = "🧩 <b>Select Topics</b> — tap to toggle:" if mode == Mode.EXAM else \
+             "📘 <b>Select One Topic</b> — choose a single topic for Study mode:"
+    await _edit(update, prompt, _kb(rows))
 
 
 async def render_count_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -255,35 +262,28 @@ async def render_count_screen(update: Update, context: ContextTypes.DEFAULT_TYPE
 
 
 async def render_study_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Study mode: choose which topic range to study (button-only)."""
+    """Study mode: choose all questions or a block of 10 inside the selected topic."""
     ud = _ud(context)
     ud["state"] = "study_select"
     questions  = ud["questions"]
-    sel_topics = ud.get("topics_selected", set())
-    pool       = [q for q in questions if q.topic in sel_topics]
-    t_ranges   = build_topic_ranges(questions)
+    sel_topics = list(ud.get("topics_selected", set()))
+    topic = sel_topics[0] if sel_topics else ""
+    pool = [q for q in questions if q.topic == topic]
 
-    rows = []
-    # One button per selected topic showing its global ID range
-    for t in available_topics(questions):
-        if t not in sel_topics:
-            continue
-        lo, hi, cnt = t_ranges[t]
-        rows.append([(f"📋 {esc(t)}  #{lo}–#{hi}  ({cnt} q)", f"study:{t}")])
-
-    # "All selected" button
-    total = len(pool)
-    rows.append([(f"📋 All selected topics  ({total} q)", "study:ALL")])
+    rows = [[(f"📋 All questions ({len(pool)} q)", "study:ALL")]]
+    for start in range(0, len(pool), 10):
+        end = min(start + 10, len(pool))
+        rows.append([(f"📘 Questions {start + 1}-{end}", f"study:block:{start}:{end}")])
     rows.append(_nav())
 
-    lines = [f"📘 <b>Study Mode</b>  —  {esc(ud['cert'])}\n"]
-    lines.append("Available question ranges:")
-    for t in available_topics(questions):
-        if t not in sel_topics:
-            continue
-        lo, hi, cnt = t_ranges[t]
-        lines.append(f"  <code>{esc(t)}</code>  #{lo}–#{hi}  ({cnt} q)")
-    lines.append("\nChoose what to study:")
+    lines = [
+        f"📘 <b>Study Mode</b>  —  {esc(ud['cert'])}",
+        "",
+        f"Topic: <b>{esc(topic)}</b>",
+        f"Total questions: <b>{len(pool)}</b>",
+        "",
+        "Choose the whole topic or one block of 10 questions:",
+    ]
 
     await _edit(update, "\n".join(lines), _kb(rows))
 
@@ -311,7 +311,7 @@ async def on_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.callback_query.answer()
     ud = _ud(context)
     ud["mode"] = Mode(update.callback_query.data.split(":", 1)[1])
-    ud["topics_selected"] = set(available_topics(ud["questions"]))
+    ud["topics_selected"] = set(available_topics(ud["questions"])) if ud["mode"] == Mode.EXAM else set()
     await render_topic_screen(update, context)
 
 
@@ -321,6 +321,7 @@ async def on_topic_toggle(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     await update.callback_query.answer()
     data = update.callback_query.data
     ud   = _ud(context)
+    mode = ud.get("mode", Mode.STUDY)
     sel: set   = ud.setdefault("topics_selected", set())
     all_topics = available_topics(ud["questions"])
     if data == "topic_all":
@@ -329,7 +330,10 @@ async def on_topic_toggle(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         ud["topics_selected"] = set()
     else:
         t = data[6:]
-        sel.discard(t) if t in sel else sel.add(t)
+        if mode == Mode.STUDY:
+            ud["topics_selected"] = set() if t in sel else {t}
+        else:
+            sel.discard(t) if t in sel else sel.add(t)
     await render_topic_screen(update, context)
 
 
@@ -339,10 +343,13 @@ async def on_topic_done(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     if not ud.get("topics_selected"):
         await update.callback_query.answer("Select at least one topic!", show_alert=True)
         return
-    ud["topic_pool"] = [q for q in ud["questions"] if q.topic in ud["topics_selected"]]
     if ud["mode"] == Mode.EXAM:
+        ud["topic_pool"] = [q for q in ud["questions"] if q.topic in ud["topics_selected"]]
         await render_count_screen(update, context)
     else:
+        if len(ud["topics_selected"]) != 1:
+            await update.callback_query.answer("Study mode allows only one topic.", show_alert=True)
+            return
         await render_study_select_screen(update, context)
 
 
@@ -362,16 +369,21 @@ async def on_count(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def on_study_select(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.callback_query.answer()
-    val = update.callback_query.data.split(":", 1)[1]
+    parts = update.callback_query.data.split(":")
     ud  = _ud(context)
     questions = ud["questions"]
-    sel_topics = ud.get("topics_selected", set())
+    sel_topics = list(ud.get("topics_selected", set()))
+    topic = sel_topics[0] if sel_topics else ""
+    pool = [q for q in questions if q.topic == topic]
 
-    if val == "ALL":
-        ud["filtered_questions"] = [q for q in questions if q.topic in sel_topics]
+    if len(parts) == 2 and parts[1] == "ALL":
+        ud["filtered_questions"] = pool
+    elif len(parts) == 4 and parts[1] == "block":
+        start = int(parts[2])
+        end = int(parts[3])
+        ud["filtered_questions"] = pool[start:end]
     else:
-        # Single topic — keep in file/load order (no shuffle)
-        ud["filtered_questions"] = [q for q in questions if q.topic == val]
+        ud["filtered_questions"] = pool
 
     await _start_quiz(update, context)
 

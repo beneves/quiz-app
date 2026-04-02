@@ -238,13 +238,17 @@ async def render_topic_screen(target, uid: int) -> None:
     ud["state"] = "topic"
     questions = ud["questions"]
     topics    = available_topics(questions)
-    sel: set  = ud.setdefault("topics_selected", set(topics))
+    mode      = ud.get("mode", Mode.STUDY)
+    default_sel = set(topics) if mode == Mode.EXAM else set()
+    sel: set  = ud.setdefault("topics_selected", default_sel)
     t_ranges  = build_topic_ranges(questions)
 
     rows = []
     for t in topics:
         lo, hi, cnt = t_ranges[t]
-        icon = "✅" if t in sel else "⬜"
+        icon = "🔘" if (mode == Mode.STUDY and t in sel) else \
+               "⚪" if mode == Mode.STUDY else \
+               "✅" if t in sel else "⬜"
 
         async def topic_cb(inter, topic=t):
             await on_topic_toggle(inter, uid, topic)
@@ -260,15 +264,18 @@ async def render_topic_screen(target, uid: int) -> None:
     async def done_cb(inter):
         await on_topic_done(inter, uid)
 
-    rows.append([
-        ("✅ All",  all_cb,  discord.ButtonStyle.secondary),
-        ("❌ None", none_cb, discord.ButtonStyle.secondary),
-    ])
+    if mode == Mode.EXAM:
+        rows.append([
+            ("✅ All",  all_cb,  discord.ButtonStyle.secondary),
+            ("❌ None", none_cb, discord.ButtonStyle.secondary),
+        ])
     rows.append([
         ("▶ Next →", done_cb, discord.ButtonStyle.primary),
         *_nav_row(uid),
     ])
-    await _edit(target, "🧩 **Select Topics** — tap to toggle:", _make_view(rows))
+    text = "🧩 **Select Topics** — tap to toggle:" if mode == Mode.EXAM else \
+           "📘 **Select One Topic** — choose a single topic for Study mode:"
+    await _edit(target, text, _make_view(rows))
 
 
 async def render_count_screen(target, uid: int) -> None:
@@ -302,30 +309,25 @@ async def render_study_select_screen(target, uid: int) -> None:
     ud         = _ud(uid)
     ud["state"] = "study_select"
     questions  = ud["questions"]
-    sel_topics = ud.get("topics_selected", set())
-    t_ranges   = build_topic_ranges(questions)
+    sel_topics = list(ud.get("topics_selected", set()))
+    topic = sel_topics[0] if sel_topics else ""
+    pool = [q for q in questions if q.topic == topic]
 
     rows = []
-    for t in available_topics(questions):
-        if t not in sel_topics:
-            continue
-        lo, hi, cnt = t_ranges[t]
-
-        async def study_cb(inter, topic=t):
-            await on_study_select(inter, uid, topic)
-
-        rows.append([(f"📋 {t}  #{lo}–#{hi}  ({cnt}q)", study_cb, discord.ButtonStyle.primary)])
-
-    pool = [q for q in questions if q.topic in sel_topics]
-
     async def all_cb(inter):
         await on_study_select(inter, uid, "ALL")
+    rows.append([(f"📋 All questions ({len(pool)}q)", all_cb, discord.ButtonStyle.secondary)])
 
-    rows.append([(f"📋 All selected topics ({len(pool)}q)", all_cb, discord.ButtonStyle.secondary)])
+    for start in range(0, len(pool), 10):
+        end = min(start + 10, len(pool))
+        async def block_cb(inter, s=start, e=end):
+            await on_study_select(inter, uid, f"BLOCK:{s}:{e}")
+        rows.append([(f"📘 Questions {start + 1}-{end}", block_cb, discord.ButtonStyle.primary)])
+
     rows.append(_nav_row(uid))
     await _edit(
         target,
-        f"📘 **Study Mode**  —  {ud['cert']}\n\nChoose what to study:",
+        f"📘 **Study Mode**  —  {ud['cert']}\n\nTopic: **{topic}**\nTotal questions: **{len(pool)}**\n\nChoose the whole topic or one block of 10 questions:",
         _make_view(rows),
     )
 
@@ -350,14 +352,18 @@ async def on_cert(inter: discord.Interaction, uid: int, cert: str) -> None:
 async def on_mode(inter: discord.Interaction, uid: int, mode: Mode) -> None:
     ud = _ud(uid)
     ud["mode"] = mode
-    ud["topics_selected"] = set(available_topics(ud["questions"]))
+    ud["topics_selected"] = set(available_topics(ud["questions"])) if mode == Mode.EXAM else set()
     await render_topic_screen(inter, uid)
 
 
 async def on_topic_toggle(inter: discord.Interaction, uid: int, topic: str) -> None:
     ud  = _ud(uid)
+    mode = ud.get("mode", Mode.STUDY)
     sel: set = ud.setdefault("topics_selected", set())
-    sel.discard(topic) if topic in sel else sel.add(topic)
+    if mode == Mode.STUDY:
+        ud["topics_selected"] = set() if topic in sel else {topic}
+    else:
+        sel.discard(topic) if topic in sel else sel.add(topic)
     await render_topic_screen(inter, uid)
 
 
@@ -378,10 +384,13 @@ async def on_topic_done(inter: discord.Interaction, uid: int) -> None:
     if not ud.get("topics_selected"):
         await inter.response.send_message("⚠️ Select at least one topic!", ephemeral=True)
         return
-    ud["topic_pool"] = [q for q in ud["questions"] if q.topic in ud["topics_selected"]]
     if ud["mode"] == Mode.EXAM:
+        ud["topic_pool"] = [q for q in ud["questions"] if q.topic in ud["topics_selected"]]
         await render_count_screen(inter, uid)
     else:
+        if len(ud["topics_selected"]) != 1:
+            await inter.response.send_message("⚠️ Study mode allows only one topic.", ephemeral=True)
+            return
         await render_study_select_screen(inter, uid)
 
 
@@ -395,11 +404,16 @@ async def on_count(inter: discord.Interaction, uid: int, n: int) -> None:
 async def on_study_select(inter: discord.Interaction, uid: int, val: str) -> None:
     ud        = _ud(uid)
     questions = ud["questions"]
-    sel_topics = ud.get("topics_selected", set())
+    sel_topics = list(ud.get("topics_selected", set()))
+    topic = sel_topics[0] if sel_topics else ""
+    pool = [q for q in questions if q.topic == topic]
     if val == "ALL":
-        ud["filtered_questions"] = [q for q in questions if q.topic in sel_topics]
+        ud["filtered_questions"] = pool
+    elif val.startswith("BLOCK:"):
+        _, start, end = val.split(":")
+        ud["filtered_questions"] = pool[int(start):int(end)]
     else:
-        ud["filtered_questions"] = [q for q in questions if q.topic == val]
+        ud["filtered_questions"] = pool
     await _start_quiz(inter, uid)
 
 
