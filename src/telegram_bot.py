@@ -456,11 +456,13 @@ async def _send_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 def _build_question_keyboard(q: Question, ud: dict) -> InlineKeyboardMarkup:
     nav = _nav("⚠️ Exit Quiz")
-    skip_row = [("▶ Next Question", "next")]
+    mode = ud.get("mode", Mode.STUDY)
+    study_nav = [("◀ Back Question", "prev"), ("▶ Next Question", "next")] if mode == Mode.STUDY else None
 
     if q.type == QuestionType.SINGLE_CHOICE:
         rows = [[(f"{k}", f"opt:{k}")] for k in (q.options or {})]
-        rows.append(skip_row)
+        if study_nav:
+            rows.append(study_nav)
         rows.append(nav)
         return _kb(rows)
 
@@ -471,7 +473,8 @@ def _build_question_keyboard(q: Question, ud: dict) -> InlineKeyboardMarkup:
             for k in (q.options or {})
         ]
         rows.append([("✅ Submit Answer", "mc_submit")])
-        rows.append(skip_row)
+        if study_nav:
+            rows.append(study_nav)
         rows.append(nav)
         return _kb(rows)
 
@@ -491,11 +494,16 @@ def _build_question_keyboard(q: Question, ud: dict) -> InlineKeyboardMarkup:
                     rows.append([(f"→ {rk}: {esc(rv)}", f"eq_right:{rk}")])
         if not unmatched_left:
             rows.append([("✅ Submit Matches", "eq_submit")])
-        rows.append(skip_row)
+        if study_nav:
+            rows.append(study_nav)
         rows.append(nav)
         return _kb(rows)
 
-    return _kb([skip_row, nav])
+    rows = []
+    if study_nav:
+        rows.append(study_nav)
+    rows.append(nav)
+    return _kb(rows)
 
 
 def _eq_matches_text(q: Question, matches: dict) -> str:
@@ -725,6 +733,20 @@ async def on_next(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await (_show_result if s.is_finished else _send_question)(update, context)
 
 
+async def on_prev(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.callback_query.answer()
+    ud = _ud(context)
+    if ud.get("mode") != Mode.STUDY:
+        return
+    s = _session(context)
+    if ud.get("state") == "quiz":
+        s.back_current()
+    ud["state"] = "quiz"
+    ud.pop("lab_state", None)
+    ud.pop("lab_image_for", None)
+    await _send_question(update, context)
+
+
 async def on_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.callback_query.answer()
     if not _session(context).is_finished:
@@ -927,6 +949,7 @@ def build_app(token: str) -> Application:
     app.add_handler(CallbackQueryHandler(on_eq_submit,     pattern=r"^eq_submit$"))
     app.add_handler(CallbackQueryHandler(on_lab_submit,    pattern=r"^lab_submit$"))
     app.add_handler(CallbackQueryHandler(on_lab_reset,     pattern=r"^lab_reset$"))
+    app.add_handler(CallbackQueryHandler(on_prev,          pattern=r"^prev$"))
     app.add_handler(CallbackQueryHandler(on_next,          pattern=r"^next$"))
     app.add_handler(CallbackQueryHandler(on_results,       pattern=r"^results$"))
     app.add_handler(CallbackQueryHandler(on_retry,         pattern=r"^retry$"))

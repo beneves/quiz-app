@@ -140,3 +140,14 @@ class QuizSession:
         # later without losing the fixed ordering of the remaining questions.
         self.questions.append(self.questions.pop(self.current_index))
         return True
+
+    def back_current(self) -> bool:
+        if self.current_question is None:
+            return False
+        remaining = len(self.questions) - self.current_index
+        if remaining <= 1:
+            return False
+        # Bring the last unanswered question back to the current slot so Study
+        # mode can navigate backward among still-unanswered questions.
+        self.questions.insert(self.current_index, self.questions.pop())
+        return True

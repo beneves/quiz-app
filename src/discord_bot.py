@@ -500,8 +500,13 @@ async def _send_question(target, uid: int) -> None:
 
 
 def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
+    mode = ud.get("mode", Mode.STUDY)
+
     async def skip_cb(inter):
         await on_next_question(inter, uid)
+
+    async def back_question_cb(inter):
+        await on_prev_question(inter, uid)
 
     async def exit_cb(inter):
         await _show_exit_warning(inter, uid, "back")
@@ -513,7 +518,7 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
         ("⚠️ Exit Quiz", exit_cb, discord.ButtonStyle.danger),
         ("🏠 Home",      home_cb, discord.ButtonStyle.secondary),
     ]
-    skip_row = [("▶ Next Question", skip_cb, discord.ButtonStyle.primary)]
+    study_nav = [("◀ Back Question", back_question_cb, discord.ButtonStyle.secondary), ("▶ Next Question", skip_cb, discord.ButtonStyle.primary)] if mode == Mode.STUDY else None
 
     if q.type == QuestionType.SINGLE_CHOICE:
         rows = []
@@ -521,7 +526,8 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
             async def opt_cb(inter, key=k):
                 await _process_answer(inter, uid, key)
             rows.append([(k, opt_cb, discord.ButtonStyle.primary)])
-        rows.append(skip_row)
+        if study_nav:
+            rows.append(study_nav)
         rows.append(nav)
         return _make_view(rows)
 
@@ -536,7 +542,8 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
         async def submit_cb(inter):
             await on_mc_submit(inter, uid)
         rows.append([("✅ Submit Answer", submit_cb, discord.ButtonStyle.success)])
-        rows.append(skip_row)
+        if study_nav:
+            rows.append(study_nav)
         rows.append(nav)
         return _make_view(rows)
 
@@ -565,7 +572,8 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
                 await on_eq_submit(inter, uid)
             rows.append([("✅ Submit Matches", eq_submit_cb, discord.ButtonStyle.success)])
 
-        rows.append(skip_row)
+        if study_nav:
+            rows.append(study_nav)
         rows.append(nav)
         return _make_view(rows)
 
@@ -577,12 +585,16 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
         rows = [
             [("Submit Lab", submit_lab_cb, discord.ButtonStyle.success)],
             [("Reset Lab", reset_lab_cb, discord.ButtonStyle.secondary)],
-            skip_row,
+            *([study_nav] if study_nav else []),
             nav,
         ]
         return _make_view(rows)
 
-    return _make_view([skip_row, nav])
+    rows = []
+    if study_nav:
+        rows.append(study_nav)
+    rows.append(nav)
+    return _make_view(rows)
 
 
 # ── answer handlers ───────────────────────────────────────────────────────────
@@ -741,6 +753,19 @@ async def on_next_question(target, uid: int) -> None:
     if session.is_finished:
         await _show_result(target, uid)
         return
+    await _send_question(target, uid)
+
+
+async def on_prev_question(target, uid: int) -> None:
+    ud = _ud(uid)
+    if ud.get("mode") != Mode.STUDY:
+        return
+    session = _session(uid)
+    if ud.get("state") == "quiz":
+        session.back_current()
+    ud["state"] = "quiz"
+    ud.pop("lab_state", None)
+    ud.pop("lab_image_for", None)
     await _send_question(target, uid)
 
 
