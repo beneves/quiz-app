@@ -928,24 +928,7 @@
   type: single_choice
   difficulty: medium
   tags: [vty, access-class, extended-acl, ssh]
-  exhibit: |
-    Candidate configurations shown:
-
-      A:
-        line vty 0 15
-        access-class 120 in
-        ip access-list extended 120
-        permit tcp 10.139.58.0 0.0.0.15 any eq 22
-
-      B/C:
-        Apply ACL on FastEthernet0/0 with interface access-group
-
-      D:
-        line vty 0 15
-        access-group 120 in
-        ip access-list extended 120
-        permit tcp 10.139.58.0 0.0.0.15 any eq 22
-  question: "Refer to the exhibit. An engineer is configuring remote access to a router from IP subnet 10.139.58.0/28. The domain name, crypto keys, and SSH have been configured. Which configuration enables the traffic on the destination router?"
+  question: "An engineer is configuring remote access to a router from IP subnet 10.139.58.0/28. The domain name, crypto keys, and SSH have been configured. Which configuration enables the traffic on the destination router?"
   options:
     A: "`line vty 0 15` `access-class 120 in` `ip access-list extended 120` `permit tcp 10.139.58.0 0.0.0.15 any eq 22`"
     B: "`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.252` `ip access-group 10 in` `ip access-list standard 10` `permit udp 10.139.58.0 0.0.0.7 host 10.122.49.1 eq 22`"
@@ -953,7 +936,6 @@
     D: "`line vty 0 15` `access-group 120 in` `ip access-list extended 120` `permit tcp 10.139.58.0 0.0.0.15 any eq 22`"
   correct_answer: A
   explanation: "VTY access filtering uses `access-class`, not `access-group`, and SSH requires an extended ACL that matches TCP port 22 from the allowed source subnet."
-  source: 5-Security-Fundamentals_88/SF-044.png
 
 - id: SF-045
   topic: Security Fundamentals
@@ -1509,6 +1491,7 @@
   correct_answer: D
   explanation: "The ACL must be applied inbound on the VLAN 20 SVI so it affects only hosts in VLAN 20. The deny for TCP port 80 to the web server must come before the permit statement so other traffic remains allowed."
   source: 5-Security-Fundamentals_88/SF-072.png
+
 - id: SF-073
   topic: Security Fundamentals
   subtopic: "Threat Mitigation"
@@ -1564,7 +1547,6 @@
   correct_answer: A
   explanation: "Backdoor malware creates unauthorized access to a system, allowing an attacker to bypass normal authentication and gain remote control."
   source: adapted_from_images
-
 
 - id: SF-076
   topic: Security Fundamentals

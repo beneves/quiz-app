@@ -1,30 +1,4 @@
-# Topic: IP Connectivity
-# IDs:   IC-001 → IC-151
-# Global sequential range: #187 – #338 (151 questions)
-# Source folder: sshots/3-IP-Connectivity_151/
-# IC-006 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-019 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-036 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-056 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-057 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-098 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-106 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-115 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-127 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-129 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# IC-138 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-- id: IC-001
+﻿- id: IC-001
   topic: IP Connectivity
   subtopic: OSPF
   type: single_choice
@@ -67,7 +41,8 @@
     C: modify priority
     D: modify network type
   correct_answer: A
-  explanation: OSPF neighbors must have matching hello and dead timers. The exhibit shows mismatched hello timers, preventing a normal neighbor relationship.
+  explanation: OSPF neighbors must have matching hello and dead timers. The exhibit shows mismatched hello timers, preventing
+    a normal neighbor relationship.
   source: 3-IP-Connectivity_151/IC-001.png
 
 - id: IC-002
@@ -82,12 +57,15 @@
   - bandwidth
   question: When OSPF learns multiple paths to a network, how does it select a route?
   options:
-    A: For each existing interface, it adds the metric from the source router to the destination to calculate the route with the lowest bandwidth.
+    A: For each existing interface, it adds the metric from the source router to the destination to calculate the route with
+      the lowest bandwidth.
     B: It counts the number of hops between the source router and the destination to determine the route with the lowest metric.
-    C: It divides a reference bandwidth of 100 Mbps by the actual bandwidth of the exiting interface to calculate the route with the lowest cost.
+    C: It divides a reference bandwidth of 100 Mbps by the actual bandwidth of the exiting interface to calculate the route
+      with the lowest cost.
     D: It multiplies the active K values by 256 to calculate the route with the lowest metric.
   correct_answer: C
-  explanation: OSPF uses cost, based by default on reference bandwidth divided by interface bandwidth, and prefers the path with the lowest total cost.
+  explanation: OSPF uses cost, based by default on reference bandwidth divided by interface bandwidth, and prefers the path
+    with the lowest total cost.
   source: adapted_from_images
 
 - id: IC-003
@@ -210,30 +188,58 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required static routing and failover tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not remove any existing configurations from the devices, only those necessary to make the appropriate changes required to fulfill the listed tasks.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Task 1
+    Configure a host route on R5 for the destination of 10.200.220.6.
+    Configure a static default route on R1, preferring the path through R3 towards R6.
+    From R5, use traceroute and ping to verify the path towards and reachability of R6.
+
+    Task 2
+    Configure a floating static default route on R1, preferring the path through R2 towards R6 if the link to R3 should fail.
+    Configure the administrative distance of 225.
+    Configure a static route on R2 to forward the return traffic towards 10.100.110.0/25.
+    After shutting interface e0/1 on R1, use traceroute and ping from R5 to verify path towards and reachability of R6.
+  explanation: This lab requires a host route on R5, a primary static default route on R1 via R3, a floating static default route on R1 via R2 with administrative distance 225, and a return static route on R2 for 10.100.110.0/25. Verification is performed with traceroute and ping before and after the failover test.
   source: 3-IP-Connectivity_151/IC-006.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the host-route, static-default, floating-default, and failover verification tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure a host route on R5 to 10.200.220.6.
+    - Configure a primary static default route on R1 toward R3 for reachability to R6.
+    - Configure a floating static default route on R1 toward R2 with administrative distance 225.
+    - Configure a return static route on R2 for 10.100.110.0/25.
+    - Verify reachability and path selection with traceroute and ping before and after simulating failure of the R1 to R3 link.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-006.png
     required_commands:
     - configure terminal
+    - ip route 0.0.0.0 0.0.0.0
+    - ip route 0.0.0.0 0.0.0.0 225
+    - ip route 10.200.220.6 255.255.255.255
+    - ip route 10.100.110.0 255.255.255.128
     - end
     verification_commands:
     - show ip route
+    - traceroute 10.200.220.6
+    - ping 10.200.220.6
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip route: Verify that R1 has both the preferred static default route and the floating default route, that R5 has the host route to 10.200.220.6, and that R2 has the return route to 10.100.110.0/25.
+      traceroute 10.200.220.6: Use this first to confirm the preferred path via R3, and then again after shutting R1 e0/1 to confirm failover via R2.
+      ping 10.200.220.6: Use this to verify end-to-end reachability to R6 before and after the failover test.
 
 - id: IC-007
   topic: IP Connectivity
@@ -244,7 +250,8 @@
   - longest-prefix-match
   - route-selection
   - administrative-distance
-  question: Refer to the exhibit. Router R1 is running three different routing protocols. Which route characteristic is used by the router to forward the packet that it receives for destination IP 172.16.32.1?
+  question: Refer to the exhibit. Router R1 is running three different routing protocols. Which route characteristic is used
+    by the router to forward the packet that it receives for destination IP 172.16.32.1?
   exhibit: 'R1# show ip route
 
     D 172.16.32.0/27 [90/2888597172] via 20.1.1.1
@@ -260,7 +267,8 @@
     C: cost
     D: metric
   correct_answer: A
-  explanation: Routers first choose the most specific matching route. Longest-prefix match is considered before administrative distance or metric.
+  explanation: Routers first choose the most specific matching route. Longest-prefix match is considered before administrative
+    distance or metric.
   source: 3-IP-Connectivity_151/IC-007.png
 
 - id: IC-008
@@ -272,7 +280,9 @@
   - floating-static-route
   - rip
   - administrative-distance
-  question: Refer to the exhibit. Routers R1 and R2 are configured with RIP as the dynamic routing protocol. A network engineer must configure R1 with a floating static route to serve as a backup route to network 192.168.23. Which command must the engineer configure on R1?
+  question: Refer to the exhibit. Routers R1 and R2 are configured with RIP as the dynamic routing protocol. A network engineer
+    must configure R1 with a floating static route to serve as a backup route to network 192.168.23. Which command must the
+    engineer configure on R1?
   exhibit: 'Topology:
 
     - R1 <-> R2 on 192.168.12.0/24
@@ -297,7 +307,8 @@
     C: ip route 192.168.23.0 255.255.255.0 192.168.13.3 121
     D: ip route 192.168.23.0 255.255.255.0 192.168.13.3
   correct_answer: C
-  explanation: A floating static route must use the correct network and mask, and its administrative distance must be higher than RIP's 120, so 121 makes it a backup path.
+  explanation: A floating static route must use the correct network and mask, and its administrative distance must be higher
+    than RIP's 120, so 121 makes it a backup path.
   source: 3-IP-Connectivity_151/IC-008.png
 
 - id: IC-009
@@ -310,7 +321,8 @@
   - dr
   - bdr
   - priority
-  question: Refer to the exhibit. R1 has taken the DROTHER role in the OSPF DR/BDR election process. Which configuration must an engineer implement so that R1 is elected as the DR?
+  question: Refer to the exhibit. R1 has taken the DROTHER role in the OSPF DR/BDR election process. Which configuration must
+    an engineer implement so that R1 is elected as the DR?
   exhibit: 'Broadcast segment 10.10.10.0/24 in OSPF Area 0:
 
     - R1 Fa0/0 = 10.10.10.1
@@ -333,7 +345,8 @@
     C: R2(config)#interface FastEthernet 0/2 R2(config-if)#ip ospf priority 1 R2#clear ip ospf process
     D: R1(config)#interface FastEthernet 0/0 R1(config-if)#ip ospf priority 200 R1#clear ip ospf process
   correct_answer: D
-  explanation: On a broadcast network, increasing R1's OSPF interface priority above the others and restarting the OSPF process forces a new election in which R1 becomes DR.
+  explanation: On a broadcast network, increasing R1's OSPF interface priority above the others and restarting the OSPF process
+    forces a new election in which R1 becomes DR.
   source: 3-IP-Connectivity_151/IC-009.png
 
 - id: IC-010
@@ -352,7 +365,8 @@
     C: No router ID is set, and the OSPF protocol does not run.
     D: The highest up/up physical interface IP address is selected as the router ID.
   correct_answer: D
-  explanation: If no manual router ID is configured and no loopback exists, OSPF chooses the highest IP address on an active physical interface.
+  explanation: If no manual router ID is configured and no loopback exists, OSPF chooses the highest IP address on an active
+    physical interface.
   source: adapted_from_images
 
 - id: IC-011
@@ -396,7 +410,8 @@
   - metric
   - ospf
   - static
-  question: Refer to the exhibit. Which two values does router R1 use to identify valid routes for the R3 loopback address 1.1.1.3/32? (Choose two.)
+  question: Refer to the exhibit. Which two values does router R1 use to identify valid routes for the R3 loopback address
+    1.1.1.3/32? (Choose two.)
   exhibit: 'Topology:
 
     - R1 loopback 1.1.1.1
@@ -432,7 +447,8 @@
   correct_answer:
   - C
   - E
-  explanation: When multiple matching routes exist, the router prefers the one with the lowest administrative distance; if those are equal, it chooses the route with the lowest metric.
+  explanation: When multiple matching routes exist, the router prefers the one with the lowest administrative distance; if
+    those are equal, it chooses the route with the lowest metric.
   source: 3-IP-Connectivity_151/IC-012.png
 
 - id: IC-013
@@ -444,7 +460,9 @@
   - ipv6
   - static-route
   - serial-links
-  question: Refer to the exhibit. The New York router is configured with static routes pointing to the Atlanta and Washington sites. Which two tasks must be performed so that the Se0/0/0 interfaces on the Atlanta and Washington routers reach one another? (Choose two.)
+  question: Refer to the exhibit. The New York router is configured with static routes pointing to the Atlanta and Washington
+    sites. Which two tasks must be performed so that the Se0/0/0 interfaces on the Atlanta and Washington routers reach one
+    another? (Choose two.)
   exhibit: 'Topology:
 
     - Atlanta Se0/0/0 on 2012::/126, loopback 2000::1/128
@@ -468,7 +486,8 @@
   correct_answer:
   - B
   - D
-  explanation: Each end router needs a static route for the remote serial-link prefix pointing to New York's next-hop address on its local point-to-point segment.
+  explanation: Each end router needs a static route for the remote serial-link prefix pointing to New York's next-hop address
+    on its local point-to-point segment.
   source: 3-IP-Connectivity_151/IC-013.png
 
 - id: IC-014
@@ -480,7 +499,8 @@
   - longest-prefix-match
   - routing-table
   - ospf
-  question: Refer to the exhibit. PC Y is communicating with another device at IP address 10.227.150.193. Which router does router Y use to route traffic?
+  question: Refer to the exhibit. PC Y is communicating with another device at IP address 10.227.150.193. Which router does
+    router Y use to route traffic?
   exhibit: 'Topology:
 
     - PC Y = 10.224.6.3
@@ -523,7 +543,8 @@
     C: router C
     D: router D
   correct_answer: B
-  explanation: The destination 10.227.150.193 matches the route 10.227.150.160/27, which points to next hop 10.224.1.3, identified in the diagram as Router B.
+  explanation: The destination 10.227.150.193 matches the route 10.227.150.160/27, which points to next hop 10.224.1.3, identified
+    in the diagram as Router B.
   source: 3-IP-Connectivity_151/IC-014.png
 
 - id: IC-015
@@ -630,7 +651,8 @@
     supports real-time applications: UDP
     connectionless at transport layer: UDP
     minimal error checking: UDP
-  explanation: TCP is connection-oriented and uses sequencing and acknowledgments for reliable delivery. UDP is connectionless and commonly used by delay-sensitive real-time applications.
+  explanation: TCP is connection-oriented and uses sequencing and acknowledgments for reliable delivery. UDP is connectionless
+    and commonly used by delay-sensitive real-time applications.
   source: adapted_from_images
 
 - id: IC-018
@@ -642,7 +664,8 @@
   - longest-prefix-match
   - static-route
   - routing-table
-  question: Refer to the exhibit. An engineer is checking the routing table in the main router to identify the path to a server on the network. Which route does the router use to reach the server at 192.168.2.2?
+  question: Refer to the exhibit. An engineer is checking the routing table in the main router to identify the path to a server
+    on the network. Which route does the router use to reach the server at 192.168.2.2?
   exhibit: 'Router# show ip route
 
     Gateway of last resort is not set
@@ -667,7 +690,8 @@
     C: S 192.168.2.0/28 [1/0] via 10.1.1.1
     D: S 192.168.1.0/30 [1/0] via 10.1.1.1
   correct_answer: B
-  explanation: The address 192.168.2.2 matches multiple routes, but the router selects the most specific one. The /29 route is the longest prefix match.
+  explanation: The address 192.168.2.2 matches multiple routes, but the router selects the most specific one. The /29 route
+    is the longest prefix match.
   source: 3-IP-Connectivity_151/IC-018.png
 
 - id: IC-019
@@ -679,30 +703,57 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required static routing and failover tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Task 1
+    Configure a host route on R5 for the destination of the WAN IP on R6.
+    Configure a static default route on R1 preferring the path through R3 towards R6.
+    From R5, use traceroute and ping to verify the path towards and reachability of R6.
+
+    Task 2
+    Configure a floating static default route on R1, preferring the path through R2 towards R6 if the link to R3 should fail.
+    Configure the administrative distance of 200.
+    Configure a static route on R2 to forward the return traffic towards 10.100.155.0/25.
+    After shutting interface e0/1 on R1, use traceroute and ping from R5 to verify path towards and reachability of R6.
+  explanation: This lab requires a host route on R5 to the WAN IP of R6, a primary static default route on R1 via R3, a floating static default route on R1 via R2 with administrative distance 200, and a return static route on R2 for 10.100.155.0/25. Verification is performed with traceroute and ping before and after the failover test.
   source: 3-IP-Connectivity_151/IC-019.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the host-route, static-default, floating-default, and failover verification tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure a host route on R5 to the WAN IP of R6.
+    - Configure a primary static default route on R1 toward R3 for reachability to R6.
+    - Configure a floating static default route on R1 toward R2 with administrative distance 200.
+    - Configure a return static route on R2 for 10.100.155.0/25.
+    - Verify reachability and path selection with traceroute and ping before and after simulating failure of the R1 to R3 link.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-019.png
     required_commands:
     - configure terminal
+    - ip route 0.0.0.0 0.0.0.0
+    - ip route 0.0.0.0 0.0.0.0 200
+    - ip route 10.100.155.0 255.255.255.128
+    - ip route 255.255.255.255 255.255.255.255
     - end
     verification_commands:
     - show ip route
+    - traceroute
+    - ping
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip route: Verify that R1 has both the preferred static default route and the floating default route, that R5 has the host route to the WAN IP of R6, and that R2 has the return route to 10.100.155.0/25.
+      traceroute: Use this first to confirm the preferred path via R3, and then again after shutting R1 e0/1 to confirm failover via R2.
+      ping: Use this to verify end-to-end reachability to R6 before and after the failover test.
 
 - id: IC-020
   topic: IP Connectivity
@@ -713,7 +764,8 @@
   - host-route
   - static-route
   - next-hop
-  question: Refer to the exhibit. Router R14 is in the process of being configured. Which configuration must be used to establish a host route to PC 10?
+  question: Refer to the exhibit. Router R14 is in the process of being configured. Which configuration must be used to establish
+    a host route to PC 10?
   exhibit: 'Topology:
 
     - R14 Loopback0 = 10.10.1.14/32
@@ -750,15 +802,22 @@
   - routing-table
   - dynamic-routing
   - longest-prefix-match
-  question: Refer to the exhibit. Four load-balancing servers are reachable through the router. The company is removing all static and default routes on the router. Which server will handle all traffic after the policy changes take effect?
-  exhibit: "Router# show ip route\n- default route present via 10.12.12.2\n- connected: 10.12.12.0/24, 10.14.14.0/24, 10.255.1.1/32, 172.16.1.1/32, 192.168.1.0/24\n- dynamic routes include:\n  D EX 172.31.3.3/32 via 10.12.12.2\n  D EX 172.31.5.5/32 via 10.12.12.2\n  D EX 192.168.5.0/24 via 10.12.12.2\n  O    192.168.5.5/32 via 10.14.14.4\n  D    209.165.200.224/27 via 10.12.12.2\n  D    209.165.201.0/24 via 10.12.12.2\n  O    209.165.201.30/32 via 10.14.14.4 or 10.12.12.2\n  O    209.165.202.128 via 10.14.14.4\n\nServers listed in the question:\n- Server 1 = 10.12.14.14\n- Server 2 = 192.168.4.4\n- Server 3 = 209.165.200.5\n- Server 4 = 209.165.201.26\n"
+  question: Refer to the exhibit. Four load-balancing servers are reachable through the router. The company is removing all
+    static and default routes on the router. Which server will handle all traffic after the policy changes take effect?
+  exhibit: "Router# show ip route\n- default route present via 10.12.12.2\n- connected: 10.12.12.0/24, 10.14.14.0/24, 10.255.1.1/32,\
+    \ 172.16.1.1/32, 192.168.1.0/24\n- dynamic routes include:\n  D EX 172.31.3.3/32 via 10.12.12.2\n  D EX 172.31.5.5/32\
+    \ via 10.12.12.2\n  D EX 192.168.5.0/24 via 10.12.12.2\n  O    192.168.5.5/32 via 10.14.14.4\n  D    209.165.200.224/27\
+    \ via 10.12.12.2\n  D    209.165.201.0/24 via 10.12.12.2\n  O    209.165.201.30/32 via 10.14.14.4 or 10.12.12.2\n  O \
+    \   209.165.202.128 via 10.14.14.4\n\nServers listed in the question:\n- Server 1 = 10.12.14.14\n- Server 2 = 192.168.4.4\n\
+    - Server 3 = 209.165.200.5\n- Server 4 = 209.165.201.26\n"
   options:
     A: Server 1 - 10.12.14.14
     B: Server 2 - 192.168.4.4
     C: Server 3 - 209.165.200.5
     D: Server 4 - 209.165.201.26
   correct_answer: A
-  explanation: After removing static and default routes, only dynamically learned and directly connected destinations remain reachable. The routing table still shows a route to 10.12.14.14, so Server 1 remains the valid destination.
+  explanation: After removing static and default routes, only dynamically learned and directly connected destinations remain
+    reachable. The routing table still shows a route to 10.12.14.14, so Server 1 remains the valid destination.
   source: 3-IP-Connectivity_151/IC-021.png
 
 - id: IC-022
@@ -770,7 +829,8 @@
   - hsrp
   - fhrp
   - cisco-proprietary
-  question: Which Cisco proprietary protocol ensures traffic recovers immediately, transparently, and automatically when edge devices or access circuits fail?
+  question: Which Cisco proprietary protocol ensures traffic recovers immediately, transparently, and automatically when edge
+    devices or access circuits fail?
   options:
     A: FHRP
     B: VRRP
@@ -799,7 +859,8 @@
   correct_answer:
   - B
   - C
-  explanation: HSRP improves default-gateway availability by allowing multiple routers to present a single virtual gateway to hosts.
+  explanation: HSRP improves default-gateway availability by allowing multiple routers to present a single virtual gateway
+    to hosts.
   source: adapted_from_images
 
 - id: IC-024
@@ -812,14 +873,17 @@
   - loopback
   - prefix-length
   - ipv4-mapped
-  question: A network engineer must migrate a router loopback interface to the IPv6 address space. If the current IPv4 address of the interface is 10.54.73.1/32, and the engineer configures IPv6 address 0:0:0:0:0:ffff:a36:4901, which prefix length must be used?
+  question: A network engineer must migrate a router loopback interface to the IPv6 address space. If the current IPv4 address
+    of the interface is 10.54.73.1/32, and the engineer configures IPv6 address 0:0:0:0:0:ffff:a36:4901, which prefix length
+    must be used?
   options:
     A: /64
     B: /96
     C: /124
     D: /128
   correct_answer: D
-  explanation: A loopback host address corresponds to a single IPv6 interface ID, so the correct host prefix length is /128, just as an IPv4 host route uses /32.
+  explanation: A loopback host address corresponds to a single IPv6 interface ID, so the correct host prefix length is /128,
+    just as an IPv4 host route uses /32.
   source: adapted_from_images
 
 - id: IC-025
@@ -901,7 +965,9 @@
   - hello-timer
   - dead-timer
   - neighbor-adjacency
-  question: Refer to the exhibit. The network engineer is configuring router R2 as a replacement router on the network. After the initial configuration is applied, R2 fails to show R1 as a neighbor. Which configuration must be applied to R2 to establish the OSPF neighbor relationship with R1?
+  question: Refer to the exhibit. The network engineer is configuring router R2 as a replacement router on the network. After
+    the initial configuration is applied, R2 fails to show R1 as a neighbor. Which configuration must be applied to R2 to
+    establish the OSPF neighbor relationship with R1?
   exhibit: 'R1# show ip ospf interface g0/0/0
 
     - Area 0, network type POINT-TO-POINT
@@ -925,12 +991,14 @@
 
     '
   options:
-    A: R2(config)#router ospf 1 R2(config-router)#network 192.168.1.0 255.255.255.0 area 2 R2(config-router)#network 10.1.1.0 255.255.255.255 area 2
+    A: R2(config)#router ospf 1 R2(config-router)#network 192.168.1.0 255.255.255.0 area 2 R2(config-router)#network 10.1.1.0
+      255.255.255.255 area 2
     B: R2(config)#interface g0/0/0 R2(config-if)#ip ospf hello-interval 15 R2(config-if)#ip ospf dead-interval 20
     C: R2(config)#interface g0/0/0 R2(config-if)#ip ospf dead-interval 20
     D: R2(config)#router ospf 1
   correct_answer: B
-  explanation: OSPF neighbors must agree on hello and dead timers. R1 is using hello 15 and dead 20, while R2 is using the default 10/40 timers.
+  explanation: OSPF neighbors must agree on hello and dead timers. R1 is using hello 15 and dead 20, while R2 is using the
+    default 10/40 timers.
   source: 3-IP-Connectivity_151/IC-027.png
 
 - id: IC-028
@@ -942,7 +1010,8 @@
   - longest-prefix-match
   - directly-connected
   - routing-table
-  question: Refer to the exhibit. A packet sourced from 172.18.33.2 is destined for 172.18.32.38. Where does the router forward the packet?
+  question: Refer to the exhibit. A packet sourced from 172.18.33.2 is destined for 172.18.32.38. Where does the router forward
+    the packet?
   exhibit: 'router# show ip route
 
     D 172.18.32.0/26 [90/25789217] via 10.1.1.1
@@ -964,7 +1033,8 @@
     C: Loopback0
     D: GigabitEthernet0/0
   correct_answer: D
-  explanation: The address 172.18.32.38 belongs to the directly connected subnet 172.18.32.36/30, so the router forwards it out GigabitEthernet0/0.
+  explanation: The address 172.18.32.38 belongs to the directly connected subnet 172.18.32.36/30, so the router forwards it
+    out GigabitEthernet0/0.
   source: 3-IP-Connectivity_151/IC-028.png
 
 - id: IC-029
@@ -978,7 +1048,9 @@
   - dr-election
   - router-id
   - priority
-  question: Refer to the exhibit. All interfaces are configured with duplex auto and `ip ospf network broadcast`. Which configuration allows routers R14 and R86 to form an OSPFv2 adjacency and makes one router act as the central point for exchanging OSPF information between routers?
+  question: Refer to the exhibit. All interfaces are configured with duplex auto and `ip ospf network broadcast`. Which configuration
+    allows routers R14 and R86 to form an OSPFv2 adjacency and makes one router act as the central point for exchanging OSPF
+    information between routers?
   exhibit: 'Topology:
 
     - R14 Loopback0 = 10.10.1.14/32
@@ -1007,9 +1079,12 @@
     A: Configure both FastEthernet0/0 interfaces in Area 0, assign router IDs, and set `ip ospf priority 255` only on R14.
     B: Enable OSPF on both loopbacks and FastEthernet0/0 interfaces, but set the OSPF priority under `router ospf 10`.
     C: Configure the FastEthernet0/0 interfaces and router IDs on both routers, but do not enable OSPF on the loopbacks.
-    D: Enable OSPF on both loopbacks and FastEthernet0/0 interfaces in Area 0, assign router IDs, and set `ip ospf priority 255` on R14 FastEthernet0/0.
+    D: Enable OSPF on both loopbacks and FastEthernet0/0 interfaces in Area 0, assign router IDs, and set `ip ospf priority
+      255` on R14 FastEthernet0/0.
   correct_answer: D
-  explanation: With OSPF broadcast network type, the central point for exchanging LSAs is the DR. The correct configuration must place the shared link in OSPF Area 0 on both routers and set a high interface priority on R14 so it wins the DR election. The shown correct option also includes the loopbacks in OSPF.
+  explanation: With OSPF broadcast network type, the central point for exchanging LSAs is the DR. The correct configuration
+    must place the shared link in OSPF Area 0 on both routers and set a high interface priority on R14 so it wins the DR election.
+    The shown correct option also includes the loopbacks in OSPF.
   source: 3-IP-Connectivity_151/IC-029.png
 
 - id: IC-030
@@ -1021,14 +1096,16 @@
   - hsrp
   - virtual-ip
   - default-gateway
-  question: Which type of address is shared by routers in an HSRP implementation and used by hosts on the subnet as their default gateway address?
+  question: Which type of address is shared by routers in an HSRP implementation and used by hosts on the subnet as their
+    default gateway address?
   options:
     A: multicast address
     B: virtual IP address
     C: loopback IP address
     D: broadcast address
   correct_answer: B
-  explanation: HSRP provides a shared virtual IP address that hosts use as the default gateway while one router actively forwards traffic.
+  explanation: HSRP provides a shared virtual IP address that hosts use as the default gateway while one router actively forwards
+    traffic.
   source: adapted_from_images
 
 - id: IC-031
@@ -1062,7 +1139,8 @@
     C: 172.16.15.10
     D: 192.168.0.1
   correct_answer: C
-  explanation: When no manual router ID is configured, OSPF prefers the highest IP address on any loopback interface. R1 has Loopback0 with address 172.16.15.10.
+  explanation: When no manual router ID is configured, OSPF prefers the highest IP address on any loopback interface. R1 has
+    Loopback0 with address 172.16.15.10.
   source: 3-IP-Connectivity_151/IC-031.png
 
 - id: IC-032
@@ -1075,15 +1153,20 @@
   - ospf
   - metric
   - administrative-distance
-  question: Refer to the exhibit. What is the metric associated with the route used to forward a packet received by the router destined for the IP address 172.20.0.222?
-  exhibit: "Router# show ip route\nGateway of last resort is 10.11.19.1 to network 0.0.0.0\n\nO 172.20.0.0/22 [110/101] via 172.20.4.201, Tunnel1\n  [110/101] via 172.20.4.199, Tunnel1\n  [110/101] via 172.20.4.136, Tunnel1\n  [110/101] via 172.20.4.10,  Tunnel1\nO 172.20.4.0/24 [110/100] via 172.20.5.34, Tunnel1\nC 172.20.4.0/22 is directly connected, Tunnel1\nO E2 172.29.0.0/16 [110/20] via 172.20.5.34, Tunnel1\n"
+  question: Refer to the exhibit. What is the metric associated with the route used to forward a packet received by the router
+    destined for the IP address 172.20.0.222?
+  exhibit: "Router# show ip route\nGateway of last resort is 10.11.19.1 to network 0.0.0.0\n\nO 172.20.0.0/22 [110/101] via\
+    \ 172.20.4.201, Tunnel1\n  [110/101] via 172.20.4.199, Tunnel1\n  [110/101] via 172.20.4.136, Tunnel1\n  [110/101] via\
+    \ 172.20.4.10,  Tunnel1\nO 172.20.4.0/24 [110/100] via 172.20.5.34, Tunnel1\nC 172.20.4.0/22 is directly connected, Tunnel1\n\
+    O E2 172.29.0.0/16 [110/20] via 172.20.5.34, Tunnel1\n"
   options:
     A: '100'
     B: '101'
     C: '20'
     D: '110'
   correct_answer: B
-  explanation: The destination 172.20.0.222 matches route `O 172.20.0.0/22 [110/101] ...`. In the route descriptor, 110 is the administrative distance and 101 is the OSPF metric.
+  explanation: The destination 172.20.0.222 matches route `O 172.20.0.0/22 [110/101] ...`. In the route descriptor, 110 is
+    the administrative distance and 101 is the OSPF metric.
   source: 3-IP-Connectivity_151/IC-032.png
 
 - id: IC-033
@@ -1121,7 +1204,8 @@
     C: '160'
     D: '200'
   correct_answer: D
-  explanation: In the route entry marked with `E`, the values in brackets are `[200/128]`. The exam item treats 200 as the value being asked for in the EGP-learned route.
+  explanation: In the route entry marked with `E`, the values in brackets are `[200/128]`. The exam item treats 200 as the
+    value being asked for in the EGP-learned route.
   source: 3-IP-Connectivity_151/IC-033.png
 
 - id: IC-034
@@ -1134,14 +1218,20 @@
   - next-hop
   - routing-table
   question: Refer to the exhibit. What is the next hop for a packet destined for 10.1.1.1?
-  exhibit: "Router# show ip route\nS* 0.0.0.0/0 [1/0] via 172.17.0.2\n\nO E2 10.2.0.0/16 [110/10] via 10.2.24.1, Vlan82\nO    10.2.17.0/24 [110/6]  via 10.2.24.1, Vlan82\nO    10.2.23.0/24 [110/6]  via 10.2.24.1, Vlan82\nC    10.2.24.0/24 directly connected, Vlan82\nL    10.2.24.2/32 directly connected, Vlan82\nO    10.2.25.0/24 [110/6]  via 10.3.25.1, Vlan72\n                           via 10.2.24.1, Vlan82\nO    10.3.17.0/24 [110/6]  via 10.3.25.1, Vlan72\nO    10.3.24.0/24 [110/6]  via 10.3.25.1, Vlan72\nC    10.3.25.0/24 directly connected, Vlan72\nL    10.3.25.2/32 directly connected, Vlan72\n"
+  exhibit: "Router# show ip route\nS* 0.0.0.0/0 [1/0] via 172.17.0.2\n\nO E2 10.2.0.0/16 [110/10] via 10.2.24.1, Vlan82\n\
+    O    10.2.17.0/24 [110/6]  via 10.2.24.1, Vlan82\nO    10.2.23.0/24 [110/6]  via 10.2.24.1, Vlan82\nC    10.2.24.0/24\
+    \ directly connected, Vlan82\nL    10.2.24.2/32 directly connected, Vlan82\nO    10.2.25.0/24 [110/6]  via 10.3.25.1,\
+    \ Vlan72\n                           via 10.2.24.1, Vlan82\nO    10.3.17.0/24 [110/6]  via 10.3.25.1, Vlan72\nO    10.3.24.0/24\
+    \ [110/6]  via 10.3.25.1, Vlan72\nC    10.3.25.0/24 directly connected, Vlan72\nL    10.3.25.2/32 directly connected,\
+    \ Vlan72\n"
   options:
     A: 172.17.0.2
     B: Vlan72
     C: Vlan82
     D: 10.3.25.1
   correct_answer: A
-  explanation: Because there is no more specific route for 10.1.1.1 in the table, the router uses the default route `0.0.0.0/0`, which points to next hop 172.17.0.2.
+  explanation: Because there is no more specific route for 10.1.1.1 in the table, the router uses the default route `0.0.0.0/0`,
+    which points to next hop 172.17.0.2.
   source: 3-IP-Connectivity_151/IC-034.png
 
 - id: IC-035
@@ -1179,7 +1269,8 @@
     C: ip default-gateway 192.168.2.1
     D: ip route 0.0.0.0 0.0.0.0 192.168.2.1 10
   correct_answer: A
-  explanation: The existing default route uses router B. A floating static default route must point to the alternate path through router C and use a higher administrative distance than 1, such as 10.
+  explanation: The existing default route uses router B. A floating static default route must point to the alternate path
+    through router C and use a higher administrative distance than 1, such as 10.
   source: 3-IP-Connectivity_151/IC-035.png
 
 - id: IC-036
@@ -1191,30 +1282,57 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required IPv4 and IPv6 addressing tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not remove any existing configurations from the devices, only those necessary to make the appropriate changes required to fulfill the listed tasks.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Task 1 (IPv4)
+    Configure R1 with the first usable host IP address in the IPv4 network.
+    Configure R2 with the last usable host IP address in the IPv4 network.
+    Verify connectivity using ping.
+
+    Task 2 (IPv6)
+    Do not assign the subnet router anycast address to either router.
+    Configure R1 with the first usable host IP address in the IPv6 network.
+    Configure R2 with the last usable host IP address in the IPv6 network.
+    Verify connectivity using ping.
+  explanation: This lab requires assigning the first usable IPv4 and IPv6 host addresses to R1, the last usable IPv4 and IPv6 host addresses to R2, avoiding the IPv6 subnet-router anycast address, and verifying connectivity with ping.
   source: 3-IP-Connectivity_151/IC-036.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the addressing reference and complete the IPv4 and IPv6 interface configuration tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure R1 with the first usable IPv4 address in the given subnet.
+    - Configure R2 with the last usable IPv4 address in the given subnet.
+    - Configure R1 with the first usable IPv6 host address in the given prefix.
+    - Configure R2 with the last usable IPv6 host address in the given prefix, without using the subnet-router anycast address.
+    - Verify IPv4 and IPv6 connectivity with ping.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-036.png
     required_commands:
     - configure terminal
+    - interface e0/0
+    - ip address
+    - ipv6 address
     - end
     verification_commands:
-    - show ip route
+    - show ip interface brief
+    - show ipv6 interface brief
+    - ping
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip interface brief: Verify that R1 and R2 are using the correct first and last usable IPv4 host addresses.
+      show ipv6 interface brief: Verify that R1 and R2 are using the correct first and last usable IPv6 host addresses and that the subnet-router anycast address was not assigned manually.
+      ping: Use IPv4 and IPv6 ping to verify end-to-end connectivity after the addressing is applied.
 
 - id: IC-037
   topic: IP Connectivity
@@ -1251,7 +1369,8 @@
     C: FastEthernet 0/1
     D: FastEthernet 0/2
   correct_answer: A
-  explanation: The destination 10.10.10.14 belongs to subnet 10.10.10.0/28, which is directly connected through FastEthernet 0/0.
+  explanation: The destination 10.10.10.14 belongs to subnet 10.10.10.0/28, which is directly connected through FastEthernet
+    0/0.
   source: 3-IP-Connectivity_151/IC-037.png
 
 - id: IC-038
@@ -1263,7 +1382,8 @@
   - duplex-mismatch
   - collisions
   - interface-counters
-  question: Refer to the exhibit. Traffic flowing over interface TenGigabitEthernet0/0/0 experiences slow transfer speeds. What is the cause of this issue?
+  question: Refer to the exhibit. Traffic flowing over interface TenGigabitEthernet0/0/0 experiences slow transfer speeds.
+    What is the cause of this issue?
   exhibit: 'TenGigabitEthernet0/0/0 is up, line protocol is up
 
     - Internet address 10.1.1.1/24
@@ -1296,7 +1416,8 @@
     C: duplex incompatibility
     D: heavy traffic congestion
   correct_answer: C
-  explanation: The interface statistics show collisions, which indicate a duplex mismatch. That symptom commonly appears when one side operates half duplex while the other side runs full duplex.
+  explanation: The interface statistics show collisions, which indicate a duplex mismatch. That symptom commonly appears when
+    one side operates half duplex while the other side runs full duplex.
   source: 3-IP-Connectivity_151/IC-038.png
 
 - id: IC-039
@@ -1308,7 +1429,8 @@
   - longest-prefix-match
   - subnet-mask
   - routing-table
-  question: Refer to the exhibit. A packet sourced from 10.10.10.1 is destined for 10.10.8.14. What is the subnet mask of the destination route?
+  question: Refer to the exhibit. A packet sourced from 10.10.10.1 is destined for 10.10.8.14. What is the subnet mask of
+    the destination route?
   exhibit: 'Gateway of last resort is 172.16.2.2 to network 0.0.0.0
 
 
@@ -1346,7 +1468,9 @@
   - dedicated-link
   - host-route
   - traffic-engineering
-  question: Refer to the exhibit. The image server and client A are running an application that transfers a very high volume of data between them. An engineer is configuring a dedicated circuit between R1 and R2. Which set of commands must be applied so that only traffic between the image server and client A uses the new circuit?
+  question: Refer to the exhibit. The image server and client A are running an application that transfers a very high volume
+    of data between them. An engineer is configuring a dedicated circuit between R1 and R2. Which set of commands must be
+    applied so that only traffic between the image server and client A uses the new circuit?
   exhibit: 'Topology:
 
     - R1 <-> R2 primary link: 10.10.10.0/30
@@ -1376,7 +1500,8 @@
     C: R1(config)#ip route 10.10.13.10 255.255.255.252 10.10.10.6 R2(config)#ip route 192.168.0.100 255.255.255.252 10.10.10.5
     D: R1(config)#ip route 10.10.13.10 255.255.255.255 10.10.10.2 R2(config)#ip route 192.168.0.100 255.255.255.255 10.10.10.1
   correct_answer: A
-  explanation: To force only this host-to-host traffic over the dedicated link, both routers need host routes (/32) that point to the next hop on the new 10.10.10.4/30 circuit.
+  explanation: To force only this host-to-host traffic over the dedicated link, both routers need host routes (/32) that point
+    to the next hop on the new 10.10.10.4/30 circuit.
   source: 3-IP-Connectivity_151/IC-040.png
 
 - id: IC-041
@@ -1388,7 +1513,8 @@
   - ospf
   - hello-timer
   - adjacency
-  question: Refer to the exhibit. After the configuration is applied, the two routers fail to establish an OSPF neighbor relationship. What is the reason for the problem?
+  question: Refer to the exhibit. After the configuration is applied, the two routers fail to establish an OSPF neighbor relationship.
+    What is the reason for the problem?
   exhibit: 'Topology:
 
     - Router1 Gi1/1 connected to Router2 Gi1/1
@@ -1428,7 +1554,8 @@
     C: Router2 is using the default hello timer.
     D: The OSPF router IDs are mismatched.
   correct_answer: C
-  explanation: Router1 is configured with `ip ospf hello-interval 5`, while Router2 is using the default timer. OSPF neighbors must have matching hello and dead timers to form adjacency.
+  explanation: Router1 is configured with `ip ospf hello-interval 5`, while Router2 is using the default timer. OSPF neighbors
+    must have matching hello and dead timers to form adjacency.
   source: 3-IP-Connectivity_151/IC-041.png
 
 - id: IC-042
@@ -1460,7 +1587,8 @@
     capable of sending multicast transmissions: UDP
     transmits live and real-time data: UDP
     reduces end-to-end delays using smaller packets: UDP
-  explanation: TCP is connection-oriented and provides flow control and reliable delivery. UDP is connectionless, supports multicast, and is commonly used for real-time traffic with lower overhead.
+  explanation: TCP is connection-oriented and provides flow control and reliable delivery. UDP is connectionless, supports
+    multicast, and is commonly used for real-time traffic with lower overhead.
   source: adapted_from_images
 
 - id: IC-043
@@ -1505,7 +1633,8 @@
     routable and reachable via the Internet: Global Unicast Address
     addressing for exclusive use internally without Internet routing: Unique Local Address
     addresses with prefix FC00::/7: Unique Local Address
-  explanation: Global unicast IPv6 addresses are the public, Internet-routable addresses. Unique local addresses are intended for internal use only and use the FC00::/7 block.
+  explanation: Global unicast IPv6 addresses are the public, Internet-routable addresses. Unique local addresses are intended
+    for internal use only and use the FC00::/7 block.
   source: 3-IP-Connectivity_151/IC-043.png
 
 - id: IC-044
@@ -1527,7 +1656,8 @@
   correct_answer:
   - D
   - E
-  explanation: FHRPs provide redundant default gateway service by presenting a shared virtual gateway and allowing failover if the active device becomes unavailable.
+  explanation: FHRPs provide redundant default gateway service by presenting a shared virtual gateway and allowing failover
+    if the active device becomes unavailable.
   source: adapted_from_images
 
 - id: IC-045
@@ -1539,7 +1669,8 @@
   - routing-table
   - longest-prefix-match
   - show-ip-route
-  question: 'A router received three destination prefixes: 10.0.0.0/8, 10.0.0.0/16, and 10.0.0.0/24. When the `show ip route` command is executed, which output does it return?'
+  question: 'A router received three destination prefixes: 10.0.0.0/8, 10.0.0.0/16, and 10.0.0.0/24. When the `show ip route`
+    command is executed, which output does it return?'
   options:
     A: 'Gateway of last resort is 172.16.1.1 to network 0.0.0.0
 
@@ -1560,7 +1691,8 @@
 
       O E2 10.0.0.0/24 [110/5] via 192.168.3.1, 0:01:00, Ethernet2'
   correct_answer: A
-  explanation: The routing table can contain all three routes simultaneously because they are distinct prefixes. Longest-prefix match is used during forwarding, but `show ip route` still displays each learned route.
+  explanation: The routing table can contain all three routes simultaneously because they are distinct prefixes. Longest-prefix
+    match is used during forwarding, but `show ip route` still displays each learned route.
   source: adapted_from_images
 
 - id: IC-046
@@ -1572,7 +1704,8 @@
   - administrative-distance
   - default-route
   - show-ip-route
-  question: Refer to the exhibit. A packet sourced from 10.10.10.32 is destined for the Internet. What is the administrative distance for the destination route?
+  question: Refer to the exhibit. A packet sourced from 10.10.10.32 is destined for the Internet. What is the administrative
+    distance for the destination route?
   exhibit: 'Gateway of last resort is 172.16.2.2 to network 0.0.0.0
 
 
@@ -1597,7 +1730,8 @@
     C: '2'
     D: '32'
   correct_answer: B
-  explanation: Traffic toward the Internet uses the default route `0.0.0.0/0`, shown as `S* 0.0.0.0 [1/0] ...`. In the brackets, `1` is the administrative distance.
+  explanation: Traffic toward the Internet uses the default route `0.0.0.0/0`, shown as `S* 0.0.0.0 [1/0] ...`. In the brackets,
+    `1` is the administrative distance.
   source: 3-IP-Connectivity_151/IC-046.png
 
 - id: IC-047
@@ -1610,7 +1744,8 @@
   - crc
   - collisions
   - interface-counters
-  question: Refer to the exhibit. Users at a branch office are experiencing application performance issues, poor VoIP audio quality, and slow downloads. What is the cause of the issues?
+  question: Refer to the exhibit. Users at a branch office are experiencing application performance issues, poor VoIP audio
+    quality, and slow downloads. What is the cause of the issues?
   exhibit: 'Router# show interface FastEthernet0/0
 
     - IP address 10.0.0.2/30
@@ -1645,7 +1780,8 @@
     C: broadcast storm
     D: overutilization
   correct_answer: B
-  explanation: The interface output shows half duplex together with CRC errors and collisions, which indicates a duplex/configuration mismatch rather than congestion or QoS behavior.
+  explanation: The interface output shows half duplex together with CRC errors and collisions, which indicates a duplex/configuration
+    mismatch rather than congestion or QoS behavior.
   source: 3-IP-Connectivity_151/IC-047.png
 
 - id: IC-048
@@ -1658,7 +1794,9 @@
   - longest-prefix-match
   - topology
   - multiple-choice
-  question: Refer to the exhibit. Router R1 is in the process of being configured. Routers R2 and R3 are configured correctly for the new environment. Which two commands must be configured on R1 for PC1 to communicate to all PCs on the 10.10.10.0/24 network? (Choose two.)
+  question: Refer to the exhibit. Router R1 is in the process of being configured. Routers R2 and R3 are configured correctly
+    for the new environment. Which two commands must be configured on R1 for PC1 to communicate to all PCs on the 10.10.10.0/24
+    network? (Choose two.)
   exhibit: 'Topology:
 
     - PC1 subnet 172.16.5.0/24 connected to R1 g0/0
@@ -1685,7 +1823,8 @@
   correct_answer:
   - A
   - B
-  explanation: R1 needs a route to the 10.10.10.0/24 network through R2 and a host route for 10.10.10.10 through R3 so PC1 can reach every destination in that network according to the topology shown.
+  explanation: R1 needs a route to the 10.10.10.0/24 network through R2 and a host route for 10.10.10.10 through R3 so PC1
+    can reach every destination in that network according to the topology shown.
   source: 3-IP-Connectivity_151/IC-048.png
 
 - id: IC-049
@@ -1780,7 +1919,9 @@
   tags:
   - longest-prefix-match
   - route-selection
-  question: 'A packet from a company''s branch office is destined to host 172.31.0.1 at headquarters. The sending router has three possible matches in its routing table for the packet: prefixes 172.31.0.0/16, 172.31.0.0/24, and 172.31.0.0/25. How does the router handle the packet?'
+  question: 'A packet from a company''s branch office is destined to host 172.31.0.1 at headquarters. The sending router has
+    three possible matches in its routing table for the packet: prefixes 172.31.0.0/16, 172.31.0.0/24, and 172.31.0.0/25.
+    How does the router handle the packet?'
   options:
     A: It sends the traffic via prefix 172.31.0.0/24.
     B: It sends the traffic via prefix 172.31.0.0/16.
@@ -1799,7 +1940,8 @@
   - default-gateway
   - troubleshooting
   - ipconfig
-  question: Refer to the exhibit. The user has connectivity to devices on network 192.168.3.0/24 but cannot reach users on the network 10.10.1.0/24. What is the first step to verify connectivity?
+  question: Refer to the exhibit. The user has connectivity to devices on network 192.168.3.0/24 but cannot reach users on
+    the network 10.10.1.0/24. What is the first step to verify connectivity?
   exhibit: 'Windows ipconfig excerpt:
 
     - IPv4 Address: 192.168.3.20
@@ -1826,7 +1968,8 @@
     C: Is the DNS server reachable?
     D: Is the IPv4 address reachable?
   correct_answer: B
-  explanation: If local-subnet connectivity works but remote-subnet connectivity does not, the first check is reachability of the default gateway, which forwards traffic off the local network.
+  explanation: If local-subnet connectivity works but remote-subnet connectivity does not, the first check is reachability
+    of the default gateway, which forwards traffic off the local network.
   source: 3-IP-Connectivity_151/IC-052.png
 
 - id: IC-053
@@ -1838,7 +1981,9 @@
   - ospf
   - dr-election
   - priority
-  question: Refer to the exhibit. All routers in the network are configured. R2 must be the DR. After the engineer connected the devices, R1 was elected as the DR. Which command sequence must be configured on R2 to be elected as the DR in the network?
+  question: Refer to the exhibit. All routers in the network are configured. R2 must be the DR. After the engineer connected
+    the devices, R1 was elected as the DR. Which command sequence must be configured on R2 to be elected as the DR in the
+    network?
   exhibit: 'Broadcast network with OSPF process 1:
 
     - R1 RID 192.168.2.8, currently DR
@@ -1861,7 +2006,8 @@
     C: R2(config)#router ospf 1 R2(config-router)#router-id 10.100.100.100
     D: R2(config)#interface gi0/0 R2(config-if)#ip ospf priority 1
   correct_answer: A
-  explanation: On broadcast networks, OSPF elects the DR based on interface priority first. Increasing R2's OSPF priority on the shared interface makes it win the election.
+  explanation: On broadcast networks, OSPF elects the DR based on interface priority first. Increasing R2's OSPF priority
+    on the shared interface makes it win the election.
   source: 3-IP-Connectivity_151/IC-053.png
 
 - id: IC-054
@@ -1873,7 +2019,8 @@
   - static-route
   - next-hop
   - topology
-  question: Refer to the exhibit. Router R1 must be configured to reach the 10.0.3.0/24 network from the 10.0.1.0/24 segment. Which command must be used to configure the route?
+  question: Refer to the exhibit. Router R1 must be configured to reach the 10.0.3.0/24 network from the 10.0.1.0/24 segment.
+    Which command must be used to configure the route?
   exhibit: 'Topology:
 
     - R1 G0/0 on 10.0.1.0/24
@@ -1911,7 +2058,8 @@
   - dr-election
   - priority
   - interface
-  question: Refer to the exhibit. Routers R1 and R3 have the default configuration. The router R2 priority is set to 99. Which commands on R3 configure it as the DR in the 10.0.4.0/24 network?
+  question: Refer to the exhibit. Routers R1 and R3 have the default configuration. The router R2 priority is set to 99. Which
+    commands on R3 configure it as the DR in the 10.0.4.0/24 network?
   exhibit: 'Topology:
 
     - R1 on 10.0.1.0/24
@@ -1936,7 +2084,8 @@
     C: R3(config)#interface Gig0/1 R3(config-if)#ip ospf priority 0
     D: R3(config)#interface Gig0/1 R3(config-if)#ip ospf priority 100
   correct_answer: D
-  explanation: The shared 10.0.4.0/24 segment is on R3 Gig0/1. Setting the OSPF interface priority there to 100 makes R3 win over R2's priority of 99.
+  explanation: The shared 10.0.4.0/24 segment is on R3 Gig0/1. Setting the OSPF interface priority there to 100 makes R3 win
+    over R2's priority of 99.
   source: 3-IP-Connectivity_151/IC-055.png
 
 - id: IC-056
@@ -1948,30 +2097,54 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required OSPF interface and DR/BDR election tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not remove any existing configurations from the devices, only those necessary to make the appropriate changes required to fulfill the listed tasks.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Task 1
+    Configure OSPF Area 0 with Process ID 110 on all devices under their respective interfaces connected to VLAN101.
+    To accomplish this, do not use the network command under the OSPF process.
+
+    Task 2
+    Configure R1 to always be the DR and Sw101 always to be the BDR.
+    R2 and R3 should be configured not to participate in the DR/BDR election.
+  explanation: This lab requires OSPF process 110 to be enabled directly under the VLAN101-facing interfaces on all devices, without using OSPF network statements. It also requires interface OSPF priorities that force R1 to become DR, Sw101 to become BDR, and R2 and R3 to have priority 0 so they do not participate in the DR/BDR election.
   source: 3-IP-Connectivity_151/IC-056.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the interface-based OSPF and DR/BDR election tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure OSPF process 110 in area 0 on each interface connected to VLAN101.
+    - Do not use OSPF network commands under the routing process.
+    - Force R1 to become the DR.
+    - Force Sw101 to become the BDR.
+    - Prevent R2 and R3 from participating in the DR/BDR election.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-056.png
     required_commands:
     - configure terminal
+    - router ospf 110
+    - ip ospf 110 area 0
+    - ip ospf priority 255
+    - ip ospf priority 100
+    - ip ospf priority 0
     - end
     verification_commands:
-    - show ip route
+    - show ip ospf interface
+    - show ip ospf neighbor
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip ospf interface: Verify that OSPF process 110 is enabled directly on the VLAN101-facing interfaces and that the interface priorities match the DR/BDR election requirements.
+      show ip ospf neighbor: Verify that R1 is the DR, Sw101 is the BDR, and R2 and R3 are not participating in the election.
 
 - id: IC-057
   topic: IP Connectivity
@@ -1982,30 +2155,58 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required OSPF configuration tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    Refer to the topology. All physical cabling is in place. Routers 2 and 3 are inaccessible. Configure OSPF routing for the network and ensure R1 has joined Area 0 without using network statements.
+
+    Task 1
+    Configure OSPF on R1 with a process ID and router-ID only as follows:
+    use process ID 33
+    use E0/1 IP as the router ID
+
+    Task 2
+    Configure R1 to establish neighbor adjacencies with R2 and R3. The network statement under the OSPF process must not be used.
+    Configure R1 to always become the DR for Area 0.
+  explanation: This lab requires OSPF process 33 on R1, a router-id matching the IP address on E0/1, interface-based OSPF configuration without using network statements, neighbor adjacency formation with R2 and R3, and an OSPF priority on R1 that ensures it always becomes the DR in Area 0.
   source: 3-IP-Connectivity_151/IC-057.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the OSPF process, router-id, adjacency, and DR election tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure OSPF process 33 on R1.
+    - Set the OSPF router-id on R1 to the IP address of E0/1.
+    - Enable OSPF on the required R1 interfaces without using OSPF network statements.
+    - Establish OSPF neighbor adjacencies with R2 and R3.
+    - Configure R1 so it always becomes the DR in Area 0.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-057.png
     required_commands:
     - configure terminal
+    - router ospf 33
+    - router-id
+    - ip ospf 33 area 0
+    - ip ospf priority 255
     - end
     verification_commands:
-    - show ip route
+    - show ip ospf neighbor
+    - show ip ospf interface
+    - show ip protocols
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip ospf neighbor: Verify that R1 has established OSPF neighbor adjacencies with R2 and R3.
+      show ip ospf interface: Verify that OSPF is enabled on the correct R1 interfaces and that the priority value makes R1 the preferred DR.
+      show ip protocols: Verify that process 33 is running and that the router-id matches the IP address of E0/1.
 
 - id: IC-058
   topic: IP Connectivity
@@ -2016,7 +2217,8 @@
   - longest-prefix-match
   - routing-table
   - svi
-  question: Refer to the exhibit. When router R1 receives a packet with destination IP address 10.56.0.62, through which interface does it route the packet?
+  question: Refer to the exhibit. When router R1 receives a packet with destination IP address 10.56.0.62, through which interface
+    does it route the packet?
   exhibit: 'R1#
 
     Gateway of last resort is 10.56.0.1 to network 0.0.0.0
@@ -2069,7 +2271,8 @@
     C: It will choose the route with the highest metric, `D 100.100.100.0/24 [90/435200] via 192.168.2.1, Ethernet0/2`.
     D: It will choose the route with the longest match, `O 100.100.100.100/32 [110/21] via 192.168.1.1, Ethernet0/1`.
   correct_answer: D
-  explanation: Routers select the most specific matching route first. The host route 100.100.100.100/32 is a longer match than the /24, /16, or /8 entries.
+  explanation: Routers select the most specific matching route first. The host route 100.100.100.100/32 is a longer match
+    than the /24, /16, or /8 entries.
   source: 3-IP-Connectivity_151/IC-059.png
 
 - id: IC-060
@@ -2082,7 +2285,10 @@
   - router-id
   - neighbor
   - troubleshooting
-  question: Refer to the exhibit. Router OldR is replacing another router on the network with the intention of having OldR and R2 exchange routes. After the engineer applied the initial OSPF configuration, the routes were still missing on both devices. Which command sequence must be issued before the `clear ip ospf process` command is entered to enable the neighbor relationship?
+  question: Refer to the exhibit. Router OldR is replacing another router on the network with the intention of having OldR
+    and R2 exchange routes. After the engineer applied the initial OSPF configuration, the routes were still missing on both
+    devices. Which command sequence must be issued before the `clear ip ospf process` command is entered to enable the neighbor
+    relationship?
   exhibit: 'OldR# show ip ospf interface
 
     GigabitEthernet0/0/0 is up, Area 0
@@ -2124,7 +2330,8 @@
     C: OldR(config)#interface g0/0/0 OldR(config-if)#ip ospf dead-interval 15
     D: OldR(config)#router ospf 1 OldR(config-router)#no router-id 192.168.1.1
   correct_answer: D
-  explanation: The exhibit shows both routers using the same OSPF router ID, 192.168.1.1. OSPF neighbors must have unique router IDs, so the duplicate must be removed before restarting the process.
+  explanation: The exhibit shows both routers using the same OSPF router ID, 192.168.1.1. OSPF neighbors must have unique
+    router IDs, so the duplicate must be removed before restarting the process.
   source: 3-IP-Connectivity_151/IC-060.png
 
 - id: IC-061
@@ -2162,7 +2369,8 @@
     C: GigabitEthernet1/0
     D: GigabitEthernet0/0
   correct_answer: D
-  explanation: The host 192.168.18.16 does not match the /28 route for 192.168.18.0/28, but it does match the 192.168.18.0/24 route, which exits via GigabitEthernet0/0.
+  explanation: The host 192.168.18.16 does not match the /28 route for 192.168.18.0/28, but it does match the 192.168.18.0/24
+    route, which exits via GigabitEthernet0/0.
   source: 3-IP-Connectivity_151/IC-061.png
 
 - id: IC-062
@@ -2204,7 +2412,8 @@
     C: '192'
     D: '193'
   correct_answer: D
-  explanation: The destination 192.168.10.33 matches the route shown as `O IA 192.168.10.32/28 [110/193] ...`. In the brackets, 193 is the metric.
+  explanation: The destination 192.168.10.33 matches the route shown as `O IA 192.168.10.32/28 [110/193] ...`. In the brackets,
+    193 is the metric.
   source: 3-IP-Connectivity_151/IC-062.png
 
 - id: IC-063
@@ -2217,14 +2426,16 @@
   - adjacency
   - full-state
   - dr
-  question: An engineer configured an OSPF neighbor as a designated router. Which state verifies the designated router is in the proper mode?
+  question: An engineer configured an OSPF neighbor as a designated router. Which state verifies the designated router is
+    in the proper mode?
   options:
     A: Init
     B: 2-way
     C: Exchange
     D: Full
   correct_answer: D
-  explanation: In the Full state, OSPF neighbors are fully adjacent and their LSDBs are synchronized. With a DR on a broadcast network, full adjacency confirms normal operation.
+  explanation: In the Full state, OSPF neighbors are fully adjacent and their LSDBs are synchronized. With a DR on a broadcast
+    network, full adjacency confirms normal operation.
   source: adapted_from_images
 
 - id: IC-064
@@ -2236,7 +2447,10 @@
   - floating-static-route
   - backup-route
   - administrative-distance
-  question: Refer to the exhibit. Router R1 currently is configured to use R3 as the primary route to the Internet, and the route uses the default administrative distance settings. A network engineer must configure R1 so that it uses R2 as a backup, but only if R3 goes down. Which command must the engineer configure on R1 so that it correctly uses R2 as a backup route, without changing the administrative distance configuration on the link to R3?
+  question: Refer to the exhibit. Router R1 currently is configured to use R3 as the primary route to the Internet, and the
+    route uses the default administrative distance settings. A network engineer must configure R1 so that it uses R2 as a
+    backup, but only if R3 goes down. Which command must the engineer configure on R1 so that it correctly uses R2 as a backup
+    route, without changing the administrative distance configuration on the link to R3?
   exhibit: 'Topology:
 
     - User LAN 192.168.1.0/24 connected to R1 g0/0
@@ -2263,7 +2477,8 @@
     C: ip route 0.0.0.0 0.0.0.0 209.165.200.226 1
     D: ip route 0.0.0.0 0.0.0.0 g0/1 6
   correct_answer: D
-  explanation: A floating static route must have a higher administrative distance than the primary static default route. Using the backup exit interface with AD 6 makes it a standby path only.
+  explanation: A floating static route must have a higher administrative distance than the primary static default route. Using
+    the backup exit interface with AD 6 makes it a standby path only.
   source: 3-IP-Connectivity_151/IC-064.png
 
 - id: IC-065
@@ -2275,7 +2490,8 @@
   - ospf
   - network-statement
   - wildcard-mask
-  question: Refer to the exhibit. An engineer just installed network 10.120.10.0/24. Which configuration must be applied to the R14 router to add the new network to its OSPF routing table?
+  question: Refer to the exhibit. An engineer just installed network 10.120.10.0/24. Which configuration must be applied to
+    the R14 router to add the new network to its OSPF routing table?
   exhibit: 'OSPF 100, Area 0 topology:
 
     - R14 loopback 10.10.1.14/32
@@ -2300,7 +2516,8 @@
     C: router ospf 100 area 0 network 10.120.10.0 0.0.0.255
     D: router ospf 100 network 10.120.10.0 255.255.255.0 area 0
   correct_answer: A
-  explanation: OSPF network statements use wildcard masks, not subnet masks. The new /24 network must be advertised under OSPF process 100 in Area 0 with wildcard `0.0.0.255`.
+  explanation: OSPF network statements use wildcard masks, not subnet masks. The new /24 network must be advertised under
+    OSPF process 100 in Area 0 with wildcard `0.0.0.255`.
   source: 3-IP-Connectivity_151/IC-065.png
 
 - id: IC-066
@@ -2311,15 +2528,20 @@
   tags:
   - dhcp-relay
   - ip-helper-address
-  question: Refer to the exhibit. An engineer is configuring a new router on the network and applied this configuration. Which additional configuration allows the PC to obtain its IP address from a DHCP server?
-  exhibit: "Topology:\n- DHCP Client LAN on 10.10.10.0/24 via Gi0/0\n- DHCP Server 172.16.2.2 on 172.16.2.0/24 via Gi0/1\n\nRouter config shown:\ninterface GigabitEthernet0/0\n  ip address 10.10.10.1 255.255.255.0\ninterface GigabitEthernet0/1\n  ip address 172.16.2.1 255.255.255.0\n\nRequirement:\n- relay DHCP broadcasts from the client LAN to the remote DHCP server\n"
+  question: Refer to the exhibit. An engineer is configuring a new router on the network and applied this configuration. Which
+    additional configuration allows the PC to obtain its IP address from a DHCP server?
+  exhibit: "Topology:\n- DHCP Client LAN on 10.10.10.0/24 via Gi0/0\n- DHCP Server 172.16.2.2 on 172.16.2.0/24 via Gi0/1\n\
+    \nRouter config shown:\ninterface GigabitEthernet0/0\n  ip address 10.10.10.1 255.255.255.0\ninterface GigabitEthernet0/1\n\
+    \  ip address 172.16.2.1 255.255.255.0\n\nRequirement:\n- relay DHCP broadcasts from the client LAN to the remote DHCP\
+    \ server\n"
   options:
     A: Configure the `ip helper-address 172.16.2.2` command under interface Gi0/0.
     B: Configure the `ip dhcp relay information command` under interface Gi0/1.
     C: Configure the `ip address dhcp` command under interface Gi0/0.
     D: Configure the `ip dhcp smart-relay` command globally on the router.
   correct_answer: A
-  explanation: Because the DHCP server is on a different subnet, the router interface facing the client LAN must relay the broadcasts using `ip helper-address`.
+  explanation: Because the DHCP server is on a different subnet, the router interface facing the client LAN must relay the
+    broadcasts using `ip helper-address`.
   source: 3-IP-Connectivity_151/IC-066.png
 
 - id: IC-067
@@ -2338,7 +2560,8 @@
     C: to ensure high availability of the network by providing a backup route on the CEF in case of a gateway failure
     D: to ensure high availability of the network by providing a transparent fail-over at the active gateway
   correct_answer: D
-  explanation: FHRPs such as HSRP and VRRP provide transparent default gateway failover so hosts keep connectivity even if the active gateway fails.
+  explanation: FHRPs such as HSRP and VRRP provide transparent default gateway failover so hosts keep connectivity even if
+    the active gateway fails.
   source: adapted_from_images
 
 - id: IC-068
@@ -2351,14 +2574,20 @@
   - dr-election
   - network-type
   - point-to-point
-  question: OSPF must be configured between routers R1 and R2. Which OSPF configuration must be applied to router R1 to avoid a DR/BDR election?
+  question: OSPF must be configured between routers R1 and R2. Which OSPF configuration must be applied to router R1 to avoid
+    a DR/BDR election?
   options:
-    A: "router ospf 1\n network 192.168.1.1 0.0.0.0 area 0\n\ninterface e1/1\n ip address 192.168.1.1 255.255.255.252\n ip ospf cost 0"
-    B: "router ospf 1\n network 192.168.1.1 0.0.0.0 area 0\n hello interval 15\n\ninterface e1/1\n ip address 192.168.1.1 255.255.255.252"
-    C: "router ospf 1\n network 192.168.1.1 0.0.0.0 area 0\n\ninterface e1/1\n ip address 192.168.1.1 255.255.255.252\n ip ospf network broadcast"
-    D: "router ospf 1\n network 192.168.1.1 0.0.0.0 area 0\n\ninterface e1/1\n ip address 192.168.1.1 255.255.255.252\n ip ospf network point-to-point"
+    A: "router ospf 1\n network 192.168.1.1 0.0.0.0 area 0\n\ninterface e1/1\n ip address 192.168.1.1 255.255.255.252\n ip\
+      \ ospf cost 0"
+    B: "router ospf 1\n network 192.168.1.1 0.0.0.0 area 0\n hello interval 15\n\ninterface e1/1\n ip address 192.168.1.1\
+      \ 255.255.255.252"
+    C: "router ospf 1\n network 192.168.1.1 0.0.0.0 area 0\n\ninterface e1/1\n ip address 192.168.1.1 255.255.255.252\n ip\
+      \ ospf network broadcast"
+    D: "router ospf 1\n network 192.168.1.1 0.0.0.0 area 0\n\ninterface e1/1\n ip address 192.168.1.1 255.255.255.252\n ip\
+      \ ospf network point-to-point"
   correct_answer: D
-  explanation: A DR/BDR election is not performed on OSPF point-to-point links. Setting the interface network type to point-to-point avoids that election.
+  explanation: A DR/BDR election is not performed on OSPF point-to-point links. Setting the interface network type to point-to-point
+    avoids that election.
   source: adapted_from_images
 
 - id: IC-069
@@ -2377,7 +2606,8 @@
     C: spanning-tree loops
     D: root-bridge loss
   correct_answer: A
-  explanation: FHRPs provide redundant default gateway service, so hosts keep connectivity even if the primary gateway router fails.
+  explanation: FHRPs provide redundant default gateway service, so hosts keep connectivity even if the primary gateway router
+    fails.
   source: adapted_from_images
 
 - id: IC-070
@@ -2390,15 +2620,19 @@
   - wildcard-mask
   - single-area
   - network-statement
-  question: Refer to the exhibit. An engineer is asked to configure router R1 so that it forms an OSPF single-area neighbor relationship with R2. Which command sequence must be implemented to configure the router?
-  exhibit: "Topology:\n- R1 to R2 link: 10.0.0.0/30\n  - R1 G0/0 = .1\n  - R2 G0/0 = .2\n- R1 LAN: 10.0.1.0/24\n- R2 LAN: 10.0.2.0/24\n\nRequirement:\n- Configure OSPF on R1 only\n- Form a single-area adjacency with R2\n- Advertise R1's transit link and R1's local LAN\n"
+  question: Refer to the exhibit. An engineer is asked to configure router R1 so that it forms an OSPF single-area neighbor
+    relationship with R2. Which command sequence must be implemented to configure the router?
+  exhibit: "Topology:\n- R1 to R2 link: 10.0.0.0/30\n  - R1 G0/0 = .1\n  - R2 G0/0 = .2\n- R1 LAN: 10.0.1.0/24\n- R2 LAN:\
+    \ 10.0.2.0/24\n\nRequirement:\n- Configure OSPF on R1 only\n- Form a single-area adjacency with R2\n- Advertise R1's transit\
+    \ link and R1's local LAN\n"
   options:
     A: router ospf 100 network 10.0.0.0 0.0.0.252 area0 network 10.0.1.0 0.0.0.255 area0
     B: router ospf 100 network 10.0.0.0 0.0.0.3 area0 network 10.0.2.0 255.255.255.0 area0
     C: router ospf 10 network 10.0.0.0 0.0.0.3 area0 network 10.0.1.0 0.0.0.255 area0
     D: router ospf 10 network 10.0.0.0 0.0.0.3 area0 network 10.0.2.0 0.0.0.255 area0
   correct_answer: C
-  explanation: R1 must advertise its 10.0.0.0/30 link to R2 and its 10.0.1.0/24 LAN using correct OSPF wildcard masks in the same area. The process ID can be locally significant, and option C matches both connected networks on R1.
+  explanation: R1 must advertise its 10.0.0.0/30 link to R2 and its 10.0.1.0/24 LAN using correct OSPF wildcard masks in the
+    same area. The process ID can be locally significant, and option C matches both connected networks on R1.
   source: 3-IP-Connectivity_151/IC-070.png
 
 - id: IC-071
@@ -2411,7 +2645,8 @@
   - static-route
   - ospf
   - next-hop
-  question: Refer to the exhibit. A packet is being sent across router R1 to host 172.16.3.14. To which destination does the router send the packet?
+  question: Refer to the exhibit. A packet is being sent across router R1 to host 172.16.3.14. To which destination does the
+    router send the packet?
   exhibit: 'R1# show ip route | begin gateway
 
     Gateway of last resort is 209.165.200.246 to network 0.0.0.0
@@ -2444,7 +2679,8 @@
     C: 207.165.200.250 via Serial0/0/0
     D: 207.165.200.254 via Serial0/0/1
   correct_answer: D
-  explanation: The destination 172.16.3.14 matches the more specific OSPF route for 172.16.3.0/28, which uses next hop 207.165.200.254 out Serial0/0/1.
+  explanation: The destination 172.16.3.14 matches the more specific OSPF route for 172.16.3.0/28, which uses next hop 207.165.200.254
+    out Serial0/0/1.
   source: 3-IP-Connectivity_151/IC-071.png
 
 - id: IC-072
@@ -2457,7 +2693,8 @@
   - dr-election
   - priority
   - bdr
-  question: Refer to the exhibit. Which two configurations must the engineer apply on this network so that R1 becomes the DR? (Choose two.)
+  question: Refer to the exhibit. Which two configurations must the engineer apply on this network so that R1 becomes the
+    DR? (Choose two.)
   exhibit: 'Broadcast segment 192.168.100.0/24, OSPF Area 0:
 
     - R1 = 192.168.100.1
@@ -2488,7 +2725,8 @@
   correct_answer:
   - A
   - C
-  explanation: Setting R3's interface priority to 0 makes it ineligible for DR or BDR, and raising R1's interface priority above the others causes R1 to win the DR election on the broadcast segment.
+  explanation: Setting R3's interface priority to 0 makes it ineligible for DR or BDR, and raising R1's interface priority
+    above the others causes R1 to win the DR election on the broadcast segment.
   source: 3-IP-Connectivity_151/IC-072.png
 
 - id: IC-073
@@ -2525,7 +2763,8 @@
     C: The default Hello and Dead timers are in use.
     D: There are six OSPF neighbors on this interface.
   correct_answer: C
-  explanation: The output shows Hello 10 and Dead 40 with a DR and BDR present, which matches the default timer behavior on a broadcast OSPF network.
+  explanation: The output shows Hello 10 and Dead 40 with a DR and BDR present, which matches the default timer behavior on
+    a broadcast OSPF network.
   source: 3-IP-Connectivity_151/IC-073.png
 
 - id: IC-074
@@ -2537,7 +2776,8 @@
   - administrative-distance
   - static-route
   - routing-table
-  question: Refer to the exhibit. What is the administrative distance for the advertised prefix that includes the host IP address 192.168.20.1?
+  question: Refer to the exhibit. What is the administrative distance for the advertised prefix that includes the host IP
+    address 192.168.20.1?
   exhibit: 'show ip route excerpt:
 
     - O 10.20.0.0/30 [110/2] via 10.0.0.2
@@ -2562,7 +2802,8 @@
     C: '1'
     D: '0'
   correct_answer: C
-  explanation: The host 192.168.20.1 falls within the static route 192.168.20.0/24. By default, a static route has an administrative distance of 1.
+  explanation: The host 192.168.20.1 falls within the static route 192.168.20.0/24. By default, a static route has an administrative
+    distance of 1.
   source: 3-IP-Connectivity_151/IC-074.png
 
 - id: IC-075
@@ -2574,7 +2815,8 @@
   - floating-static-route
   - administrative-distance
   - default-route
-  question: Refer to the exhibit. After applying this configuration to router R1, a network engineer is verifying the implementation. If all links are operating normally, and the engineer sends a series of packets from PC1 to PC3, how are the packets routed?
+  question: Refer to the exhibit. After applying this configuration to router R1, a network engineer is verifying the implementation.
+    If all links are operating normally, and the engineer sends a series of packets from PC1 to PC3, how are the packets routed?
   exhibit: 'Topology:
 
     - PC1 behind R1 on 172.16.30.0/24
@@ -2608,7 +2850,8 @@
     C: They are routed to 192.168.100.2.
     D: They are routed to 172.16.20.2.
   correct_answer: D
-  explanation: R1 has two default static routes, but the route through 172.16.20.2 uses the default administrative distance of 1. The alternate route via 10.0.0.2 has an administrative distance of 20, so it is only a backup.
+  explanation: R1 has two default static routes, but the route through 172.16.20.2 uses the default administrative distance
+    of 1. The alternate route via 10.0.0.2 has an administrative distance of 20, so it is only a backup.
   source: 3-IP-Connectivity_151/IC-075.png
 
 - id: IC-076
@@ -2620,7 +2863,8 @@
   - floating-static-route
   - ospf
   - backup-route
-  question: Refer to the exhibit. R1 learns all routes via OSPF. Which command configures a backup static route on R1 to reach the 192.168.20.0/24 network via R3?
+  question: Refer to the exhibit. R1 learns all routes via OSPF. Which command configures a backup static route on R1 to reach
+    the 192.168.20.0/24 network via R3?
   exhibit: 'Topology summary:
 
     - R1 reaches the 192.168.20.0/24 network dynamically through OSPF
@@ -2643,7 +2887,8 @@
     C: R1(config)#ip route 192.168.20.0 255.255.0.0 192.168.30.2
     D: R1(config)#ip route 192.168.20.0 255.255.255.0 192.168.30.2
   correct_answer: A
-  explanation: A floating static route must use the correct /24 mask and an administrative distance higher than OSPF's 110. Setting the AD to 111 makes it a backup path.
+  explanation: A floating static route must use the correct /24 mask and an administrative distance higher than OSPF's 110.
+    Setting the AD to 111 makes it a backup path.
   source: 3-IP-Connectivity_151/IC-076.png
 
 - id: IC-077
@@ -2684,7 +2929,8 @@
   - route-code
   - ospf
   - administrative-distance
-  question: Refer to the exhibit. Considering default routing protocol configurations were used, which routing protocol is used to learn the 10.255.2.2/32 route?
+  question: Refer to the exhibit. Considering default routing protocol configurations were used, which routing protocol is
+    used to learn the 10.255.2.2/32 route?
   exhibit: 'Routing table clue:
 
     - the route to 10.255.2.2/32 is marked with code O
@@ -2713,14 +2959,16 @@
   - floating-static-route
   - default-route
   - administrative-distance
-  question: An engineer must configure a core router with a floating static default route to the backup router at 10.200.0.2. Which command meets the requirements?
+  question: An engineer must configure a core router with a floating static default route to the backup router at 10.200.0.2.
+    Which command meets the requirements?
   options:
     A: ip route 0.0.0.0 0.0.0.0 10.200.0.2 1
     B: ip route 0.0.0.0 0.0.0.0 10.200.0.2 10
     C: ip route 0.0.0.0 10.200.0.2
     D: ip route 0.0.0.0 0.0.0.0 10.200.0.2 floating
   correct_answer: B
-  explanation: A floating static route must be a valid default route with an administrative distance higher than the primary route. Adding AD 10 makes it a backup path.
+  explanation: A floating static route must be a valid default route with an administrative distance higher than the primary
+    route. Adding AD 10 makes it a backup path.
   source: adapted_from_images
 
 - id: IC-080
@@ -2757,7 +3005,8 @@
     C: Local
     D: OSPF
   correct_answer: B
-  explanation: Among the dynamic routes shown, the RIP entry has the least favorable metric in the exhibit when compared with the other dynamic routes.
+  explanation: Among the dynamic routes shown, the RIP entry has the least favorable metric in the exhibit when compared with
+    the other dynamic routes.
   source: 3-IP-Connectivity_151/IC-080.png
 
 - id: IC-081
@@ -2770,7 +3019,9 @@
   - hello-timer
   - neighbor-adjacency
   - troubleshooting
-  question: Refer to the exhibit. The network engineer is configuring router R2 as a replacement router on the network. After the initial configuration is applied, it is determined that R2 failed to show R1 as a neighbor. Which configuration must be applied to R2 to complete the OSPF configuration and enable it to establish the neighbor relationship with R1?
+  question: Refer to the exhibit. The network engineer is configuring router R2 as a replacement router on the network. After
+    the initial configuration is applied, it is determined that R2 failed to show R1 as a neighbor. Which configuration must
+    be applied to R2 to complete the OSPF configuration and enable it to establish the neighbor relationship with R1?
   exhibit: 'R1 and R2 OSPF settings differ on the shared interface.
 
 
@@ -2792,7 +3043,8 @@
     C: R2(config)#router ospf 1 R2(config-router)#network 192.168.1.0 255.255.255.0 area 2
     D: R2(config)#interface g0/0/0 R2(config-if)#ip ospf dead-interval 45
   correct_answer: A
-  explanation: The output shows that R1 uses a hello interval of 10 seconds while R2 uses a different value. OSPF neighbors must have matching hello and dead timers to form an adjacency.
+  explanation: The output shows that R1 uses a hello interval of 10 seconds while R2 uses a different value. OSPF neighbors
+    must have matching hello and dead timers to form an adjacency.
   source: 3-IP-Connectivity_151/IC-081.png
 
 - id: IC-082
@@ -2805,7 +3057,8 @@
   - mtu
   - neighbor-adjacency
   - troubleshooting
-  question: Refer to the exhibit. Which configuration issue is preventing the OSPF neighbor relationship from being established between the two routers?
+  question: Refer to the exhibit. Which configuration issue is preventing the OSPF neighbor relationship from being established
+    between the two routers?
   exhibit: 'Interface comparison from the exhibit:
 
     - R1 Gi1/0 MTU = 1600
@@ -2824,7 +3077,8 @@
     C: R1 interface Gi1/0 has a larger MTU size.
     D: R2 is using the passive-interface default command.
   correct_answer: C
-  explanation: R1 is configured with MTU 1600 while R2 uses the default MTU 1500. An OSPF MTU mismatch can cause database description packets to be rejected and prevent adjacency formation.
+  explanation: R1 is configured with MTU 1600 while R2 uses the default MTU 1500. An OSPF MTU mismatch can cause database
+    description packets to be rejected and prevent adjacency formation.
   source: 3-IP-Connectivity_151/IC-082.png
 
 - id: IC-083
@@ -2836,7 +3090,8 @@
   - routing-table
   - default-route
   - packet-forwarding
-  question: Refer to the exhibit. Which action is taken by the router when a packet is sourced from 10.10.10.2 and destined for 10.10.10.16?
+  question: Refer to the exhibit. Which action is taken by the router when a packet is sourced from 10.10.10.2 and destined
+    for 10.10.10.16?
   exhibit: 'Routing table summary:
 
     - source host is 10.10.10.2
@@ -2854,7 +3109,8 @@
     C: It queues the packets waiting for the route to be learned.
     D: It discards the packets.
   correct_answer: D
-  explanation: The destination 10.10.10.16 is not matched by any listed route, and the routing table shows that no gateway of last resort is set. Without a matching route or default route, the router drops the packet.
+  explanation: The destination 10.10.10.16 is not matched by any listed route, and the routing table shows that no gateway
+    of last resort is set. Without a matching route or default route, the router drops the packet.
   source: 3-IP-Connectivity_151/IC-083.png
 
 - id: IC-084
@@ -2889,7 +3145,8 @@
     C: 192.168.16.0/26
     D: 192.168.16.0/27
   correct_answer: D
-  explanation: The destination 192.168.16.2 matches all of the listed routes, but the /27 route is the most specific. Routers always prefer the longest prefix match first.
+  explanation: The destination 192.168.16.2 matches all of the listed routes, but the /27 route is the most specific. Routers
+    always prefer the longest prefix match first.
   source: 3-IP-Connectivity_151/IC-084.png
 
 - id: IC-085
@@ -2922,7 +3179,8 @@
     C: Router4
     D: Router5
   correct_answer: B
-  explanation: The destination 10.10.13.165 matches the most specific route shown in the table, and that entry points to next hop 10.10.10.5, which is Router3 in the topology.
+  explanation: The destination 10.10.13.165 matches the most specific route shown in the table, and that entry points to next
+    hop 10.10.10.5, which is Router3 in the topology.
   source: 3-IP-Connectivity_151/IC-085.png
 
 - id: IC-086
@@ -2934,7 +3192,8 @@
   - static-route
   - next-hop
   - subnet-mask
-  question: Refer to the exhibit. A static route must be configured on R14 to forward traffic for the 172.21.34.0/25 network that resides on R86. Which command must be used to fulfill the request?
+  question: Refer to the exhibit. A static route must be configured on R14 to forward traffic for the 172.21.34.0/25 network
+    that resides on R86. Which command must be used to fulfill the request?
   exhibit: 'Topology summary:
 
     - R14 must reach remote network 172.21.34.0/25
@@ -2955,7 +3214,8 @@
     C: R14(config)#ip route 172.21.34.0 255.255.255.128 172.21.14.4
     D: R14(config)#ip route 172.21.34.0 255.255.255.0 172.21.14.4
   correct_answer: A
-  explanation: The route must use the correct destination network and /25 mask, and it must point to the proper next hop toward R86.
+  explanation: The route must use the correct destination network and /25 mask, and it must point to the proper next hop toward
+    R86.
   source: 3-IP-Connectivity_151/IC-086.png
 
 - id: IC-087
@@ -2968,7 +3228,8 @@
   - default-route
   - redistribute
   - external-route
-  question: Refer to the exhibit. A network administrator enters the command `default-information originate` into router R1 and then checks the routing table of router R2. Which type of route is installed into the routing table of router R2?
+  question: Refer to the exhibit. A network administrator enters the command `default-information originate` into router R1
+    and then checks the routing table of router R2. Which type of route is installed into the routing table of router R2?
   exhibit: 'OSPF scenario:
 
     - R1 is configured with `default-information originate`
@@ -2987,7 +3248,8 @@
     C: O E1
     D: D EX
   correct_answer: B
-  explanation: When a router originates a default route into OSPF with `default-information originate`, other routers learn it as an external type 2 default route, shown as `O*E2`.
+  explanation: When a router originates a default route into OSPF with `default-information originate`, other routers learn
+    it as an external type 2 default route, shown as `O*E2`.
   source: 3-IP-Connectivity_151/IC-087.png
 
 - id: IC-088
@@ -3000,7 +3262,8 @@
   - area-mismatch
   - neighbor-adjacency
   - troubleshooting
-  question: Refer to the exhibit. Which configuration issue is preventing the OSPF neighbor relationship from being established between router R1 and router R2?
+  question: Refer to the exhibit. Which configuration issue is preventing the OSPF neighbor relationship from being established
+    between router R1 and router R2?
   exhibit: 'OSPF configuration comparison:
 
     - R1 and R2 share a directly connected link
@@ -3019,7 +3282,8 @@
     C: R2 is configured as passive on the transit interface.
     D: The hello interval is mismatched.
   correct_answer: A
-  explanation: Routers must place the common link in the same OSPF area to form adjacency. An area mismatch prevents the OSPF neighbor relationship from being established.
+  explanation: Routers must place the common link in the same OSPF area to form adjacency. An area mismatch prevents the OSPF
+    neighbor relationship from being established.
   source: 3-IP-Connectivity_151/IC-088.png
 
 - id: IC-089
@@ -3031,7 +3295,8 @@
   - default-route
   - packet-forwarding
   - routing-table
-  question: Refer to the exhibit. What does the router do when a packet destined for 10.10.1.1 arrives and no specific route exists for that destination?
+  question: Refer to the exhibit. What does the router do when a packet destined for 10.10.1.1 arrives and no specific route
+    exists for that destination?
   exhibit: 'Routing table summary:
 
     - no specific route exists for destination 10.10.1.1
@@ -3050,7 +3315,8 @@
     C: It sends an ICMP redirect to the source.
     D: It floods the packet out all interfaces.
   correct_answer: B
-  explanation: When no more specific route exists but a gateway of last resort is configured, the router forwards the packet using the default route.
+  explanation: When no more specific route exists but a gateway of last resort is configured, the router forwards the packet
+    using the default route.
   source: 3-IP-Connectivity_151/IC-089.png
 
 - id: IC-090
@@ -3062,7 +3328,8 @@
   - floating-static-route
   - eigrp
   - administrative-distance
-  question: Refer to the exhibit. An engineer must configure a floating static route on an external EIGRP network. The destination subnet is the /29 on the LAN interface of R86. Which command must be executed on R14?
+  question: Refer to the exhibit. An engineer must configure a floating static route on an external EIGRP network. The destination
+    subnet is the /29 on the LAN interface of R86. Which command must be executed on R14?
   exhibit: 'Topology summary:
 
     - destination LAN behind R86 is 10.80.65.0/29
@@ -3083,7 +3350,8 @@
     C: ip route 10.80.65.0 255.255.255.248 10.73.65.66 171
     D: ip route 10.73.65.66 0.0.0.224 10.80.65.0 255
   correct_answer: C
-  explanation: A floating static route must use the correct /29 mask and an administrative distance higher than the external EIGRP default administrative distance of 170. Setting the AD to 171 makes the static route a backup.
+  explanation: A floating static route must use the correct /29 mask and an administrative distance higher than the external
+    EIGRP default administrative distance of 170. Setting the AD to 171 makes the static route a backup.
   source: 3-IP-Connectivity_151/IC-090.png
 
 - id: IC-091
@@ -3096,7 +3364,9 @@
   - dr-election
   - bdr
   - priority
-  question: Refer to the exhibit. R5 is the current DR on the network, and R4 is the BDR. Their interfaces are flapping, so a network engineer wants the OSPF network to elect a different DR and BDR. Which set of configurations must the engineer implement?
+  question: Refer to the exhibit. R5 is the current DR on the network, and R4 is the BDR. Their interfaces are flapping, so
+    a network engineer wants the OSPF network to elect a different DR and BDR. Which set of configurations must the engineer
+    implement?
   exhibit: 'Current OSPF election state on the shared segment:
 
     - R5 is DR
@@ -3132,7 +3402,8 @@
 
       R3(config)#interface gi0/0 R3(config-if)#ip ospf priority 256'
   correct_answer: C
-  explanation: On a broadcast network, OSPF elects the DR and BDR based on interface priority. Assigning the highest valid priorities to R3 and R2 makes them the new DR and BDR.
+  explanation: On a broadcast network, OSPF elects the DR and BDR based on interface priority. Assigning the highest valid
+    priorities to R3 and R2 makes them the new DR and BDR.
   source: 3-IP-Connectivity_151/IC-091.png
 
 - id: IC-092
@@ -3163,7 +3434,8 @@
     C: network route
     D: default route
   correct_answer: D
-  explanation: The routing table shows a gateway of last resort and the route `0.0.0.0/0`, which indicates a default route used for unknown destinations such as the Internet.
+  explanation: The routing table shows a gateway of last resort and the route `0.0.0.0/0`, which indicates a default route
+    used for unknown destinations such as the Internet.
   source: 3-IP-Connectivity_151/IC-092.png
 
 - id: IC-093
@@ -3181,7 +3453,8 @@
     C: route with the lowest administrative distance
     D: route with the shortest prefix length
   correct_answer: C
-  explanation: When the same prefix is learned from multiple routing protocols, the router installs the route with the lowest administrative distance. Metric is compared only among routes learned by the same protocol.
+  explanation: When the same prefix is learned from multiple routing protocols, the router installs the route with the lowest
+    administrative distance. Metric is compared only among routes learned by the same protocol.
   source: adapted_from_images
 
 - id: IC-094
@@ -3194,7 +3467,9 @@
   - eui-64
   - interface-id
   - unicast-routing
-  question: Refer to the exhibit. IPv6 is being implemented within the enterprise. The command `ipv6 unicast-routing` is configured. Interface Gig0/0 on R1 must be configured to provide a dynamic assignment using the assigned IPv6 block. Which command accomplishes this task?
+  question: Refer to the exhibit. IPv6 is being implemented within the enterprise. The command `ipv6 unicast-routing` is configured.
+    Interface Gig0/0 on R1 must be configured to provide a dynamic assignment using the assigned IPv6 block. Which command
+    accomplishes this task?
   exhibit: 'IPv6 requirement:
 
     - interface Gig0/0 on R1 must use the assigned /64 prefix
@@ -3213,7 +3488,8 @@
     C: ipv6 address 2001:DB8:FFFF:FCF3::/64 eui-64
     D: ipv6 address autoconfig 2001:DB8:FFFF:FCF2::/64
   correct_answer: C
-  explanation: Using `eui-64` with the assigned /64 prefix lets the interface dynamically derive its host portion from its MAC address. The other options either configure a static address, a link-local address, or invalid syntax.
+  explanation: Using `eui-64` with the assigned /64 prefix lets the interface dynamically derive its host portion from its
+    MAC address. The other options either configure a static address, a link-local address, or invalid syntax.
   source: 3-IP-Connectivity_151/IC-094.png
 
 - id: IC-095
@@ -3226,7 +3502,8 @@
   - administrative-distance
   - drag-and-drop
   - routing-table
-  question: Refer to the exhibit. Drag and drop the learned prefixes from the left onto the preferred route methods from which they were learned on the right. Not all prefixes are used.
+  question: Refer to the exhibit. Drag and drop the learned prefixes from the left onto the preferred route methods from which
+    they were learned on the right. Not all prefixes are used.
   exhibit: 'Routing table route-code mapping task:
 
 
@@ -3270,7 +3547,8 @@
     192.168.2.0/24: EIGRP
     192.168.1.0/24: OSPF
     172.16.2.0/24: RIP
-  explanation: 'The route codes in the table identify the source protocol: `S` for static, `D` for EIGRP, `O` for OSPF, and `R` for RIP. The directly connected network 207.165.200.248/30 is not used in the mapping.'
+  explanation: 'The route codes in the table identify the source protocol: `S` for static, `D` for EIGRP, `O` for OSPF, and
+    `R` for RIP. The directly connected network 207.165.200.248/30 is not used in the mapping.'
   source: 3-IP-Connectivity_151/IC-095.png
 
 - id: IC-096
@@ -3288,12 +3566,14 @@
     A: The two routers negotiate one router as the active router and the other as the standby router.
     B: The two routers share the same interface IP address, and default gateway traffic is load-balanced between them.
     C: The two routers synchronize configurations to provide consistent packet forwarding.
-    D: Each router has a different IP address, both routers act as the default gateway on the LAN, and traffic is load-balanced between them.
+    D: Each router has a different IP address, both routers act as the default gateway on the LAN, and traffic is load-balanced
+      between them.
     E: The two routers share a virtual IP address that is used as the default gateway for devices on the LAN.
   correct_answer:
   - A
   - E
-  explanation: HSRP elects one active router and one standby router, and hosts use a shared virtual IP address as their default gateway. It does not require both routers to share the same physical interface IP address or load-balance traffic by default.
+  explanation: HSRP elects one active router and one standby router, and hosts use a shared virtual IP address as their default
+    gateway. It does not require both routers to share the same physical interface IP address or load-balance traffic by default.
   source: adapted_from_images
 
 - id: IC-097
@@ -3321,11 +3601,14 @@
     '
   options:
     A: The VPN provides remote access and connects individual users to the headquarter network.
-    B: The VPN gateway encapsulates and encrypts outbound traffic and transmits it through a VPN tunnel over the internet to other end devices.
+    B: The VPN gateway encapsulates and encrypts outbound traffic and transmits it through a VPN tunnel over the internet
+      to other end devices.
     C: The VPN provides access to roaming users and establishes connection with corporate IT resources.
-    D: The VPN gateway performs Network Address Translation and then transmits outbound traffic destined for the internet through a VPN tunnel.
+    D: The VPN gateway performs Network Address Translation and then transmits outbound traffic destined for the internet
+      through a VPN tunnel.
   correct_answer: B
-  explanation: A site-to-site IPsec VPN securely connects two networks across an untrusted network by having the VPN gateways encrypt and encapsulate traffic before sending it across the tunnel.
+  explanation: A site-to-site IPsec VPN securely connects two networks across an untrusted network by having the VPN gateways
+    encrypt and encapsulate traffic before sending it across the tunnel.
   source: 3-IP-Connectivity_151/IC-097.png
 
 - id: IC-098
@@ -3337,30 +3620,60 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required IPv4 and IPv6 addressing tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not remove any existing configurations from the devices, only those necessary to make the appropriate changes required to fulfill the listed tasks.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    Reference Topology Diagram and table. Configure IPv4 and IPv6 between the two routers.
+
+    Task 1 (IPv4)
+    Configure R1 with the first usable host IP address in the IPv4 network.
+    Configure R2 with the last usable host IP address in the IPv4 network.
+    Verify connectivity using ping.
+
+    Task 2 (IPv6)
+    Do not assign the subnet router anycast address to either router.
+    Configure R1 with the first usable host IP address in the IPv6 network.
+    Configure R2 with the last usable host IP address in the IPv6 network.
+    Verify connectivity using ping.
+  explanation: This lab requires assigning the first usable IPv4 and IPv6 host addresses to R1, the last usable IPv4 and IPv6 host addresses to R2, avoiding the IPv6 subnet-router anycast address, and verifying connectivity with ping.
   source: 3-IP-Connectivity_151/IC-098.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the addressing reference and complete the IPv4 and IPv6 interface configuration tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure R1 with the first usable IPv4 address in the given subnet.
+    - Configure R2 with the last usable IPv4 address in the given subnet.
+    - Configure R1 with the first usable IPv6 host address in the given prefix.
+    - Configure R2 with the last usable IPv6 host address in the given prefix, without using the subnet-router anycast address.
+    - Verify IPv4 and IPv6 connectivity with ping.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-098.png
     required_commands:
     - configure terminal
+    - interface e0/0
+    - ip address
+    - ipv6 address
     - end
     verification_commands:
-    - show ip route
+    - show ip interface brief
+    - show ipv6 interface brief
+    - ping
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip interface brief: Verify that R1 and R2 are using the correct first and last usable IPv4 host addresses.
+      show ipv6 interface brief: Verify that R1 and R2 are using the correct first and last usable IPv6 host addresses and that the subnet-router anycast address was not assigned manually.
+      ping: Use IPv4 and IPv6 ping to verify end-to-end connectivity after the addressing is applied.
 
 - id: IC-099
   topic: IP Connectivity
@@ -3372,7 +3685,8 @@
   - route-selection
   - neighbors
   - topology
-  question: Refer to the exhibit. All routers in the network are configured correctly, and the expected routes are being exchanged among the routers. Which set of routes are learned from neighbors and installed on router 2?
+  question: Refer to the exhibit. All routers in the network are configured correctly, and the expected routes are being exchanged
+    among the routers. Which set of routes are learned from neighbors and installed on router 2?
   exhibit: 'EIGRP topology summary:
 
     - Router 2 has its own directly connected networks
@@ -3393,7 +3707,8 @@
     C: 10.40.1.0/30 10.139.2.0/30 10.2.191.0/30 10.129.9.0/25
     D: 10.129.9.0/23 10.139.2.0/30 10.129.9.0/25 10.22.1.0/24
   correct_answer: A
-  explanation: Router 2 learns the remote LANs and remote transit networks from its EIGRP neighbors, but not its own directly connected networks. The correct learned and installed set is 10.129.9.0/23, 10.139.2.0/30, 10.2.191.0/30, and 10.129.9.0/25.
+  explanation: Router 2 learns the remote LANs and remote transit networks from its EIGRP neighbors, but not its own directly
+    connected networks. The correct learned and installed set is 10.129.9.0/23, 10.139.2.0/30, 10.2.191.0/30, and 10.129.9.0/25.
   source: 3-IP-Connectivity_151/IC-099.png
 
 - id: IC-100
@@ -3406,7 +3721,8 @@
   - subnet-mask
   - default-gateway
   - pc-troubleshooting
-  question: Refer to the exhibit. During initial configuration testing, the Windows workstation PC1 cannot connect with the 172.16.2.0/24 network. Which set of actions corrects the configuration?
+  question: Refer to the exhibit. During initial configuration testing, the Windows workstation PC1 cannot connect with the
+    172.16.2.0/24 network. Which set of actions corrects the configuration?
   exhibit: 'PC1 TCP/IP settings in the exhibit are incorrect.
 
 
@@ -3425,7 +3741,9 @@
     C: Change the IP address to 172.16.1.6 and change the subnet mask to 255.255.255.248.
     D: Change the IP address to 172.16.1.9 and change the DNS server to 172.16.1.12 only.
   correct_answer: C
-  explanation: PC1 belongs to the 172.16.1.0/29 subnet, which has host addresses 172.16.1.1 through 172.16.1.6 and subnet mask 255.255.255.248. The shown address and mask are outside the valid host range for that subnet, so both the IP address and mask must be corrected.
+  explanation: PC1 belongs to the 172.16.1.0/29 subnet, which has host addresses 172.16.1.1 through 172.16.1.6 and subnet
+    mask 255.255.255.248. The shown address and mask are outside the valid host range for that subnet, so both the IP address
+    and mask must be corrected.
   source: 3-IP-Connectivity_151/IC-100.png
 
 - id: IC-101
@@ -3438,7 +3756,9 @@
   - static-route
   - administrative-distance
   - route-selection
-  question: Refer to the exhibit. Traffic from R1 to the 10.10.2.0/24 subnet uses 192.168.1.2 as its next hop. A network engineer wants to update the R1 configuration so that traffic with destination 10.10.2.1 passes through router R3, and all other traffic to the 10.10.2.0/24 subnet passes through R2. Which command must be used?
+  question: Refer to the exhibit. Traffic from R1 to the 10.10.2.0/24 subnet uses 192.168.1.2 as its next hop. A network engineer
+    wants to update the R1 configuration so that traffic with destination 10.10.2.1 passes through router R3, and all other
+    traffic to the 10.10.2.0/24 subnet passes through R2. Which command must be used?
   exhibit: 'Routing requirement:
 
     - normal traffic for 10.10.2.0/24 should keep using next hop 192.168.1.2
@@ -3459,7 +3779,8 @@
     C: ip route 10.10.2.0 255.255.255.0 192.168.1.4 100
     D: ip route 10.10.2.1 255.255.255.255 192.168.1.4 100
   correct_answer: D
-  explanation: To override the route only for host 10.10.2.1, R1 needs a host route with a /32 mask pointing to R3. The administrative distance must be lower than OSPF's 110 so the static host route is preferred.
+  explanation: To override the route only for host 10.10.2.1, R1 needs a host route with a /32 mask pointing to R3. The administrative
+    distance must be lower than OSPF's 110 so the static host route is preferred.
   source: 3-IP-Connectivity_151/IC-101.png
 
 - id: IC-102
@@ -3471,7 +3792,9 @@
   - default-route
   - next-hop
   - lan-connectivity
-  question: Refer to the exhibit. A network engineer is in the process of establishing IP connectivity between two sites. Routers R1 and R2 are partially configured with IP addressing. Both routers have the ability to access devices on their respective LANs. Which command set configures the IP connectivity between devices located on both LANs in each site?
+  question: Refer to the exhibit. A network engineer is in the process of establishing IP connectivity between two sites.
+    Routers R1 and R2 are partially configured with IP addressing. Both routers have the ability to access devices on their
+    respective LANs. Which command set configures the IP connectivity between devices located on both LANs in each site?
   exhibit: 'Two-site topology summary:
 
     - each router already reaches its own LAN
@@ -3492,7 +3815,8 @@
     C: R1 ip route 0.0.0.0 0.0.0.0 209.165.200.225 R2 ip route 0.0.0.0 0.0.0.0 209.165.200.226
     D: R1 ip route 0.0.0.0 0.0.0.0 209.165.200.226 R2 ip route 0.0.0.0 0.0.0.0 209.165.200.225
   correct_answer: D
-  explanation: Each router must use the other router's serial interface as the next hop. In the topology, R1 points to 209.165.200.226 and R2 points to 209.165.200.225.
+  explanation: Each router must use the other router's serial interface as the next hop. In the topology, R1 points to 209.165.200.226
+    and R2 points to 209.165.200.225.
   source: 3-IP-Connectivity_151/IC-102.png
 
 - id: IC-103
@@ -3521,7 +3845,8 @@
     C: 172.16.1.10/24
     D: 192.168.2.0/24
   correct_answer: D
-  explanation: The routing table marks internal EIGRP routes with `D`. The prefix `192.168.2.0/24` is the route learned through internal EIGRP.
+  explanation: The routing table marks internal EIGRP routes with `D`. The prefix `192.168.2.0/24` is the route learned through
+    internal EIGRP.
   source: 3-IP-Connectivity_151/IC-103.png
 
 - id: IC-104
@@ -3533,7 +3858,8 @@
   - floating-static-route
   - eigrp
   - backup-route
-  question: Refer to the exhibit. A secondary route is required on router R1 to pass traffic to the LAN network on R2 if the primary link fails. Which command must be entered to configure the router?
+  question: Refer to the exhibit. A secondary route is required on router R1 to pass traffic to the LAN network on R2 if the
+    primary link fails. Which command must be entered to configure the router?
   exhibit: 'Requirement:
 
     - remote LAN behind R2 is 10.0.2.0/29
@@ -3552,7 +3878,8 @@
     C: ip route 10.0.2.0 255.255.255.248 null0 93
     D: ip route 10.0.2.0 255.255.255.248 10.0.0.6 91
   correct_answer: D
-  explanation: The remote LAN is 10.0.2.0/29, and the backup path should point to R2 over the secondary link using next hop 10.0.0.6. The administrative distance must be higher than EIGRP's 90 so the route remains a backup.
+  explanation: The remote LAN is 10.0.2.0/29, and the backup path should point to R2 over the secondary link using next hop
+    10.0.0.6. The administrative distance must be higher than EIGRP's 90 so the route remains a backup.
   source: 3-IP-Connectivity_151/IC-104.png
 
 - id: IC-105
@@ -3570,7 +3897,8 @@
     C: private
     D: public
   correct_answer: C
-  explanation: Private IPv4 addresses are used inside internal networks and are not globally routable. Using them conserves the supply of public IPv4 addresses.
+  explanation: Private IPv4 addresses are used inside internal networks and are not globally routable. Using them conserves
+    the supply of public IPv4 addresses.
   source: adapted_from_images
 
 - id: IC-106
@@ -3582,30 +3910,57 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required static routing tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    Refer to the topology. All physical cabling is in place. Routers R3 and R4 are fully configured and inaccessible. Configure static routes for various connectivity to the ISP and the LAN, which resides on R4.
+
+    1.
+    Configure a default route on R2 to the ISP.
+
+    2.
+    Configure a default route on R1 to the ISP.
+
+    3.
+    Configure R2 with a route to the Server at 10.0.41.10.
+
+    4.
+    Configure R1 with a route to the LAN that prefers R3 as the primary path to the LAN.
+  explanation: This lab requires static default routes on R1 and R2 toward the ISP, a host or specific static route on R2 to the server at 10.0.41.10, and a static route on R1 to the LAN behind R4 that prefers the path through R3.
   source: 3-IP-Connectivity_151/IC-106.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the static routing tasks toward the ISP, server, and LAN before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure a default route on R2 toward the ISP.
+    - Configure a default route on R1 toward the ISP.
+    - Configure a route on R2 toward the server at 10.0.41.10.
+    - Configure a route on R1 toward the LAN behind R4, preferring the path through R3.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-106.png
     required_commands:
     - configure terminal
+    - ip route 0.0.0.0 0.0.0.0
+    - ip route 10.0.41.10 255.255.255.255
+    - ip route 192.168.0.0 255.255.255.0
     - end
     verification_commands:
     - show ip route
+    - ping 10.0.41.10
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip route: Verify that R1 and R2 have static default routes to the ISP, that R2 has a route to 10.0.41.10, and that R1 has a static route to the LAN preferring the next hop through R3.
+      ping 10.0.41.10: Use this to verify reachability to the server after the static routes are configured.
 
 - id: IC-107
   topic: IP Connectivity
@@ -3630,12 +3985,20 @@
 
     '
   options:
-    A: R17# ! no ip domain lookup ip cef ipv6 cef ! interface FastEthernet0/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:2::201/64
-    B: R17# ! no ip domain lookup ip cef ipv6 unicast-routing ! interface FastEthernet0/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:2::201/64 ! interface FastEthernet1/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:3::201/64 ! no cdp log mismatch duplex ipv6 route 2001:DB8:4::/64 2001:DB8:3::301
-    C: R17# ! no ip domain lookup ip cef ! interface FastEthernet0/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:3::201/64 ! interface FastEthernet1/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:2::201/64 ! no cdp log mismatch duplex ipv6 route 2001:DB8:4::/64 2001:DB8:5::101
-    D: R17# ! no ip domain lookup ip cef ipv6 unicast-routing ! interface FastEthernet0/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:2::201/64 ! interface FastEthernet1/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:3::201/64 ! no cdp log mismatch duplex ipv6 route 2001:DB8:4::/64 2001:DB8:2::201
+    A: R17# ! no ip domain lookup ip cef ipv6 cef ! interface FastEthernet0/0 no ip address duplex auto speed auto ipv6 address
+      2001:DB8:2::201/64
+    B: R17# ! no ip domain lookup ip cef ipv6 unicast-routing ! interface FastEthernet0/0 no ip address duplex auto speed
+      auto ipv6 address 2001:DB8:2::201/64 ! interface FastEthernet1/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:3::201/64
+      ! no cdp log mismatch duplex ipv6 route 2001:DB8:4::/64 2001:DB8:3::301
+    C: R17# ! no ip domain lookup ip cef ! interface FastEthernet0/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:3::201/64
+      ! interface FastEthernet1/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:2::201/64 ! no cdp log mismatch
+      duplex ipv6 route 2001:DB8:4::/64 2001:DB8:5::101
+    D: R17# ! no ip domain lookup ip cef ipv6 unicast-routing ! interface FastEthernet0/0 no ip address duplex auto speed
+      auto ipv6 address 2001:DB8:2::201/64 ! interface FastEthernet1/0 no ip address duplex auto speed auto ipv6 address 2001:DB8:3::201/64
+      ! no cdp log mismatch duplex ipv6 route 2001:DB8:4::/64 2001:DB8:2::201
   correct_answer: B
-  explanation: R17 must have IPv6 routing enabled, the correct IPv6 addresses on its interfaces, and a static route toward the R18 WAN network via next hop 2001:DB8:3::301.
+  explanation: R17 must have IPv6 routing enabled, the correct IPv6 addresses on its interfaces, and a static route toward
+    the R18 WAN network via next hop 2001:DB8:3::301.
   source: 3-IP-Connectivity_151/IC-107.png
 
 - id: IC-108
@@ -3666,7 +4029,8 @@
     C: default gateway
     D: automatic DNS
   correct_answer: C
-  explanation: Host C uses a valid address and mask for the subnet, but the configured default gateway is incorrect. With the wrong gateway, off-subnet traffic cannot reach the internet.
+  explanation: Host C uses a valid address and mask for the subnet, but the configured default gateway is incorrect. With
+    the wrong gateway, off-subnet traffic cannot reach the internet.
   source: 3-IP-Connectivity_151/IC-108.png
 
 - id: IC-109
@@ -3678,7 +4042,8 @@
   - longest-prefix-match
   - route-selection
   - next-hop
-  question: Refer to the exhibit. Packets are flowing from 192.168.10.1 to the destination at IP address 192.168.20.75. Which next hop will the router select for the packet?
+  question: Refer to the exhibit. Packets are flowing from 192.168.10.1 to the destination at IP address 192.168.20.75. Which
+    next hop will the router select for the packet?
   exhibit: 'Routing decision task:
 
     - destination host is 192.168.20.75
@@ -3699,7 +4064,8 @@
     C: 10.10.10.12
     D: 10.10.10.14
   correct_answer: B
-  explanation: The destination 192.168.20.75 matches multiple routes, but the most specific match is the route that points to next hop 10.10.10.11. Longest-prefix match is applied before administrative distance or metric.
+  explanation: The destination 192.168.20.75 matches multiple routes, but the most specific match is the route that points
+    to next hop 10.10.10.11. Longest-prefix match is applied before administrative distance or metric.
   source: 3-IP-Connectivity_151/IC-109.png
 
 - id: IC-110
@@ -3728,7 +4094,8 @@
     C: 10.10.10.5
     D: 192.168.20.1
   correct_answer: B
-  explanation: R2 learns the route to the server network through EIGRP. The routing table shows the next hop for that network as 10.10.10.6.
+  explanation: R2 learns the route to the server network through EIGRP. The routing table shows the next hop for that network
+    as 10.10.10.6.
   source: 3-IP-Connectivity_151/IC-110.png
 
 - id: IC-111
@@ -3741,7 +4108,8 @@
   - slash-notation
   - drag-and-drop
   - routing-table
-  question: Refer to the exhibit. Drag and drop the learned prefixes from the left onto the subnet masks on the right. Not all options are used.
+  question: Refer to the exhibit. Drag and drop the learned prefixes from the left onto the subnet masks on the right. Not
+    all options are used.
   exhibit: 'Prefix-to-mask mapping task:
 
 
@@ -3788,7 +4156,8 @@
     10.10.13.128: 255.255.255.224
     10.10.13.160: 255.255.255.248
     10.10.13.252: 255.255.255.252
-  explanation: The routing table shows the learned routes as 10.10.13.0/25, 10.10.13.128/27, 10.10.13.160/29, and 10.10.13.252/30. Converting those prefix lengths to dotted-decimal notation gives the matching subnet masks.
+  explanation: The routing table shows the learned routes as 10.10.13.0/25, 10.10.13.128/27, 10.10.13.160/29, and 10.10.13.252/30.
+    Converting those prefix lengths to dotted-decimal notation gives the matching subnet masks.
   source: 3-IP-Connectivity_151/IC-111.png
 
 - id: IC-112
@@ -3817,7 +4186,8 @@
     C: EIGRP
     D: RIP
   correct_answer: C
-  explanation: The EIGRP routes in the table use administrative distance 90, which is the default for internal EIGRP. This matches the values shown in the routing table entries.
+  explanation: The EIGRP routes in the table use administrative distance 90, which is the default for internal EIGRP. This
+    matches the values shown in the routing table entries.
   source: 3-IP-Connectivity_151/IC-112.png
 
 - id: IC-113
@@ -3848,7 +4218,8 @@
     C: It sends all traffic over the path via 172.16.4.4.
     D: It load-balances traffic over 172.16.9.5 and 172.16.4.4
   correct_answer: D
-  explanation: The routing table shows two equal-cost internal EIGRP paths to 172.16.1.4/30, both with the same administrative distance and metric. Cisco routers install both paths and load-balance traffic across them.
+  explanation: The routing table shows two equal-cost internal EIGRP paths to 172.16.1.4/30, both with the same administrative
+    distance and metric. Cisco routers install both paths and load-balance traffic across them.
   source: 3-IP-Connectivity_151/IC-113.png
 
 - id: IC-114
@@ -3861,7 +4232,8 @@
   - cost
   - reference-bandwidth
   - path-selection
-  question: Refer to the exhibit. With a reference bandwidth of 100 Gb on all routers, which path does router Y use to get to network 192.168.1.0/24?
+  question: Refer to the exhibit. With a reference bandwidth of 100 Gb on all routers, which path does router Y use to get
+    to network 192.168.1.0/24?
   exhibit: 'OSPF path-selection scenario:
 
     - all routers use reference bandwidth 100 Gb
@@ -3882,7 +4254,8 @@
     C: router E > B > F
     D: router C > D > A > B > F
   correct_answer: C
-  explanation: With OSPF cost calculated as reference bandwidth divided by interface bandwidth, the lowest-cost path from Router Y to the destination is Router E to Router B to Router F.
+  explanation: With OSPF cost calculated as reference bandwidth divided by interface bandwidth, the lowest-cost path from
+    Router Y to the destination is Router E to Router B to Router F.
   source: 3-IP-Connectivity_151/IC-114.png
 
 - id: IC-115
@@ -3894,30 +4267,59 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required OSPF configuration tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    Refer to the topology. All physical cabling is in place. Routers 2 and 3 are inaccessible. Configure OSPF routing for the network and ensure R1 has joined Area 0 without using network statements.
+
+    Task 1
+    Configure OSPF on R1 with a process ID and router-ID only as follows:
+    use process ID 30
+    use E0/0 IP as the router ID
+
+    Task 2
+    Configure R1 to establish neighbor adjacencies with R2 and R3.
+    The network statement under the OSPF process must not be used.
+    Configure R1 to always become the DR for Area 0.
+  explanation: This lab requires OSPF process 30 on R1, a router-id matching the IP address on E0/0, interface-based OSPF configuration without using network statements, neighbor adjacency formation with R2 and R3, and an OSPF priority on R1 that ensures it always becomes the DR in Area 0.
   source: 3-IP-Connectivity_151/IC-115.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the OSPF process, router-id, adjacency, and DR election tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure OSPF process 30 on R1.
+    - Set the OSPF router-id on R1 to the IP address of E0/0.
+    - Enable OSPF on the required R1 interfaces without using OSPF network statements.
+    - Establish OSPF neighbor adjacencies with R2 and R3.
+    - Configure R1 so it always becomes the DR in Area 0.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-115.png
     required_commands:
     - configure terminal
+    - router ospf 30
+    - router-id
+    - ip ospf 30 area 0
+    - ip ospf priority 255
     - end
     verification_commands:
-    - show ip route
+    - show ip ospf neighbor
+    - show ip ospf interface
+    - show ip protocols
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip ospf neighbor: Verify that R1 has established OSPF neighbor adjacencies with R2 and R3.
+      show ip ospf interface: Verify that OSPF is enabled on the correct R1 interfaces and that the priority value makes R1 the preferred DR.
+      show ip protocols: Verify that process 30 is running and that the router-id matches the IP address of E0/0.
 
 - id: IC-116
   topic: IP Connectivity
@@ -3949,7 +4351,8 @@
     C: '38443'
     D: '3184439'
   correct_answer: C
-  explanation: The host 172.16.0.202 falls within the more specific route 172.16.0.128/25. That route is shown with metric 38443, so longest-prefix match selects that entry.
+  explanation: The host 172.16.0.202 falls within the more specific route 172.16.0.128/25. That route is shown with metric
+    38443, so longest-prefix match selects that entry.
   source: 3-IP-Connectivity_151/IC-116.png
 
 - id: IC-117
@@ -3984,7 +4387,8 @@
     C: RIP
     D: OSPF
   correct_answer: A
-  explanation: Connected routes have administrative distance 0, which is lower than EIGRP, OSPF, and RIP. A lower administrative distance means the route is more trusted.
+  explanation: Connected routes have administrative distance 0, which is lower than EIGRP, OSPF, and RIP. A lower administrative
+    distance means the route is more trusted.
   source: 3-IP-Connectivity_151/IC-117.png
 
 - id: IC-118
@@ -4017,7 +4421,8 @@
     C: Configure the OSPF priority on router A with the lowest value between the three routers
     D: Configure router A with a fixed OSPF router ID
   correct_answer: A
-  explanation: On broadcast multiaccess networks, OSPF elects the designated router based on interface priority first. Giving Router A the highest OSPF priority makes it the preferred DR candidate.
+  explanation: On broadcast multiaccess networks, OSPF elects the designated router based on interface priority first. Giving
+    Router A the highest OSPF priority makes it the preferred DR candidate.
   source: 3-IP-Connectivity_151/IC-118.png
 
 - id: IC-119
@@ -4037,7 +4442,8 @@
     C: TCP manages multicast and broadcast data transfers, and UDP only handles unicast communications.
     D: TCP is used to ensure data integrity in a file transfer, and UDP is used to broadcast a message to multiple recipients.
   correct_answer: A
-  explanation: TCP provides ordered and reliable delivery using acknowledgments and retransmissions. UDP has less overhead, so it is commonly preferred for low-latency, high-throughput applications.
+  explanation: TCP provides ordered and reliable delivery using acknowledgments and retransmissions. UDP has less overhead,
+    so it is commonly preferred for low-latency, high-throughput applications.
   source: adapted_from_images
 
 - id: IC-120
@@ -4049,14 +4455,16 @@
   - ospf
   - network-type
   - ethernet
-  question: A user configured OSPF and advertised the Gigabit Ethernet interface in OSPF. By default, to which type of OSPF network does this interface belong?
+  question: A user configured OSPF and advertised the Gigabit Ethernet interface in OSPF. By default, to which type of OSPF
+    network does this interface belong?
   options:
     A: point-to-multipoint
     B: point-to-point
     C: broadcast
     D: nonbroadcast
   correct_answer: C
-  explanation: On Ethernet interfaces such as GigabitEthernet, the default OSPF network type is broadcast. This network type supports DR and BDR elections.
+  explanation: On Ethernet interfaces such as GigabitEthernet, the default OSPF network type is broadcast. This network type
+    supports DR and BDR elections.
   source: adapted_from_images
 
 - id: IC-121
@@ -4068,7 +4476,8 @@
   - default-route
   - cisco-cli
   - next-hop
-  question: Router R1 must send all traffic without a matching routing-table entry to 192.168.1.1. Which configuration accomplishes this task?
+  question: Router R1 must send all traffic without a matching routing-table entry to 192.168.1.1. Which configuration accomplishes
+    this task?
   options:
     A: 'R1#config t
 
@@ -4091,7 +4500,8 @@
 
       R1(config)#ip default-gateway 192.168.1.1'
   correct_answer: C
-  explanation: A default route is configured with `ip route 0.0.0.0 0.0.0.0 <next-hop>`. This forwards packets with no more specific match to 192.168.1.1.
+  explanation: A default route is configured with `ip route 0.0.0.0 0.0.0.0 <next-hop>`. This forwards packets with no more
+    specific match to 192.168.1.1.
   source: adapted_from_images
 
 - id: IC-122
@@ -4103,7 +4513,9 @@
   - ipv6
   - floating-static-route
   - administrative-distance
-  question: Refer to the exhibit. The New York router must be configured so that traffic to 2000::1 is sent primarily via the Atlanta site, with a secondary path via Washington that has an administrative distance of 2. Which two commands must be configured on the New York router? (Choose two.)
+  question: Refer to the exhibit. The New York router must be configured so that traffic to 2000::1 is sent primarily via
+    the Atlanta site, with a secondary path via Washington that has an administrative distance of 2. Which two commands must
+    be configured on the New York router? (Choose two.)
   exhibit: 'IPv6 routing requirement:
 
     - destination host is 2000::1
@@ -4124,7 +4536,8 @@
   correct_answer:
   - A
   - E
-  explanation: The primary route should use Atlanta via next hop 2012::1 with the default administrative distance. The floating backup should use Washington via next hop 2023::2 with administrative distance 2.
+  explanation: The primary route should use Atlanta via next hop 2012::1 with the default administrative distance. The floating
+    backup should use Washington via next hop 2023::2 with administrative distance 2.
   source: 3-IP-Connectivity_151/IC-122.png
 
 - id: IC-123
@@ -4136,7 +4549,9 @@
   - ospf
   - default-route
   - default-information-originate
-  question: Refer to the exhibit. The `default-information originate` command is configured under the R1 OSPF configuration. After testing, workstations on VLAN 20 at Site B cannot reach a DNS server on the Internet. Which action corrects the configuration issue?
+  question: Refer to the exhibit. The `default-information originate` command is configured under the R1 OSPF configuration.
+    After testing, workstations on VLAN 20 at Site B cannot reach a DNS server on the Internet. Which action corrects the
+    configuration issue?
   exhibit: 'OSPF default-route scenario:
 
     - R1 is configured with `default-information originate`
@@ -4155,7 +4570,8 @@
     C: Configure the `ip route 0.0.0.0 0.0.0.0 10.10.10.18` command on R1.
     D: Configure the `ip route 0.0.0.0 0.0.0.0 10.10.10.2` command on R2.
   correct_answer: C
-  explanation: OSPF advertises a default route with `default-information originate` only if the router already has a default route in its own routing table, unless `always` is used. R1 needs a default route toward the Internet next hop 10.10.10.18.
+  explanation: OSPF advertises a default route with `default-information originate` only if the router already has a default
+    route in its own routing table, unless `always` is used. R1 needs a default route toward the Internet next hop 10.10.10.18.
   source: 3-IP-Connectivity_151/IC-123.png
 
 - id: IC-124
@@ -4167,7 +4583,8 @@
   - longest-prefix-match
   - next-hop
   - ospf
-  question: Refer to the exhibit. Load-balanced traffic is coming in from the WAN destined to a host at 172.16.1.190. Which next-hop is used by the router to forward the request?
+  question: Refer to the exhibit. Load-balanced traffic is coming in from the WAN destined to a host at 172.16.1.190. Which
+    next-hop is used by the router to forward the request?
   exhibit: 'Routing decision task:
 
     - destination host is 172.16.1.190
@@ -4188,7 +4605,8 @@
     C: 192.168.7.35
     D: 192.168.7.40
   correct_answer: C
-  explanation: The destination 172.16.1.190 matches the most specific route 172.16.1.184/29, which points to next hop 192.168.7.35. Longest-prefix match takes precedence over the broader routes.
+  explanation: The destination 172.16.1.190 matches the most specific route 172.16.1.184/29, which points to next hop 192.168.7.35.
+    Longest-prefix match takes precedence over the broader routes.
   source: 3-IP-Connectivity_151/IC-124.png
 
 - id: IC-125
@@ -4219,7 +4637,8 @@
     C: 192.168.13.3
     D: 192.168.15.5
   correct_answer: A
-  explanation: There is no more specific route to 172.16.1.1, so R1 uses the gateway of last resort. The routing table shows the default route via 192.168.14.4.
+  explanation: There is no more specific route to 172.16.1.1, so R1 uses the gateway of last resort. The routing table shows
+    the default route via 192.168.14.4.
   source: 3-IP-Connectivity_151/IC-125.png
 
 - id: IC-126
@@ -4232,7 +4651,8 @@
   - administrative-distance
   - metric
   - drag-and-drop
-  question: Refer to the exhibit. A packet is destined for 192.168.20.108. Drag and drop the parameters of the destination route from the left onto the routing table components they represent on the right. Not all parameters are used.
+  question: Refer to the exhibit. A packet is destined for 192.168.20.108. Drag and drop the parameters of the destination
+    route from the left onto the routing table components they represent on the right. Not all parameters are used.
   exhibit: 'Destination route analysis:
 
     - packet destination is 192.168.20.108
@@ -4279,7 +4699,8 @@
     /29: Subnet Prefix
     '90': Administrative Distance
     '40': Metric/Cost
-  explanation: The destination 192.168.20.108 matches the most specific route 192.168.20.104/29. Between the available routes for that prefix, the selected entry has administrative distance 90 and metric 40.
+  explanation: The destination 192.168.20.108 matches the most specific route 192.168.20.104/29. Between the available routes
+    for that prefix, the selected entry has administrative distance 90 and metric 40.
   source: 3-IP-Connectivity_151/IC-126.png
 
 - id: IC-127
@@ -4291,30 +4712,58 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required static routing and failover tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not remove any existing configurations from the devices, only those necessary to make the appropriate changes required to fulfill the listed tasks.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    Task 1
+    Configure a static default route on R5 per the topology.
+    Configure a static default route on R1, preferring the path through R2 towards R6.
+    From R5, use traceroute and ping to verify the path towards and reachability of R6.
+
+    Task 2
+    Configure a floating static default route on R1, preferring the path through R3 towards R6 if the link to R2 should fail.
+    Configure the administrative distance for 200.
+    Configure a static route on R3 to forward the return traffic towards 10.100.110.0/25.
+    After shutting interface e0/0 on R1, use traceroute and ping from R5 to verify path towards and reachability of R6.
+  explanation: This lab requires a static default route on R5, a primary static default route on R1 via R2, a floating static default route on R1 via R3 with administrative distance 200, and a return static route on R3 for 10.100.110.0/25. Verification is performed with traceroute and ping before and after the failover test.
   source: 3-IP-Connectivity_151/IC-127.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the static-default, floating-default, and failover verification tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure a static default route on R5 according to the topology.
+    - Configure a primary static default route on R1 via R2 toward R6.
+    - Configure a floating static default route on R1 via R3 with administrative distance 200.
+    - Configure a return static route on R3 for 10.100.110.0/25.
+    - Verify reachability and path selection with traceroute and ping before and after simulating failure of the R1 to R2 link.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-127.png
     required_commands:
     - configure terminal
+    - ip route 0.0.0.0 0.0.0.0
+    - ip route 0.0.0.0 0.0.0.0 200
+    - ip route 10.100.110.0 255.255.255.128
     - end
     verification_commands:
     - show ip route
+    - traceroute
+    - ping
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip route: Verify that R5 has its static default route, that R1 has both primary and floating default routes with the correct preferred next hop, and that R3 has the return route to 10.100.110.0/25.
+      traceroute: Use this first to confirm the preferred path via R2, and then again after shutting R1 e0/0 to confirm failover via R3.
+      ping: Use this to verify end-to-end reachability to R6 before and after the failover test.
 
 - id: IC-128
   topic: IP Connectivity
@@ -4346,7 +4795,9 @@
     C: port oversubscription
     D: speed and duplex mismatch
   correct_answer: C
-  explanation: The interface statistics show very large output drops, which indicates the interface is trying to send more traffic than it can forward. That points to port oversubscription rather than CRC errors, collisions, or a classic speed/duplex mismatch pattern.
+  explanation: The interface statistics show very large output drops, which indicates the interface is trying to send more
+    traffic than it can forward. That points to port oversubscription rather than CRC errors, collisions, or a classic speed/duplex
+    mismatch pattern.
   source: 3-IP-Connectivity_151/IC-128.png
 
 - id: IC-129
@@ -4358,30 +4809,59 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required static routing and failover tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not remove any existing configurations from the devices, only those necessary to make the appropriate changes required to fulfill the listed tasks.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    Task 1
+    Configure a host route on R5 for the destination 10.200.225.6.
+    Configure a static default route on R1, preferring the path through R3 towards R6.
+    From R5, use traceroute and ping to verify the path towards and reachability of R6.
+
+    Task 2
+    Configure a floating static default route on R1, preferring the path through R2 towards R6 if the link to R3 should fail.
+    Configure the administrative distance to 200.
+    Configure a static route on R2 to forward the return traffic towards 10.100.115.0/25.
+    After shutting interface e0/1 on R1, use traceroute and ping from R5 to verify path towards and reachability of R6.
+  explanation: This lab requires a host route on R5 to 10.200.225.6, a primary static default route on R1 via R3, a floating static default route on R1 via R2 with administrative distance 200, and a return static route on R2 for 10.100.115.0/25. Verification is performed with traceroute and ping before and after the failover test.
   source: 3-IP-Connectivity_151/IC-129.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the host-route, static-default, floating-default, and failover verification tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure a host route on R5 to 10.200.225.6.
+    - Configure a primary static default route on R1 via R3 toward R6.
+    - Configure a floating static default route on R1 via R2 with administrative distance 200.
+    - Configure a return static route on R2 for 10.100.115.0/25.
+    - Verify reachability and path selection with traceroute and ping before and after simulating failure of the R1 to R3 link.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-129.png
     required_commands:
     - configure terminal
+    - ip route 0.0.0.0 0.0.0.0
+    - ip route 0.0.0.0 0.0.0.0 200
+    - ip route 10.200.225.6 255.255.255.255
+    - ip route 10.100.115.0 255.255.255.128
     - end
     verification_commands:
     - show ip route
+    - traceroute 10.200.225.6
+    - ping 10.200.225.6
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip route: Verify that R1 has both the preferred static default route and the floating default route, that R5 has the host route to 10.200.225.6, and that R2 has the return route to 10.100.115.0/25.
+      traceroute 10.200.225.6: Use this first to confirm the preferred path via R3, and then again after shutting R1 e0/1 to confirm failover via R2.
+      ping 10.200.225.6: Use this to verify end-to-end reachability to R6 before and after the failover test.
 
 - id: IC-130
   topic: IP Connectivity
@@ -4393,7 +4873,8 @@
   - longest-prefix-match
   - administrative-distance
   - forwarding
-  question: Refer to the exhibit. Packets received by the router from BGP enter via a serial interface at 209.165.201.1. Each route is present within the routing table. Which interface is used to forward traffic with a destination IP of 10.1.1.19?
+  question: Refer to the exhibit. Packets received by the router from BGP enter via a serial interface at 209.165.201.1. Each
+    route is present within the routing table. Which interface is used to forward traffic with a destination IP of 10.1.1.19?
   exhibit: 'Forwarding decision task:
 
     - packet source/ingress does not determine forwarding choice
@@ -4409,7 +4890,8 @@
     C: F0/4
     D: F0/3
   correct_answer: A
-  explanation: The router forwards based on the longest-prefix match, not on the source of the packet. The destination 10.1.1.19 matches the most specific route, 10.1.1.16/28, which exits interface F0/0.
+  explanation: The router forwards based on the longest-prefix match, not on the source of the packet. The destination 10.1.1.19
+    matches the most specific route, 10.1.1.16/28, which exits interface F0/0.
   source: 3-IP-Connectivity_151/IC-130.png
 
 - id: IC-131
@@ -4441,7 +4923,8 @@
     C: /28
     D: /29
   correct_answer: D
-  explanation: Host A uses address 10.10.13.214. The most specific matching route in the table is 10.10.13.208/29, so the router uses prefix length /29.
+  explanation: Host A uses address 10.10.13.214. The most specific matching route in the table is 10.10.13.208/29, so the
+    router uses prefix length /29.
   source: 3-IP-Connectivity_151/IC-131.png
 
 - id: IC-132
@@ -4453,14 +4936,16 @@
   - ipv6
   - global-unicast
   - unique-local
-  question: In which circumstance would a network architect decide to implement a global unicast subnet instead of a unique local unicast subnet?
+  question: In which circumstance would a network architect decide to implement a global unicast subnet instead of a unique
+    local unicast subnet?
   options:
     A: when the subnet must be available only within an organization
     B: when the subnet does not need to be routable
     C: when the addresses on the subnet must be equivalent to private IPv4 addresses
     D: when the subnet must be routable over the internet
   correct_answer: D
-  explanation: IPv6 global unicast addresses are publicly routable, while unique local addresses are intended for internal use only, similar in purpose to private IPv4 addressing.
+  explanation: IPv6 global unicast addresses are publicly routable, while unique local addresses are intended for internal
+    use only, similar in purpose to private IPv4 addressing.
   source: adapted_from_images
 
 - id: IC-133
@@ -4473,7 +4958,9 @@
   - backup-route
   - ospf
   - subnetting
-  question: Refer to the exhibit. The primary route across Gi0/0 is configured on both routers. A secondary route must be configured to establish connectivity between the workstation networks. Which command set must be configured to complete this task?
+  question: Refer to the exhibit. The primary route across Gi0/0 is configured on both routers. A secondary route must be
+    configured to establish connectivity between the workstation networks. Which command set must be configured to complete
+    this task?
   exhibit: 'Dual-router topology summary:
 
     - primary path uses Gi0/0 on both routers
@@ -4499,7 +4986,9 @@
     C: 'R1: `ip route 172.16.2.0 255.255.255.224 172.16.0.6 111` | R2: `ip route 172.16.1.0 255.255.255.0 172.16.0.5 112`'
     D: 'R1: `ip route 172.16.2.0 255.255.255.240 172.16.0.5 89` | R2: `ip route 172.16.1.0 255.255.255.0 172.16.0.6 89`'
   correct_answer: C
-  explanation: The backup path must use the Gi0/1 link, so each router needs a floating static route pointing to the far-end Gi0/1 address. The remote network on R2 is 172.16.2.0/27 and the remote network on R1 is 172.16.1.0/24. Administrative distances of 111 and 112 keep these static routes as backups behind the primary OSPF-learned routes.
+  explanation: The backup path must use the Gi0/1 link, so each router needs a floating static route pointing to the far-end
+    Gi0/1 address. The remote network on R2 is 172.16.2.0/27 and the remote network on R1 is 172.16.1.0/24. Administrative
+    distances of 111 and 112 keep these static routes as backups behind the primary OSPF-learned routes.
   source: 3-IP-Connectivity_151/IC-133.png
 
 - id: IC-134
@@ -4512,7 +5001,8 @@
   - neighbor
   - network-type
   - dr-bdr
-  question: Refer to the exhibit. How must OSPF be configured on the GigabitEthernet0/0 interface of the neighbor device to achieve the desired neighbor relationship?
+  question: Refer to the exhibit. How must OSPF be configured on the GigabitEthernet0/0 interface of the neighbor device to
+    achieve the desired neighbor relationship?
   exhibit: 'OSPF neighbor relationship goal:
 
     - the link should behave as point-to-point
@@ -4531,7 +5021,8 @@
     C: '`Router(config)#interface GigabitEthernet 0/0` followed by `Router(config-if)#ip ospf 1 area 2`'
     D: '`Router(config)#interface GigabitEthernet 0/0` followed by `Router(config-if)#ip ospf network point-to-point`'
   correct_answer: D
-  explanation: On an OSPF point-to-point network type, DR and BDR election does not occur. The routers still become neighbors, but the relationship changes to a point-to-point adjacency on that link.
+  explanation: On an OSPF point-to-point network type, DR and BDR election does not occur. The routers still become neighbors,
+    but the relationship changes to a point-to-point adjacency on that link.
   source: 3-IP-Connectivity_151/IC-134.png
 
 - id: IC-135
@@ -4547,11 +5038,14 @@
   question: How does HSRP provide first hop redundancy?
   options:
     A: It load-balances Layer 2 traffic along the path by flooding traffic out all interfaces configured with the same VLAN.
-    B: It uses a shared virtual MAC and a virtual IP address to a group of routers that serve as the default gateway for hosts on a LAN.
+    B: It uses a shared virtual MAC and a virtual IP address to a group of routers that serve as the default gateway for hosts
+      on a LAN.
     C: It forwards multiple packets to the same destination over different routed links in the data path.
-    D: It load-balances traffic by assigning the same metric value to more than one route to the same destination in the IP routing table.
+    D: It load-balances traffic by assigning the same metric value to more than one route to the same destination in the IP
+      routing table.
   correct_answer: B
-  explanation: HSRP provides gateway redundancy by presenting a virtual IP and virtual MAC address to hosts. One router forwards traffic as the active gateway, and another can take over if the active router fails.
+  explanation: HSRP provides gateway redundancy by presenting a virtual IP and virtual MAC address to hosts. One router forwards
+    traffic as the active gateway, and another can take over if the active router fails.
   source: adapted_from_images
 
 - id: IC-136
@@ -4570,7 +5064,8 @@
     C: Policy plane
     D: Data plane
   correct_answer: D
-  explanation: In SDN, the data plane is responsible for forwarding user-generated traffic, while the control plane makes forwarding decisions and programs the data plane.
+  explanation: In SDN, the data plane is responsible for forwarding user-generated traffic, while the control plane makes
+    forwarding decisions and programs the data plane.
   source: adapted_from_images
 
 - id: IC-137
@@ -4582,7 +5077,9 @@
   - longest-prefix-match
   - routing-table
   - static-route
-  question: Refer to the exhibit. Traffic enters the CPE router from interface Serial0/3 with an IP address of 192.168.50.1. Web traffic from the WAN is destined for a LAN network where servers are load-balanced. An IP packet with a destination address of the HTTP virtual IP of 192.168.1.250 must be forwarded. Which routing table entry does the router use?
+  question: Refer to the exhibit. Traffic enters the CPE router from interface Serial0/3 with an IP address of 192.168.50.1.
+    Web traffic from the WAN is destined for a LAN network where servers are load-balanced. An IP packet with a destination
+    address of the HTTP virtual IP of 192.168.1.250 must be forwarded. Which routing table entry does the router use?
   exhibit: 'Destination host:
 
     - HTTP virtual IP is 192.168.1.250
@@ -4610,7 +5107,8 @@
     C: 192.168.1.192/26 via 192.168.14.4
     D: 192.168.1.224/27 via 192.168.15.5
   correct_answer: D
-  explanation: The destination 192.168.1.250 falls within 192.168.1.224/27. Because that is the most specific matching route, the router forwards the packet via 192.168.15.5.
+  explanation: The destination 192.168.1.250 falls within 192.168.1.224/27. Because that is the most specific matching route,
+    the router forwards the packet via 192.168.15.5.
   source: 3-IP-Connectivity_151/IC-137.png
 
 - id: IC-138
@@ -4622,30 +5120,52 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
+  question: Simulation lab. Complete the required IPv4 and IPv6 addressing tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    Physical connectivity between R1 and R2 has been established. IP connectivity must be established between both routers. Ping must be successful between both routers on IPv4 and IPv6.
+
+    1.
+    Configure IPv4 addressing between R1 and R2 using the first usable host IP on R1 and last usable host IP on R2.
+
+    2.
+    Configure IPv6 addressing between R1 and R2 using the subnet provided and the X host addressing derived from within IPv4.
+  explanation: This lab requires IPv4 addressing between R1 and R2 using the first usable host on R1 and the last usable host on R2, plus IPv6 addressing using the provided prefix and the X host addressing derived from the IPv4 information. IPv4 and IPv6 ping must succeed between the routers.
   source: 3-IP-Connectivity_151/IC-138.png
   lab:
-    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
+    intro: Use the exhibit image as the addressing reference and complete the IPv4 and IPv6 interface configuration tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure IPv4 addressing between R1 and R2 using the first usable host IP on R1 and the last usable host IP on R2.
+    - Configure IPv6 addressing between R1 and R2 using the provided subnet and the X host addressing derived from the IPv4 information.
+    - Verify IPv4 and IPv6 connectivity with ping between the routers.
+    - Save the configuration before submission.
     initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-138.png
     required_commands:
     - configure terminal
+    - interface e0/0
+    - ip address
+    - ipv6 address
     - end
     verification_commands:
-    - show ip route
+    - show ip interface brief
+    - show ipv6 interface brief
+    - ping
     command_responses:
-      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
-      show ip interface brief: Use this to verify interface addressing and status required by the task.
-      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
-      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
-      show ip protocols: Use this to verify routing-protocol configuration when relevant.
-      show ipv6 route: Use this when the task involves IPv6 routing verification.
+      show ip interface brief: Verify that R1 and R2 are using the correct first and last usable IPv4 host addresses.
+      show ipv6 interface brief: Verify that R1 and R2 are using the correct IPv6 addresses from the provided subnet and derived host values.
+      ping: Use IPv4 and IPv6 ping to verify connectivity between R1 and R2 after the addressing is applied.
 
 - id: IC-139
   topic: IP Connectivity
@@ -4656,7 +5176,9 @@
   - static-route
   - next-hop
   - ipv4
-  question: Refer to the exhibit. Router R1 is added to the network and configured with the 10.0.0.64/26 and 10.0.20.0/24 subnets. However, traffic destined for the LAN on R3 is not accessible. Which command when executed on R1 defines a static route to reach the R3 LAN?
+  question: Refer to the exhibit. Router R1 is added to the network and configured with the 10.0.0.64/26 and 10.0.20.0/24
+    subnets. However, traffic destined for the LAN on R3 is not accessible. Which command when executed on R1 defines a static
+    route to reach the R3 LAN?
   exhibit: 'Topology summary:
 
     - R1 knows 10.0.0.64/26 and 10.0.20.0/24
@@ -4677,7 +5199,8 @@
     C: '`ip route 10.0.15.0 255.255.255.192 10.0.20.1`'
     D: '`ip route 10.0.15.0 255.255.255.0 10.0.20.3`'
   correct_answer: D
-  explanation: R3's LAN is 10.0.15.0/24, and the next hop from R1 toward that network is R3 at 10.0.20.3. A static route must specify the remote destination network and the correct next-hop address.
+  explanation: R3's LAN is 10.0.15.0/24, and the next hop from R1 toward that network is R3 at 10.0.20.3. A static route must
+    specify the remote destination network and the correct next-hop address.
   source: 3-IP-Connectivity_151/IC-139.png
 
 - id: IC-140
@@ -4690,7 +5213,9 @@
   - subnet-mask
   - linux
   - troubleshooting
-  question: Refer to the exhibit. Inter-VLAN routing is configured on SW1. Client A is running Linux as an OS in VLAN 10 with a default gateway IP 10.0.0.1 but cannot ping client B in VLAN 20 running Windows. What action must be taken to verify that client A has the correct IP settings?
+  question: Refer to the exhibit. Inter-VLAN routing is configured on SW1. Client A is running Linux as an OS in VLAN 10 with
+    a default gateway IP 10.0.0.1 but cannot ping client B in VLAN 20 running Windows. What action must be taken to verify
+    that client A has the correct IP settings?
   exhibit: 'VLAN summary from the exhibit:
 
     - Client A is in VLAN 10
@@ -4713,7 +5238,8 @@
     C: Run the `ifconfig` command on client A to confirm that the correct 10.0.0.1 default gateway is used.
     D: Run the `ifconfig` command on client A to confirm that the subnet mask is set to 255.255.128.0.
   correct_answer: D
-  explanation: Client A is using Linux, so `ifconfig` is the appropriate command to verify its addressing. VLAN 10 is shown as 10.0.0.0/17, which requires a subnet mask of 255.255.128.0.
+  explanation: Client A is using Linux, so `ifconfig` is the appropriate command to verify its addressing. VLAN 10 is shown
+    as 10.0.0.0/17, which requires a subnet mask of 255.255.128.0.
   source: 3-IP-Connectivity_151/IC-140.png
 
 - id: IC-141
@@ -4727,12 +5253,17 @@
   - transport
   question: What differentiates the TCP and UDP protocols?
   options:
-    A: TCP sends data at a constant rate with error checking on upper protocol layers, and UDP provides error-checking and sequencing.
-    B: TCP establishes a connection with the device on the other end before transferring, and UDP transfers without establishing a connection.
-    C: TCP immediately transmits data without waiting for a handshake, and UDP awaits a response from the receiver before sending additional data.
-    D: TCP tracks segments being transmitted or received by assigning segment numbers, and UDP adjusts data flow according to network conditions.
+    A: TCP sends data at a constant rate with error checking on upper protocol layers, and UDP provides error-checking and
+      sequencing.
+    B: TCP establishes a connection with the device on the other end before transferring, and UDP transfers without establishing
+      a connection.
+    C: TCP immediately transmits data without waiting for a handshake, and UDP awaits a response from the receiver before
+      sending additional data.
+    D: TCP tracks segments being transmitted or received by assigning segment numbers, and UDP adjusts data flow according
+      to network conditions.
   correct_answer: B
-  explanation: TCP is connection-oriented and uses a handshake before data transfer. UDP is connectionless and sends data without first establishing a session.
+  explanation: TCP is connection-oriented and uses a handshake before data transfer. UDP is connectionless and sends data
+    without first establishing a session.
   source: adapted_from_images
 
 - id: IC-142
@@ -4746,7 +5277,9 @@
   - eigrp
   - bgp
   - static-route
-  question: Refer to the exhibit. The route for 10.227.150.160/27 has been very unstable. The same route has four backups to routers A, B, C, and D via the respective methods. The routing protocol defaults for router Y have not been changed. When the current route for 10.227.150.160/27 becomes unavailable, which router will router Y use to route traffic to 10.227.150.160/27?
+  question: Refer to the exhibit. The route for 10.227.150.160/27 has been very unstable. The same route has four backups
+    to routers A, B, C, and D via the respective methods. The routing protocol defaults for router Y have not been changed.
+    When the current route for 10.227.150.160/27 becomes unavailable, which router will router Y use to route traffic to 10.227.150.160/27?
   exhibit: 'Backup-route comparison:
 
     - same prefix has backup paths via routers A, B, C, and D
@@ -4765,7 +5298,8 @@
     C: router C
     D: router A
   correct_answer: A
-  explanation: When the current route is lost, router Y selects the backup path with the lowest administrative distance. The static route via router B has the best backup preference among the choices shown.
+  explanation: When the current route is lost, router Y selects the backup path with the lowest administrative distance. The
+    static route via router B has the best backup preference among the choices shown.
   source: 3-IP-Connectivity_151/IC-142.png
 
 - id: IC-143
@@ -4779,14 +5313,16 @@
   - ospf
   - rip
   - is-is
-  question: R1 has learned route 192.168.12.0/24 via IS-IS, OSPF, RIP, and Internal EIGRP. Under normal operating conditions, which routing protocol is installed in the routing table?
+  question: R1 has learned route 192.168.12.0/24 via IS-IS, OSPF, RIP, and Internal EIGRP. Under normal operating conditions,
+    which routing protocol is installed in the routing table?
   options:
     A: IS-IS
     B: Internal EIGRP
     C: RIP
     D: OSPF
   correct_answer: B
-  explanation: For identical prefixes learned from multiple protocols, the route with the lowest administrative distance is installed. Internal EIGRP has administrative distance 90, which is lower than OSPF 110, RIP 120, and IS-IS 115.
+  explanation: For identical prefixes learned from multiple protocols, the route with the lowest administrative distance is
+    installed. Internal EIGRP has administrative distance 90, which is lower than OSPF 110, RIP 120, and IS-IS 115.
   source: adapted_from_images
 
 - id: IC-144
@@ -4799,7 +5335,8 @@
   - fqdn
   - vlan
   - host-addressing
-  question: Refer to the exhibit. Which settings must be verified on workstation 1 to establish IP connectivity to server 1 using the server's fully qualified domain name?
+  question: Refer to the exhibit. Which settings must be verified on workstation 1 to establish IP connectivity to server
+    1 using the server's fully qualified domain name?
   exhibit: 'Workstation 1 requirements from the exhibit:
 
     - host is in VLAN 71 using subnet 10.0.71.0/27
@@ -4817,7 +5354,8 @@
     C: 'IP address: 10.0.63.80, subnet mask: 255.255.255.224, default gateway: 10.0.71.0, DHCP server: 10.0.63.8'
     D: 'IP address: 10.0.71.16, subnet mask: 255.255.255.224, default gateway: 10.0.71.1, DNS server: 10.0.63.5'
   correct_answer: D
-  explanation: Workstation1 is in VLAN 71, which uses network 10.0.71.0/27, so it needs a valid host IP in that subnet and mask 255.255.255.224. To reach Server1 by FQDN, it also needs the correct default gateway 10.0.71.1 and DNS server 10.0.63.5.
+  explanation: Workstation1 is in VLAN 71, which uses network 10.0.71.0/27, so it needs a valid host IP in that subnet and
+    mask 255.255.255.224. To reach Server1 by FQDN, it also needs the correct default gateway 10.0.71.1 and DNS server 10.0.63.5.
   source: 3-IP-Connectivity_151/IC-144.png
 
 - id: IC-145
@@ -4848,7 +5386,8 @@
     C: 10.10.13.0/24
     D: 10.10.10.0/28
   correct_answer: B
-  explanation: Internet-bound traffic uses the default route when no more specific route exists. The routing table shows the gateway of last resort as `0.0.0.0/0`.
+  explanation: Internet-bound traffic uses the default route when no more specific route exists. The routing table shows the
+    gateway of last resort as `0.0.0.0/0`.
   source: 3-IP-Connectivity_151/IC-145.png
 
 - id: IC-146
@@ -4861,7 +5400,8 @@
   - dr
   - priority
   - subnetting
-  question: Refer to the exhibit. An engineer must configure router R2 so it is elected as the DR on the WAN subnet. Which command sequence must be configured?
+  question: Refer to the exhibit. An engineer must configure router R2 so it is elected as the DR on the WAN subnet. Which
+    command sequence must be configured?
   exhibit: 'WAN OSPF segment summary:
 
     - subnet is 10.0.0.32/27
@@ -4882,7 +5422,8 @@
     C: '`interface gigabitethernet0/0` `ip address 10.0.1.1 255.255.255.0` `ip ospf priority 255`'
     D: '`interface gigabitethernet0/0` `ip address 10.0.1.1 255.255.255.224` `ip ospf priority 98`'
   correct_answer: B
-  explanation: The WAN link uses subnet 10.0.0.32/27, so R2 must use address 10.0.0.34 with mask 255.255.255.224. To make R2 win the DR election against R1, which has OSPF priority 99, R2 needs a higher OSPF priority such as 100.
+  explanation: The WAN link uses subnet 10.0.0.32/27, so R2 must use address 10.0.0.34 with mask 255.255.255.224. To make
+    R2 win the DR election against R1, which has OSPF priority 99, R2 needs a higher OSPF priority such as 100.
   source: 3-IP-Connectivity_151/IC-146.png
 
 - id: IC-147
@@ -4895,7 +5436,8 @@
   - metric
   - failover
   - route-selection
-  question: Refer to the exhibit. OSPF neighbors routers A, B, C, and D are sending a route for 10.227.150.160/27. When the current route for 10.227.150.160/27 becomes unavailable, which cost will router Y use to route traffic to 10.227.150.160/27?
+  question: Refer to the exhibit. OSPF neighbors routers A, B, C, and D are sending a route for 10.227.150.160/27. When the
+    current route for 10.227.150.160/27 becomes unavailable, which cost will router Y use to route traffic to 10.227.150.160/27?
   exhibit: 'OSPF backup-path comparison:
 
     - multiple OSPF neighbors advertise the same prefix
@@ -4914,7 +5456,8 @@
     C: cost 40
     D: cost 50
   correct_answer: A
-  explanation: When the current OSPF route is lost, router Y selects the remaining OSPF path with the lowest cost. Among the available backup paths, cost 20 is the lowest metric.
+  explanation: When the current OSPF route is lost, router Y selects the remaining OSPF path with the lowest cost. Among the
+    available backup paths, cost 20 is the lowest metric.
   source: 3-IP-Connectivity_151/IC-147.png
 
 - id: IC-148
@@ -4927,7 +5470,8 @@
   - administrative-distance
   - eigrp
   - ospf
-  question: Refer to the exhibit. Web traffic is coming in from the WAN interface. Which route takes precedence when the router is processing traffic destined for the LAN network at 10.0.10.0/24?
+  question: Refer to the exhibit. Web traffic is coming in from the WAN interface. Which route takes precedence when the router
+    is processing traffic destined for the LAN network at 10.0.10.0/24?
   exhibit: 'Route-selection task:
 
     - destination prefix is 10.0.10.0/24
@@ -4946,7 +5490,8 @@
     C: via next-hop 10.0.1.50
     D: via next-hop 10.0.1.100
   correct_answer: A
-  explanation: For identical destination prefixes, the route with the lowest administrative distance is preferred. The selected route to 10.0.10.0/24 is the EIGRP-learned path via next hop 10.0.1.5.
+  explanation: For identical destination prefixes, the route with the lowest administrative distance is preferred. The selected
+    route to 10.0.10.0/24 is the EIGRP-learned path via next hop 10.0.1.5.
   source: 3-IP-Connectivity_151/IC-148.png
 
 - id: IC-149
@@ -4958,7 +5503,8 @@
   - longest-prefix-match
   - subnet-mask
   - route-selection
-  question: Refer to the exhibit. A packet sourced from 172.16.32.254 is destined for 172.16.32.8. What is the subnet mask of the preferred destination route?
+  question: Refer to the exhibit. A packet sourced from 172.16.32.254 is destined for 172.16.32.8. What is the subnet mask
+    of the preferred destination route?
   exhibit: 'Destination host:
 
     - 172.16.32.8
@@ -4977,7 +5523,8 @@
     C: 255.255.255.192
     D: 255.255.255.252
   correct_answer: C
-  explanation: Routers choose the most specific matching route for the destination address. The address 172.16.32.8 matches 172.16.32.0/26, whose subnet mask is 255.255.255.192.
+  explanation: Routers choose the most specific matching route for the destination address. The address 172.16.32.8 matches
+    172.16.32.0/26, whose subnet mask is 255.255.255.192.
   source: 3-IP-Connectivity_151/IC-149.png
 
 - id: IC-150
@@ -4990,7 +5537,9 @@
   - hello-timer
   - dead-timer
   - neighbor
-  question: Refer to the exhibit. The network engineer is configuring router R2 as a replacement router on the network. After the initial configuration is applied, it is determined that R2 failed to show R1 as a neighbor. Which configuration must be applied to R2 to complete the OSPF configuration and enable it to establish the neighbor relationship with R1?
+  question: Refer to the exhibit. The network engineer is configuring router R2 as a replacement router on the network. After
+    the initial configuration is applied, it is determined that R2 failed to show R1 as a neighbor. Which configuration must
+    be applied to R2 to complete the OSPF configuration and enable it to establish the neighbor relationship with R1?
   exhibit: 'OSPF timer mismatch clue:
 
     - R1 and R2 share a common network
@@ -5011,7 +5560,9 @@
     C: '`R2(config)#interface g0/0` then `R2(config-if)#ip ospf dead-interval 40`'
     D: '`R2(config)#router ospf 1` then `R2(config-router)#router-id 192.168.1.2`'
   correct_answer: C
-  explanation: OSPF neighbors must agree on key interface parameters, including hello and dead timers. R1 is using a dead interval of 40 seconds, while R2 is using a different value, so R2 must be changed to `ip ospf dead-interval 40` on the interface.
+  explanation: OSPF neighbors must agree on key interface parameters, including hello and dead timers. R1 is using a dead
+    interval of 40 seconds, while R2 is using a different value, so R2 must be changed to `ip ospf dead-interval 40` on the
+    interface.
   source: 3-IP-Connectivity_151/IC-150.png
 
 - id: IC-151
@@ -5024,12 +5575,15 @@
   - network-type
   - adjacency
   - point-to-point
-  question: A Cisco engineer notices that two OSPF neighbors are connected using a crossover Ethernet cable. The neighbors are taking too long to become fully adjacent. Which command must be issued under the interface configuration on each router to reduce the time required for the adjacency to reach the FULL state?
+  question: A Cisco engineer notices that two OSPF neighbors are connected using a crossover Ethernet cable. The neighbors
+    are taking too long to become fully adjacent. Which command must be issued under the interface configuration on each router
+    to reduce the time required for the adjacency to reach the FULL state?
   options:
     A: '`ip ospf dead-interval 40`'
     B: '`ip ospf network broadcast`'
     C: '`ip ospf priority 0`'
     D: '`ip ospf network point-to-point`'
   correct_answer: D
-  explanation: Configuring the Ethernet link as OSPF point-to-point removes DR/BDR election on that segment, which speeds up the adjacency process between the two directly connected routers.
+  explanation: Configuring the Ethernet link as OSPF point-to-point removes DR/BDR election on that segment, which speeds
+    up the adjacency process between the two directly connected routers.
   source: adapted_from_images

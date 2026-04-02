@@ -1,8 +1,4 @@
-# Topic: Network Fundamentals
-# IDs:   NF-001 → NF-083
-# Global sequential range: #1 – #83 (83 questions)
-# Source folder: sshots/1-Network-Fundamentals_83/
-- id: NF-001
+﻿- id: NF-001
   topic: Network Fundamentals
   subtopic: PoE
   type: single_choice
@@ -208,16 +204,42 @@
   - vlan
   - trunk
   - etherchannel
-  question: Configure trunk and EtherChannel between SW1 and SW2.
-  explanation: Trunk + LACP EtherChannel configuration. This lab now validates the key configuration flow shown in the exhibit.
+  question: Simulation lab. Complete the trunk and link-aggregation tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not remove any existing configurations from the devices, only those necessary to make the appropriate changes required to fulfill the listed tasks.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Task 1
+    Configure trunks between Sw1 and Sw2 on ports E0/0 and E0/1 using the IEEE standard frame tagging method.
+    Add VLAN 99 as untagged on the trunk ports.
+    Only extend VLAN 110 and the untagged VLAN across the trunk.
+    Verify that PC1 is capable of pinging PC2.
+
+    Task 2
+    On Sw1 and Sw2, use IEEE 802.3ad link aggregation.
+    Combine E0/0 and E0/1 into a single logical link while leaving the trunk configurations intact.
+    Assign number 20 to the link.
+    Both links must negotiate aggregation.
+  explanation: This lab requires 802.1Q trunks between SW1 and SW2, native VLAN 99, only VLANs 110 and 99 across the trunk, and IEEE 802.3ad link aggregation using Port-channel 20 with negotiation on both links.
   source: 1-Network-Fundamentals_83/NF-013.png
-  exhibit: Open the exhibit image for the original simulation task and topology.
   lab:
-    intro: Legacy simulation converted to interactive lab mode.
+    intro: Use the exhibit image as the topology reference and complete both the trunking and IEEE 802.3ad link-aggregation tasks before submitting the lab.
     objectives:
-    - Create the required VLAN and trunk settings for the EtherChannel scenario shown in the exhibit.
-    - Configure the channel group exactly as required by the task.
-    - Verify the result from privileged EXEC mode before submitting.
+    - Configure E0/0 and E0/1 between SW1 and SW2 as 802.1Q trunks.
+    - Configure VLAN 99 as the untagged native VLAN on the trunks.
+    - Allow only VLAN 110 and VLAN 99 across the trunks.
+    - Verify end-to-end connectivity between PC1 and PC2.
+    - Bundle E0/0 and E0/1 into Port-channel 20 using IEEE 802.3ad negotiation on both switches.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 1-Network-Fundamentals_83/NF-013.png
     required_commands:
@@ -237,7 +259,7 @@
       switchport trunk allowed vlan 110,99: OK
       switchport trunk native vlan 99: OK
       channel-group 20 mode active: OK
-      show running-config: Verify the trunk, native VLAN, allowed VLANs, and Port-channel 20 configuration against the exhibit.
+      show running-config: Verify the trunk configuration, native VLAN 99, allowed VLAN list, and Port-channel 20 settings on both switches.
 
 - id: NF-014
   topic: Network Fundamentals
@@ -554,7 +576,7 @@
     C: QoS drops
     D: Overutilization
   correct_answer: B
-  explanation: "Collisions + errors \u2192 duplex mismatch."
+  explanation: Collisions + errors â†’ duplex mismatch.
 
 - id: NF-033
   topic: Network Fundamentals
@@ -771,7 +793,8 @@
   - subnetting
   - ipv4
   - cidr
-  question: A network engineer must configure an interface with IP address 10.10.10.145 and a subnet mask equivalent to 11111111.11111111.11111111.11111000. Which subnet mask must the engineer use?
+  question: A network engineer must configure an interface with IP address 10.10.10.145 and a subnet mask equivalent to 11111111.11111111.11111111.11111000.
+    Which subnet mask must the engineer use?
   options:
     A: /29
     B: /30
@@ -795,7 +818,8 @@
     C: distribution and access
     D: core and WAN
   correct_answer: A
-  explanation: A collapsed-core design combines the core and distribution functions into a single layer, which is common in smaller campus networks.
+  explanation: A collapsed-core design combines the core and distribution functions into a single layer, which is common in
+    smaller campus networks.
 
 - id: NF-047
   topic: Network Fundamentals
@@ -825,14 +849,16 @@
   - gbic
   - sfp
   - connectors
-  question: Which cable type must be used to interconnect one switch using 1000BASE-SX GBIC modules and another switch using 1000BASE-SX SFP modules?
+  question: Which cable type must be used to interconnect one switch using 1000BASE-SX GBIC modules and another switch using
+    1000BASE-SX SFP modules?
   options:
     A: LC to SC
     B: SC to SC
     C: LC to LC
     D: SC to ST
   correct_answer: A
-  explanation: A 1000BASE-SX SFP typically uses an LC connector, while a GBIC commonly uses SC, so an LC-to-SC fiber patch cable is required.
+  explanation: A 1000BASE-SX SFP typically uses an LC connector, while a GBIC commonly uses SC, so an LC-to-SC fiber patch
+    cable is required.
 
 - id: NF-049
   topic: Network Fundamentals
@@ -870,7 +896,8 @@
   correct_answer:
   - A
   - E
-  explanation: A server provides services to clients, commonly by handling requests from many hosts and running applications that respond with data or resources.
+  explanation: A server provides services to clients, commonly by handling requests from many hosts and running applications
+    that respond with data or resources.
 
 - id: NF-051
   topic: Network Fundamentals
@@ -922,7 +949,8 @@
     C: TCP is used when data reliability is critical, and UDP is used when missing packets are acceptable.
     D: UDP is used when data is highly interactive, and TCP is used when data is time-sensitive.
   correct_answer: C
-  explanation: TCP is preferred when reliable delivery matters more than speed, while UDP is acceptable when some loss can be tolerated.
+  explanation: TCP is preferred when reliable delivery matters more than speed, while UDP is acceptable when some loss can
+    be tolerated.
 
 - id: NF-054
   topic: Network Fundamentals
@@ -943,7 +971,8 @@
   correct_answer:
   - B
   - E
-  explanation: Late collisions are commonly caused by duplex mismatches and excessive cable length or other physical design problems.
+  explanation: Late collisions are commonly caused by duplex mismatches and excessive cable length or other physical design
+    problems.
 
 - id: NF-055
   topic: Network Fundamentals
@@ -1005,7 +1034,8 @@
   - duplex
   - auto-negotiation
   - troubleshooting
-  question: Refer to the exhibit. PC1 is manually configured for 100 Mb/s full duplex, while the switch port is set to auto speed and auto duplex. The link is up but performing poorly. Which interface condition is causing the problem?
+  question: Refer to the exhibit. PC1 is manually configured for 100 Mb/s full duplex, while the switch port is set to auto
+    speed and auto duplex. The link is up but performing poorly. Which interface condition is causing the problem?
   exhibit: 'Ethernet mismatch scenario:
 
     - PC1 is manually set to 100 Mb/s full duplex
@@ -1026,7 +1056,8 @@
     C: There is an interface type mismatch.
     D: There is a speed mismatch on the interface.
   correct_answer: B
-  explanation: When one side is manually set and the other relies on auto-negotiation, the auto side can fall back to half-duplex, creating a duplex mismatch.
+  explanation: When one side is manually set and the other relies on auto-negotiation, the auto side can fall back to half-duplex,
+    creating a duplex mismatch.
   source: 1-Network-Fundamentals_83/NF-058.png
 
 - id: NF-059
@@ -1037,7 +1068,9 @@
   tags:
   - ipv4
   - subnet-mask
-  question: An engineer must update the configuration on two PCs in different subnets to communicate locally with each other. One PC is configured with IP address 192.168.25.128/25 and the other with 192.168.25.100/25. Which network mask must the engineer configure on both PCs to enable the communication?
+  question: An engineer must update the configuration on two PCs in different subnets to communicate locally with each other.
+    One PC is configured with IP address 192.168.25.128/25 and the other with 192.168.25.100/25. Which network mask must the
+    engineer configure on both PCs to enable the communication?
   options:
     A: 255.255.255.248
     B: 255.255.255.224
@@ -1054,7 +1087,9 @@
   tags:
   - cloud
   - saas
-  question: A manager asks a network engineer to advise which cloud service model is used so employees do not have to waste their time installing, managing, and updating software that is only used occasionally. Which cloud service model does the engineer recommend?
+  question: A manager asks a network engineer to advise which cloud service model is used so employees do not have to waste
+    their time installing, managing, and updating software that is only used occasionally. Which cloud service model does
+    the engineer recommend?
   options:
     A: infrastructure-as-a-service
     B: platform-as-a-service
@@ -1072,7 +1107,9 @@
   - ipv6
   - eui-64
   - interface-config
-  question: Refer to the exhibit. IPv6 must be implemented on R1 to the ISP. The uplink between R1 and the ISP must use a manual assignment, and the LAN interface must self-provision. Both connections must use the applicable IPv6 networks. Which two configurations must be applied to R1? (Choose two.)
+  question: Refer to the exhibit. IPv6 must be implemented on R1 to the ISP. The uplink between R1 and the ISP must use a
+    manual assignment, and the LAN interface must self-provision. Both connections must use the applicable IPv6 networks.
+    Which two configurations must be applied to R1? (Choose two.)
   exhibit: 'IPv6 addressing requirements:
 
     - ISP uplink on Gi0/1 must use a manual IPv6 assignment
@@ -1098,7 +1135,8 @@
   correct_answer:
   - A
   - D
-  explanation: The WAN link uses a manual /127 address on the ISP-facing interface, while the LAN interface uses the /64 prefix with EUI-64 for self-generated addressing.
+  explanation: The WAN link uses a manual /127 address on the ISP-facing interface, while the LAN interface uses the /64 prefix
+    with EUI-64 for self-generated addressing.
   source: 1-Network-Fundamentals_83/NF-061.png
 
 - id: NF-062
@@ -1110,7 +1148,9 @@
   - subnetting
   - svi
   - layer3-switch
-  question: The address block 192.168.32.0/24 must be subnetted into smaller networks. The engineer must create 8 new subnets, each supporting just over 30 hosts. Interface VLAN 10 must use the last usable IP in the first new subnet, and the interface is a Layer 3 interface. Which configuration must be applied to the interface?
+  question: The address block 192.168.32.0/24 must be subnetted into smaller networks. The engineer must create 8 new subnets,
+    each supporting just over 30 hosts. Interface VLAN 10 must use the last usable IP in the first new subnet, and the interface
+    is a Layer 3 interface. Which configuration must be applied to the interface?
   options:
     A: 'no switchport mode trunk
 
@@ -1125,7 +1165,8 @@
 
       ip address 192.168.32.62 255.255.255.240'
   correct_answer: C
-  explanation: Eight subnets from a /24 requires borrowing 3 bits, resulting in /27 networks. The first /27 is 192.168.32.0/27, and its last usable IP is 192.168.32.30.
+  explanation: Eight subnets from a /24 requires borrowing 3 bits, resulting in /27 networks. The first /27 is 192.168.32.0/27,
+    and its last usable IP is 192.168.32.30.
 
 - id: NF-063
   topic: Network Fundamentals
@@ -1145,7 +1186,8 @@
   correct_answer:
   - B
   - D
-  explanation: Fiber uses a glass core surrounded by cladding, and it carries light through the core rather than electrical signals.
+  explanation: Fiber uses a glass core surrounded by cladding, and it carries light through the core rather than electrical
+    signals.
 
 - id: NF-064
   topic: Network Fundamentals
@@ -1155,7 +1197,8 @@
   tags:
   - late-collision
   - interfaces
-  question: A device detects two stations transmitting frames at the same time. This condition occurs after the first 64 bytes of the frame are received. Which interface counter increments?
+  question: A device detects two stations transmitting frames at the same time. This condition occurs after the first 64 bytes
+    of the frame are received. Which interface counter increments?
   options:
     A: runt
     B: collision
@@ -1173,7 +1216,8 @@
   - ipv6
   - eui-64
   - modified-eui64
-  question: Refer to the exhibit. An engineer is configuring the HO router. Which IPv6 address configuration must be applied to the router Fa0/1 interface for the router to assign a unique 64-bit IPv6 address to itself?
+  question: Refer to the exhibit. An engineer is configuring the HO router. Which IPv6 address configuration must be applied
+    to the router Fa0/1 interface for the router to assign a unique 64-bit IPv6 address to itself?
   exhibit: 'Modified EUI-64 task:
 
     - interface Fa0/1 must generate its IPv6 interface ID from the MAC address shown in the exhibit
@@ -1192,7 +1236,8 @@
     C: ipv6 address 2001:db8:0:1:c601:42ff:fe0f:7/64
     D: ipv6 address 2001:db8:0:1:c601:42fe:800f:7/64
   correct_answer: C
-  explanation: Modified EUI-64 inserts FFFE into the MAC-derived interface ID and flips the universal/local bit, producing c601:42ff:fe0f:7 from MAC C601.420F.0007.
+  explanation: Modified EUI-64 inserts FFFE into the MAC-derived interface ID and flips the universal/local bit, producing
+    c601:42ff:fe0f:7 from MAC C601.420F.0007.
   source: 1-Network-Fundamentals_83/NF-065.png
 
 - id: NF-066
@@ -1225,14 +1270,16 @@
   - ethernet
   - straight-through
   - mdix
-  question: 'Which cable type must be used when connecting a router and switch together using these criteria: pins 1 and 2 are receivers, pins 3 and 6 are transmitters, and auto detection MDI-X is unavailable?'
+  question: 'Which cable type must be used when connecting a router and switch together using these criteria: pins 1 and 2
+    are receivers, pins 3 and 6 are transmitters, and auto detection MDI-X is unavailable?'
   options:
     A: crossover
     B: rollover
     C: console
     D: straight-through
   correct_answer: D
-  explanation: Router-to-switch is a connection between unlike Ethernet devices, so a straight-through cable is used when auto-MDI/MDIX is unavailable.
+  explanation: Router-to-switch is a connection between unlike Ethernet devices, so a straight-through cable is used when
+    auto-MDI/MDIX is unavailable.
 
 - id: NF-068
   topic: Network Fundamentals
@@ -1243,14 +1290,16 @@
   - ipv4
   - subnetting
   - svi
-  question: An office has 8 floors with approximately 30 to 40 users per floor. One subnet must be used. Which command must be configured on the router Switched Virtual Interface to use address space efficiently?
+  question: An office has 8 floors with approximately 30 to 40 users per floor. One subnet must be used. Which command must
+    be configured on the router Switched Virtual Interface to use address space efficiently?
   options:
     A: ip address 192.168.0.0 255.255.0.0
     B: ip address 192.168.0.0 255.255.254.0
     C: ip address 192.168.0.0 255.255.255.128
     D: ip address 192.168.0.0 255.255.255.224
   correct_answer: B
-  explanation: About 320 hosts are needed, so a /23 mask provides enough usable addresses without wasting as much space as a /16.
+  explanation: About 320 hosts are needed, so a /23 mask provides enough usable addresses without wasting as much space as
+    a /16.
 
 - id: NF-069
   topic: Network Fundamentals
@@ -1267,7 +1316,8 @@
     C: latency
     D: shutdown command issued on the port
   correct_answer: B
-  explanation: Err-disable can be triggered by conditions such as link flapping, BPDU guard violations, port security violations, and other interface faults.
+  explanation: Err-disable can be triggered by conditions such as link flapping, BPDU guard violations, port security violations,
+    and other interface faults.
 
 - id: NF-070
   topic: Network Fundamentals
@@ -1278,7 +1328,8 @@
   - wireless
   - band-select
   - 5ghz
-  question: An engineer observes high usage on the 2.4 GHz channels and lower usage on the 5 GHz channels. What must be configured to allow clients to preferentially use 5 GHz access points?
+  question: An engineer observes high usage on the 2.4 GHz channels and lower usage on the 5 GHz channels. What must be configured
+    to allow clients to preferentially use 5 GHz access points?
   options:
     A: Client Band Select
     B: Re-Anchor Roamed Clients
@@ -1296,14 +1347,16 @@
   - ipv6
   - slaac
   - eui-64
-  question: Which action must be taken to assign a global unicast IPv6 address on an interface that is derived from the MAC address of that interface?
+  question: Which action must be taken to assign a global unicast IPv6 address on an interface that is derived from the MAC
+    address of that interface?
   options:
     A: explicitly assign a link-local address
     B: disable the EUI-64 bit process
     C: enable SLAAC on an interface
     D: configure a stateful DHCPv6 server on the network
   correct_answer: C
-  explanation: SLAAC allows an interface to self-generate a global unicast IPv6 address, commonly using EUI-64 to derive the interface ID from the MAC address.
+  explanation: SLAAC allows an interface to self-generate a global unicast IPv6 address, commonly using EUI-64 to derive the
+    interface ID from the MAC address.
 
 - id: NF-072
   topic: Network Fundamentals
@@ -1313,14 +1366,17 @@
   tags:
   - subnetting
   - summarization
-  question: A corporate office uses four floors in a building. Floor 1 has 24 users, Floor 2 has 29 users, Floor 3 has 28 users, and Floor 4 has 22 users. Which subnet summarizes and gives the most efficient distribution of IP addresses for the router configuration?
+  question: A corporate office uses four floors in a building. Floor 1 has 24 users, Floor 2 has 29 users, Floor 3 has 28
+    users, and Floor 4 has 22 users. Which subnet summarizes and gives the most efficient distribution of IP addresses for
+    the router configuration?
   options:
     A: 192.168.0.0/24 as summary and 192.168.0.0/28 for each floor
     B: 192.168.0.0/23 as summary and 192.168.0.0/25 for each floor
     C: 192.168.0.0/25 as summary and 192.168.0.0/27 for each floor
     D: 192.168.0.0/26 as summary and 192.168.0.0/29 for each floor
   correct_answer: C
-  explanation: Each floor needs up to 30 usable addresses, so /27 works per floor. Four /27 networks summarize neatly into a /25.
+  explanation: Each floor needs up to 30 usable addresses, so /27 works per floor. Four /27 networks summarize neatly into
+    a /25.
 
 - id: NF-073
   topic: Network Fundamentals
@@ -1389,7 +1445,8 @@
     C: TCP encourages out-of-order packet delivery, and UDP prevents re-ordering.
     D: TCP uses error detection for packets, and UDP uses error recovery.
   correct_answer: B
-  explanation: TCP is connection-oriented and uses a session before data transfer, while UDP is connectionless and transmits without establishing one.
+  explanation: TCP is connection-oriented and uses a session before data transfer, while UDP is connectionless and transmits
+    without establishing one.
 
 - id: NF-077
   topic: Network Fundamentals
@@ -1406,7 +1463,8 @@
     C: Communication to the Internet is reachable without the use of NAT.
     D: All external hosts are provided with secure communication to the Internet.
   correct_answer: A
-  explanation: Private IPv4 space can be reused independently by different organizations because it is not globally routed on the Internet.
+  explanation: Private IPv4 space can be reused independently by different organizations because it is not globally routed
+    on the Internet.
 
 - id: NF-078
   topic: Network Fundamentals
@@ -1417,7 +1475,8 @@
   - crossover
   - mdix
   - ethernet
-  question: 'Which cable type must be used when connecting two like devices together using these criteria: pins 1 and 3 and 2 and 6 are required, and auto detection MDI-X is unavailable?'
+  question: 'Which cable type must be used when connecting two like devices together using these criteria: pins 1 and 3 and
+    2 and 6 are required, and auto detection MDI-X is unavailable?'
   options:
     A: straight-through
     B: console
@@ -1441,7 +1500,8 @@
     C: network port ID virtualization
     D: server virtualization
   correct_answer: D
-  explanation: Server virtualization allows a single physical host to run multiple virtual machines with different operating systems.
+  explanation: Server virtualization allows a single physical host to run multiple virtual machines with different operating
+    systems.
 
 - id: NF-080
   topic: Network Fundamentals
@@ -1452,27 +1512,29 @@
   - duplex
   - crc
   - interface-counters
-  question: Refer to the exhibit. Router-WAN1 has a new connection via Gi0/0 to the ISP. Users running web applications indicate that connectivity is unstable to the Internet. What is causing the interface issue?
-  exhibit: 'Interface-counter clue:
-
-    - Gi0/0 shows instability symptoms
-
-    - input errors, CRCs, and frame errors appear in the interface output
-
-
-    Task:
-
-    - identify the physical/interface condition most strongly indicated by those counters
-
-    '
+  question: Router-WAN1 has a new connection via Gi0/0 to the ISP. Users running web applications indicate that connectivity
+    is unstable to the Internet. What is causing the interface issue?
+  exhibit: "Router-WAN1#show interface g0/0\nGigabitEthernet0/0 is up, line protocol is up\n  Hardware is CSR NIC, address\
+    \ is 5000.0001.0000 (bia 5000.0001.0000)\n  Internet address is 192.168.0.0/31\n  MTU 1500 bytes, BW 1000000 Kbit/sec,\
+    \ DLY 10 usec,\n     reliability 255/255, txload 1/255, rxload 1/255\n  Encapsulation ARPA, loopback not set\n  Keepalive\
+    \ set (10 sec)\n  Full Duplex, 1000Mbps, link type is auto, media type is NIC\n  output flow-control is unsupported, input\
+    \ flow-control is unsupported\n  ARP type: ARPA, ARP Timeout 04:00:00\n  Last input never, output 00:00:03, output hang\
+    \ never\n  Last clearing of \"show interface\" counters never\n  Input queue: 0/375/0 (size/max/drops/flushes); Total\
+    \ output drops: 0\n  Queueing strategy: fifo\n  Output queue: 0/40 (size/max)\n  5 minute input rate 1000 bits/sec, 0\
+    \ packets/sec\n  5 minute output rate 2000 bits/sec, 1 packets/sec\n     0 packets input, 0 bytes, 0 no buffer\n     Received\
+    \ 110 broadcasts (0 IP multicasts)\n     0 runts, 0 giants, 0 throttles\n     100 input errors, 100 CRC, 100 frame, 0\
+    \ overrun, 0 ignored\n     0 watchdog, 0 multicast, 0 pause input\n     260 packets output, 8970 bytes, 0 underruns\n\
+    \     0 output errors, 0 collisions, 0 interface resets\n     0 unknown protocol drops\n     0 babbles, 0 late collision,\
+    \ 0 deferred\n     1 lost carrier, 0 no carrier, 0 pause output\n\nTask:\n- identify the physical/interface condition\
+    \ most strongly indicated by these counters"
   options:
     A: The receive buffer is full due to a broadcast storm.
     B: Frames are discarded due to a half-duplex negotiation.
     C: Broadcast packets are rejected because ARP timeout is enabled.
     D: Small frames less than 64 bytes are rejected due to size.
   correct_answer: B
-  explanation: Input errors, CRCs, and frame errors are classic indicators of a duplex mismatch, which often results in one side operating at half-duplex.
-  source: 1-Network-Fundamentals_83/NF-080.png
+  explanation: Input errors, CRCs, and frame errors are classic indicators of a duplex mismatch, which often results in one
+    side operating at half-duplex.
 
 - id: NF-081
   topic: Network Fundamentals
@@ -1506,7 +1568,8 @@
     C: FE80::/10
     D: FF00::/12
   correct_answer: D
-  explanation: IPv6 multicast addresses use the FF00::/8 space; among the options provided, FF00::/12 identifies the multicast block.
+  explanation: IPv6 multicast addresses use the FF00::/8 space; among the options provided, FF00::/12 identifies the multicast
+    block.
 
 - id: NF-083
   topic: Network Fundamentals

@@ -1,36 +1,4 @@
-# Topic: Network Access
-# IDs:   NA-001 -> NA-103
-# Global sequential range: #84 - #186 (103 questions)
-# Source folder: sshots/2-Network-Access_103/
-# NA-006 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-014 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-026 and NA-027 are simulation/lab items in the source images and are
-# being deferred until the runtime schema supports simulation questions cleanly.
-# NA-028 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-034 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-038 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-056 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-059 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-066 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-069 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-080 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-089 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-097 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-# NA-103 is a simulation/lab item in the source images and is being deferred
-# until the runtime schema supports simulation questions cleanly.
-- id: NA-001
+﻿- id: NA-001
   topic: Network Access
   subtopic: VLAN Trunking
   type: single_choice
@@ -39,7 +7,8 @@
   - vlan
   - trunk
   - allowed-vlan
-  question: Refer to the exhibit. A network engineer must configure communication between PC A and the file server. Which command must be configured on switch A to prevent interruption of other communications?
+  question: Refer to the exhibit. A network engineer must configure communication between PC A and the file server. Which
+    command must be configured on switch A to prevent interruption of other communications?
   exhibit: 'VLAN/trunk task:
 
     - current trunk already carries existing VLAN traffic
@@ -72,7 +41,8 @@
   - voice-vlan
   - access-port
   - switchport
-  question: Refer to the exhibit. An engineer must configure GigabitEthernet1/1 to accommodate voice and data traffic. Which configuration accomplishes this task?
+  question: Refer to the exhibit. An engineer must configure GigabitEthernet1/1 to accommodate voice and data traffic. Which
+    configuration accomplishes this task?
   exhibit: 'Access-port voice/data requirement:
 
     - user data VLAN = 300
@@ -136,7 +106,8 @@
   - wlc
   - ise
   - aaa-override
-  question: After installing a new Cisco ISE server, which task must the engineer perform on the Cisco WLC to connect wireless clients on a specific VLAN based on their credentials?
+  question: After installing a new Cisco ISE server, which task must the engineer perform on the Cisco WLC to connect wireless
+    clients on a specific VLAN based on their credentials?
   options:
     A: Disable the LAG Mode on Next Reboot.
     B: Enable the Event Driven RRM.
@@ -176,18 +147,38 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now validates the key configuration flow shown in the exhibit.
+  question: Simulation lab. Complete the required configuration tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the tab(s) above the console window.
+    All necessary preconfigurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    R1 has been pre-configured with all the necessary commands. All physical cabling is in place and verified.
+    - Connectivity for PC1 and PC2 must be established to the switches, and each port must only allow one VLAN.
+    - Configure SW-1 with VLAN 35 and label it exactly as SALES.
+    - Configure SW-2 with VLAN 39 and label it exactly as MARKETING.
+    - Configure the switch port connecting to PC1.
+    - Configure the switch port connecting to PC2.
+    - Configure SW-1 and SW-2 for universal neighbor discovery using the industry standard protocol and disable it on the interface connecting to PC1.
+  explanation: This lab configures access VLANs and LLDP on two switches. The required result is VLAN 35 SALES on SW-1, VLAN 39 MARKETING on SW-2, correct PC-facing access ports, and LLDP disabled only on the SW-1 interface connected to PC1.
   source: 2-Network-Access_103/NA-006.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: Use the exhibit image as the topology reference and complete the switching tasks on the virtual devices before submitting the lab.
     objectives:
-    - Create VLAN 35 named SALES on SW1.
-    - Create VLAN 39 named MARKETING on SW2.
-    - Configure the PC-facing interfaces as access ports in the correct VLANs.
-    - Enable LLDP globally on both switches and disable LLDP transmit/receive on the SW1 interface connected to PC1.
-    - Verify the final switch configuration before submitting.
+    - Establish connectivity for PC1 and PC2 using access ports that each allow only one VLAN.
+    - Configure VLAN 35 named SALES on SW-1.
+    - Configure VLAN 39 named MARKETING on SW-2.
+    - Configure the switch ports connected to PC1 and PC2.
+    - Enable LLDP on SW-1 and SW-2 and disable it on the SW-1 interface connected to PC1.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-006.png
     required_commands:
@@ -208,7 +199,7 @@
     - show lldp neighbors
     command_responses:
       show vlan brief: Confirm VLAN 35 SALES and VLAN 39 MARKETING exist and the PC-facing ports are assigned to the expected access VLANs.
-      show lldp neighbors: Confirm LLDP is enabled where required and disabled on the SW1 PC1-facing interface.
+      show lldp neighbors: Confirm LLDP is enabled where required and disabled on the SW-1 PC1-facing interface.
 
 - id: NA-007
   topic: Network Access
@@ -219,7 +210,9 @@
   - etherchannel
   - lacp
   - pagp
-  question: Refer to the exhibit. A network engineer updates the existing configuration on interface FastEthernet1/1 of switch SW1. It must establish an EtherChannel by using the same group designation with another vendor switch. Which configuration must be performed to complete the process?
+  question: Refer to the exhibit. A network engineer updates the existing configuration on interface FastEthernet1/1 of switch
+    SW1. It must establish an EtherChannel by using the same group designation with another vendor switch. Which configuration
+    must be performed to complete the process?
   exhibit: 'EtherChannel requirement:
 
     - peer device is from another vendor
@@ -250,7 +243,8 @@
   - wlc
   - wlan
   - ssid
-  question: Which two values or settings must be entered when configuring a new WLAN in the Cisco Wireless LAN Controller GUI? (Choose two.)
+  question: Which two values or settings must be entered when configuring a new WLAN in the Cisco Wireless LAN Controller
+    GUI? (Choose two.)
   options:
     A: QoS settings
     B: IP address of one or more access points
@@ -272,7 +266,8 @@
   - lldp
   - timer
   - holdtime
-  question: Refer to the exhibit. A network engineer must update the configuration on Switch2 so that it sends LLDP packets every minute and the information sent via LLDP is refreshed every 3 minutes. Which configuration must the engineer apply?
+  question: Refer to the exhibit. A network engineer must update the configuration on Switch2 so that it sends LLDP packets
+    every minute and the information sent via LLDP is refreshed every 3 minutes. Which configuration must the engineer apply?
   exhibit: 'LLDP timer requirement:
 
     - send LLDP packets every 60 seconds
@@ -291,7 +286,8 @@
     C: Switch2(config)#lldp timer 1 Switch2(config)#lldp holdtime 3
     D: Switch2(config)#lldp timer 1 Switch2(config)#lldp tlv-select 3
   correct_answer: B
-  explanation: The LLDP transmit interval is configured with `lldp timer`, and the refresh/retention value is set with `lldp holdtime`.
+  explanation: The LLDP transmit interval is configured with `lldp timer`, and the refresh/retention value is set with `lldp
+    holdtime`.
   source: 2-Network-Access_103/NA-009.png
 
 - id: NA-010
@@ -336,7 +332,9 @@
   - trunk
   - native-vlan
   - dot1q
-  question: Refer to the exhibit. An engineer configures interface Fa0/1 on SW1 and SW2 to pass traffic from two different VLANs. For security reasons, company policy requires the native VLAN to be set to a nondefault value. Which configuration meets this requirement?
+  question: Refer to the exhibit. An engineer configures interface Fa0/1 on SW1 and SW2 to pass traffic from two different
+    VLANs. For security reasons, company policy requires the native VLAN to be set to a nondefault value. Which configuration
+    meets this requirement?
   exhibit: 'Trunking requirement:
 
     - carry VLANs 100 and 105 between SW1 and SW2
@@ -352,10 +350,14 @@
 
     '
   options:
-    A: Switch(config-if)#switchport mode trunk Switch(config-if)#switchport trunk encapsulation dot1q Switch(config-if)#switchport trunk allowed vlan 100,105 Switch(config-if)#switchport trunk native vlan 3
-    B: Switch(config-if)#switchport mode trunk Switch(config-if)#switchport trunk encapsulation isl Switch(config-if)#switchport trunk allowed vlan 100,105 Switch(config-if)#switchport trunk native vlan 1
-    C: Switch(config-if)#switchport mode dynamic Switch(config-if)#switchport access vlan 100,105 Switch(config-if)#switchport trunk native vlan 1
-    D: Switch(config-if)#switchport mode access Switch(config-if)#switchport trunk encapsulation dot1q Switch(config-if)#switchport access vlan 100,105 Switch(config-if)#switchport trunk native vlan 3
+    A: Switch(config-if)#switchport mode trunk Switch(config-if)#switchport trunk encapsulation dot1q Switch(config-if)#switchport
+      trunk allowed vlan 100,105 Switch(config-if)#switchport trunk native vlan 3
+    B: Switch(config-if)#switchport mode trunk Switch(config-if)#switchport trunk encapsulation isl Switch(config-if)#switchport
+      trunk allowed vlan 100,105 Switch(config-if)#switchport trunk native vlan 1
+    C: Switch(config-if)#switchport mode dynamic Switch(config-if)#switchport access vlan 100,105 Switch(config-if)#switchport
+      trunk native vlan 1
+    D: Switch(config-if)#switchport mode access Switch(config-if)#switchport trunk encapsulation dot1q Switch(config-if)#switchport
+      access vlan 100,105 Switch(config-if)#switchport trunk native vlan 3
   correct_answer: A
   explanation: A proper trunk uses 802.1Q, permits the required VLANs, and sets the native VLAN to a nondefault value.
   source: 2-Network-Access_103/NA-011.png
@@ -369,7 +371,9 @@
   - trunk
   - dot1q
   - allowed-vlan
-  question: 'Two switches have been implemented and all interfaces are at the default configuration level. A trunk link must be implemented between the switches with these requirements: using an industry-standard trunking protocol and permitting VLANs 1-10 while denying other VLANs. How must the interconnecting ports be configured?'
+  question: 'Two switches have been implemented and all interfaces are at the default configuration level. A trunk link must
+    be implemented between the switches with these requirements: using an industry-standard trunking protocol and permitting
+    VLANs 1-10 while denying other VLANs. How must the interconnecting ports be configured?'
   options:
     A: 'switchport mode dynamic
 
@@ -394,7 +398,8 @@
 
       switchport trunk allowed vlan except 11-4094'
   correct_answer: C
-  explanation: 802.1Q is the industry-standard trunking protocol, and the trunk must explicitly allow only VLANs 1 through 10.
+  explanation: 802.1Q is the industry-standard trunking protocol, and the trunk must explicitly allow only VLANs 1 through
+    10.
   source: adapted_from_images
 
 - id: NA-013
@@ -414,7 +419,8 @@
     C: FlexConnect AP mode fails to function if the AP loses connectivity with the WLC.
     D: FlexConnect AP mode bridges the traffic from the AP to the WLC when local switching is configured.
   correct_answer: A
-  explanation: In local mode, the AP uses CAPWAP tunnels back to the controller for centralized operation. FlexConnect is designed to support local switching at the remote site.
+  explanation: In local mode, the AP uses CAPWAP tunnels back to the controller for centralized operation. FlexConnect is
+    designed to support local switching at the remote site.
   source: adapted_from_images
 
 - id: NA-014
@@ -426,17 +432,35 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now validates the key configuration flow shown in the exhibit.
+  question: Simulation lab. Complete the required switching tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not remove any existing configurations from the devices, only those necessary to make the appropriate changes required to fulfill the listed tasks.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    All physical cabling is in place and verified. Connectivity for the Switches on ports E0/1, E0/2, and E0/3 must be configured and available for voice and data capabilities.
+    Configure Sw1 and Sw2 with the VLAN naming as indicated.
+    Assign the VLANs to the appropriate interfaces and set a non-trunking, non-tagged, single-VLAN for each interface according to the topology.
+    Configure interfaces E0/1, E0/2, and E0/3 so the interfaces do not pass the configured neighbor discovery protocol.
+  explanation: This lab requires access-port configuration for voice and data VLANs, VLAN naming exactly as indicated, and disabling the configured neighbor discovery protocol on E0/1, E0/2, and E0/3.
   source: 2-Network-Access_103/NA-014.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: Use the exhibit image as the topology reference and complete the VLAN, access-port, and neighbor-discovery tasks before submitting the lab.
     objectives:
-    - Create VLANs 100, 101, 200, and 201 on both switches with the names shown in the exhibit.
-    - Assign E0/1, E0/2, and E0/3 on both switches as non-trunking access ports in the correct VLANs.
-    - Disable the configured neighbor discovery protocol on E0/1, E0/2, and E0/3 as required by the task.
-    - Verify the switch configuration before submitting.
+    - Configure the required VLANs on SW1 and SW2 with the names indicated by the task.
+    - Assign E0/1, E0/2, and E0/3 as non-trunking, non-tagged access ports with the correct single VLAN per interface.
+    - Provide the required voice and data connectivity according to the topology.
+    - Disable the configured neighbor discovery protocol on E0/1, E0/2, and E0/3.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-014.png
     required_commands:
@@ -462,8 +486,8 @@
     - show vlan brief
     - show running-config
     command_responses:
-      show vlan brief: Verify the VLAN names and access-port assignments for E0/1, E0/2, and E0/3 on both switches.
-      show running-config: Verify that CDP is disabled on the required interfaces and that each port is configured as a single-VLAN access port.
+      show vlan brief: Verify the VLAN names and the access-port assignments for E0/1, E0/2, and E0/3 on both switches.
+      show running-config: Verify that the neighbor discovery protocol is disabled on the required interfaces and that each interface is configured as a single-VLAN access port.
 
 - id: NA-015
   topic: Network Access
@@ -474,14 +498,16 @@
   - vlan
   - tagging
   - dot1q
-  question: Which Layer 2 switch function encapsulates packets for different VLANs so that the packets traverse the same port and maintain traffic separation between the VLANs?
+  question: Which Layer 2 switch function encapsulates packets for different VLANs so that the packets traverse the same port
+    and maintain traffic separation between the VLANs?
   options:
     A: VLAN marking
     B: VLAN numbering
     C: VLAN DSCP
     D: VLAN tagging
   correct_answer: D
-  explanation: 802.1Q tagging adds VLAN information so multiple VLANs can cross the same trunk link while staying logically separated.
+  explanation: 802.1Q tagging adds VLAN information so multiple VLANs can cross the same trunk link while staying logically
+    separated.
   source: adapted_from_images
 
 - id: NA-016
@@ -493,7 +519,9 @@
   - wireless
   - flexconnect
   - local-switching
-  question: Refer to the exhibit. An architect is managing a wireless network with APs from several branch offices connecting to the WLC in the data center. There is a new requirement for a single WLAN to process the client data traffic without sending it to the WLC. Which action must be taken to complete the request?
+  question: Refer to the exhibit. An architect is managing a wireless network with APs from several branch offices connecting
+    to the WLC in the data center. There is a new requirement for a single WLAN to process the client data traffic without
+    sending it to the WLC. Which action must be taken to complete the request?
   exhibit: 'Branch wireless requirement:
 
     - APs at remote branches join a centralized WLC
@@ -514,7 +542,8 @@
     C: Enable local DHCP Profiling.
     D: Enable Disassociation Imminent.
   correct_answer: B
-  explanation: FlexConnect local switching allows client traffic for a WLAN to be switched locally at the branch AP instead of being tunneled to the controller.
+  explanation: FlexConnect local switching allows client traffic for a WLAN to be switched locally at the branch AP instead
+    of being tunneled to the controller.
   source: 2-Network-Access_103/NA-016.png
 
 - id: NA-017
@@ -586,7 +615,8 @@
     C: client device
     D: centralized cloud management platform
   correct_answer: B
-  explanation: In split MAC, time-sensitive real-time functions such as beacons and acknowledgments are handled by the AP, while the controller handles centralized management functions.
+  explanation: In split MAC, time-sensitive real-time functions such as beacons and acknowledgments are handled by the AP,
+    while the controller handles centralized management functions.
   source: adapted_from_images
 
 - id: NA-020
@@ -598,14 +628,17 @@
   - wireless
   - flexconnect
   - survivability
-  question: A Cisco engineer at a new branch office is configuring a wireless network with access points that connect to a controller based at corporate headquarters. Wireless client traffic must terminate at the branch office and access-point survivability is required in the event of a WAN outage. Which access point mode must be selected?
+  question: A Cisco engineer at a new branch office is configuring a wireless network with access points that connect to a
+    controller based at corporate headquarters. Wireless client traffic must terminate at the branch office and access-point
+    survivability is required in the event of a WAN outage. Which access point mode must be selected?
   options:
     A: Lightweight with local switching disabled
     B: FlexConnect with local switching enabled
     C: OfficeExtend with high availability disabled
     D: Local with AP fallback enabled
   correct_answer: B
-  explanation: FlexConnect with local switching allows branch traffic to stay local and supports continued operation if WAN connectivity to the controller is lost.
+  explanation: FlexConnect with local switching allows branch traffic to stay local and supports continued operation if WAN
+    connectivity to the controller is lost.
   source: adapted_from_images
 
 - id: NA-021
@@ -618,7 +651,8 @@
   - wlan
   - ssid
   - interface-group
-  question: Refer to the exhibit. The My_WLAN wireless LAN was configured with WPA2 Layer 2 PSK security. Which additional configuration must the administrator perform to allow users to connect to this WLAN on a different subnet called Data?
+  question: Refer to the exhibit. The My_WLAN wireless LAN was configured with WPA2 Layer 2 PSK security. Which additional
+    configuration must the administrator perform to allow users to connect to this WLAN on a different subnet called Data?
   exhibit: 'WLAN configuration summary:
 
     - SSID My_WLAN already has WPA2 PSK security configured
@@ -637,7 +671,8 @@
     C: Enable Status and select data from the Interface/Interface Group drop-down list
     D: Enable Broadcast SSID and select data from the Interface/Interface Group drop-down list
   correct_answer: C
-  explanation: The WLAN must be enabled and mapped to the correct interface or interface group so client traffic lands in the Data subnet.
+  explanation: The WLAN must be enabled and mapped to the correct interface or interface group so client traffic lands in
+    the Data subnet.
   source: 2-Network-Access_103/NA-021.png
 
 - id: NA-022
@@ -649,7 +684,9 @@
   - wlc
   - wlan
   - client-limit
-  question: Refer to the exhibit. A network engineer is configuring a WLAN to connect with the 172.16.10.0/24 network on VLAN 20. The engineer wants to limit the number of devices that connect to the WLAN on the USERWL SSID to 125. Which configuration must the engineer perform on the WLC?
+  question: Refer to the exhibit. A network engineer is configuring a WLAN to connect with the 172.16.10.0/24 network on VLAN
+    20. The engineer wants to limit the number of devices that connect to the WLAN on the USERWL SSID to 125. Which configuration
+    must the engineer perform on the WLC?
   exhibit: 'WLAN requirement:
 
     - SSID USERWL maps to VLAN 20 / 172.16.10.0/24
@@ -680,7 +717,8 @@
   - wireless
   - flexconnect
   - survivability
-  question: Which unified access point mode continues to serve wireless clients after losing connectivity to the Cisco Wireless LAN Controller?
+  question: Which unified access point mode continues to serve wireless clients after losing connectivity to the Cisco Wireless
+    LAN Controller?
   options:
     A: local
     B: mesh
@@ -718,7 +756,8 @@
   - wireless
   - lightweight-ap
   - split-mac
-  question: 'A wireless access point is needed and must meet these requirements: zero-touch deployed and managed by a WLC, process only real-time MAC functionality, and be used in a split-MAC architecture. Which access point type must be used?'
+  question: 'A wireless access point is needed and must meet these requirements: zero-touch deployed and managed by a WLC,
+    process only real-time MAC functionality, and be used in a split-MAC architecture. Which access point type must be used?'
   options:
     A: mesh
     B: autonomous
@@ -737,30 +776,58 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required trunking and link-aggregation tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    All physical cabling is in place and verified. Switch SW-1 is pre-configured and inaccessible. SW-2 and SW-3 ports must be configured and operational to complete the configuration.
+    - Configure SW-2 and SW-3 ports E0/0 to use the industry standard encapsulation method for trunking and only tag VLAN 10.
+    - Configure SW-2 and SW-3 ports E0/0 to send and receive untagged traffic over VLAN 11.
+    - Configure SW-2 and SW-3 ports E0/2 and E0/3 to use the industry standard encapsulation method for trunking and tag all VLANs.
+    - Configure SW-2 and SW-3 ports E0/2 and E0/3 for link aggregation using the industry standard protocol with the following requirements:
+      ** SW-2 ports must not initiate the negotiation for the aggregation protocol.
+      ** SW-3 ports must immediately negotiate the aggregation protocol.
+      ** Use the designated number assignment.
+  explanation: This lab requires 802.1Q trunking on SW-2 and SW-3, VLAN 10 as the only tagged VLAN on E0/0, VLAN 11 as the native untagged VLAN on E0/0, and IEEE 802.3ad link aggregation on E0/2 and E0/3 with passive negotiation on SW-2 and active negotiation on SW-3.
   source: 2-Network-Access_103/NA-026.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the SW-2 and SW-3 trunking and link-aggregation tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
-    initial_prompt: SW1#
+    - Configure SW-2 and SW-3 E0/0 as 802.1Q trunks with VLAN 11 as the native untagged VLAN and only VLAN 10 allowed as tagged traffic.
+    - Configure SW-2 and SW-3 E0/2 and E0/3 as 802.1Q trunks that carry all VLANs.
+    - Build link aggregation on E0/2 and E0/3 using the industry standard protocol.
+    - Configure SW-2 so it does not initiate LACP negotiation and SW-3 so it immediately negotiates LACP.
+    - Use the designated channel-group number from the task.
+    - Save the configuration before submission.
+    initial_prompt: SW2#
     image: 2-Network-Access_103/NA-026.png
     required_commands:
     - configure terminal
+    - interface e0/0
+    - switchport trunk encapsulation dot1q
+    - switchport mode trunk
+    - switchport trunk allowed vlan 10
+    - switchport trunk native vlan 11
+    - interface range e0/2 - 3
+    - channel-group 1 mode passive
+    - channel-group 1 mode active
     - end
     verification_commands:
-    - show running-config
+    - show interfaces trunk
+    - show etherchannel summary
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show interfaces trunk: Verify that E0/0 uses 802.1Q, VLAN 11 is native, only VLAN 10 is explicitly allowed on that trunk, and the trunk on E0/2/E0/3 is operational.
+      show etherchannel summary: Verify that the designated Port-channel is formed with LACP and that SW-2 is passive while SW-3 is active.
 
 - id: NA-027
   topic: Network Access
@@ -771,30 +838,53 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required VLAN and neighbor-discovery tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    All physical cabling is in place and verified. Connectivity for PC1, PC2 and PC3 must be established to the switches. Each port connecting to the PCs must be configured as an end-user port and only allow the designated VLAN.
+    - Configure VLAN 99 on all three switches and label it exactly as FINANCIAL.
+    - Configure the switch ports connecting to PC1, PC2 and PC3.
+    - Cisco's neighbor discovery protocol has been disabled on SW-1 and must be re-enabled.
+    - PC1 must not be able to discover SW-1 via the Cisco neighbor discovery protocol.
+  explanation: This lab requires VLAN 99 named FINANCIAL on all three switches, correct end-user access-port configuration for PC1, PC2, and PC3, CDP re-enabled on SW-1, and CDP disabled only on the SW-1 interface connected to PC1.
   source: 2-Network-Access_103/NA-027.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the VLAN, access-port, and CDP tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure VLAN 99 named FINANCIAL on all three switches.
+    - Configure the PC-facing ports as end-user access ports that allow only the designated VLAN.
+    - Restore Cisco neighbor discovery on SW-1.
+    - Prevent PC1 from discovering SW-1 via CDP by disabling CDP only on the SW-1 interface connected to PC1.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-027.png
     required_commands:
     - configure terminal
+    - vlan 99
+    - name financial
+    - interface e0/1
+    - switchport mode access
+    - switchport access vlan 99
+    - cdp run
+    - no cdp enable
     - end
     verification_commands:
-    - show running-config
+    - show vlan brief
+    - show cdp neighbors
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show vlan brief: Verify VLAN 99 FINANCIAL exists and the PC-facing ports are assigned as single-VLAN access ports.
+      show cdp neighbors: Verify CDP is enabled on SW-1 generally but not on the interface connected to PC1.
 
 - id: NA-028
   topic: Network Access
@@ -805,30 +895,54 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required voice, data, and neighbor-discovery tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    All physical cabling is in place and verified. Connectivity for the Switches on ports E0/1, E0/2, and E0/3 must be configured and available for voice and data capabilities.
+    - Configure Sw1 and Sw2 with both VLANs, naming them according to the VLAN Name provided in the topology.
+    - Configure the E0/1, E0/2, and E0/3 ports on both switches for both VLANs and ensure that Cisco IP phones and PCs pass traffic.
+    - Configure Sw1 and Sw2 to allow neighbor discovery via the vendor-neutral protocol on e0/0.
+  explanation: This lab requires the correct creation and naming of the data and voice VLANs on both switches, proper voice-plus-data access-port configuration on E0/1 through E0/3, and vendor-neutral neighbor discovery enabled on E0/0.
   source: 2-Network-Access_103/NA-028.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the VLAN, access-port, and LLDP tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure both required VLANs on SW1 and SW2 using the exact VLAN names from the topology.
+    - Configure E0/1, E0/2, and E0/3 on both switches so Cisco IP phones and PCs can pass voice and data traffic.
+    - Configure the user-facing ports with the correct data VLAN and voice VLAN behavior.
+    - Enable vendor-neutral neighbor discovery on E0/0 on both switches.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-028.png
     required_commands:
     - configure terminal
+    - vlan 10
+    - vlan 20
+    - interface e0/1
+    - switchport mode access
+    - switchport access vlan 10
+    - switchport voice vlan 20
+    - interface e0/0
+    - lldp transmit
+    - lldp receive
     - end
     verification_commands:
-    - show running-config
+    - show vlan brief
+    - show lldp neighbors
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show vlan brief: Verify the required data and voice VLANs exist with the correct names and that E0/1, E0/2, and E0/3 are configured for the expected user-facing VLAN assignments.
+      show lldp neighbors: Verify LLDP is enabled on E0/0 for vendor-neutral neighbor discovery.
 
 - id: NA-029
   topic: Network Access
@@ -840,7 +954,8 @@
   - wpa2
   - psk
   - pmf
-  question: Refer to the exhibit. The network engineer is configuring a new WLAN and is told to use a setup password for authentication instead of the RADIUS servers. Which additional set of tasks must the engineer perform to complete the configuration?
+  question: Refer to the exhibit. The network engineer is configuring a new WLAN and is told to use a setup password for authentication
+    instead of the RADIUS servers. Which additional set of tasks must the engineer perform to complete the configuration?
   exhibit: 'WLAN security requirement:
 
     - use a shared setup password instead of RADIUS
@@ -872,7 +987,9 @@
   - lldp
   - discovery
   - interface
-  question: Refer to the exhibit. Routers R1, R2, and R3 use a protocol to identify the neighbors' IP addresses, hardware platforms, and software versions. A network engineer must configure R2 to avoid sharing any neighbor information with R3 and maintain its relationship with R1. What action meets the requirement?
+  question: Refer to the exhibit. Routers R1, R2, and R3 use a protocol to identify the neighbors' IP addresses, hardware
+    platforms, and software versions. A network engineer must configure R2 to avoid sharing any neighbor information with
+    R3 and maintain its relationship with R1. What action meets the requirement?
   exhibit: 'Discovery-protocol task:
 
     - R2 must stop sharing neighbor details with R3 only
@@ -891,7 +1008,8 @@
     C: Change the protocol timer on R2.
     D: Disable the protocol on the interface connected to R1.
   correct_answer: B
-  explanation: To preserve the neighbor relationship with R1, the discovery protocol should remain enabled globally and be disabled only on the interface facing R3.
+  explanation: To preserve the neighbor relationship with R1, the discovery protocol should remain enabled globally and be
+    disabled only on the interface facing R3.
   source: 2-Network-Access_103/NA-030.png
 
 - id: NA-031
@@ -923,7 +1041,8 @@
   - interface
   - subnetting
   - cisco-cli
-  question: Refer to the exhibit. An administrator must turn off the Cisco Discovery Protocol on the port configured with the last usable address in the 10.0.0.252/30 subnet. Which command set meets the requirement?
+  question: Refer to the exhibit. An administrator must turn off the Cisco Discovery Protocol on the port configured with
+    the last usable address in the 10.0.0.252/30 subnet. Which command set meets the requirement?
   exhibit: 'Subnetting clue:
 
     - subnet is 10.0.0.252/30
@@ -946,7 +1065,8 @@
     C: no cdp run globally
     D: cdp timer 0
   correct_answer: B
-  explanation: A /30 subnet has two usable host addresses. In 10.0.0.252/30, the last usable address is 10.0.0.254, so CDP must be disabled on the interface configured with that address.
+  explanation: A /30 subnet has two usable host addresses. In 10.0.0.252/30, the last usable address is 10.0.0.254, so CDP
+    must be disabled on the interface configured with that address.
   source: 2-Network-Access_103/NA-032.png
 
 - id: NA-033
@@ -965,7 +1085,8 @@
     C: when centralized management is needed for several remote offices that lack individual WLCs
     D: when each remote office necessitates its own local WLC for network management
   correct_answer: C
-  explanation: FlexConnect is a strong fit for branch offices that need centralized control from a main WLC without deploying a dedicated controller at each site.
+  explanation: FlexConnect is a strong fit for branch offices that need centralized control from a main WLC without deploying
+    a dedicated controller at each site.
   source: adapted_from_images
 
 - id: NA-034
@@ -977,30 +1098,59 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required trunking and link-aggregation tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Task 1
+    Configure trunks between Sw1 and Sw2 on ports E0/0 and E0/1 using the IEEE standard frame tagging method.
+    - Add the IT_User_VLAN as the untagged VLAN to the trunk.
+    - Allow only the untagged VLAN and VLANs 20 and 40 on trunks.
+    - Verify that PC1 pings PC2 and PC3 pings PC4.
+
+    Task 2
+    On Sw1 and Sw2, use IEEE 802.3ad link aggregation.
+    - Assign number 10 to the link.
+    - Combine E0/0 and E0/1 into a single logical link.
+    - Ensure Sw2 does not negotiate but responds to negotiation requests.
+  explanation: This lab requires 802.1Q trunks between SW1 and SW2, the IT_User_VLAN as the native untagged VLAN, only the native VLAN plus VLANs 20 and 40 allowed on the trunks, and IEEE 802.3ad aggregation using Port-channel 10 with SW2 configured to respond without initiating negotiation.
   source: 2-Network-Access_103/NA-034.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the trunking and IEEE 802.3ad aggregation tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure E0/0 and E0/1 between SW1 and SW2 as 802.1Q trunks.
+    - Set the IT_User_VLAN as the native untagged VLAN on the trunks.
+    - Allow only the native VLAN and VLANs 20 and 40 across the trunks.
+    - Verify end-to-end connectivity for PC1 to PC2 and PC3 to PC4.
+    - Build Port-channel 10 with IEEE 802.3ad using E0/0 and E0/1.
+    - Configure SW2 to use passive LACP behavior.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-034.png
     required_commands:
     - configure terminal
+    - interface range e0/0 - 1
+    - switchport trunk encapsulation dot1q
+    - switchport mode trunk
+    - switchport trunk allowed vlan 20,40
+    - switchport trunk native vlan 10
+    - channel-group 10 mode passive
     - end
     verification_commands:
-    - show running-config
+    - show interfaces trunk
+    - show etherchannel summary
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show interfaces trunk: Verify that 802.1Q trunking is active, the native VLAN matches IT_User_VLAN, and only the required VLANs are allowed across the trunks.
+      show etherchannel summary: Verify that Port-channel 10 is formed with LACP and that SW2 is configured not to initiate negotiation.
 
 - id: NA-035
   topic: Network Access
@@ -1018,7 +1168,8 @@
     C: broadcast to all ports on the switch
     D: inspected and dropped by the switch
   correct_answer: A
-  explanation: When the destination MAC is unknown, the switch floods the frame out all other forwarding ports in the same VLAN except the port on which it was received.
+  explanation: When the destination MAC is unknown, the switch floods the frame out all other forwarding ports in the same
+    VLAN except the port on which it was received.
   source: adapted_from_images
 
 - id: NA-036
@@ -1082,7 +1233,8 @@
     C: SW3
     D: SW4
   correct_answer: B
-  explanation: SW2 has the lowest STP priority value of 4096, so it becomes the root bridge without needing a MAC-address tie break.
+  explanation: SW2 has the lowest STP priority value of 4096, so it becomes the root bridge without needing a MAC-address
+    tie break.
   source: 2-Network-Access_103/NA-037.png
 
 - id: NA-038
@@ -1094,30 +1246,53 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required trunking and LACP tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    VLANs 35 and 45 have been configured in all three switches. All physical connectivity has been installed and verified. All inter-switch links must be operational.
+    - Configure SW-1 and SW-2 switch ports e0/0 and e0/1 for 802.1q trunking allowing all VLANs.
+    - Configure the inter-switch links on SW-1 e0/2, SW-2 e0/2, and SW-3 e0/0 and e0/1 to use native VLAN 35.
+    - Configure SW-1 and SW-2 switch ports e0/0 and e0/1 for link aggregation.
+      ** SW-1 should immediately negotiate LACP.
+      ** SW-2 must only respond to LACP requests.
+  explanation: This lab requires 802.1Q trunks on the inter-switch links, native VLAN 35 on the specified links, and IEEE 802.3ad aggregation on SW-1 and SW-2 E0/0 and E0/1 with SW-1 active and SW-2 passive for LACP.
   source: 2-Network-Access_103/NA-038.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the trunking and LACP tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure SW-1 and SW-2 E0/0 and E0/1 as 802.1Q trunks that allow all VLANs.
+    - Configure native VLAN 35 on the specified inter-switch links.
+    - Build link aggregation on SW-1 and SW-2 E0/0 and E0/1 using IEEE 802.3ad.
+    - Configure SW-1 to actively negotiate LACP and SW-2 to respond passively.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-038.png
     required_commands:
     - configure terminal
+    - interface range e0/0 - 1
+    - switchport trunk encapsulation dot1q
+    - switchport mode trunk
+    - switchport trunk native vlan 35
+    - channel-group 10 mode active
+    - channel-group 10 mode passive
     - end
     verification_commands:
-    - show running-config
+    - show interfaces trunk
+    - show etherchannel summary
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show interfaces trunk: Verify that the inter-switch links are operating as 802.1Q trunks and that the specified links use native VLAN 35.
+      show etherchannel summary: Verify that the aggregated link is formed with LACP and that SW-1 is active while SW-2 is passive.
 
 - id: NA-039
   topic: Network Access
@@ -1148,7 +1323,8 @@
     C: Change the LACP mode to active.
     D: Change the protocol to EtherChannel mode on.
   correct_answer: C
-  explanation: LACP forms a channel when at least one side is in active mode. With both sides set to passive, the EtherChannel does not form.
+  explanation: LACP forms a channel when at least one side is in active mode. With both sides set to passive, the EtherChannel
+    does not form.
   source: 2-Network-Access_103/NA-039.png
 
 - id: NA-040
@@ -1160,7 +1336,8 @@
   - voice-vlan
   - data-vlan
   - access-port
-  question: Refer to the exhibit. All VLANs are present in the VLAN database. Which command sequence must be applied to complete the configuration?
+  question: Refer to the exhibit. All VLANs are present in the VLAN database. Which command sequence must be applied to complete
+    the configuration?
   exhibit: 'Interface requirement:
 
     - connect an IP phone and a user device on the same switchport
@@ -1181,7 +1358,8 @@
     C: interface FastEthernet0/1 switchport trunk allowed vlan add 10 vlan 10 private-vlan isolated
     D: interface FastEthernet0/1 switchport mode trunk switchport trunk allowed vlan 10,15
   correct_answer: A
-  explanation: An IP phone with a PC behind it normally uses an access port for the data VLAN and a separate voice VLAN configured with `switchport voice vlan`.
+  explanation: An IP phone with a PC behind it normally uses an access port for the data VLAN and a separate voice VLAN configured
+    with `switchport voice vlan`.
   source: 2-Network-Access_103/NA-040.png
 
 - id: NA-041
@@ -1220,7 +1398,8 @@
     C: SE-Connect
     D: local
   correct_answer: B
-  explanation: In a point-to-multipoint wireless bridge deployment, the root or central AP operates in bridge mode and connects the remote bridges.
+  explanation: In a point-to-multipoint wireless bridge deployment, the root or central AP operates in bridge mode and connects
+    the remote bridges.
   source: adapted_from_images
 
 - id: NA-043
@@ -1232,14 +1411,16 @@
   - switching
   - flooding
   - mac-address-table
-  question: A switch is forwarding a frame out of all interfaces except the interface that received the frame. What is the technical term for this process?
+  question: A switch is forwarding a frame out of all interfaces except the interface that received the frame. What is the
+    technical term for this process?
   options:
     A: ARP
     B: CDP
     C: flooding
     D: multicast
   correct_answer: C
-  explanation: When a switch must send a frame out all other ports in the VLAN because the destination is unknown or broadcast, that behavior is called flooding.
+  explanation: When a switch must send a frame out all other ports in the VLAN because the destination is unknown or broadcast,
+    that behavior is called flooding.
   source: adapted_from_images
 
 - id: NA-044
@@ -1259,7 +1440,8 @@
     C: out-of-band management
     D: unencrypted in-band connectivity for file transfers
   correct_answer: C
-  explanation: The console port provides direct out-of-band access for initial setup, recovery, and troubleshooting when network connectivity is unavailable.
+  explanation: The console port provides direct out-of-band access for initial setup, recovery, and troubleshooting when network
+    connectivity is unavailable.
   source: adapted_from_images
 
 - id: NA-045
@@ -1271,7 +1453,8 @@
   - voice-vlan
   - access-port
   - ip-phone
-  question: Refer to the exhibit. Network services must be enabled on interface Gi1/0/34. Which configuration meets the needs for this implementation?
+  question: Refer to the exhibit. Network services must be enabled on interface Gi1/0/34. Which configuration meets the needs
+    for this implementation?
   exhibit: 'Port requirement:
 
     - interface Gi1/0/34 connects to an IP phone and user device
@@ -1292,7 +1475,8 @@
     C: interface Gi1/0/34 switchport mode access switchport access vlan 400 switchport voice vlan 4041
     D: interface Gi1/0/34 switchport mode access switchport access vlan 4041 switchport voice vlan 400
   correct_answer: C
-  explanation: A switch port connected to an IP phone with a user PC typically remains an access port in the data VLAN and adds a separate voice VLAN with `switchport voice vlan`.
+  explanation: A switch port connected to an IP phone with a user PC typically remains an access port in the data VLAN and
+    adds a separate voice VLAN with `switchport voice vlan`.
   source: 2-Network-Access_103/NA-045.png
 
 - id: NA-046
@@ -1305,7 +1489,9 @@
   - session-timeout
   - maximum-clients
   - wlan
-  question: Refer to the exhibit. A network engineer configures the CCNA WLAN so that clients must reauthenticate hourly and to limit the number of simultaneous connections to the WLAN to 10. Which two actions complete this configuration? (Choose two.)
+  question: Refer to the exhibit. A network engineer configures the CCNA WLAN so that clients must reauthenticate hourly and
+    to limit the number of simultaneous connections to the WLAN to 10. Which two actions complete this configuration? (Choose
+    two.)
   exhibit: 'WLAN policy requirements:
 
     - clients must reauthenticate every hour
@@ -1329,7 +1515,8 @@
   correct_answer:
   - B
   - D
-  explanation: Hourly reauthentication uses a session timeout of 3600 seconds, and the WLAN-wide client limit is controlled with Maximum Allowed Clients.
+  explanation: Hourly reauthentication uses a session timeout of 3600 seconds, and the WLAN-wide client limit is controlled
+    with Maximum Allowed Clients.
   source: 2-Network-Access_103/NA-046.png
 
 - id: NA-047
@@ -1341,14 +1528,16 @@
   - rapid-pvst
   - portfast
   - server
-  question: Which Rapid PVST+ feature should be configured on a switch port to immediately send traffic to a connected server as soon as it is active?
+  question: Which Rapid PVST+ feature should be configured on a switch port to immediately send traffic to a connected server
+    as soon as it is active?
   options:
     A: portfast
     B: uplinkfast
     C: BPDU guard
     D: loop guard
   correct_answer: A
-  explanation: PortFast lets an edge port transition to forwarding immediately, which is appropriate for a server-facing access port.
+  explanation: PortFast lets an edge port transition to forwarding immediately, which is appropriate for a server-facing access
+    port.
   source: adapted_from_images
 
 - id: NA-048
@@ -1361,7 +1550,8 @@
   - broadcast
   - flooding
   - switching
-  question: Refer to the exhibit. PC1 tries to ping PC3 for the first time and sends out an ARP to S1. Which action is taken by S1?
+  question: Refer to the exhibit. PC1 tries to ping PC3 for the first time and sends out an ARP to S1. Which action is taken
+    by S1?
   exhibit: 'Switching behavior:
 
     - PC1 sends an ARP request for the first time
@@ -1380,7 +1570,8 @@
     C: It forwards it out G0/3 only.
     D: It forwards it out interface G0/2 only.
   correct_answer: A
-  explanation: An ARP request is a broadcast frame, so the switch floods it out all other forwarding ports in the VLAN except the ingress port.
+  explanation: An ARP request is a broadcast frame, so the switch floods it out all other forwarding ports in the VLAN except
+    the ingress port.
   source: 2-Network-Access_103/NA-048.png
 
 - id: NA-049
@@ -1399,7 +1590,8 @@
     C: to enable local switching between VLAN and SSID
     D: to enable fast transition for the authenticated clients
   correct_answer: C
-  explanation: FlexConnect is used mainly to allow branch APs to switch client traffic locally instead of tunneling all data back to the controller.
+  explanation: FlexConnect is used mainly to allow branch APs to switch client traffic locally instead of tunneling all data
+    back to the controller.
   source: adapted_from_images
 
 - id: NA-050
@@ -1449,7 +1641,10 @@
   - campus-design
   - three-tier
   - spine-leaf
-  question: "Match each network topology architecture layer (left) to its common function (right).\nOriginal format: drag and drop.\n\nLayers:\n  1. Access\n  2. Core\n  3. Spine-leaf\n  4. Distribution\n\nFunctions (shuffled):\n  A. aggregate traffic flows from customers\n  B. connect end users\n  C. fast switching\n  D. monitors network traffic\n  E. redundant architectures within data centers\n"
+  question: "Match each network topology architecture layer (left) to its common function (right).\nOriginal format: drag\
+    \ and drop.\n\nLayers:\n  1. Access\n  2. Core\n  3. Spine-leaf\n  4. Distribution\n\nFunctions (shuffled):\n  A. aggregate\
+    \ traffic flows from customers\n  B. connect end users\n  C. fast switching\n  D. monitors network traffic\n  E. redundant\
+    \ architectures within data centers\n"
   left_items:
     '1': Access
     '2': Core
@@ -1466,7 +1661,8 @@
     '2': C
     '3': E
     '4': A
-  explanation: The access layer connects endpoints, the core emphasizes fast transport, the distribution layer aggregates traffic, and spine-leaf is associated with highly redundant data-center designs.
+  explanation: The access layer connects endpoints, the core emphasizes fast transport, the distribution layer aggregates
+    traffic, and spine-leaf is associated with highly redundant data-center designs.
   source: adapted_from_images
 
 - id: NA-053
@@ -1478,7 +1674,8 @@
   - capwap
   - lightweight-ap
   - wlc
-  question: Which mode must be set for APs to communicate to a Wireless LAN Controller using the Control and Provisioning of Wireless Access Points (CAPWAP) protocol?
+  question: Which mode must be set for APs to communicate to a Wireless LAN Controller using the Control and Provisioning
+    of Wireless Access Points (CAPWAP) protocol?
   options:
     A: route
     B: bridge
@@ -1533,7 +1730,8 @@
     C: Configure the cdp holdtime 10 command on switch Cat9300.
     D: Configure the cdp timer 10 command on the neighbors of switch Cat9300.
   correct_answer: B
-  explanation: Reducing the CDP advertisement interval on the Cat9300 with `cdp timer 10` makes neighbors learn about it more quickly.
+  explanation: Reducing the CDP advertisement interval on the Cat9300 with `cdp timer 10` makes neighbors learn about it more
+    quickly.
   source: 2-Network-Access_103/NA-055.png
 
 - id: NA-056
@@ -1545,30 +1743,57 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required trunking and link-aggregation tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Task 1
+    Configure the trunks between Sw1 and Sw2 on ports E0/0 and E0/1 using the IEEE standard frame tagging method.
+    - Only the VLANs for the PCs should be permitted across the trunks.
+    - Routers are simulated as PCs and are preconfigured with IP Addresses.
+    - PC configurations must remain unchanged.
+
+    Task 2
+    On Sw1 and Sw2, use IEEE 802.3ad link aggregation.
+    - Assign number 10 to the link.
+    - Combine E0/0 and E0/1 into a single logical link.
+    - Both links must negotiate aggregation.
+  explanation: This lab requires 802.1Q trunking between SW1 and SW2 with only the PC VLANs permitted across the trunks, while preserving the existing end-device addressing, and IEEE 802.3ad link aggregation using Port-channel 10 with negotiation enabled on both links.
   source: 2-Network-Access_103/NA-056.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the restricted-trunk and IEEE 802.3ad aggregation tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure E0/0 and E0/1 between SW1 and SW2 as 802.1Q trunks.
+    - Permit only the VLANs used by the PCs across the trunks.
+    - Preserve the existing PC and router-simulated host addressing and do not alter end-device settings.
+    - Build Port-channel 10 using IEEE 802.3ad across E0/0 and E0/1.
+    - Ensure both links negotiate aggregation.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-056.png
     required_commands:
     - configure terminal
+    - interface range e0/0 - 1
+    - switchport trunk encapsulation dot1q
+    - switchport mode trunk
+    - switchport trunk allowed vlan 10,20
+    - channel-group 10 mode active
     - end
     verification_commands:
-    - show running-config
+    - show interfaces trunk
+    - show etherchannel summary
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show interfaces trunk: Verify that E0/0 and E0/1 operate as 802.1Q trunks and that only the required PC VLANs are allowed across the trunk.
+      show etherchannel summary: Verify that Port-channel 10 is formed with LACP and that both links are negotiating aggregation.
 
 - id: NA-057
   topic: Network Access
@@ -1579,7 +1804,8 @@
   - rapid-pvst
   - stp-states
   - disabled
-  question: Which Rapid PVST+ port state does a port operate in without receiving BPDUs from neighbors or updating the address database?
+  question: Which Rapid PVST+ port state does a port operate in without receiving BPDUs from neighbors or updating the address
+    database?
   options:
     A: listening
     B: forwarding
@@ -1598,7 +1824,8 @@
   - ssid
   - wireless-basics
   - wlan
-  question: Which value is the unique identifier that an access point uses to establish and maintain wireless connectivity to wireless network devices?
+  question: Which value is the unique identifier that an access point uses to establish and maintain wireless connectivity
+    to wireless network devices?
   options:
     A: VLAN ID
     B: SSID
@@ -1617,30 +1844,61 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required VLAN and neighbor-discovery tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    R1 and R2 are pre-configured with all the necessary commands. All physical cabling is in place and verified. Connectivity for PC1 and PC2 must be established to the switches; each port must only allow one VLAN and be operational.
+    - Configure SW-1 with VLAN 15 and label it exactly as OPS.
+    - Configure SW-2 with VLAN 66 and label it exactly as ENGINEERING.
+    - Configure the switch port connecting to PC1.
+    - Configure the switch port connecting to PC2.
+    - Configure the E0/2 connections on SW-1 and SW-2 for neighbor discovery using the vendor-neutral standard protocol and ensure that E0/0 on both switches uses the Cisco proprietary protocol.
+  explanation: This lab requires VLAN 15 named OPS on SW-1, VLAN 66 named ENGINEERING on SW-2, correct access-port configuration for PC1 and PC2, LLDP on the E0/2 inter-switch connections, and CDP on E0/0 on both switches.
   source: 2-Network-Access_103/NA-059.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the VLAN, access-port, LLDP, and CDP tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure VLAN 15 named OPS on SW-1.
+    - Configure VLAN 66 named ENGINEERING on SW-2.
+    - Configure the PC-facing ports as single-VLAN end-user access ports.
+    - Enable vendor-neutral neighbor discovery on the E0/2 links between SW-1 and SW-2.
+    - Ensure E0/0 on both switches uses Cisco proprietary neighbor discovery.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-059.png
     required_commands:
     - configure terminal
+    - vlan 15
+    - name ops
+    - vlan 66
+    - name engineering
+    - interface e0/1
+    - switchport mode access
+    - switchport access vlan 15
+    - interface e0/2
+    - lldp transmit
+    - lldp receive
+    - cdp enable
     - end
     verification_commands:
-    - show running-config
+    - show vlan brief
+    - show lldp neighbors
+    - show cdp neighbors
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show vlan brief: Verify VLAN 15 OPS and VLAN 66 ENGINEERING exist and that the PC-facing ports are configured as the correct single-VLAN access ports.
+      show lldp neighbors: Verify LLDP is operating on the E0/2 connections between SW-1 and SW-2.
+      show cdp neighbors: Verify CDP is enabled on E0/0 on both switches.
 
 - id: NA-060
   topic: Network Access
@@ -1651,14 +1909,16 @@
   - autonomous-ap
   - cloud-based-ap
   - management
-  question: What must a network administrator consider when deciding whether to configure a new wireless network with APs in autonomous mode or APs running in cloud-based mode?
+  question: What must a network administrator consider when deciding whether to configure a new wireless network with APs
+    in autonomous mode or APs running in cloud-based mode?
   options:
     A: Autonomous mode APs are less dependent on an underlay but more complex to maintain than APs in cloud-based mode.
     B: Cloud-based mode APs rely on underlays and are more complex to maintain than APs in autonomous mode.
     C: Cloud-based mode APs are easy to deploy but harder to automate than APs in autonomous mode.
     D: Autonomous mode APs are easy to deploy and automate than APs in cloud-based mode.
   correct_answer: A
-  explanation: Autonomous APs can operate more independently but require per-device configuration and maintenance, whereas cloud-managed APs are usually simpler to deploy and manage centrally.
+  explanation: Autonomous APs can operate more independently but require per-device configuration and maintenance, whereas
+    cloud-managed APs are usually simpler to deploy and manage centrally.
   source: adapted_from_images
 
 - id: NA-061
@@ -1677,7 +1937,8 @@
     C: FlexConnect
     D: Bridge
   correct_answer: D
-  explanation: Wireless mesh deployments use APs operating in bridge mode to connect wirelessly and extend coverage without wired backhaul to every AP.
+  explanation: Wireless mesh deployments use APs operating in bridge mode to connect wirelessly and extend coverage without
+    wired backhaul to every AP.
   source: adapted_from_images
 
 - id: NA-062
@@ -1690,14 +1951,16 @@
   - link-aggregation
   - redundancy
   - bandwidth
-  question: What provides connection redundancy, increased bandwidth, and load sharing between a wireless LAN controller and a Layer 2 switch?
+  question: What provides connection redundancy, increased bandwidth, and load sharing between a wireless LAN controller and
+    a Layer 2 switch?
   options:
     A: first hop redundancy
     B: VLAN trunking
     C: tunneling
     D: link aggregation
   correct_answer: D
-  explanation: Link aggregation bundles multiple physical links into one logical connection to increase throughput and provide redundancy.
+  explanation: Link aggregation bundles multiple physical links into one logical connection to increase throughput and provide
+    redundancy.
   source: adapted_from_images
 
 - id: NA-063
@@ -1710,7 +1973,9 @@
   - fast-transition
   - ft-psk
   - roaming
-  question: Refer to the exhibit. Users need to connect to the wireless network with IEEE 802.11r-compatible devices. The connection must be maintained as users travel between floors or to other areas in the building. What must be the configuration of the connection?
+  question: Refer to the exhibit. Users need to connect to the wireless network with IEEE 802.11r-compatible devices. The
+    connection must be maintained as users travel between floors or to other areas in the building. What must be the configuration
+    of the connection?
   exhibit: 'Wireless roaming requirement:
 
     - client devices support IEEE 802.11r
@@ -1743,7 +2008,9 @@
   - port-security
   - access-port
   - mac-address
-  question: Refer to the exhibit. An engineer must configure the interface that connects to PC1 and secure it in a way that only PC1 is allowed to use the port. No VLAN tagging can be used except for a voice VLAN. Which command sequence must be entered to configure the switch?
+  question: Refer to the exhibit. An engineer must configure the interface that connects to PC1 and secure it in a way that
+    only PC1 is allowed to use the port. No VLAN tagging can be used except for a voice VLAN. Which command sequence must
+    be entered to configure the switch?
   exhibit: 'Port-security requirement:
 
     - the PC1-facing interface must remain an access port
@@ -1759,12 +2026,17 @@
 
     '
   options:
-    A: SW1(config-if)#switchport mode dynamic auto SW1(config-if)#switchport port-security SW1(config-if)#switchport port-security violation restrict
-    B: SW1(config-if)#switchport mode nonegotiate SW1(config-if)#switchport port-security SW1(config-if)#switchport port-security maximum 1
-    C: SW1(config-if)#switchport mode access SW1(config-if)#switchport port-security SW1(config-if)#switchport port-security mac-address 0050.7966.6800
-    D: SW1(config-if)#switchport mode dynamic desirable SW1(config-if)#switchport port-security mac-address 0050.7966.6800 SW1(config-if)#switchport port-security mac-address sticky
+    A: SW1(config-if)#switchport mode dynamic auto SW1(config-if)#switchport port-security SW1(config-if)#switchport port-security
+      violation restrict
+    B: SW1(config-if)#switchport mode nonegotiate SW1(config-if)#switchport port-security SW1(config-if)#switchport port-security
+      maximum 1
+    C: SW1(config-if)#switchport mode access SW1(config-if)#switchport port-security SW1(config-if)#switchport port-security
+      mac-address 0050.7966.6800
+    D: SW1(config-if)#switchport mode dynamic desirable SW1(config-if)#switchport port-security mac-address 0050.7966.6800
+      SW1(config-if)#switchport port-security mac-address sticky
   correct_answer: C
-  explanation: Because the port must be a non-tagging access port and only PC1 is allowed, the correct solution is an access port with port security tied to PC1's specific MAC address.
+  explanation: Because the port must be a non-tagging access port and only PC1 is allowed, the correct solution is an access
+    port with port security tied to PC1's specific MAC address.
   source: 2-Network-Access_103/NA-064.png
 
 - id: NA-065
@@ -1795,30 +2067,53 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required trunking and link-aggregation tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    All physical cabling is in place and verified. Connectivity between all four switches must be established and operational. All ports are pre-configured as 802.1q trunks.
+    - Configure both SW-1 and SW-2 ports e0/1 and e0/2 to permit only the allowed VLANs.
+    - Configure both SW-3 and SW-4 ports e0/2 to permit only the allowed VLANs.
+    - Configure both SW-1 and SW-2 e0/1 ports to send and receive untagged traffic over VLAN 99.
+    - Configure both SW-3 and SW-4 ports e0/0 and e0/1 for link aggregation using the industry standard protocol. All ports must immediately negotiate the link aggregation.
+    - Permit only the allowed VLANs on the new link.
+  explanation: This lab requires restricting the allowed VLANs on the specified 802.1Q trunks, configuring VLAN 99 as the native untagged VLAN on SW-1 and SW-2 e0/1, and creating a new IEEE 802.3ad aggregated trunk between SW-3 and SW-4 with active negotiation and only the allowed VLANs permitted on the new link.
   source: 2-Network-Access_103/NA-066.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the trunk restriction, native VLAN, and IEEE 802.3ad aggregation tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Restrict the allowed VLANs on the specified trunk ports on SW-1, SW-2, SW-3, and SW-4.
+    - Configure SW-1 and SW-2 e0/1 to use VLAN 99 as the native untagged VLAN.
+    - Configure SW-3 and SW-4 e0/0 and e0/1 as an IEEE 802.3ad aggregated link.
+    - Ensure all aggregation ports immediately negotiate LACP.
+    - Permit only the allowed VLANs on the new aggregated link.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-066.png
     required_commands:
     - configure terminal
+    - interface e0/1
+    - switchport trunk allowed vlan 10,20,30
+    - switchport trunk native vlan 99
+    - interface range e0/0 - 1
+    - channel-group 10 mode active
     - end
     verification_commands:
-    - show running-config
+    - show interfaces trunk
+    - show etherchannel summary
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show interfaces trunk: Verify that only the allowed VLANs are permitted on the specified trunks and that VLAN 99 is the native VLAN where required.
+      show etherchannel summary: Verify that the new SW-3/SW-4 aggregated link is formed with LACP and that the member ports are actively negotiating.
 
 - id: NA-067
   topic: Network Access
@@ -1851,7 +2146,8 @@
     C: SW3
     D: SW4
   correct_answer: A
-  explanation: SW1 and SW4 share the lowest STP priority of 8192, so the tie is broken by the lower MAC address. SW1 has the lower MAC address and becomes root.
+  explanation: SW1 and SW4 share the lowest STP priority of 8192, so the tie is broken by the lower MAC address. SW1 has the
+    lower MAC address and becomes root.
   source: 2-Network-Access_103/NA-067.png
 
 - id: NA-068
@@ -1865,7 +2161,10 @@
   - telnet
   - https
   - management
-  question: "Match each management connection type (left) to its correct definition (right).\nOriginal format: drag and drop.\n\nConnection types:\n  1. console\n  2. HTTPS\n  3. SSH\n  4. Telnet\n\nDefinitions (shuffled):\n  A. supports clear-text connections to the controller CLI\n  B. supports encrypted access to CLI and a secure channel for data transfer\n  C. supports physical connections over a serial cable\n  D. supports secure web access for management of the device\n"
+  question: "Match each management connection type (left) to its correct definition (right).\nOriginal format: drag and drop.\n\
+    \nConnection types:\n  1. console\n  2. HTTPS\n  3. SSH\n  4. Telnet\n\nDefinitions (shuffled):\n  A. supports clear-text\
+    \ connections to the controller CLI\n  B. supports encrypted access to CLI and a secure channel for data transfer\n  C.\
+    \ supports physical connections over a serial cable\n  D. supports secure web access for management of the device\n"
   left_items:
     '1': console
     '2': HTTPS
@@ -1881,7 +2180,8 @@
     '2': D
     '3': B
     '4': A
-  explanation: Console uses a physical serial connection, HTTPS provides secure web management, SSH provides encrypted CLI access, and Telnet is clear-text CLI access.
+  explanation: Console uses a physical serial connection, HTTPS provides secure web management, SSH provides encrypted CLI
+    access, and Telnet is clear-text CLI access.
   source: adapted_from_images
 
 - id: NA-069
@@ -1893,30 +2193,52 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required trunking and link-aggregation tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    SW-3 and SW-4 are preconfigured with all necessary commands. All physical cabling is in place and verified. All connectivity must be operational.
+    - Configure both SW-1 and SW-2 switch ports e0/0 and e0/1 for 802.1Q trunking with only VLANs 1, 12, and 22 permitted.
+    - Configure SW-1 port e0/2 for 802.1Q trunking and include only VLANs 12 and 22.
+    - Configure both SW-1 and SW-2 switch ports e0/0 and e0/1 for link aggregation using the industry standard protocol. All ports must be configured so that they immediately negotiate the link.
+  explanation: This lab requires 802.1Q trunking on the specified SW-1 and SW-2 interfaces, limiting the allowed VLANs to 1, 12, and 22 on the aggregated links, limiting SW-1 e0/2 to VLANs 12 and 22, and configuring IEEE 802.3ad aggregation with immediate LACP negotiation on all member links.
   source: 2-Network-Access_103/NA-069.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the trunking and IEEE 802.3ad aggregation tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure SW-1 and SW-2 e0/0 and e0/1 as 802.1Q trunks permitting only VLANs 1, 12, and 22.
+    - Configure SW-1 e0/2 as an 802.1Q trunk permitting only VLANs 12 and 22.
+    - Build an IEEE 802.3ad aggregated link between SW-1 and SW-2 using e0/0 and e0/1.
+    - Configure all aggregation member ports to immediately negotiate LACP.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-069.png
     required_commands:
     - configure terminal
+    - interface range e0/0 - 1
+    - switchport trunk encapsulation dot1q
+    - switchport mode trunk
+    - switchport trunk allowed vlan 1,12,22
+    - interface e0/2
+    - switchport trunk allowed vlan 12,22
+    - channel-group 10 mode active
     - end
     verification_commands:
-    - show running-config
+    - show interfaces trunk
+    - show etherchannel summary
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show interfaces trunk: Verify that the specified trunks use 802.1Q and that only the required VLANs are permitted on each link.
+      show etherchannel summary: Verify that the SW-1/SW-2 aggregated link is formed with LACP and that all member ports are actively negotiating.
 
 - id: NA-070
   topic: Network Access
@@ -1927,7 +2249,9 @@
   - voice-vlan
   - access-port
   - ip-phone
-  question: Refer to the exhibit. Switch A is newly configured. All VLANs are present in the VLAN database. The IP phone and PC A on Gi0/1 must be configured for the appropriate VLANs to establish connectivity between the PCs. Which command set fulfills the requirement?
+  question: Refer to the exhibit. Switch A is newly configured. All VLANs are present in the VLAN database. The IP phone and
+    PC A on Gi0/1 must be configured for the appropriate VLANs to establish connectivity between the PCs. Which command set
+    fulfills the requirement?
   exhibit: 'Interface requirement on Gi0/1:
 
     - PC uses data VLAN 50
@@ -1943,12 +2267,17 @@
 
     '
   options:
-    A: SwitchA(config-if)#switchport mode access SwitchA(config-if)#switchport access vlan 50 SwitchA(config-if)#switchport voice vlan 51
-    B: SwitchA(config-if)#switchport mode trunk SwitchA(config-if)#switchport trunk allowed vlan add 50, 51 SwitchA(config-if)#switchport voice vlan dot1p
-    C: SwitchA(config-if)#switchport mode trunk SwitchA(config-if)#switchport trunk allowed vlan 50, 51 SwitchA(config-if)#mls qos trust cos
-    D: SwitchA(config-if)#switchport mode access SwitchA(config-if)#switchport access vlan 50 SwitchA(config-if)#switchport voice vlan untagged
+    A: SwitchA(config-if)#switchport mode access SwitchA(config-if)#switchport access vlan 50 SwitchA(config-if)#switchport
+      voice vlan 51
+    B: SwitchA(config-if)#switchport mode trunk SwitchA(config-if)#switchport trunk allowed vlan add 50, 51 SwitchA(config-if)#switchport
+      voice vlan dot1p
+    C: SwitchA(config-if)#switchport mode trunk SwitchA(config-if)#switchport trunk allowed vlan 50, 51 SwitchA(config-if)#mls
+      qos trust cos
+    D: SwitchA(config-if)#switchport mode access SwitchA(config-if)#switchport access vlan 50 SwitchA(config-if)#switchport
+      voice vlan untagged
   correct_answer: A
-  explanation: A PC behind an IP phone is typically connected through an access port in the data VLAN, with the phone using a separate configured voice VLAN.
+  explanation: A PC behind an IP phone is typically connected through an access port in the data VLAN, with the phone using
+    a separate configured voice VLAN.
   source: 2-Network-Access_103/NA-070.png
 
 - id: NA-071
@@ -1998,7 +2327,8 @@
     C: trunk
     D: EtherChannel
   correct_answer: C
-  explanation: When an autonomous AP carries multiple VLANs for different WLANs, the switch-facing wired connection must be a trunk.
+  explanation: When an autonomous AP carries multiple VLANs for different WLANs, the switch-facing wired connection must be
+    a trunk.
   source: adapted_from_images
 
 - id: NA-073
@@ -2010,14 +2340,16 @@
   - pmf
   - comeback-timer
   - spoofed-association
-  question: An administrator must secure the WLC from receiving spoofed association requests. Which steps must be taken to configure the WLC to restrict the requests and force the user to wait 10 ms to retry an association request?
+  question: An administrator must secure the WLC from receiving spoofed association requests. Which steps must be taken to
+    configure the WLC to restrict the requests and force the user to wait 10 ms to retry an association request?
   options:
     A: Enable MAC filtering and set the SA Query timeout to 10.
     B: Enable 802.1x Layer 2 security and set the Comeback timer to 10.
     C: Enable Security Association Teardown Protection and set the SA Query timeout to 10.
     D: Enable the Protected Management Frame service and set the Comeback timer to 10.
   correct_answer: D
-  explanation: Protected Management Frames help defend against spoofed management traffic, and the comeback timer controls how long a client waits before retrying association.
+  explanation: Protected Management Frames help defend against spoofed management traffic, and the comeback timer controls
+    how long a client waits before retrying association.
   source: adapted_from_images
 
 - id: NA-074
@@ -2036,7 +2368,8 @@
     C: divides data link layer functions between the AP and WLC
     D: combines the management and control functions from the data-forwarding functions
   correct_answer: C
-  explanation: In split-MAC architecture, some Layer 2 functions stay on the AP while higher-level control functions are centralized on the WLC.
+  explanation: In split-MAC architecture, some Layer 2 functions stay on the AP while higher-level control functions are centralized
+    on the WLC.
   source: adapted_from_images
 
 - id: NA-075
@@ -2068,7 +2401,8 @@
   - access-port
   - vlan
   - switching
-  question: Refer to the exhibit. Switch AccSw1 has just been added to the network along with PC2. All VLANs have been implemented on AccSw2. How must the ports on AccSw2 be configured to establish Layer 2 connectivity between PC1 and PC2?
+  question: Refer to the exhibit. Switch AccSw1 has just been added to the network along with PC2. All VLANs have been implemented
+    on AccSw2. How must the ports on AccSw2 be configured to establish Layer 2 connectivity between PC1 and PC2?
   exhibit: 'Topology requirement:
 
     - PC2 is newly connected to AccSw1
@@ -2086,12 +2420,17 @@
 
     '
   options:
-    A: interface GigabitEthernet1/2 switchport mode access switchport access vlan 2 ! interface GigabitEthernet1/24 switchport mode trunk
-    B: interface GigabitEthernet1/1 switchport mode access switchport access vlan 11 ! interface GigabitEthernet1/24 switchport mode trunk
-    C: interface GigabitEthernet1/24 switchport mode trunk switchport trunk allowed vlan 11, 12 ! interface GigabitEthernet1/1 switchport access vlan 11
-    D: interface GigabitEthernet1/2 switchport mode access switchport access vlan 12 ! interface GigabitEthernet1/24 switchport trunk allowed vlan 11, 12
+    A: interface GigabitEthernet1/2 switchport mode access switchport access vlan 2 ! interface GigabitEthernet1/24 switchport
+      mode trunk
+    B: interface GigabitEthernet1/1 switchport mode access switchport access vlan 11 ! interface GigabitEthernet1/24 switchport
+      mode trunk
+    C: interface GigabitEthernet1/24 switchport mode trunk switchport trunk allowed vlan 11, 12 ! interface GigabitEthernet1/1
+      switchport access vlan 11
+    D: interface GigabitEthernet1/2 switchport mode access switchport access vlan 12 ! interface GigabitEthernet1/24 switchport
+      trunk allowed vlan 11, 12
   correct_answer: B
-  explanation: PC2 connects on Gi1/1 in VLAN 11, and the inter-switch link on Gi1/24 must be configured as a trunk so VLAN 11 can traverse between the switches.
+  explanation: PC2 connects on Gi1/1 in VLAN 11, and the inter-switch link on Gi1/24 must be configured as a trunk so VLAN
+    11 can traverse between the switches.
   source: 2-Network-Access_103/NA-076.png
 
 - id: NA-077
@@ -2104,7 +2443,8 @@
   - active
   - passive
   - etherchannel
-  question: Refer to the exhibit. An engineer is configuring an EtherChannel using LACP between Switches 1 and 2. Which configuration must be applied so that only Switch 1 sends LACP initiation packets?
+  question: Refer to the exhibit. An engineer is configuring an EtherChannel using LACP between Switches 1 and 2. Which configuration
+    must be applied so that only Switch 1 sends LACP initiation packets?
   exhibit: 'LACP requirement:
 
     - only Switch 1 should initiate LACP negotiation
@@ -2131,7 +2471,8 @@
 
       Switch2(config-if)#channel-group 1 mode passive'
   correct_answer: B
-  explanation: In LACP, the active side initiates negotiation packets and the passive side only responds, so Switch 1 must be active and Switch 2 passive.
+  explanation: In LACP, the active side initiates negotiation packets and the passive side only responds, so Switch 1 must
+    be active and Switch 2 passive.
   source: 2-Network-Access_103/NA-077.png
 
 - id: NA-078
@@ -2144,7 +2485,8 @@
   - cloud-based
   - split-mac
   - lightweight-ap
-  question: A network architect planning a new Wi-Fi network must decide between autonomous, cloud-based, and split MAC architectures. Which two facts should the architect consider? (Choose two.)
+  question: A network architect planning a new Wi-Fi network must decide between autonomous, cloud-based, and split MAC architectures.
+    Which two facts should the architect consider? (Choose two.)
   options:
     A: Cloud-based architectures uniquely use the CAPWAP protocol to communicate between access points and clients.
     B: Autonomous architectures exclusively use tunneling protocols to manage access points remotely.
@@ -2154,7 +2496,8 @@
   correct_answer:
   - C
   - D
-  explanation: All three designs still rely on APs to connect wireless clients to the wired network, and lightweight APs are characteristic of split-MAC architectures.
+  explanation: All three designs still rely on APs to connect wireless clients to the wired network, and lightweight APs are
+    characteristic of split-MAC architectures.
   source: adapted_from_images
 
 - id: NA-079
@@ -2188,7 +2531,8 @@
     C: SW3
     D: SW4
   correct_answer: B
-  explanation: SW2 and SW3 share the lowest STP priority of 4096, so the tiebreaker is the MAC address. SW2 has the lower MAC address and becomes the root bridge.
+  explanation: SW2 and SW3 share the lowest STP priority of 4096, so the tiebreaker is the MAC address. SW2 has the lower
+    MAC address and becomes the root bridge.
   source: 2-Network-Access_103/NA-079.png
 
 - id: NA-080
@@ -2200,30 +2544,59 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required VLAN and neighbor-discovery tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    R1 has been pre-configured with all the necessary commands. All physical cabling is in place and verified. Connectivity to the end devices must be configured.
+    - Configure SW-1 switch port 0/1 to carry traffic for the Cisco IP phone and PC.
+    - Configure SW-2 0/1 to carry traffic for PC2.
+    - Configure VLAN 10 with the name "Engineering" on SW-1.
+    - Configure the link between SW-1 and SW-2 to use the vendor neutral neighbor discovery protocol.
+    - Configure the link on SW-1 to R1 so that it does not allow the Cisco neighbor discovery protocol to pass.
+  explanation: This lab requires VLAN 10 named Engineering on SW-1, voice-plus-data access-port behavior on SW-1 0/1 for the Cisco IP phone and attached PC, an access port for PC2 on SW-2 0/1, LLDP on the SW-1 to SW-2 link, and CDP blocked on the SW-1 to R1 link.
   source: 2-Network-Access_103/NA-080.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the VLAN, end-device port, LLDP, and CDP tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure VLAN 10 named Engineering on SW-1.
+    - Configure SW-1 port 0/1 to carry both Cisco IP phone voice traffic and PC data traffic.
+    - Configure SW-2 port 0/1 as the correct end-user port for PC2.
+    - Enable vendor-neutral neighbor discovery on the link between SW-1 and SW-2.
+    - Prevent Cisco proprietary neighbor discovery from passing on the SW-1 link toward R1.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-080.png
     required_commands:
     - configure terminal
+    - vlan 10
+    - name engineering
+    - interface e0/1
+    - switchport mode access
+    - switchport access vlan 10
+    - switchport voice vlan 20
+    - lldp transmit
+    - lldp receive
+    - no cdp enable
     - end
     verification_commands:
-    - show running-config
+    - show vlan brief
+    - show lldp neighbors
+    - show cdp neighbors
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show vlan brief: Verify VLAN 10 Engineering exists and that the end-device ports are assigned correctly for the phone/PC and PC2 connectivity requirements.
+      show lldp neighbors: Verify LLDP is operating on the link between SW-1 and SW-2.
+      show cdp neighbors: Verify the SW-1 link toward R1 is not advertising or receiving Cisco proprietary discovery information.
 
 - id: NA-081
   topic: Network Access
@@ -2256,7 +2629,8 @@
     C: SW3
     D: SW4
   correct_answer: C
-  explanation: SW2 and SW3 share the lowest STP priority of 8192, so the MAC-address tiebreaker applies. SW3 has the lower MAC address and becomes the root bridge.
+  explanation: SW2 and SW3 share the lowest STP priority of 8192, so the MAC-address tiebreaker applies. SW3 has the lower
+    MAC address and becomes the root bridge.
   source: 2-Network-Access_103/NA-081.png
 
 - id: NA-082
@@ -2269,7 +2643,9 @@
   - trunk
   - mac-address-table
   - switching
-  question: Refer to the exhibit. An engineer has started to configure replacement switch SW1. To verify part of the configuration, the engineer issued the commands as shown and noticed that the entry for PC2 is missing. Which change must be applied to SW1 so that PC1 and PC2 communicate normally?
+  question: Refer to the exhibit. An engineer has started to configure replacement switch SW1. To verify part of the configuration,
+    the engineer issued the commands as shown and noticed that the entry for PC2 is missing. Which change must be applied
+    to SW1 so that PC1 and PC2 communicate normally?
   exhibit: 'Troubleshooting clue:
 
     - PC2 MAC entry is missing from SW1
@@ -2285,12 +2661,17 @@
 
     '
   options:
-    A: SW1(config)#interface fa0/2 SW1(config-if)#no switchport access vlan 2 SW1(config-if)#no switchport trunk allowed vlan 3 SW1(config-if)#switchport trunk allowed vlan 2
-    B: SW1(config)#interface fa0/1 SW1(config-if)#no switchport access vlan 2 SW1(config-if)#switchport trunk native vlan 2 SW1(config-if)#switchport trunk allowed vlan 3
-    C: SW1(config)#interface fa0/2 SW1(config-if)#no switchport mode trunk SW1(config-if)#no switchport trunk allowed vlan 3 SW1(config-if)#switchport mode access
-    D: SW1(config)#interface fa0/1 SW1(config-if)#no switchport access vlan 2 SW1(config-if)#switchport access vlan 3 SW1(config-if)#switchport trunk allowed vlan 2
+    A: SW1(config)#interface fa0/2 SW1(config-if)#no switchport access vlan 2 SW1(config-if)#no switchport trunk allowed vlan
+      3 SW1(config-if)#switchport trunk allowed vlan 2
+    B: SW1(config)#interface fa0/1 SW1(config-if)#no switchport access vlan 2 SW1(config-if)#switchport trunk native vlan
+      2 SW1(config-if)#switchport trunk allowed vlan 3
+    C: SW1(config)#interface fa0/2 SW1(config-if)#no switchport mode trunk SW1(config-if)#no switchport trunk allowed vlan
+      3 SW1(config-if)#switchport mode access
+    D: SW1(config)#interface fa0/1 SW1(config-if)#no switchport access vlan 2 SW1(config-if)#switchport access vlan 3 SW1(config-if)#switchport
+      trunk allowed vlan 2
   correct_answer: C
-  explanation: PC2 is on Fa0/2 but that port is incorrectly configured as a trunk allowing VLAN 3. It must be returned to an access port in VLAN 2 so both PCs can communicate normally.
+  explanation: PC2 is on Fa0/2 but that port is incorrectly configured as a trunk allowing VLAN 3. It must be returned to
+    an access port in VLAN 2 so both PCs can communicate normally.
   source: 2-Network-Access_103/NA-082.png
 
 - id: NA-083
@@ -2321,7 +2702,8 @@
   - rstp
   - 802.1w
   - port-states
-  question: Aside from discarding, which two states does the switch port transition through while using RSTP (802.1w)? (Choose two.)
+  question: Aside from discarding, which two states does the switch port transition through while using RSTP (802.1w)? (Choose
+    two.)
   options:
     A: blocking
     B: speaking
@@ -2423,7 +2805,8 @@
     C: ip route 10.0.0.0 255.0.0.0 g0/0
     D: ip route 10.10.10.1 255.255.255.255 g0/0
   correct_answer: B
-  explanation: 'The packet for 10.10.10.3 matches the most specific valid route among the choices by longest-prefix match: 10.10.10.0/28.'
+  explanation: 'The packet for 10.10.10.3 matches the most specific valid route among the choices by longest-prefix match:
+    10.10.10.0/28.'
   source: 2-Network-Access_103/NA-088.png
 
 - id: NA-089
@@ -2435,16 +2818,23 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab for Network Access. Use the exhibit image and the original screenshot pages listed below to complete
+    the required configuration or verification tasks.
+  exhibit: "Original screenshot pages:\n  - 89_1.png\n  - 89_2.png\n  - 89_3.png\n  - 89_4.png\n\nReference notes:\n  - The\
+    \ cropped PNG in /images is the main user-facing exhibit.\n  - The /sshots pages above contain the full task sheet, topology,\
+    \ device prompts, and answer-reference text for this lab.\n  - Use the screenshot pages when you need the complete wording\
+    \ of the original simulation."
+  explanation: This Network Access simulation lab keeps the original screenshots as the authoritative visual reference. The
+    YAML now records which /sshots pages belong to the lab, and the interactive flow requires configuration mode plus verification
+    before submission.
   source: 2-Network-Access_103/NA-089.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: This Network Access lab is driven by the original simulation screenshots. Review the screenshot pages listed in
+      the exhibit, use the cropped image as the on-screen reference, and work through the required CLI steps in chat.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Review the original screenshot pages listed in the exhibit for the task sheet and topology details.
+    - Enter the IOS configuration or troubleshooting commands required by the simulation.
+    - Run the required verification command before submitting the lab.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-089.png
     required_commands:
@@ -2453,7 +2843,8 @@
     verification_commands:
     - show running-config
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching,
+        VLAN, trunking, discovery, or wireless task.
       show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
       show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
       show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
@@ -2477,7 +2868,8 @@
     C: Accounting tracks user services, and authentication provides access control
     D: Authorization identifies users, and authentication provides access control
   correct_answer: B
-  explanation: In AAA, authentication identifies users, authorization determines what they can do, and accounting records resource and service usage.
+  explanation: In AAA, authentication identifies users, authorization determines what they can do, and accounting records
+    resource and service usage.
   source: adapted_from_images
 
 - id: NA-091
@@ -2489,7 +2881,8 @@
   - lacp
   - lag
   - link-aggregation
-  question: A network administrator needs to aggregate 4 ports into a single logical link which must negotiate layer 2 connectivity to ports on another switch. What must be configured when using active mode on both sides of the connection?
+  question: A network administrator needs to aggregate 4 ports into a single logical link which must negotiate layer 2 connectivity
+    to ports on another switch. What must be configured when using active mode on both sides of the connection?
   options:
     A: LLDP
     B: LACP
@@ -2534,7 +2927,8 @@
     C: VTP is allowed to propagate VLAN configuration information from switch to switch automatically.
     D: Spanning-tree fails to detect a switching loop, increasing the likelihood of broadcast storms.
   correct_answer: D
-  explanation: PortFast should not be used on links between switches because bypassing normal STP transition can hide loops and lead to broadcast storms.
+  explanation: PortFast should not be used on links between switches because bypassing normal STP transition can hide loops
+    and lead to broadcast storms.
   source: adapted_from_images
 
 - id: NA-094
@@ -2566,7 +2960,8 @@
   - hotspot
   - captive-portal
   - guest-access
-  question: Which AP feature provides a captive portal for users to authenticate, register, and accept terms before accessing the internet?
+  question: Which AP feature provides a captive portal for users to authenticate, register, and accept terms before accessing
+    the internet?
   options:
     A: One-Click
     B: Hotspot
@@ -2603,30 +2998,59 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required trunking and link-aggregation tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Task 1
+    Configure trunks between Sw1 and Sw2 on ports E0/0 and E0/1 using the IEEE standard frame tagging method.
+    Add VLAN 45 as untagged on the trunk ports.
+    Only extend VLAN 15 and the untagged VLAN across the trunk.
+    Verify that PC1 is capable of pinging PC2.
+
+    Task 2
+    On Sw1 and Sw2, use IEEE 802.3ad link aggregation.
+    Combine E0/0 and E0/1 into a single logical link while leaving the trunk configurations intact.
+    Assign number 15 to the link.
+    Both links must negotiate aggregation.
+  explanation: This lab requires 802.1Q trunks between SW1 and SW2, VLAN 45 as the native untagged VLAN, only VLAN 15 and VLAN 45 allowed across the trunk, and IEEE 802.3ad aggregation using Port-channel 15 with negotiation on both links.
   source: 2-Network-Access_103/NA-097.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the trunking and IEEE 802.3ad aggregation tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure E0/0 and E0/1 between SW1 and SW2 as 802.1Q trunks.
+    - Configure VLAN 45 as the native untagged VLAN on the trunk ports.
+    - Allow only VLAN 15 and VLAN 45 across the trunk.
+    - Verify end-to-end connectivity between PC1 and PC2.
+    - Build Port-channel 15 using IEEE 802.3ad across E0/0 and E0/1.
+    - Ensure both links negotiate aggregation.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-097.png
     required_commands:
     - configure terminal
+    - interface range e0/0 - 1
+    - switchport trunk encapsulation dot1q
+    - switchport mode trunk
+    - switchport trunk allowed vlan 15,45
+    - switchport trunk native vlan 45
+    - channel-group 15 mode active
     - end
     verification_commands:
-    - show running-config
+    - show interfaces trunk
+    - show etherchannel summary
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show interfaces trunk: Verify that the trunk uses 802.1Q, VLAN 45 is the native VLAN, and only VLANs 15 and 45 are allowed across the trunk.
+      show etherchannel summary: Verify that Port-channel 15 is formed with LACP and that both links are negotiating aggregation.
 
 - id: NA-098
   topic: Network Access
@@ -2679,7 +3103,8 @@
   correct_answer:
   - A
   - E
-  explanation: The exhibit shows Rapid PVST+ operation, and the interface identified toward the root is FastEthernet 2/1, making it the root port rather than a designated port.
+  explanation: The exhibit shows Rapid PVST+ operation, and the interface identified toward the root is FastEthernet 2/1,
+    making it the root port rather than a designated port.
   source: 2-Network-Access_103/NA-099.png
 
 - id: NA-100
@@ -2691,7 +3116,8 @@
   - trunk
   - native-vlan
   - untagged
-  question: Refer to the exhibit. Which action is expected from SW1 when the untagged frame is received on the GigabitEthernet0/1 interface?
+  question: Refer to the exhibit. Which action is expected from SW1 when the untagged frame is received on the GigabitEthernet0/1
+    interface?
   exhibit: 'Trunking clue:
 
     - an untagged frame arrives on Gi0/1
@@ -2710,7 +3136,8 @@
     C: The frame is processed in VLAN 5
     D: The frame is dropped
   correct_answer: C
-  explanation: On an 802.1Q trunk, untagged frames are associated with the native VLAN. In the exhibit, the native VLAN is VLAN 5.
+  explanation: On an 802.1Q trunk, untagged frames are associated with the native VLAN. In the exhibit, the native VLAN is
+    VLAN 5.
   source: 2-Network-Access_103/NA-100.png
 
 - id: NA-101
@@ -2723,7 +3150,10 @@
   - lldp
   - interfaces
   - neighbors
-  question: 'Refer to the exhibit. For security reasons, automatic neighbor discovery must be disabled on the R5 Gi0/1 interface. These tasks must be completed: disable all neighbor discovery methods on R5 interface Gi0/1, permit neighbor discovery on R5 interface Gi0/2, verify there are no dynamically learned neighbors on R5 interface Gi0/1, and display the IP address of R6''s interface Gi0/2. Which configuration must be used?'
+  question: 'Refer to the exhibit. For security reasons, automatic neighbor discovery must be disabled on the R5 Gi0/1 interface.
+    These tasks must be completed: disable all neighbor discovery methods on R5 interface Gi0/1, permit neighbor discovery
+    on R5 interface Gi0/2, verify there are no dynamically learned neighbors on R5 interface Gi0/1, and display the IP address
+    of R6''s interface Gi0/2. Which configuration must be used?'
   exhibit: 'Security requirement on R5:
 
     - disable all automatic neighbor discovery only on Gi0/1
@@ -2739,12 +3169,17 @@
 
     '
   options:
-    A: R5(config)#int Gi0/1 R5(config-if)#no cdp enable R5(config-if)#exit R5(config)#lldp run R5(config)#no cdp run R5#sh cdp neighbor detail R5#sh lldp neighbor
-    B: R5(config)#int Gi0/1 R5(config-if)#no cdp enable R5(config-if)#exit R5(config)#no lldp run R5(config)#cdp run R5#sh cdp neighbor R5#sh lldp neighbor
-    C: R5(config)#int Gi0/1 R5(config-if)#no cdp run R5(config-if)#exit R5(config)#lldp run R5(config)#cdp enable R5#sh cdp neighbor R5#sh lldp neighbor
-    D: R5(config)#int Gi0/1 R5(config-if)#no cdp enable R5(config-if)#exit R5(config)#no lldp run R5(config)#cdp run R5#sh cdp neighbor detail R5#sh lldp neighbor
+    A: R5(config)#int Gi0/1 R5(config-if)#no cdp enable R5(config-if)#exit R5(config)#lldp run R5(config)#no cdp run R5#sh
+      cdp neighbor detail R5#sh lldp neighbor
+    B: R5(config)#int Gi0/1 R5(config-if)#no cdp enable R5(config-if)#exit R5(config)#no lldp run R5(config)#cdp run R5#sh
+      cdp neighbor R5#sh lldp neighbor
+    C: R5(config)#int Gi0/1 R5(config-if)#no cdp run R5(config-if)#exit R5(config)#lldp run R5(config)#cdp enable R5#sh cdp
+      neighbor R5#sh lldp neighbor
+    D: R5(config)#int Gi0/1 R5(config-if)#no cdp enable R5(config-if)#exit R5(config)#no lldp run R5(config)#cdp run R5#sh
+      cdp neighbor detail R5#sh lldp neighbor
   correct_answer: D
-  explanation: The solution must disable neighbor discovery on the sensitive interface while still allowing the required verification. The correct option preserves CDP where needed and uses detail output to display the neighbor IP address information.
+  explanation: The solution must disable neighbor discovery on the sensitive interface while still allowing the required verification.
+    The correct option preserves CDP where needed and uses detail output to display the neighbor IP address information.
   source: 2-Network-Access_103/NA-101.png
 
 - id: NA-102
@@ -2756,7 +3191,8 @@
   - voice-vlan
   - access-port
   - ip-phone
-  question: Refer to the exhibit. An administrator must configure interfaces Gi1/1 and Gi1/3 on switch SW11. PC-1 and PC-2 must be placed in the Data VLAN, and Phone-1 must be placed in the Voice VLAN. Which configuration meets these requirements?
+  question: Refer to the exhibit. An administrator must configure interfaces Gi1/1 and Gi1/3 on switch SW11. PC-1 and PC-2
+    must be placed in the Data VLAN, and Phone-1 must be placed in the Voice VLAN. Which configuration meets these requirements?
   exhibit: 'Interface requirements on SW11:
 
     - Gi1/1 connects to PC-1 and should be in Data VLAN 8
@@ -2774,12 +3210,17 @@
 
     '
   options:
-    A: interface gigabitethernet1/1 switchport mode access switchport access vlan 8 ! interface gigabitethernet1/3 switchport mode access switchport access vlan 8 switchport voice vlan 9
-    B: interface gigabitethernet1/1 switchport mode access switchport access vlan 8 ! interface gigabitethernet1/3 switchport mode trunk switchport trunk vlan 8 switchport voice vlan 9
-    C: interface gigabitethernet1/1 switchport mode access switchport access vlan 9 ! interface gigabitethernet1/3 switchport mode trunk switchport trunk vlan 8 switchport trunk vlan 9
-    D: interface gigabitethernet1/1 switchport mode access switchport access vlan 8 ! interface gigabitethernet1/3 switchport mode access switchport voice vlan 8 switchport access vlan 9
+    A: interface gigabitethernet1/1 switchport mode access switchport access vlan 8 ! interface gigabitethernet1/3 switchport
+      mode access switchport access vlan 8 switchport voice vlan 9
+    B: interface gigabitethernet1/1 switchport mode access switchport access vlan 8 ! interface gigabitethernet1/3 switchport
+      mode trunk switchport trunk vlan 8 switchport voice vlan 9
+    C: interface gigabitethernet1/1 switchport mode access switchport access vlan 9 ! interface gigabitethernet1/3 switchport
+      mode trunk switchport trunk vlan 8 switchport trunk vlan 9
+    D: interface gigabitethernet1/1 switchport mode access switchport access vlan 8 ! interface gigabitethernet1/3 switchport
+      mode access switchport voice vlan 8 switchport access vlan 9
   correct_answer: A
-  explanation: The PC-only port should be an access port in the data VLAN, and the phone-plus-PC port should also be an access port in the data VLAN with a separate configured voice VLAN for the IP phone.
+  explanation: The PC-only port should be an access port in the data VLAN, and the phone-plus-PC port should also be an access
+    port in the data VLAN with a separate configured voice VLAN for the IP phone.
   source: 2-Network-Access_103/NA-102.png
 
 - id: NA-103
@@ -2791,27 +3232,52 @@
   - simulation
   - lab
   - interactive
-  question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
-  exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
+  question: Simulation lab. Complete the required voice, data, and neighbor-discovery tasks using the exhibit image and the device consoles.
+  exhibit: |
+    Guidelines
+    This is a lab item in which tasks will be performed on virtual devices.
+    Refer to the Tasks tab to view the tasks for this lab item.
+    Refer to the Topology tab to access the device console(s) and perform the tasks.
+    Console access is available for all required devices by clicking the device icon or using the tab(s) above the console window.
+    All necessary pre-configurations have been applied.
+    Do not change the enable password or hostname for any device.
+    Save your configurations to NVRAM before moving to the next item.
+    Click Next at the bottom of the screen to submit this lab and move to the next question.
+    When Next is clicked, the lab closes and cannot be reopened.
+
+    Tasks
+    All physical cabling is in place and verified. Connectivity for the Switches on ports E0/1, E0/2, and E0/3 must be configured and available for voice and data capabilities.
+    Configure Sw1 and Sw2 with both VLANs, naming them according to the topology.
+    Configure the E0/1, E0/2, and E0/3 ports on both switches for both VLANs and ensure that Cisco IP phones and PCs pass traffic.
+    Configure Sw1 and Sw2 to allow neighbor discovery via the vendor-neutral protocol on e0/0.
+  explanation: This lab requires the correct creation and naming of the data and voice VLANs on both switches, proper voice-plus-data access-port configuration on E0/1 through E0/3, and vendor-neutral neighbor discovery enabled on E0/0.
   source: 2-Network-Access_103/NA-103.png
   lab:
-    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
+    intro: Use the exhibit image as the topology reference and complete the VLAN, access-port, and LLDP tasks before submitting the lab.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
+    - Configure both required VLANs on SW1 and SW2 using the exact VLAN names from the topology.
+    - Configure E0/1, E0/2, and E0/3 on both switches so Cisco IP phones and PCs can pass voice and data traffic.
+    - Configure the user-facing ports with the correct data VLAN and voice VLAN behavior.
+    - Enable vendor-neutral neighbor discovery on E0/0 on both switches.
+    - Save the configuration before submission.
     initial_prompt: SW1#
     image: 2-Network-Access_103/NA-103.png
     required_commands:
     - configure terminal
+    - vlan 10
+    - vlan 20
+    - interface e0/1
+    - switchport mode access
+    - switchport access vlan 10
+    - switchport voice vlan 20
+    - interface e0/0
+    - lldp transmit
+    - lldp receive
     - end
     verification_commands:
-    - show running-config
+    - show vlan brief
+    - show lldp neighbors
     command_responses:
-      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
-      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
-      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
-      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
-      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
-      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
+      show vlan brief: Verify the required data and voice VLANs exist with the correct names and that E0/1, E0/2, and E0/3 are configured for the expected user-facing VLAN assignments.
+      show lldp neighbors: Verify LLDP is enabled on E0/0 for vendor-neutral neighbor discovery.
+
