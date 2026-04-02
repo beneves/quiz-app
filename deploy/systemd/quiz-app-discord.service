@@ -1,0 +1,16 @@
+[Unit]
+Description=Quiz-App Discord Bot
+After=network.target
+
+[Service]
+Type=simple
+User=beneves
+Group=beneves
+WorkingDirectory=/home/beneves/quiz-app
+EnvironmentFile=/home/beneves/quiz-app/.env
+ExecStart=/home/beneves/quiz-app/.venv/bin/python bot_discord.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

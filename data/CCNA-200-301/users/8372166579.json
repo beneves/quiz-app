@@ -1,0 +1,21 @@
+{
+  "username": "8372166579",
+  "cert": "CCNA-200-301",
+  "sessions": [
+    {
+      "date": "2026-03-19T09:09:01",
+      "total": 10,
+      "correct": 4,
+      "wrong": 6,
+      "score_pct": 40.0,
+      "wrong_ids": [
+        "SEC-002",
+        "SW-002",
+        "RT-001",
+        "SEC-001",
+        "SW-003",
+        "SW-004"
+      ]
+    }
+  ]
+}

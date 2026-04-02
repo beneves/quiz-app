@@ -1,0 +1,1179 @@
+# Topic: IP Services
+# IDs:   IS-001 -> IS-057
+# Global sequential range: #338 - #394 (57 questions)
+# Source folder: sshots/4-IP-Services_57/
+
+- id: IS-001
+  topic: IP Services
+  subtopic: "SNMP"
+  type: single_choice
+  difficulty: easy
+  tags: [snmp, agent, mib]
+  question: "Which function does an SNMP agent perform?"
+  options:
+    A: "It sends information about MIB variables in response to requests from the NMS"
+    B: "It manages routing between Layer 3 devices in a network"
+    C: "It coordinates user authentication between a network device and a TACACS+ or RADIUS server"
+    D: "It requests information from remote network nodes about catastrophic system events"
+  correct_answer: A
+  explanation: "An SNMP agent resides on a managed device and responds to requests from the NMS by providing data from the MIB."
+  source: adapted_from_images
+
+- id: IS-002
+  topic: IP Services
+  subtopic: "QoS"
+  type: single_choice
+  difficulty: easy
+  tags: [qos, traffic-shaping, bandwidth]
+  question: "What is a purpose of traffic shaping?"
+  options:
+    A: "It enables policy-based routing"
+    B: "It enables dynamic flow identification"
+    C: "It provides best-effort service"
+    D: "It limits bandwidth usage"
+  correct_answer: D
+  explanation: "Traffic shaping controls the rate of traffic sent, preventing congestion and enforcing bandwidth policies."
+  source: adapted_from_images
+
+- id: IS-003
+  topic: IP Services
+  subtopic: "SNMP"
+  type: single_choice
+  difficulty: easy
+  tags: [snmp, udp, application-layer]
+  question: "What is the role of SNMP in the network?"
+  options:
+    A: "to monitor and manage network devices using a UDP underlay that operates on the application layer"
+    B: "to collect data directly from network devices using an SSL underlay that operates on the transport layer"
+    C: "to monitor network devices and functions using a TCP underlay that operates on the presentation layer"
+    D: "to collect telemetry and critical information from network devices using an SSH underlay that operates on the network layer"
+  correct_answer: A
+  explanation: "SNMP operates at the application layer and typically uses UDP to monitor and manage network devices."
+  source: adapted_from_images
+
+- id: IS-004
+  topic: IP Services
+  subtopic: "NAT"
+  type: single_choice
+  difficulty: medium
+  tags: [nat, static-nat, cisco-cli]
+  question: "Which command creates a static NAT binding for a PC address of 10.1.1.1 to the public routable address 209.165.200.225 assigned to the PC?"
+  options:
+    A: "ip nat inside source static 10.1.1.1 209.165.200.225"
+    B: "ip nat outside source static 209.165.200.225 10.1.1.1"
+    C: "ip nat inside source static 209.165.200.225 10.1.1.1"
+    D: "ip nat outside source static 10.1.1.1 209.165.200.225"
+  correct_answer: A
+  explanation: "Static NAT maps an inside local address to an inside global address using 'ip nat inside source static <local> <global>'."
+  source: adapted_from_images
+
+- id: IS-005
+  topic: IP Services
+  subtopic: "DHCP"
+  type: single_choice
+  difficulty: easy
+  tags: [dhcp, client]
+  question: "What is a DHCP client?"
+  options:
+    A: "a workstation that requests a domain name associated with its IP address"
+    B: "a host that is configured to request an IP address automatically"
+    C: "a server that dynamically assigns IP addresses to hosts"
+    D: "a router that statically assigns IP addresses to hosts"
+  correct_answer: B
+  explanation: "A DHCP client is any host configured to automatically obtain an IP address from a DHCP server."
+  source: adapted_from_images
+
+- id: IS-006
+  topic: IP Services
+  subtopic: "SSH Configuration"
+  type: multiple_choice
+  difficulty: medium
+  tags: [ssh, cisco-cli, security]
+  exhibit: |
+    hostname CPE
+    service password-encryption
+
+    ip domain name ccna.cisco.com
+    ip name-server 198.51.100.210
+
+    crypto key generate rsa modulus 1024
+
+    username admin privilege 15 secret s0m3s3cr3t
+
+    line vty 0 4
+     transport input ssh
+     login local
+  question: "Refer to the configuration. Which two commands must be removed because they are not required for SSH? (Choose two.)"
+  options:
+    A: "no ip name-server 198.51.100.210"
+    B: "no login local"
+    C: "no service password-encryption"
+    D: "no ip domain name ccna.cisco.com"
+    E: "no hostname CPE"
+  correct_answer: [A, C]
+  explanation: "DNS server and password encryption are not required for SSH operation. SSH requires hostname, domain name, RSA keys, and local login."
+  source: 4-IP-Services_57/IS-006.png
+
+- id: IS-007
+  topic: IP Services
+  subtopic: "Syslog"
+  type: multiple_choice
+  difficulty: medium
+  tags: [syslog, tcp, udp]
+  question: "Which two transport layer protocols carry syslog messages? (Choose two.)"
+  options:
+    A: "IP"
+    B: "RTP"
+    C: "TCP"
+    D: "UDP"
+    E: "ARP"
+  correct_answer: [C, D]
+  explanation: "Syslog commonly uses UDP (default) and TCP (for reliable delivery)."
+  source: adapted_from_images
+
+- id: IS-008
+  topic: IP Services
+  subtopic: "DHCP"
+  type: single_choice
+  difficulty: easy
+  tags: [dhcp, cisco-cli]
+  question: "What is the purpose of the 'ip address dhcp' command?"
+  options:
+    A: "to configure an interface as a DHCP relay"
+    B: "to configure an interface as a DHCP client"
+    C: "to configure an interface as a DHCP helper"
+    D: "to configure an interface as a DHCP server"
+  correct_answer: B
+  explanation: "The command 'ip address dhcp' configures an interface to obtain its IP address dynamically from a DHCP server."
+  source: adapted_from_images
+
+- id: IS-009
+  topic: IP Services
+  subtopic: "File Transfer"
+  type: single_choice
+  difficulty: easy
+  tags: [ftp, tftp, authentication]
+  question: "Which protocol requires authentication to transfer a backup configuration file from a router to a remote server?"
+  options:
+    A: "FTP"
+    B: "SMTP"
+    C: "TFTP"
+    D: "DTP"
+  correct_answer: A
+  explanation: "FTP requires authentication, while TFTP does not."
+  source: adapted_from_images
+
+- id: IS-010
+  topic: IP Services
+  subtopic: "HSRP"
+  type: single_choice
+  difficulty: easy
+  tags: [hsrp, redundancy]
+  question: "When the active router in an HSRP group fails, which router assumes the role and forwards packets?"
+  options:
+    A: "forwarding"
+    B: "listening"
+    C: "standby"
+    D: "backup"
+  correct_answer: C
+  explanation: "In HSRP, the standby router takes over as the active router if the current active fails."
+  source: adapted_from_images
+
+- id: IS-011
+  topic: IP Services
+  subtopic: "QoS"
+  type: single_choice
+  difficulty: easy
+  tags: [qos, classification, traffic]
+  question: "What is the purpose of classifying network traffic in QoS?"
+  options:
+    A: "configures traffic-matching rules on network devices"
+    B: "services traffic according to its class"
+    C: "identifies the type of traffic that will receive a particular treatment"
+    D: "writes the class identifier of a packet to a dedicated field in the packet header"
+  correct_answer: C
+  explanation: "Traffic classification in QoS identifies traffic types so the network can apply the appropriate policy or treatment to each class."
+  source: adapted_from_images
+
+- id: IS-012
+  topic: IP Services
+  subtopic: "DHCP Relay"
+  type: single_choice
+  difficulty: medium
+  tags: [dhcp, relay, ip-helper-address]
+  question: "A DHCP pool has been created with the name CONTROL. The pool uses the next to last usable IP address as the default gateway for the DHCP clients. The server is located at 172.16.32.15. What is the next step in the process for clients on the 192.168.52.0/24 subnet to reach the DHCP server?"
+  options:
+    A: "ip helper-address 172.16.32.15"
+    B: "ip default-gateway 192.168.52.253"
+    C: "ip forward-protocol udp 137"
+    D: "ip default-network 192.168.52.253"
+  correct_answer: A
+  explanation: "When the DHCP server is on a different subnet, the router interface for the client subnet must be configured with ip helper-address pointing to the DHCP server."
+  source: adapted_from_images
+
+- id: IS-013
+  topic: IP Services
+  subtopic: "SNMP"
+  type: single_choice
+  difficulty: easy
+  tags: [snmp, nms, monitoring]
+  question: "What is the function of SNMP?"
+  options:
+    A: "It defines access policies and enforces them at the network management server."
+    B: "It collects device performance data and forwards it to the management system."
+    C: "It differentiates configuration and state data to monitor and compare network deviations."
+    D: "It enables automation use cases with TCP-based transactions in the network."
+  correct_answer: B
+  explanation: "SNMP is used for network monitoring and management, allowing devices to provide performance and status data to a network management system."
+  source: adapted_from_images
+
+- id: IS-014
+  topic: IP Services
+  subtopic: "DNS"
+  type: single_choice
+  difficulty: easy
+  tags: [dns, zone-transfer, primary-secondary]
+  question: "What is the function of a DNS zone transfer?"
+  options:
+    A: "Copy DNS database files from a primary to secondary server."
+    B: "Transfer domain registration from one registrar to another."
+    C: "Modify DNS resource records for load balancing."
+    D: "Redirect traffic from one domain to another."
+  correct_answer: A
+  explanation: "A DNS zone transfer replicates DNS records from a primary DNS server to a secondary DNS server."
+  source: adapted_from_images
+
+- id: IS-015
+  topic: IP Services
+  subtopic: "DHCP Relay"
+  type: single_choice
+  difficulty: easy
+  tags: [dhcp, relay-agent, dhcpdiscover]
+  question: "A network administrator must enable DHCP services between two sites. What must be configured for the router to pass DHCPDISCOVER messages on to the server?"
+  options:
+    A: "DHCP Binding"
+    B: "a DHCP Relay Agent"
+    C: "DHCP Snooping"
+    D: "a DHCP Pool"
+  correct_answer: B
+  explanation: "A DHCP relay agent forwards DHCP broadcast messages such as DHCPDISCOVER across routed networks to a remote DHCP server."
+  source: adapted_from_images
+
+- id: IS-016
+  topic: IP Services
+  subtopic: "QoS"
+  type: single_choice
+  difficulty: medium
+  tags: [qos, traffic-shaping, congestion-management]
+  question: "Which QoS traffic handling technique retains excess packets in a queue and reschedules these packets for later transmission when the configured maximum bandwidth has been surpassed?"
+  options:
+    A: "traffic policing"
+    B: "weighted random early detection"
+    C: "traffic prioritization"
+    D: "traffic shaping"
+  correct_answer: D
+  explanation: "Traffic shaping buffers excess traffic and delays transmission so that the traffic rate conforms to the configured bandwidth."
+  source: adapted_from_images
+
+- id: IS-017
+  topic: IP Services
+  subtopic: "File Transfer"
+  type: single_choice
+  difficulty: easy
+  tags: [ftp, tcp, file-transfer]
+  question: "Which protocol should be used to transfer large files on a company intranet that allows TCP 20 and 21 through the firewall?"
+  options:
+    A: "SMTP"
+    B: "REST API"
+    C: "TFTP"
+    D: "FTP"
+  correct_answer: D
+  explanation: "FTP uses TCP ports 20 and 21 and is appropriate for reliable transfer of large files."
+  source: adapted_from_images
+
+- id: IS-018
+  topic: IP Services
+  subtopic: "Syslog"
+  type: single_choice
+  difficulty: medium
+  tags: [syslog, severity, debug]
+  question: "Which level of severity must be set to get informational syslogs?"
+  options:
+    A: "alert"
+    B: "critical"
+    C: "notice"
+    D: "debug"
+  correct_answer: D
+  explanation: "To receive informational syslog messages, the logging level must be set to informational or a more verbose level. Debug includes informational messages."
+  source: adapted_from_images
+
+- id: IS-019
+  topic: IP Services
+  subtopic: "Syslog"
+  type: single_choice
+  difficulty: medium
+  tags: [syslog, severity-levels, debug]
+  question: "What is the role of syslog level 7 in network device health monitoring?"
+  options:
+    A: "It sends outputs from various debug commands on the device."
+    B: "It provides information about error conditions visible on the network device."
+    C: "It warns about emergency conditions on the network appliance."
+    D: "It shares normal operational messages from the network equipment."
+  correct_answer: A
+  explanation: "Syslog level 7 is the debug level, which provides very detailed troubleshooting output and debug command messages."
+  source: adapted_from_images
+
+- id: IS-020
+  topic: IP Services
+  subtopic: "SSH Configuration"
+  type: single_choice
+  difficulty: easy
+  tags: [ssh, rsa, domain-name, cisco-cli]
+  question: "A network engineer is configuring a switch so that it is remotely reachable via SSH. The engineer has already configured the host name on the router. Which additional command must the engineer configure before entering the command to generate the RSA key?"
+  options:
+    A: "password password"
+    B: "ip ssh authentication-retries 2"
+    C: "ip domain-name domain"
+    D: "crypto key generate rsa modulus 1024"
+  correct_answer: C
+  explanation: "To generate RSA keys for SSH, the device must have both a hostname and a domain name configured."
+  source: adapted_from_images
+
+- id: IS-021
+  topic: IP Services
+  subtopic: "Wireless LAN Controller"
+  type: single_choice
+  difficulty: medium
+  tags: [wlc, aireos, gui]
+  question: "What is the total number of users permitted to simultaneously browse the controller management pages when using the AireOS GUI?"
+  options:
+    A: "2"
+    B: "5"
+    C: "8"
+    D: "9"
+  correct_answer: B
+  explanation: "Cisco AireOS WLCs allow a maximum of 5 simultaneous GUI management sessions."
+  source: adapted_from_images
+
+- id: IS-022
+  topic: IP Services
+  subtopic: "DNS"
+  type: single_choice
+  difficulty: easy
+  tags: [dns, web-access, ipconfig]
+  exhibit: |
+    Topology:
+
+    [Internet] --- [Router] --- [Switch] --- [PC]
+                    Gi0/0                  10.2.2.2
+                 10.2.2.1/29
+
+    PC - C:\>ipconfig /all
+
+    Ethernet adapter Ethernet:
+       Connection-specific DNS Suffix  . :
+       Physical Address. . . . . . . . . : 08-35-44-38-AB-4F
+       DHCP Enabled. . . . . . . . . . . : No
+       IPv4 Address. . . . . . . . . . . : 10.2.2.2 (Preferred)
+       Subnet Mask . . . . . . . . . . . : 255.255.255.248
+       Default Gateway . . . . . . . . . : 10.2.2.1
+       DHCP Server . . . . . . . . . . . : 0.0.0.0
+       DNS Servers . . . . . . . . . . . : 0.0.0.0
+  question: "Refer to the exhibit. A newly configured PC fails to connect to the internet by using TCP port 80 to www.cisco.com. Which setting must be modified for the connection to work?"
+  options:
+    A: "Subnet Mask"
+    B: "DNS Servers"
+    C: "Default Gateway"
+    D: "DHCP Servers"
+  correct_answer: B
+  explanation: "The PC uses a hostname (www.cisco.com), so DNS resolution is required. The ipconfig shows DNS Servers: 0.0.0.0, meaning no DNS is configured. The Default Gateway (10.2.2.1) is valid and in the same /29 subnet as the PC (10.2.2.2/29), so routing is not the issue."
+  source: 4-IP-Services_57/IS-022.png
+
+- id: IS-023
+  topic: IP Services
+  subtopic: "NAT"
+  type: single_choice
+  difficulty: medium
+  tags: [nat, pat, inside-outside, topology]
+  exhibit: |
+    Topology:
+
+        [PC1] ---+
+      172.16.0.1 |
+                 [NAT-Router] --- [Internet]
+      172.16.0.2 |
+        [PC2] ---+
+
+    Router config:
+      interface GigabitEthernet0/0
+       ip address 172.16.0.254 255.255.255.0
+       duplex auto
+       speed auto
+      !
+      interface GigabitEthernet0/1
+       ip address 209.165.200.1 255.255.255.252
+       duplex auto
+       speed auto
+      !
+      access-list 1 permit 172.16.0.0 0.0.0.255
+      ip nat inside source list 1 interface GigabitEthernet0/1 overload
+
+      (ip nat inside / ip nat outside not configured on either interface)
+  question: "Refer to the exhibit. How should the configuration be updated to allow PC1 and PC2 access to the internet?"
+  options:
+    A: "Modify the configured number of the second access list"
+    B: "Change the ip nat inside source command to use interface GigabitEthernet0/0"
+    C: "Remove the overload keyword from the ip nat inside source command"
+    D: "Add either the ip nat inside or ip nat outside command under both interfaces"
+  correct_answer: D
+  explanation: "For NAT to function, the router interfaces must be marked with 'ip nat inside' (LAN-facing) and 'ip nat outside' (WAN-facing). The access-list and ip nat inside source command are present, but neither interface has the direction command applied."
+  source: 4-IP-Services_57/IS-023.png
+
+- id: IS-024
+  topic: IP Services
+  subtopic: "DNS"
+  type: single_choice
+  difficulty: easy
+  tags: [dns, recursive-query]
+  question: "What is the primary purpose of a recursive query in DNS?"
+  options:
+    A: "to perform a reverse DNS lookup"
+    B: "to update DNS records on a server"
+    C: "to refresh the TTL of specific DNS records"
+    D: "to resolve domain names via multiple DNS servers"
+  correct_answer: D
+  explanation: "In a recursive query, the DNS resolver performs the full lookup process on behalf of the client until it resolves the domain name."
+  source: adapted_from_images
+
+- id: IS-025
+  topic: IP Services
+  subtopic: "NTP and Time"
+  type: single_choice
+  difficulty: easy
+  tags: [clock, cisco-cli, time]
+  question: "A network analyst is tasked with configuring the date and time on a router using EXEC mode. The date must be set to January 1, 2020 and the time must be set to 12:00 a.m. Which command should be used?"
+  options:
+    A: "clock timezone"
+    B: "clock summer-time date"
+    C: "clock summer-time recurring"
+    D: "clock set"
+  correct_answer: D
+  explanation: "The EXEC mode command used to manually set the date and time on a Cisco device is clock set."
+  source: adapted_from_images
+
+- id: IS-026
+  topic: IP Services
+  subtopic: "DNS"
+  type: single_choice
+  difficulty: easy
+  tags: [dns, forwarder]
+  question: "What is the function of a DNS forwarder?"
+  options:
+    A: "Secure DNS queries with encryption."
+    B: "Redirect all DNS traffic to a single server."
+    C: "Forward queries to external DNS servers."
+    D: "Update DNS records faster."
+  correct_answer: C
+  explanation: "A DNS forwarder sends queries that cannot be resolved locally to another DNS server, usually an upstream or external resolver."
+  source: adapted_from_images
+
+- id: IS-027
+  topic: IP Services
+  subtopic: "Syslog"
+  type: single_choice
+  difficulty: easy
+  tags: [syslog, severity, emergency]
+  question: "Which syslog severity level is considered the most severe and results in the system being considered unusable?"
+  options:
+    A: "Error"
+    B: "Emergency"
+    C: "Alert"
+    D: "Critical"
+  correct_answer: B
+  explanation: "Syslog severity level 0 is Emergency, the most severe level, indicating that the system is unusable."
+  source: adapted_from_images
+
+- id: IS-028
+  topic: IP Services
+  subtopic: "Syslog"
+  type: single_choice
+  difficulty: easy
+  tags: [syslog, severity, level]
+  question: "A network administrator wants the syslog server to filter incoming messages into different files based on their importance. Which filtering criteria must be used?"
+  options:
+    A: "message body"
+    B: "level"
+    C: "facility"
+    D: "process ID"
+  correct_answer: B
+  explanation: "Syslog messages are categorized by severity level, which indicates their importance and is commonly used for filtering."
+  source: adapted_from_images
+
+- id: IS-029
+  topic: IP Services
+  subtopic: "QoS"
+  type: multiple_choice
+  difficulty: medium
+  tags: [qos, congestion-management, cbwfq, pq]
+  question: "Which two QoS tools provide congestion management? (Choose two.)"
+  options:
+    A: "CBWFQ"
+    B: "FRTS"
+    C: "CAR"
+    D: "PBR"
+    E: "PQ"
+  correct_answer: [A, E]
+  explanation: "CBWFQ and PQ are congestion management mechanisms. CBWFQ provides class-based queuing, while PQ provides strict priority queuing."
+  source: adapted_from_images
+
+- id: IS-030
+  topic: IP Services
+  subtopic: "NAT"
+  type: single_choice
+  difficulty: hard
+  tags: [nat, pat, acl, vlan, topology]
+  exhibit: |
+    Topology:
+
+                          [Internet]
+                               |
+                         Interface g1/0/0
+                      IP: 209.165.201.2/27
+                            [Router]
+                           /        \
+               g2/0/1.100            g2/0/1.200
+           IP: 192.168.100.1/27   IP: 192.168.100.33/27
+              VLAN 100                  VLAN 200
+                  |                         |
+            [SW + PCs]                 [SW + PCs]
+            (192.168.100.0/27)         (192.168.100.32/27)
+  question: "Refer to the exhibit. Which configuration must be applied to the router to configure PAT to translate all addresses in VLAN 200 while allowing devices on VLAN 100 to use their own IP addresses?"
+  options:
+    A: |
+      access-list 99 permit 192.168.100.32 0.0.0.31
+      ip nat inside source list 99 interface g1/0/0 overload
+      interface g2/0/1.200
+       ip nat inside
+      interface g1/0/0
+       ip nat outside
+    B: |
+      access-list 99 permit 192.168.100.0 0.0.0.31
+      ip nat inside source list 99 interface g1/0/0 overload
+      interface g2/0/1.100
+       ip nat inside
+      interface g1/0/0
+       ip nat outside
+    C: |
+      access-list 99 permit 192.168.100.32 0.0.0.31
+      ip nat outside source list 99 interface g1/0/0 overload
+      interface g2/0/1.200
+       ip nat inside
+      interface g1/0/0
+       ip nat outside
+    D: |
+      access-list 99 permit 192.168.100.0 0.0.0.31
+      ip nat inside source list 99 interface g1/0/0 overload
+      interface g2/0/1.200
+       ip nat inside
+      interface g1/0/0
+       ip nat outside
+  correct_answer: A
+  explanation: "VLAN 200 uses subnet 192.168.100.32/27. The ACL wildcard for /27 is 0.0.0.31, so 'permit 192.168.100.32 0.0.0.31' matches the entire VLAN 200 range. PAT uses 'ip nat inside source ... overload', with g2/0/1.200 marked inside and g1/0/0 (internet) marked outside. VLAN 100 devices keep their own IPs since they are not included in the ACL."
+  source: 4-IP-Services_57/IS-030.png
+
+- id: IS-031
+  topic: IP Services
+  subtopic: "SSH Configuration"
+  type: single_choice
+  difficulty: medium
+  tags: [ssh, rsa, cisco-cli]
+  exhibit: |
+    Router# show running-config
+    Building configuration...
+
+    Current configuration: 1130 bytes
+    !
+    Last configuration change at 11:02:33 UTC Sat Oct 10 2020
+    upgrade fpd auto
+    version 12.4
+    service timestamps debug datetime msec
+    service timestamps log datetime msec
+    no service password-encryption
+    !
+    hostname Router
+    !
+    boot-start-marker
+    boot-end-marker
+    !
+    no aaa new-model
+    no ip setup-rate limit unreachable
+    !
+     -- More --
+
+    (Note: no ip domain-name, no crypto key, no ip ssh version, no transport input ssh configured)
+  question: "Refer to the exhibit. Which minimum configuration items are needed to enable Secure Shell version 2 access to R15?"
+  options:
+    A: |
+      hostname R15
+      ip domain-name cisco.com
+      crypto key generate rsa general-keys modulus 1024
+      ip ssh version 2
+      line vty 0 15
+      transport input ssh
+    B: |
+      crypto key generate rsa general-keys modulus 1024
+      ip ssh version 2
+      line vty 0 15
+      transport input ssh
+      ip ssh logging events
+      ip ssh stricthostkeycheck
+    C: |
+      hostname R15
+      crypto key generate rsa general-keys modulus 1024
+      line vty 0 15
+      transport input ssh
+      ip ssh source-interface Fa0/0
+      ip ssh stricthostkeycheck
+    D: |
+      ip domain-name cisco.com
+      crypto key generate rsa general-keys modulus 1024
+      ip ssh version 2
+      line vty 0 15
+      transport input all
+      ip ssh logging events
+  correct_answer: A
+  explanation: "SSH v2 requires: (1) hostname — current is 'Router', must be 'R15'; (2) ip domain-name — used together with hostname to generate RSA keys; (3) crypto key generate rsa — creates the key pair (min 768 bits for SSHv2); (4) ip ssh version 2 — enforces SSHv2 only; (5) line vty + transport input ssh — restricts remote access to SSH. Option B lacks hostname/domain-name; Option C lacks ip domain-name; Option D has 'transport input all' (allows Telnet) and lacks hostname."
+  source: 4-IP-Services_57/IS-031.png
+
+- id: IS-032
+  topic: IP Services
+  subtopic: "DNS"
+  type: single_choice
+  difficulty: easy
+  tags: [dns, mx]
+  question: "Which type of DNS record is used to specify the mail server responsible for accepting email messages?"
+  options:
+    A: "MX record"
+    B: "TXT record"
+    C: "SRV record"
+    D: "A record"
+  correct_answer: A
+  explanation: "MX records define mail servers responsible for receiving email for a domain."
+  source: adapted_from_images
+
+- id: IS-033
+  topic: IP Services
+  subtopic: "DHCP Snooping"
+  type: equivalence_buttons
+  difficulty: medium
+  tags: [dhcp, snooping, security]
+  question: |
+    Match each DHCP snooping term (left) to its correct description (right).
+    Original format: drag and drop.
+
+    Terms:
+      1. DHCP server
+      2. snooping binding database
+      3. spurious DHCP server
+      4. trusted
+      5. untrusted
+
+    Descriptions (shuffled):
+      A. default state of all switch interfaces; DHCP server messages received on these ports are discarded
+      B. list of hosts on the network recorded by DHCP snooping (MAC, IP, VLAN, interface, lease time)
+      C. interface port state that permits DHCP server messages to be forwarded; assigned to ports facing the legitimate DHCP server
+      D. unknown DHCP server within an administrative domain; rogue server not under the control of the network administrator
+      E. network component that propagates IP addresses to hosts on the network
+  left_items:
+    "1": "DHCP server"
+    "2": "snooping binding database"
+    "3": "spurious DHCP server"
+    "4": "trusted"
+    "5": "untrusted"
+  right_items:
+    A: "default state of all switch interfaces; DHCP server messages received on these ports are discarded"
+    B: "list of hosts on the network recorded by DHCP snooping (MAC, IP, VLAN, interface, lease time)"
+    C: "interface port state that permits DHCP server messages to be forwarded; assigned to ports facing the legitimate DHCP server"
+    D: "unknown DHCP server within an administrative domain; rogue server not under the control of the network administrator"
+    E: "network component that propagates IP addresses to hosts on the network"
+  correct_matches:
+    "1": "E"
+    "2": "B"
+    "3": "D"
+    "4": "C"
+    "5": "A"
+  explanation: "DHCP snooping classifies ports as trusted (toward the real DHCP server) or untrusted (client-facing, default). The binding database records valid host assignments. A spurious server is a rogue DHCP server whose OFFER/ACK messages are dropped on untrusted ports."
+  source: 4-IP-Services_57/IS-033.png
+
+- id: IS-034
+  topic: IP Services
+  subtopic: "DNS"
+  type: single_choice
+  difficulty: easy
+  tags: [dns, ipv6]
+  question: "What is a valid IPv6 address record in DNS?"
+  options:
+    A: "MX"
+    B: "AAAA"
+    C: "CNAME"
+    D: "A"
+  correct_answer: B
+  explanation: "AAAA records map hostnames to IPv6 addresses."
+  source: adapted_from_images
+
+- id: IS-035
+  topic: IP Services
+  subtopic: "DNS"
+  type: single_choice
+  difficulty: easy
+  tags: [dns, telnet]
+  question: "What facilitates a Telnet connection using a device name instead of IP?"
+  options:
+    A: "SNMP"
+    B: "DNS lookup"
+    C: "syslog"
+    D: "NTP"
+  correct_answer: B
+  explanation: "DNS resolves hostnames to IP addresses."
+  source: adapted_from_images
+
+- id: IS-036
+  topic: IP Services
+  subtopic: "SNMP"
+  type: single_choice
+  difficulty: easy
+  tags: [snmp, monitoring]
+  question: "Which protocol verifies network performance and uses an agent between monitoring tools and devices?"
+  options:
+    A: "FIP"
+    B: "NIP"
+    C: "NFS"
+    D: "SNMP"
+  correct_answer: D
+  explanation: "SNMP uses agents and NMS to monitor network devices."
+  source: adapted_from_images
+
+- id: IS-037
+  topic: IP Services
+  subtopic: "Management Protocols"
+  type: multiple_choice
+  difficulty: easy
+  tags: [telnet, ssh]
+  question: "Which two protocols are supported on service-port interfaces? (Choose two.)"
+  options:
+    A: "Telnet"
+    B: "SCP"
+    C: "TACACS+"
+    D: "SSH"
+    E: "RADIUS"
+  correct_answer: [A, D]
+  explanation: "Service-port supports Telnet and SSH among other protocols."
+  source: adapted_from_images
+
+- id: IS-038
+  topic: IP Services
+  subtopic: "DHCP Relay"
+  type: single_choice
+  difficulty: easy
+  tags: [dhcp, relay]
+  question: "Which command forwards DHCP requests between subnets?"
+  options:
+    A: "ip route"
+    B: "ip dhcp address"
+    C: "ip default-gateway"
+    D: "ip helper-address"
+  correct_answer: D
+  explanation: "ip helper-address forwards DHCP broadcast requests across subnets."
+  source: adapted_from_images
+
+- id: IS-039
+  topic: IP Services
+  subtopic: "NAT"
+  type: single_choice
+  difficulty: medium
+  tags: [nat, pat, acl]
+  question: "Which configuration translates 10.10.0.0/24 to addresses 192.168.3.1–192.168.3.3?"
+  options:
+    A: "incorrect ACL and destination NAT"
+    B: "incorrect wildcard mask"
+    C: "incorrect route-map usage"
+    D: |
+      ip nat pool mypool 192.168.3.1 192.168.3.3 prefix-length 30
+      access-list 1 permit 10.10.0.0 0.0.0.255
+      ip nat inside source list 1 pool mypool
+      interface gi1/1
+       ip nat inside
+      interface gi1/2
+       ip nat outside
+  correct_answer: D
+  explanation: "Correct NAT uses ACL matching source subnet and inside source translation with pool."
+  source: adapted_from_images
+
+- id: IS-040
+  topic: IP Services
+  subtopic: "NTP"
+  type: single_choice
+  difficulty: medium
+  tags: [ntp, stratum, topology]
+  exhibit: |
+    Topology:
+
+    [Router 1] ---192.168.0.2---192.168.0.3--- [Router 2]
+
+    Router 1 config (already applied):
+      ntp server 192.168.0.3   (Router 1 is NTP client of Router 2)
+  question: "Refer to the exhibit. The ntp server 192.168.0.3 command has been configured on Router 1 to make it an NTP client of Router 2. Which command must be configured on Router 2 so that it operates in server-only mode and relies only on its internal clock?"
+  options:
+    A: "Router2(config)# ntp server 192.168.0.2"
+    B: "Router2(config)# ntp passive"
+    C: "Router2(config)# ntp server 192.168.0.3"
+    D: "Router2(config)# ntp master 4"
+  correct_answer: D
+  explanation: "'ntp master 4' configures the device as an authoritative NTP server using its internal clock at stratum 4. In standalone/server-only mode it does not sync from any upstream peer. 'ntp passive' only responds to NTP queries but still requires an upstream server; 'ntp server ...' makes it a client, not a master."
+  source: 4-IP-Services_57/IS-040.png
+
+- id: IS-041
+  topic: IP Services
+  subtopic: "DHCP Relay"
+  type: single_choice
+  difficulty: medium
+  tags: [dhcp, relay, vlan, topology]
+  exhibit: |
+    Topology:
+
+    [DHCP Server]---[R1]---Fa0/0---[SW1]---Fa0/1---[PC (DHCP Client)]
+     192.168.20.2   192.168.20.3           |         VLAN 10
+                                          Fa0/2
+                                           |
+                                       [PC (DHCP Client)]
+                                          VLAN 10
+
+    VLANs on SW1:
+      VLAN 10: 192.168.10.0/24   (DHCP clients - PC side)
+      VLAN 20: 192.168.20.0/24   (DHCP server side)
+
+    DHCP Server pools (partial):
+      ip dhcp pool Net10
+       default-router 192.168.10.1
+       dns-server 192.168.10.5
+      ip dhcp pool Net20
+       default-router 192.168.20.1
+
+    SW1 SVIs (partial):
+      interface Vlan10
+       ip address 192.168.10.1 255.255.255.0
+      interface Vlan20
+       ip address 192.168.20.1 255.255.255.0
+  question: "Refer to the exhibit. The DHCP server is configured with a DHCP pool for each of the subnets represented. Which command must be configured on switch SW1 to allow DHCP clients on VLAN 10 to receive dynamic IP addresses from the DHCP server?"
+  options:
+    A: "SW1(config-if)# ip helper-address 192.168.10.1"
+    B: "SW1(config-if)# ip helper-address 192.168.20.1"
+    C: "SW1(config-if)# ip helper-address 192.168.20.2"
+    D: "SW1(config-if)# ip helper-address 192.168.10.2"
+  correct_answer: C
+  explanation: "The ip helper-address command must point to the DHCP server's actual IP address (192.168.20.2), not the SVI or gateway. It is configured under the VLAN 10 SVI on SW1 to forward DHCP broadcasts from clients in VLAN 10 to the server in VLAN 20."
+  source: 4-IP-Services_57/IS-041.png
+
+- id: IS-042
+  topic: IP Services
+  subtopic: "Transport Protocols"
+  type: single_choice
+  difficulty: easy
+  tags: [udp, tcp]
+  question: "Why is UDP preferred for low-latency applications like VoIP?"
+  options:
+    A: "UDP ensures ordered delivery"
+    B: "TCP lacks congestion control"
+    C: "UDP guarantees delivery"
+    D: "TCP uses acknowledgments while UDP does not"
+  correct_answer: D
+  explanation: "UDP avoids overhead of acknowledgments, reducing latency."
+  source: adapted_from_images
+
+- id: IS-043
+  topic: IP Services
+  subtopic: "SNMP"
+  type: single_choice
+  difficulty: medium
+  tags: [snmp, mib]
+  question: "What must occur before an NMS can process an SNMP trap?"
+  options:
+    A: "Duplicate traps must be received"
+    B: "Trap must be acknowledged"
+    C: "MIB must be loaded on NMS"
+    D: "Agent must be on same device"
+  correct_answer: C
+  explanation: "NMS needs MIB definitions to interpret SNMP data."
+  source: adapted_from_images
+
+- id: IS-044
+  topic: IP Services
+  subtopic: "Syslog"
+  type: single_choice
+  difficulty: easy
+  tags: [syslog, severity]
+  question: "Which syslog severity level represents informational messages?"
+  options:
+    A: "0"
+    B: "2"
+    C: "4"
+    D: "6"
+  correct_answer: D
+  explanation: "Level 6 = informational."
+  source: adapted_from_images
+
+- id: IS-045
+  topic: IP Services
+  subtopic: "DHCP Relay"
+  type: single_choice
+  difficulty: easy
+  tags: [dhcp, helper]
+  question: "Which command configures DHCP relay?"
+  options:
+    A: "ip dhcp relay"
+    B: "ip dhcp pool"
+    C: "ip address dhcp"
+    D: "ip helper-address"
+  correct_answer: D
+  explanation: "ip helper-address enables DHCP relay."
+  source: adapted_from_images
+
+- id: IS-046
+  topic: IP Services
+  subtopic: "NTP"
+  type: single_choice
+  difficulty: medium
+  tags: [ntp, failover]
+  question: "Which configuration allows a switch to act as NTP server when upstream fails?"
+  options:
+    A: "ntp peer"
+    B: "ntp master"
+    C: "ntp backup"
+    D: "ntp access-group"
+  correct_answer: B
+  explanation: "ntp master allows device to use internal clock."
+  source: adapted_from_images
+
+- id: IS-047
+  topic: IP Services
+  subtopic: "Static Routing"
+  type: multiple_choice
+  difficulty: medium
+  tags: [static-routing, default-route, redundancy, load-balancing, topology]
+  exhibit: |
+    Topology:
+
+           ISP 1                 ISP 2
+       198.51.100.1           203.0.113.1
+              \                   /
+               \                 /
+            [Headquarters]
+            (CPE Router)
+  question: "Refer to the exhibit. A network administrator configures the CPE router to provide internet access to the company headquarters. Traffic must be load-balanced via ISP1 and ISP2 to ensure redundancy. Which two commands set this configuration on the CPE router? (Choose two.)"
+  options:
+    A: |
+      ip route 0.0.0.0 0.0.0.0 198.51.100.1 255
+      ip route 0.0.0.0 0.0.0.0 203.0.113.1 255
+      ip route 128.0.0.0 128.0.0.0 203.0.113.1
+    B: |
+      ip route 0.0.0.0 128.0.0.0 198.51.100.1
+      ip route 128.0.0.0 128.0.0.0 203.0.113.1
+      ip route 0.0.0.0 0.0.0.0 198.51.100.1
+      ip route 0.0.0.0 0.0.0.0 203.0.113.1
+    C: |
+      ip route 0.0.0.0 0.0.0.0 198.51.100.1
+      ip route 0.0.0.0 0.0.0.0 203.0.113.1
+    D: |
+      ip route 0.0.0.0 128.0.0.0 198.51.100.1
+      ip route 128.0.0.0 128.0.0.0 203.0.113.1
+    E: |
+      ip route 0.0.0.0 0.0.0.0 198.51.100.1
+      ip route 0.0.0.0 0.0.0.0 203.0.113.2
+  correct_answer: [C, D]
+  explanation: "Option C configures two equal-cost default routes (ECMP) — one to each ISP — enabling load balancing. Option D uses split default routing (0/1 via ISP1, 128/1 via ISP2), which also distributes traffic across both links. Together they represent the two valid approaches for dual-ISP load balancing. Option E is wrong (203.0.113.2 is not ISP2's address). Option A uses invalid syntax (255 AD with /0 masks). Option B mixes approaches without adding value."
+  source: 4-IP-Services_57/IS-047.png
+
+- id: IS-048
+  topic: IP Services
+  subtopic: "NTP"
+  type: single_choice
+  difficulty: easy
+  tags: [ntp, time-sync]
+  question: "A network engineer is configuring a new router at a branch office. The router is connected to an upstream WAN network that allows the branch to communicate with the head office. The central time server with IP address 172.24.54.8 is located behind a firewall at the head office. Which command must be configured so that the software clock of the new router synchronizes with the time server?"
+  options:
+    A: "ntp server 172.24.54.8"
+    B: "ntp master 172.24.54.8"
+    C: "ntp peer 172.24.54.8"
+    D: "ntp client 172.24.54.8"
+  correct_answer: A
+  explanation: "The ntp server command configures the router to synchronize its software clock with the specified NTP server."
+  source: adapted_from_images
+
+- id: IS-049
+  topic: IP Services
+  subtopic: "DNS"
+  type: single_choice
+  difficulty: easy
+  tags: [dns, a-record, ipv4]
+  question: "Which type of DNS record is used to map a host name to an IPv4 address?"
+  options:
+    A: "MX record"
+    B: "CNAME record"
+    C: "AAAA record"
+    D: "A record"
+  correct_answer: D
+  explanation: "An A record maps a hostname to an IPv4 address. AAAA is used for IPv6 addresses."
+  source: adapted_from_images
+
+- id: IS-050
+  topic: IP Services
+  subtopic: "QoS"
+  type: multiple_choice
+  difficulty: medium
+  tags: [qos, wred, congestion-avoidance]
+  question: "Which two actions are performed by the Weighted Random Early Detection mechanism? (Choose two.)"
+  options:
+    A: "It supports protocol discovery."
+    B: "It guarantees the delivery of high-priority packets."
+    C: "It identifies different flows with a high level of granularity."
+    D: "It mitigates congestion by preventing the queue from filling up."
+    E: "It drops lower-priority packets before it drops higher-priority packets."
+  correct_answer: [D, E]
+  explanation: "WRED is a congestion-avoidance mechanism that begins dropping packets before the queue is full, and it preferentially drops lower-priority traffic before higher-priority traffic."
+  source: adapted_from_images
+
+- id: IS-051
+  topic: IP Services
+  subtopic: "QoS"
+  type: single_choice
+  difficulty: easy
+  tags: [qos, llq, voice, video]
+  question: "In QoS, which prioritization method is appropriate for interactive voice and video?"
+  options:
+    A: "traffic policing"
+    B: "round-robin scheduling"
+    C: "low-latency queuing"
+    D: "expedited forwarding"
+  correct_answer: C
+  explanation: "Low-Latency Queuing (LLQ) is the preferred queuing method for delay- and jitter-sensitive interactive voice and video traffic."
+  source: adapted_from_images
+
+- id: IS-052
+  topic: IP Services
+  subtopic: "FTP"
+  type: single_choice
+  difficulty: easy
+  tags: [ftp, control-connection, data-connection]
+  question: "Which is a fact related to FTP?"
+  options:
+    A: "It uses two separate connections for control and data traffic."
+    B: "It uses block numbers to identify and mitigate data-transfer errors."
+    C: "It always operates without user authentication."
+    D: "It relies on the well-known UDP port 69."
+  correct_answer: A
+  explanation: "FTP uses separate TCP connections for control and data. TFTP uses UDP port 69 and block numbers."
+  source: adapted_from_images
+
+- id: IS-053
+  topic: IP Services
+  subtopic: "Syslog"
+  type: single_choice
+  difficulty: medium
+  tags: [syslog, severity-levels, notifications]
+  question: "What event has occurred if a router sends a notice level message to a syslog server?"
+  options:
+    A: "A certificate has expired"
+    B: "An interface line has changed status"
+    C: "A TCP connection has been torn down"
+    D: "An ICMP connection has been built"
+  correct_answer: B
+  explanation: "Syslog notice/notification level messages commonly include line protocol or interface status changes."
+  source: adapted_from_images
+
+- id: IS-054
+  topic: IP Services
+  subtopic: "NAT"
+  type: single_choice
+  difficulty: medium
+  tags: [nat, pat, acl, vlan, topology]
+  exhibit: |
+    Topology:
+
+    [VLAN 100]  [VLAN 200]
+    10.10.10.0/24  10.10.20.0/24
+           \        /
+          [Router]
+               |
+          [Internet]
+
+    Router config (partial):
+      interface GigabitEthernet0
+       ip address [ISP IP] [mask]
+       ip nat outside
+      !
+      interface GigabitEthernet1
+       ip address 10.10.10.254 255.255.255.0
+       ip nat inside
+      !
+      ip nat inside source list NAT_INSIDE_RANGES interface GigabitEthernet0 overload
+      !
+      ip access-list standard NAT_INSIDE_RANGES
+       10 permit 10.10.10.0 0.0.0.255
+       (VLAN 200 range 10.10.20.0/24 not included)
+  question: "Refer to the exhibit. Users on existing VLAN 100 can reach sites on the Internet. Which action must the administrator take to establish connectivity to the Internet for users in VLAN 200?"
+  options:
+    A: "Define a NAT pool on the router."
+    B: "Configure the ip nat outside command on another interface for VLAN 200."
+    C: "Configure static NAT translations for VLAN 200."
+    D: "Update the NAT_INSIDE_RANGES ACL."
+  correct_answer: D
+  explanation: "The NAT_INSIDE_RANGES ACL only permits 10.10.10.0/24 (VLAN 100). VLAN 200 uses 10.10.20.0/24, which is not in the ACL, so its traffic is not translated. Adding a permit entry for 10.10.20.0 0.0.0.255 to the ACL will allow VLAN 200 users to reach the internet. No additional interface or pool changes are needed since PAT is already configured."
+  source: 4-IP-Services_57/IS-054.png
+
+- id: IS-055
+  topic: IP Services
+  subtopic: "TFTP"
+  type: single_choice
+  difficulty: easy
+  tags: [tftp, ios-image, file-transfer]
+  question: "What is a function of TFTP in network operations?"
+  options:
+    A: "transfers IOS images from a server to a router for firmware upgrades"
+    B: "transfers a backup configuration file from a server to a switch using a username and password"
+    C: "transfers configuration files from a server to a router on a congested link"
+    D: "transfers files between file systems on a router"
+  correct_answer: A
+  explanation: "TFTP is commonly used in Cisco environments to transfer IOS images and configuration files because it is simple and lightweight."
+  source: adapted_from_images
+
+- id: IS-056
+  topic: IP Services
+  subtopic: "SNMP"
+  type: single_choice
+  difficulty: easy
+  tags: [snmp, traps, polling, nms]
+  question: "What is the difference between SNMP traps and SNMP polling?"
+  options:
+    A: "SNMP traps send periodic updates via the MIB, and SNMP polling sends data on demand."
+    B: "SNMP traps are initiated using a push mode at the network device, and SNMP polling is initiated at the server."
+    C: "SNMP traps are used for proactive monitoring, and SNMP polling is used for reactive monitoring."
+    D: "SNMP traps are initiated by the network management system, and network devices initiate SNMP polling."
+  correct_answer: B
+  explanation: "SNMP traps are unsolicited notifications sent by devices to the NMS, while SNMP polling is initiated by the NMS to request information from devices."
+  source: adapted_from_images
+
+- id: IS-057
+  topic: IP Services
+  subtopic: "FTP"
+  type: single_choice
+  difficulty: easy
+  tags: [ftp, control-connection, data-connection]
+  question: "What is a capability of FTP in network management operations?"
+  options:
+    A: "offers proprietary support at the session layer when transferring data"
+    B: "uses separate control and data connections to move files between server and client"
+    C: "encrypts data before sending between data resources"
+    D: "devices are directly connected and use UDP to pass file information"
+  correct_answer: B
+  explanation: "FTP uses a control connection and a separate data connection between client and server."
+  source: adapted_from_images

@@ -1,0 +1,1968 @@
+# Topic: Network Access
+# IDs:   NA-001 -> NA-103
+# Global sequential range: #84 - #186 (103 questions)
+# Source folder: sshots/2-Network-Access_103/
+
+- id: NA-001
+  topic: Network Access
+  subtopic: "VLAN Trunking"
+  type: single_choice
+  difficulty: medium
+  tags: [vlan, trunk, allowed-vlan]
+  question: "Refer to the exhibit. A network engineer must configure communication between PC A and the file server. Which command must be configured on switch A to prevent interruption of other communications?"
+  exhibit: |
+    VLAN/trunk task:
+    - current trunk already carries existing VLAN traffic
+    - PC A and the file server need VLAN 13 added across the trunk
+
+    Requirement:
+    - allow VLAN 13
+    - do not remove existing allowed VLANs
+  options:
+    A: "switchport trunk allowed vlan 12"
+    B: "switchport trunk allowed vlan none"
+    C: "switchport trunk allowed vlan add 13"
+    D: "switchport trunk allowed vlan remove 10-11"
+  correct_answer: C
+  explanation: "VLAN 13 must be allowed across the trunk while preserving the existing permitted VLANs."
+  source: 2-Network-Access_103/NA-001.png
+
+- id: NA-002
+  topic: Network Access
+  subtopic: "Voice VLAN"
+  type: single_choice
+  difficulty: easy
+  tags: [voice-vlan, access-port, switchport]
+  question: "Refer to the exhibit. An engineer must configure GigabitEthernet1/1 to accommodate voice and data traffic. Which configuration accomplishes this task?"
+  exhibit: |
+    Access-port voice/data requirement:
+    - user data VLAN = 300
+    - voice VLAN = 400
+
+    Task:
+    - configure the switchport for a phone with an attached PC
+  options:
+    A: "interface gigabitethernet1/1
+switchport mode access
+switchport access vlan 300
+switchport voice vlan 400"
+    B: "interface gigabitethernet1/1
+switchport mode trunk
+switchport trunk vlan 300
+switchport trunk vlan 400"
+    C: "interface gigabitethernet1/1
+switchport mode access
+switchport voice vlan 300
+switchport access vlan 400"
+    D: "interface gigabitethernet1/1
+switchport mode trunk
+switchport trunk vlan 300
+switchport voice vlan 400"
+  correct_answer: A
+  explanation: "A phone with an attached PC normally uses an access port with one data VLAN and one voice VLAN."
+  source: 2-Network-Access_103/NA-002.png
+
+- id: NA-003
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: medium
+  tags: [stp, root-bridge, bridge-id]
+  question: "Refer to the exhibit. Which switch in this configuration will be elected as the root bridge?"
+  exhibit: |
+    STP election criteria shown in the exhibit:
+    - compare switch priority first
+    - if priorities tie, compare MAC address
+
+    Key clue:
+    - SW3 and SW4 have the lowest bridge priority
+    - SW3 has the lower MAC address of the tied pair
+  options:
+    A: "SW1"
+    B: "SW2"
+    C: "SW3"
+    D: "SW4"
+  correct_answer: C
+  explanation: "SW3 and SW4 have the lowest STP priority, and SW3 wins the tie because it has the lower MAC address."
+  source: 2-Network-Access_103/NA-003.png
+
+- id: NA-004
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wlc, ise, aaa-override]
+  question: "After installing a new Cisco ISE server, which task must the engineer perform on the Cisco WLC to connect wireless clients on a specific VLAN based on their credentials?"
+  options:
+    A: "Disable the LAG Mode on Next Reboot."
+    B: "Enable the Event Driven RRM."
+    C: "Enable the Allow AAA Override."
+    D: "Enable the Authorize MIC APs against auth-list or AAA."
+  correct_answer: C
+  explanation: "AAA Override allows ISE to return per-user attributes such as VLAN assignment."
+  source: adapted_from_images
+
+- id: NA-005
+  topic: Network Access
+  subtopic: "STP"
+  type: multiple_choice
+  difficulty: easy
+  tags: [stp, portfast]
+  question: "Which two spanning-tree states are bypassed on an interface running PortFast? (Choose two.)"
+  options:
+    A: "disabled"
+    B: "listening"
+    C: "learning"
+    D: "blocking"
+    E: "forwarding"
+  correct_answer: [B, C]
+  explanation: "PortFast skips the listening and learning states so an access port can move to forwarding immediately."
+  source: adapted_from_images
+
+# NA-006 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-007
+  topic: Network Access
+  subtopic: "EtherChannel"
+  type: single_choice
+  difficulty: medium
+  tags: [etherchannel, lacp, pagp]
+  question: "Refer to the exhibit. A network engineer updates the existing configuration on interface FastEthernet1/1 of switch SW1. It must establish an EtherChannel by using the same group designation with another vendor switch. Which configuration must be performed to complete the process?"
+  exhibit: |
+    EtherChannel requirement:
+    - peer device is from another vendor
+    - channel group must remain 2
+
+    Task:
+    - choose the protocol/mode that supports multivendor EtherChannel negotiation
+  options:
+    A: "interface port-channel 2
+channel-group 2 mode desirable"
+    B: "interface fastethernet 1/1
+channel-group 2 mode on"
+    C: "interface fastethernet 1/1
+channel-group 2 mode active"
+    D: "interface port-channel 2
+channel-group 2 mode auto"
+  correct_answer: C
+  explanation: "LACP must be used with a non-Cisco peer, and active mode initiates LACP negotiation."
+  source: 2-Network-Access_103/NA-007.png
+
+- id: NA-008
+  topic: Network Access
+  subtopic: "Wireless"
+  type: multiple_choice
+  difficulty: easy
+  tags: [wlc, wlan, ssid]
+  question: "Which two values or settings must be entered when configuring a new WLAN in the Cisco Wireless LAN Controller GUI? (Choose two.)"
+  options:
+    A: "QoS settings"
+    B: "IP address of one or more access points"
+    C: "SSID"
+    D: "profile name"
+    E: "management interface settings"
+  correct_answer: [C, D]
+  explanation: "A new WLAN requires at least the SSID and the profile name."
+  source: adapted_from_images
+
+- id: NA-009
+  topic: Network Access
+  subtopic: "LLDP"
+  type: single_choice
+  difficulty: medium
+  tags: [lldp, timer, holdtime]
+  question: "Refer to the exhibit. A network engineer must update the configuration on Switch2 so that it sends LLDP packets every minute and the information sent via LLDP is refreshed every 3 minutes. Which configuration must the engineer apply?"
+  exhibit: |
+    LLDP timer requirement:
+    - send LLDP packets every 60 seconds
+    - refresh/retain LLDP information for 180 seconds
+
+    Task:
+    - choose the correct `lldp timer` and `lldp holdtime` configuration
+  options:
+    A: "Switch2(config)#lldp timer 60
+Switch2(config)#lldp tlv-select 180"
+    B: "Switch2(config)#lldp timer 60
+Switch2(config)#lldp holdtime 180"
+    C: "Switch2(config)#lldp timer 1
+Switch2(config)#lldp holdtime 3"
+    D: "Switch2(config)#lldp timer 1
+Switch2(config)#lldp tlv-select 3"
+  correct_answer: B
+  explanation: "The LLDP transmit interval is configured with `lldp timer`, and the refresh/retention value is set with `lldp holdtime`."
+  source: 2-Network-Access_103/NA-009.png
+
+- id: NA-010
+  topic: Network Access
+  subtopic: "EtherChannel"
+  type: single_choice
+  difficulty: medium
+  tags: [etherchannel, lacp, layer2]
+  question: "Refer to the exhibit. Which configuration establishes a Layer 2 LACP EtherChannel when applied to both switches?"
+  exhibit: |
+    EtherChannel requirement:
+    - Layer 2 EtherChannel
+    - LACP must be used
+    - configuration is applied on both switches
+
+    Task:
+    - choose the option that uses compatible switchport settings and LACP mode
+  options:
+    A: "interface range G1/1 - 1/3
+switchport mode trunk
+channel-group 1 mode active
+no shutdown"
+    B: "interface range G1/1 - 1/3
+switchport mode access
+channel-group 1 mode passive
+no shutdown"
+    C: "interface range G1/1 - 1/3
+switchport mode trunk
+channel-group 1 mode desirable
+no shutdown"
+    D: "interface range G1/1 - 1/3
+switchport mode access
+channel-group 1 mode on
+no shutdown"
+  correct_answer: A
+  explanation: "LACP uses active/passive, and the ports must be configured compatibly as a Layer 2 trunk EtherChannel."
+  source: 2-Network-Access_103/NA-010.png
+
+- id: NA-011
+  topic: Network Access
+  subtopic: "Trunking"
+  type: single_choice
+  difficulty: medium
+  tags: [trunk, native-vlan, dot1q]
+  question: "Refer to the exhibit. An engineer configures interface Fa0/1 on SW1 and SW2 to pass traffic from two different VLANs. For security reasons, company policy requires the native VLAN to be set to a nondefault value. Which configuration meets this requirement?"
+  exhibit: |
+    Trunking requirement:
+    - carry VLANs 100 and 105 between SW1 and SW2
+    - use 802.1Q trunking
+    - native VLAN must be changed from the default value
+
+    Task:
+    - choose the secure trunk configuration
+  options:
+    A: "Switch(config-if)#switchport mode trunk
+Switch(config-if)#switchport trunk encapsulation dot1q
+Switch(config-if)#switchport trunk allowed vlan 100,105
+Switch(config-if)#switchport trunk native vlan 3"
+    B: "Switch(config-if)#switchport mode trunk
+Switch(config-if)#switchport trunk encapsulation isl
+Switch(config-if)#switchport trunk allowed vlan 100,105
+Switch(config-if)#switchport trunk native vlan 1"
+    C: "Switch(config-if)#switchport mode dynamic
+Switch(config-if)#switchport access vlan 100,105
+Switch(config-if)#switchport trunk native vlan 1"
+    D: "Switch(config-if)#switchport mode access
+Switch(config-if)#switchport trunk encapsulation dot1q
+Switch(config-if)#switchport access vlan 100,105
+Switch(config-if)#switchport trunk native vlan 3"
+  correct_answer: A
+  explanation: "A proper trunk uses 802.1Q, permits the required VLANs, and sets the native VLAN to a nondefault value."
+  source: 2-Network-Access_103/NA-011.png
+
+- id: NA-012
+  topic: Network Access
+  subtopic: "Trunking"
+  type: single_choice
+  difficulty: medium
+  tags: [trunk, dot1q, allowed-vlan]
+  question: "Two switches have been implemented and all interfaces are at the default configuration level. A trunk link must be implemented between the switches with these requirements: using an industry-standard trunking protocol and permitting VLANs 1-10 while denying other VLANs. How must the interconnecting ports be configured?"
+  options:
+    A: "switchport mode dynamic\nchannel-protocol lacp\nswitchport trunk allowed vlans 1-10"
+    B: "switchport mode trunk\nswitchport trunk allowed vlans 1-10\nswitchport trunk native vlan 11"
+    C: "switchport mode trunk\nswitchport trunk encapsulation dot1q\nswitchport trunk allowed vlans 1-10"
+    D: "switchport mode dynamic desirable\nchannel-group 1 mode desirable\nswitchport trunk encapsulation isl\nswitchport trunk allowed vlan except 11-4094"
+  correct_answer: C
+  explanation: "802.1Q is the industry-standard trunking protocol, and the trunk must explicitly allow only VLANs 1 through 10."
+  source: adapted_from_images
+
+- id: NA-013
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wireless, flexconnect, local-mode, capwap]
+  question: "What is a difference between local AP mode and FlexConnect AP mode?"
+  options:
+    A: "Local AP mode creates two CAPWAP tunnels per AP to the WLC."
+    B: "Local AP mode causes the AP to behave as if it were an autonomous AP."
+    C: "FlexConnect AP mode fails to function if the AP loses connectivity with the WLC."
+    D: "FlexConnect AP mode bridges the traffic from the AP to the WLC when local switching is configured."
+  correct_answer: A
+  explanation: "In local mode, the AP uses CAPWAP tunnels back to the controller for centralized operation. FlexConnect is designed to support local switching at the remote site."
+  source: adapted_from_images
+
+# NA-014 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-015
+  topic: Network Access
+  subtopic: "VLAN Trunking"
+  type: single_choice
+  difficulty: easy
+  tags: [vlan, tagging, dot1q]
+  question: "Which Layer 2 switch function encapsulates packets for different VLANs so that the packets traverse the same port and maintain traffic separation between the VLANs?"
+  options:
+    A: "VLAN marking"
+    B: "VLAN numbering"
+    C: "VLAN DSCP"
+    D: "VLAN tagging"
+  correct_answer: D
+  explanation: "802.1Q tagging adds VLAN information so multiple VLANs can cross the same trunk link while staying logically separated."
+  source: adapted_from_images
+
+- id: NA-016
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wireless, flexconnect, local-switching]
+  question: "Refer to the exhibit. An architect is managing a wireless network with APs from several branch offices connecting to the WLC in the data center. There is a new requirement for a single WLAN to process the client data traffic without sending it to the WLC. Which action must be taken to complete the request?"
+  exhibit: |
+    Branch wireless requirement:
+    - APs at remote branches join a centralized WLC
+    - one WLAN must switch client traffic locally at the branch
+    - client data should not be tunneled back to the controller
+
+    Task:
+    - choose the WLC/AP feature that enables local branch switching
+  options:
+    A: "Enable local HTTP profiling."
+    B: "Enable FlexConnect Local Switching."
+    C: "Enable local DHCP Profiling."
+    D: "Enable Disassociation Imminent."
+  correct_answer: B
+  explanation: "FlexConnect local switching allows client traffic for a WLAN to be switched locally at the branch AP instead of being tunneled to the controller."
+  source: 2-Network-Access_103/NA-016.png
+
+- id: NA-017
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: medium
+  tags: [stp, root-bridge, bridge-id]
+  question: "Refer to the exhibit. Which switch in this configuration will be elected as the root bridge?"
+  exhibit: |
+    STP root election task:
+    - compare bridge priorities first
+    - use the lowest MAC address only to break a tie
+
+    Key clue from the exhibit:
+    - SW3 and SW4 have the best priority values
+    - SW3 wins the tie with the lower MAC address
+  options:
+    A: "SW1"
+    B: "SW2"
+    C: "SW3"
+    D: "SW4"
+  correct_answer: C
+  explanation: "SW3 and SW4 have the lowest priority value, and SW3 wins because its MAC address is lower."
+  source: 2-Network-Access_103/NA-017.png
+
+- id: NA-018
+  topic: Network Access
+  subtopic: "Switching"
+  type: single_choice
+  difficulty: easy
+  tags: [switching, mac-address-table, flooding]
+  question: "What does a switch do when it receives a frame whose destination MAC address is missing from the MAC address table?"
+  options:
+    A: "It changes the checksum of the frame to a value that indicates an invalid frame."
+    B: "It updates the CAM table with the destination MAC address of the frame."
+    C: "It appends the table with a static entry for the MAC and shuts down the port."
+    D: "It floods the frame unchanged across all remaining ports in the incoming VLAN."
+  correct_answer: D
+  explanation: "For an unknown unicast destination, the switch floods the frame out all other ports in the same VLAN."
+  source: adapted_from_images
+
+- id: NA-019
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wireless, split-mac, ap, wlc]
+  question: "Where are the real-time control functions processed in a split MAC architecture?"
+  options:
+    A: "central WLC"
+    B: "individual AP"
+    C: "client device"
+    D: "centralized cloud management platform"
+  correct_answer: B
+  explanation: "In split MAC, time-sensitive real-time functions such as beacons and acknowledgments are handled by the AP, while the controller handles centralized management functions."
+  source: adapted_from_images
+
+- id: NA-020
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wireless, flexconnect, survivability]
+  question: "A Cisco engineer at a new branch office is configuring a wireless network with access points that connect to a controller based at corporate headquarters. Wireless client traffic must terminate at the branch office and access-point survivability is required in the event of a WAN outage. Which access point mode must be selected?"
+  options:
+    A: "Lightweight with local switching disabled"
+    B: "FlexConnect with local switching enabled"
+    C: "OfficeExtend with high availability disabled"
+    D: "Local with AP fallback enabled"
+  correct_answer: B
+  explanation: "FlexConnect with local switching allows branch traffic to stay local and supports continued operation if WAN connectivity to the controller is lost."
+  source: adapted_from_images
+
+- id: NA-021
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wlc, wlan, ssid, interface-group]
+  question: "Refer to the exhibit. The My_WLAN wireless LAN was configured with WPA2 Layer 2 PSK security. Which additional configuration must the administrator perform to allow users to connect to this WLAN on a different subnet called Data?"
+  exhibit: |
+    WLAN configuration summary:
+    - SSID My_WLAN already has WPA2 PSK security configured
+    - users must be placed on a different subnet named Data
+
+    Task:
+    - enable the WLAN and map it to the correct interface/interface group for the Data subnet
+  options:
+    A: "Enable Status and set the NAS-ID to data"
+    B: "Enable Status and enable Broadcast SSID"
+    C: "Enable Status and select data from the Interface/Interface Group drop-down list"
+    D: "Enable Broadcast SSID and select data from the Interface/Interface Group drop-down list"
+  correct_answer: C
+  explanation: "The WLAN must be enabled and mapped to the correct interface or interface group so client traffic lands in the Data subnet."
+  source: 2-Network-Access_103/NA-021.png
+
+- id: NA-022
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [wlc, wlan, client-limit]
+  question: "Refer to the exhibit. A network engineer is configuring a WLAN to connect with the 172.16.10.0/24 network on VLAN 20. The engineer wants to limit the number of devices that connect to the WLAN on the USERWL SSID to 125. Which configuration must the engineer perform on the WLC?"
+  exhibit: |
+    WLAN requirement:
+    - SSID USERWL maps to VLAN 20 / 172.16.10.0/24
+    - maximum associated clients must be limited to 125
+
+    Task:
+    - choose the WLC setting that directly controls the per-WLAN client limit
+  options:
+    A: "In the Controller IPv6 configuration, set the Throttle value to 125."
+    B: "In the WLAN configuration, set the Maximum Allowed Clients value to 125."
+    C: "In the Management Software activation configuration, set the Clients value to 125."
+    D: "In the Advanced configuration, set the DTIM value to 125."
+  correct_answer: B
+  explanation: "The WLC client limit for an SSID is controlled through the WLAN Maximum Allowed Clients setting."
+  source: 2-Network-Access_103/NA-022.png
+
+- id: NA-023
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wireless, flexconnect, survivability]
+  question: "Which unified access point mode continues to serve wireless clients after losing connectivity to the Cisco Wireless LAN Controller?"
+  options:
+    A: "local"
+    B: "mesh"
+    C: "flexconnect"
+    D: "sniffer"
+  correct_answer: C
+  explanation: "FlexConnect APs can continue serving locally switched clients when connectivity to the controller is lost."
+  source: adapted_from_images
+
+- id: NA-024
+  topic: Network Access
+  subtopic: "Security"
+  type: single_choice
+  difficulty: medium
+  tags: [aaa, tacacs-plus, radius]
+  question: "What is a difference between RADIUS and TACACS+?"
+  options:
+    A: "RADIUS logs all commands that are entered by the administrator, but TACACS+ logs only start, stop, and interim commands."
+    B: "TACACS+ separates authentication and authorization, and RADIUS merges them."
+    C: "TACACS+ encrypts only password information, and RADIUS encrypts the entire payload."
+    D: "RADIUS is most appropriate for dual authentication, but TACACS+ is also used for multiple types of authentication."
+  correct_answer: B
+  explanation: "TACACS+ separates AAA functions more cleanly, while RADIUS combines authentication and authorization."
+  source: adapted_from_images
+
+- id: NA-025
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wireless, lightweight-ap, split-mac]
+  question: "A wireless access point is needed and must meet these requirements: zero-touch deployed and managed by a WLC, process only real-time MAC functionality, and be used in a split-MAC architecture. Which access point type must be used?"
+  options:
+    A: "mesh"
+    B: "autonomous"
+    C: "lightweight"
+    D: "cloud-based"
+  correct_answer: C
+  explanation: "A lightweight AP is designed for WLC-managed, zero-touch deployments and split-MAC operation."
+  source: adapted_from_images
+
+# NA-026 and NA-027 are simulation/lab items in the source images and are
+# being deferred until the runtime schema supports simulation questions cleanly.
+
+# NA-028 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-029
+  topic: Network Access
+  subtopic: "Wireless Security"
+  type: single_choice
+  difficulty: medium
+  tags: [wlc, wpa2, psk, pmf]
+  question: "Refer to the exhibit. The network engineer is configuring a new WLAN and is told to use a setup password for authentication instead of the RADIUS servers. Which additional set of tasks must the engineer perform to complete the configuration?"
+  exhibit: |
+    WLAN security requirement:
+    - use a shared setup password instead of RADIUS
+    - this means PSK-based authentication is required
+
+    Task:
+    - choose the additional WLC security settings needed to finish the WLAN configuration
+  options:
+    A: "Enable WPA2 Policy and configure an ASCII PSK."
+    B: "Enable 802.1X and configure a RADIUS authentication server."
+    C: "Enable MAC filtering and disable WPA2 Policy."
+    D: "Configure WPA3 Enterprise and PMF required."
+  correct_answer: A
+  explanation: "A setup password on a WLAN implies PSK authentication, so WPA2 PSK must be enabled and the shared key configured."
+  source: 2-Network-Access_103/NA-029.png
+
+- id: NA-030
+  topic: Network Access
+  subtopic: "Discovery Protocols"
+  type: single_choice
+  difficulty: medium
+  tags: [cdp, lldp, discovery, interface]
+  question: "Refer to the exhibit. Routers R1, R2, and R3 use a protocol to identify the neighbors' IP addresses, hardware platforms, and software versions. A network engineer must configure R2 to avoid sharing any neighbor information with R3 and maintain its relationship with R1. What action meets the requirement?"
+  exhibit: |
+    Discovery-protocol task:
+    - R2 must stop sharing neighbor details with R3 only
+    - R2 must continue exchanging discovery information with R1
+
+    Task:
+    - disable the protocol only on the interface facing R3
+  options:
+    A: "Disable the protocol globally on R2."
+    B: "Disable the protocol on the interface connected to R3."
+    C: "Change the protocol timer on R2."
+    D: "Disable the protocol on the interface connected to R1."
+  correct_answer: B
+  explanation: "To preserve the neighbor relationship with R1, the discovery protocol should remain enabled globally and be disabled only on the interface facing R3."
+  source: 2-Network-Access_103/NA-030.png
+
+- id: NA-031
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [wireless, lightweight-ap, capwap]
+  question: "How is a configuration change made to a wireless AP in lightweight mode?"
+  options:
+    A: "SSH connection to the management IP of the AP"
+    B: "CAPWAP/LWAPP connection via the parent WLC"
+    C: "EoIP connection via the parent WLC"
+    D: "HTTPS connection directly to the out-of-band address of the AP"
+  correct_answer: B
+  explanation: "Lightweight APs are centrally managed through the controller over CAPWAP (or LWAPP on older platforms)."
+  source: adapted_from_images
+
+- id: NA-032
+  topic: Network Access
+  subtopic: "Discovery Protocols"
+  type: single_choice
+  difficulty: medium
+  tags: [cdp, interface, subnetting, cisco-cli]
+  question: "Refer to the exhibit. An administrator must turn off the Cisco Discovery Protocol on the port configured with the last usable address in the 10.0.0.252/30 subnet. Which command set meets the requirement?"
+  exhibit: |
+    Subnetting clue:
+    - subnet is 10.0.0.252/30
+    - usable host addresses are 10.0.0.253 and 10.0.0.254
+    - the last usable address is 10.0.0.254
+
+    Task:
+    - identify the interface using that address
+    - disable CDP only on that interface
+  options:
+    A: "interface ...
+no cdp enable on the interface with 10.0.0.253"
+    B: "interface ...
+no cdp enable on the interface with 10.0.0.254"
+    C: "no cdp run globally"
+    D: "cdp timer 0"
+  correct_answer: B
+  explanation: "A /30 subnet has two usable host addresses. In 10.0.0.252/30, the last usable address is 10.0.0.254, so CDP must be disabled on the interface configured with that address."
+  source: 2-Network-Access_103/NA-032.png
+
+- id: NA-033
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wireless, flexconnect, branch-office]
+  question: "Under what condition would a FlexConnect wireless architecture be preferable over other architectural choices?"
+  options:
+    A: "when the connection latency to several remote offices is anticipated to surpass 300 milliseconds"
+    B: "when there is a need for high-precision location-based services at various remote offices"
+    C: "when centralized management is needed for several remote offices that lack individual WLCs"
+    D: "when each remote office necessitates its own local WLC for network management"
+  correct_answer: C
+  explanation: "FlexConnect is a strong fit for branch offices that need centralized control from a main WLC without deploying a dedicated controller at each site."
+  source: adapted_from_images
+
+# NA-034 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-035
+  topic: Network Access
+  subtopic: "Switching"
+  type: single_choice
+  difficulty: easy
+  tags: [switching, unknown-unicast, flooding]
+  question: "When a switch receives a frame for an unknown destination MAC address, how is the frame handled?"
+  options:
+    A: "flooded to all ports except the origination port"
+    B: "forwarded to the first available port"
+    C: "broadcast to all ports on the switch"
+    D: "inspected and dropped by the switch"
+  correct_answer: A
+  explanation: "When the destination MAC is unknown, the switch floods the frame out all other forwarding ports in the same VLAN except the port on which it was received."
+  source: adapted_from_images
+
+- id: NA-036
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: medium
+  tags: [stp, root-bridge, bridge-id]
+  question: "Refer to the exhibit. Which switch in this configuration will be elected as the root bridge?"
+  exhibit: |
+    STP root election task:
+    - choose the switch with the lowest bridge priority
+    - if priorities tie, choose the lowest MAC address
+
+    Key clue from the exhibit:
+    - SW2 and SW3 share the lowest priority
+    - SW3 has the lower MAC address of the tied pair
+  options:
+    A: "SW1"
+    B: "SW2"
+    C: "SW3"
+    D: "SW4"
+  correct_answer: C
+  explanation: "SW2 and SW3 share the lowest priority of 4096, and SW3 wins because it has the lower MAC address."
+  source: 2-Network-Access_103/NA-036.png
+
+- id: NA-037
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: medium
+  tags: [stp, root-bridge, bridge-id]
+  question: "Refer to the exhibit. Which switch in this configuration will be elected as the root bridge?"
+  exhibit: |
+    STP root election task:
+    - compare bridge priorities first
+    - no MAC-address tiebreak is needed if one switch has the lowest priority alone
+
+    Key clue:
+    - SW2 has the lowest priority value shown in the exhibit
+  options:
+    A: "SW1"
+    B: "SW2"
+    C: "SW3"
+    D: "SW4"
+  correct_answer: B
+  explanation: "SW2 has the lowest STP priority value of 4096, so it becomes the root bridge without needing a MAC-address tie break."
+  source: 2-Network-Access_103/NA-037.png
+
+# NA-038 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-039
+  topic: Network Access
+  subtopic: "EtherChannel"
+  type: single_choice
+  difficulty: easy
+  tags: [etherchannel, lacp, passive, active]
+  question: "Refer to the exhibit. Which change to the configuration on Switch2 allows the two switches to establish an EtherChannel?"
+  exhibit: |
+    EtherChannel formation clue:
+    - the switches are using LACP
+    - the current modes do not successfully negotiate the bundle
+
+    Task:
+    - choose the change on Switch2 that allows the LACP EtherChannel to form
+  options:
+    A: "Change the LACP mode to desirable."
+    B: "Change the protocol to PAgP and use auto mode."
+    C: "Change the LACP mode to active."
+    D: "Change the protocol to EtherChannel mode on."
+  correct_answer: C
+  explanation: "LACP forms a channel when at least one side is in active mode. With both sides set to passive, the EtherChannel does not form."
+  source: 2-Network-Access_103/NA-039.png
+
+- id: NA-040
+  topic: Network Access
+  subtopic: "VLANs"
+  type: single_choice
+  difficulty: easy
+  tags: [voice-vlan, data-vlan, access-port]
+  question: "Refer to the exhibit. All VLANs are present in the VLAN database. Which command sequence must be applied to complete the configuration?"
+  exhibit: |
+    Interface requirement:
+    - connect an IP phone and a user device on the same switchport
+    - use one data VLAN and one voice VLAN
+    - all VLANs already exist in the database
+
+    Task:
+    - choose the proper access-port configuration with a voice VLAN
+  options:
+    A: "interface FastEthernet0/1
+switchport mode access
+switchport voice vlan 10"
+    B: "interface FastEthernet0/1
+switchport trunk native vlan 10
+switchport trunk allowed vlan 10,15"
+    C: "interface FastEthernet0/1
+switchport trunk allowed vlan add 10
+vlan 10
+private-vlan isolated"
+    D: "interface FastEthernet0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,15"
+  correct_answer: A
+  explanation: "An IP phone with a PC behind it normally uses an access port for the data VLAN and a separate voice VLAN configured with `switchport voice vlan`."
+  source: 2-Network-Access_103/NA-040.png
+
+- id: NA-041
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: easy
+  tags: [stp, portfast, access-port]
+  question: "Which port type supports the spanning-tree portfast command without additional configuration?"
+  options:
+    A: "Layer 3 main interfaces"
+    B: "Layer 3 subinterfaces"
+    C: "trunk ports"
+    D: "access ports"
+  correct_answer: D
+  explanation: "PortFast is intended for edge access ports connected to end devices so they can move to forwarding immediately."
+  source: adapted_from_images
+
+- id: NA-042
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [wireless, ap-modes, bridge, point-to-multipoint]
+  question: "Which AP mode serves as the primary hub in a point-to-multipoint network topology?"
+  options:
+    A: "FlexConnect"
+    B: "bridge"
+    C: "SE-Connect"
+    D: "local"
+  correct_answer: B
+  explanation: "In a point-to-multipoint wireless bridge deployment, the root or central AP operates in bridge mode and connects the remote bridges."
+  source: adapted_from_images
+
+- id: NA-043
+  topic: Network Access
+  subtopic: "Switching"
+  type: single_choice
+  difficulty: easy
+  tags: [switching, flooding, mac-address-table]
+  question: "A switch is forwarding a frame out of all interfaces except the interface that received the frame. What is the technical term for this process?"
+  options:
+    A: "ARP"
+    B: "CDP"
+    C: "flooding"
+    D: "multicast"
+  correct_answer: C
+  explanation: "When a switch must send a frame out all other ports in the VLAN because the destination is unknown or broadcast, that behavior is called flooding."
+  source: adapted_from_images
+
+- id: NA-044
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [wlc, console, out-of-band, management]
+  question: "Which functionality is provided by the console connection on a Cisco WLC?"
+  options:
+    A: "HTTP-based GUI connectivity"
+    B: "secure in-band connectivity for device administration"
+    C: "out-of-band management"
+    D: "unencrypted in-band connectivity for file transfers"
+  correct_answer: C
+  explanation: "The console port provides direct out-of-band access for initial setup, recovery, and troubleshooting when network connectivity is unavailable."
+  source: adapted_from_images
+
+- id: NA-045
+  topic: Network Access
+  subtopic: "VLANs"
+  type: single_choice
+  difficulty: easy
+  tags: [voice-vlan, access-port, ip-phone]
+  question: "Refer to the exhibit. Network services must be enabled on interface Gi1/0/34. Which configuration meets the needs for this implementation?"
+  exhibit: |
+    Port requirement:
+    - interface Gi1/0/34 connects to an IP phone and user device
+    - data VLAN = 400
+    - voice VLAN = 4041
+
+    Task:
+    - choose the correct access-port and voice-VLAN configuration
+  options:
+    A: "interface Gi1/0/34
+switchport mode trunk
+switchport trunk allowed native vlan 400
+switchport
+voice vlan 4041"
+    B: "interface Gi1/0/34
+switchport mode trunk
+switchport
+trunk allowed vlan 400,4041
+switchport voice vlan 4041"
+    C: "interface Gi1/0/34
+switchport mode access
+switchport
+access vlan 400
+switchport voice vlan 4041"
+    D: "interface Gi1/0/34
+switchport mode access
+switchport
+access vlan 4041
+switchport voice vlan 400"
+  correct_answer: C
+  explanation: "A switch port connected to an IP phone with a user PC typically remains an access port in the data VLAN and adds a separate voice VLAN with `switchport voice vlan`."
+  source: 2-Network-Access_103/NA-045.png
+
+- id: NA-046
+  topic: Network Access
+  subtopic: "Wireless"
+  type: multiple_choice
+  difficulty: medium
+  tags: [wlc, session-timeout, maximum-clients, wlan]
+  question: "Refer to the exhibit. A network engineer configures the CCNA WLAN so that clients must reauthenticate hourly and to limit the number of simultaneous connections to the WLAN to 10. Which two actions complete this configuration? (Choose two.)"
+  exhibit: |
+    WLAN policy requirements:
+    - clients must reauthenticate every hour
+    - total simultaneous clients on the WLAN must be limited to 10
+
+    Task:
+    - configure the session timeout in seconds
+    - configure the WLAN-wide maximum client count
+  options:
+    A: "Enable the Wi-Fi Direct Clients Policy option."
+    B: "Enable the Enable Session Timeout option and set the value to 3600."
+    C: "Enable the Client Exclusion option and set the value to 3600."
+    D: "Set the Maximum Allowed Clients value to 10."
+    E: "Set the Maximum Allowed Clients Per AP Radio value to 10."
+  correct_answer: [B, D]
+  explanation: "Hourly reauthentication uses a session timeout of 3600 seconds, and the WLAN-wide client limit is controlled with Maximum Allowed Clients."
+  source: 2-Network-Access_103/NA-046.png
+
+- id: NA-047
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: easy
+  tags: [rapid-pvst, portfast, server]
+  question: "Which Rapid PVST+ feature should be configured on a switch port to immediately send traffic to a connected server as soon as it is active?"
+  options:
+    A: "portfast"
+    B: "uplinkfast"
+    C: "BPDU guard"
+    D: "loop guard"
+  correct_answer: A
+  explanation: "PortFast lets an edge port transition to forwarding immediately, which is appropriate for a server-facing access port."
+  source: adapted_from_images
+
+- id: NA-048
+  topic: Network Access
+  subtopic: "Switching"
+  type: single_choice
+  difficulty: easy
+  tags: [arp, broadcast, flooding, switching]
+  question: "Refer to the exhibit. PC1 tries to ping PC3 for the first time and sends out an ARP to S1. Which action is taken by S1?"
+  exhibit: |
+    Switching behavior:
+    - PC1 sends an ARP request for the first time
+    - ARP request is a broadcast frame
+
+    Task:
+    - determine how S1 forwards the ARP broadcast inside the VLAN
+  options:
+    A: "It is flooded out every port except G0/0."
+    B: "It drops the frame."
+    C: "It forwards it out G0/3 only."
+    D: "It forwards it out interface G0/2 only."
+  correct_answer: A
+  explanation: "An ARP request is a broadcast frame, so the switch floods it out all other forwarding ports in the VLAN except the ingress port."
+  source: 2-Network-Access_103/NA-048.png
+
+- id: NA-049
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [flexconnect, local-switching, wlan]
+  question: "What is the primary purpose of the FlexConnect AP Mode?"
+  options:
+    A: "to enable central switching per SSID basis via 802.6Q trunking"
+    B: "to enable local authentication only for a locally switched SSID"
+    C: "to enable local switching between VLAN and SSID"
+    D: "to enable fast transition for the authenticated clients"
+  correct_answer: C
+  explanation: "FlexConnect is used mainly to allow branch APs to switch client traffic locally instead of tunneling all data back to the controller."
+  source: adapted_from_images
+
+- id: NA-050
+  topic: Network Access
+  subtopic: "Switching"
+  type: single_choice
+  difficulty: easy
+  tags: [mac-address-table, switching, source-mac]
+  question: "What does a switch use to build its MAC address table?"
+  options:
+    A: "VTP"
+    B: "DTP"
+    C: "ingress traffic"
+    D: "egress traffic"
+  correct_answer: C
+  explanation: "A switch learns MAC addresses from the source MAC of frames as they arrive on an ingress port."
+  source: adapted_from_images
+
+- id: NA-051
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [wlc, service-port, out-of-band]
+  question: "Which WLC interface provides out-of-band management in the Cisco Unified Wireless Network Architecture?"
+  options:
+    A: "AP-Manager"
+    B: "service port"
+    C: "dynamic"
+    D: "virtual"
+  correct_answer: B
+  explanation: "The WLC service port is dedicated to out-of-band management, maintenance, and recovery access."
+  source: adapted_from_images
+
+- id: NA-052
+  topic: Network Access
+  subtopic: "Campus Design"
+  type: equivalence_buttons
+  difficulty: medium
+  tags: [campus-design, three-tier, spine-leaf]
+  question: |
+    Match each network topology architecture layer (left) to its common function (right).
+    Original format: drag and drop.
+
+    Layers:
+      1. Access
+      2. Core
+      3. Spine-leaf
+      4. Distribution
+
+    Functions (shuffled):
+      A. aggregate traffic flows from customers
+      B. connect end users
+      C. fast switching
+      D. monitors network traffic
+      E. redundant architectures within data centers
+  left_items:
+    "1": "Access"
+    "2": "Core"
+    "3": "Spine-leaf"
+    "4": "Distribution"
+  right_items:
+    A: "aggregate traffic flows from customers"
+    B: "connect end users"
+    C: "fast switching"
+    D: "monitors network traffic"
+    E: "redundant architectures within data centers"
+  correct_matches:
+    "1": "B"
+    "2": "C"
+    "3": "E"
+    "4": "A"
+  explanation: "The access layer connects endpoints, the core emphasizes fast transport, the distribution layer aggregates traffic, and spine-leaf is associated with highly redundant data-center designs."
+  source: adapted_from_images
+
+- id: NA-053
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [capwap, lightweight-ap, wlc]
+  question: "Which mode must be set for APs to communicate to a Wireless LAN Controller using the Control and Provisioning of Wireless Access Points (CAPWAP) protocol?"
+  options:
+    A: "route"
+    B: "bridge"
+    C: "lightweight"
+    D: "autonomous"
+  correct_answer: C
+  explanation: "APs use lightweight mode to join and communicate with a WLC over CAPWAP."
+  source: adapted_from_images
+
+- id: NA-054
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [lightweight-ap, wlc, centralized-management]
+  question: "Which access point mode relies on a centralized controller for management, roaming, and SSID configuration?"
+  options:
+    A: "lightweight mode"
+    B: "autonomous mode"
+    C: "bridge mode"
+    D: "repeater mode"
+  correct_answer: A
+  explanation: "Lightweight APs depend on a centralized WLC for management and policy control."
+  source: adapted_from_images
+
+- id: NA-055
+  topic: Network Access
+  subtopic: "Discovery Protocols"
+  type: single_choice
+  difficulty: easy
+  tags: [cdp, timer, neighbor-discovery]
+  question: "Refer to the exhibit. Which action must be taken so that neighboring devices rapidly discover switch Cat9300?"
+  exhibit: |
+    CDP discovery requirement:
+    - neighbors must learn about Cat9300 more quickly
+
+    Task:
+    - choose the setting that reduces the CDP advertisement interval sent by Cat9300
+  options:
+    A: "Enable portfast on the ports that connect to neighboring devices."
+    B: "Configure the cdp timer 10 command on switch Cat9300."
+    C: "Configure the cdp holdtime 10 command on switch Cat9300."
+    D: "Configure the cdp timer 10 command on the neighbors of switch Cat9300."
+  correct_answer: B
+  explanation: "Reducing the CDP advertisement interval on the Cat9300 with `cdp timer 10` makes neighbors learn about it more quickly."
+  source: 2-Network-Access_103/NA-055.png
+
+# NA-056 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-057
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: medium
+  tags: [rapid-pvst, stp-states, disabled]
+  question: "Which Rapid PVST+ port state does a port operate in without receiving BPDUs from neighbors or updating the address database?"
+  options:
+    A: "listening"
+    B: "forwarding"
+    C: "disabled"
+    D: "blocking"
+  correct_answer: C
+  explanation: "A disabled port does not participate in spanning tree, does not receive BPDUs, and does not learn MAC addresses."
+  source: adapted_from_images
+
+- id: NA-058
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [ssid, wireless-basics, wlan]
+  question: "Which value is the unique identifier that an access point uses to establish and maintain wireless connectivity to wireless network devices?"
+  options:
+    A: "VLAN ID"
+    B: "SSID"
+    C: "RFID"
+    D: "WLAN ID"
+  correct_answer: B
+  explanation: "The SSID identifies the wireless network that clients use to discover and join a specific WLAN."
+  source: adapted_from_images
+
+# NA-059 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-060
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: medium
+  tags: [autonomous-ap, cloud-based-ap, management]
+  question: "What must a network administrator consider when deciding whether to configure a new wireless network with APs in autonomous mode or APs running in cloud-based mode?"
+  options:
+    A: "Autonomous mode APs are less dependent on an underlay but more complex to maintain than APs in cloud-based mode."
+    B: "Cloud-based mode APs rely on underlays and are more complex to maintain than APs in autonomous mode."
+    C: "Cloud-based mode APs are easy to deploy but harder to automate than APs in autonomous mode."
+    D: "Autonomous mode APs are easy to deploy and automate than APs in cloud-based mode."
+  correct_answer: A
+  explanation: "Autonomous APs can operate more independently but require per-device configuration and maintenance, whereas cloud-managed APs are usually simpler to deploy and manage centrally."
+  source: adapted_from_images
+
+- id: NA-061
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [wireless-mesh, bridge-mode, ap-modes]
+  question: "Which AP mode is used in a wireless mesh deployment?"
+  options:
+    A: "Local"
+    B: "Monitor"
+    C: "FlexConnect"
+    D: "Bridge"
+  correct_answer: D
+  explanation: "Wireless mesh deployments use APs operating in bridge mode to connect wirelessly and extend coverage without wired backhaul to every AP."
+  source: adapted_from_images
+
+- id: NA-062
+  topic: Network Access
+  subtopic: "EtherChannel"
+  type: single_choice
+  difficulty: easy
+  tags: [lag, link-aggregation, redundancy, bandwidth]
+  question: "What provides connection redundancy, increased bandwidth, and load sharing between a wireless LAN controller and a Layer 2 switch?"
+  options:
+    A: "first hop redundancy"
+    B: "VLAN trunking"
+    C: "tunneling"
+    D: "link aggregation"
+  correct_answer: D
+  explanation: "Link aggregation bundles multiple physical links into one logical connection to increase throughput and provide redundancy."
+  source: adapted_from_images
+
+- id: NA-063
+  topic: Network Access
+  subtopic: "Wireless Security"
+  type: single_choice
+  difficulty: medium
+  tags: [802.11r, fast-transition, ft-psk, roaming]
+  question: "Refer to the exhibit. Users need to connect to the wireless network with IEEE 802.11r-compatible devices. The connection must be maintained as users travel between floors or to other areas in the building. What must be the configuration of the connection?"
+  exhibit: |
+    Wireless roaming requirement:
+    - client devices support IEEE 802.11r
+    - connectivity must be maintained during movement between AP coverage areas
+    - WLAN uses PSK-style authentication in this scenario
+
+    Task:
+    - enable the fast-roaming option that matches a PSK WLAN
+  options:
+    A: "Disable AES encryption."
+    B: "Enable Fast Transition and select the FT 802.1x option."
+    C: "Enable Fast Transition and select the FT PSK option."
+    D: "Select the WPA Policy option with the CCKM option."
+  correct_answer: C
+  explanation: "For 802.11r roaming with a PSK-based WLAN, Fast Transition must be enabled together with the FT PSK option."
+  source: 2-Network-Access_103/NA-063.png
+
+- id: NA-064
+  topic: Network Access
+  subtopic: "Switch Security"
+  type: single_choice
+  difficulty: medium
+  tags: [port-security, access-port, mac-address]
+  question: "Refer to the exhibit. An engineer must configure the interface that connects to PC1 and secure it in a way that only PC1 is allowed to use the port. No VLAN tagging can be used except for a voice VLAN. Which command sequence must be entered to configure the switch?"
+  exhibit: |
+    Port-security requirement:
+    - the PC1-facing interface must remain an access port
+    - no VLAN tagging is allowed other than optional voice VLAN behavior
+    - only PC1 is allowed to use the port
+
+    Task:
+    - choose the access-port configuration with port security bound to PC1's MAC address
+  options:
+    A: "SW1(config-if)#switchport mode dynamic auto
+SW1(config-if)#switchport port-security
+SW1(config-if)#switchport port-security violation restrict"
+    B: "SW1(config-if)#switchport mode nonegotiate
+SW1(config-if)#switchport port-security
+SW1(config-if)#switchport port-security maximum 1"
+    C: "SW1(config-if)#switchport mode access
+SW1(config-if)#switchport port-security
+SW1(config-if)#switchport port-security mac-address 0050.7966.6800"
+    D: "SW1(config-if)#switchport mode dynamic desirable
+SW1(config-if)#switchport port-security mac-address 0050.7966.6800
+SW1(config-if)#switchport port-security mac-address sticky"
+  correct_answer: C
+  explanation: "Because the port must be a non-tagging access port and only PC1 is allowed, the correct solution is an access port with port security tied to PC1's specific MAC address."
+  source: 2-Network-Access_103/NA-064.png
+
+- id: NA-065
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: easy
+  tags: [rapid-pvst, vlan, spanning-tree]
+  question: "How does Rapid PVST+ create a fast loop-free network topology?"
+  options:
+    A: "It uses multiple active paths between end stations."
+    B: "It requires multiple links between core switches."
+    C: "It maps multiple VLANs into the same spanning-tree instance."
+    D: "It generates one spanning-tree instance for each VLAN."
+  correct_answer: D
+  explanation: "Rapid PVST+ runs a separate spanning-tree instance per VLAN, allowing faster and VLAN-specific convergence."
+  source: adapted_from_images
+
+# NA-066 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-067
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: medium
+  tags: [stp, root-bridge, bridge-id, mac-address]
+  question: "Refer to the exhibit. Which switch in this configuration will be elected as the root bridge?"
+  exhibit: |
+    STP election task:
+    - choose the switch with the lowest bridge priority
+    - if there is a tie, choose the lowest MAC address
+
+    Key clue from the exhibit:
+    - SW1 and SW4 share the lowest priority
+    - SW1 has the lower MAC address of the tied pair
+  options:
+    A: "SW1"
+    B: "SW2"
+    C: "SW3"
+    D: "SW4"
+  correct_answer: A
+  explanation: "SW1 and SW4 share the lowest STP priority of 8192, so the tie is broken by the lower MAC address. SW1 has the lower MAC address and becomes root."
+  source: 2-Network-Access_103/NA-067.png
+
+- id: NA-068
+  topic: Network Access
+  subtopic: "Device Management"
+  type: equivalence_buttons
+  difficulty: easy
+  tags: [console, ssh, telnet, https, management]
+  question: |
+    Match each management connection type (left) to its correct definition (right).
+    Original format: drag and drop.
+
+    Connection types:
+      1. console
+      2. HTTPS
+      3. SSH
+      4. Telnet
+
+    Definitions (shuffled):
+      A. supports clear-text connections to the controller CLI
+      B. supports encrypted access to CLI and a secure channel for data transfer
+      C. supports physical connections over a serial cable
+      D. supports secure web access for management of the device
+  left_items:
+    "1": "console"
+    "2": "HTTPS"
+    "3": "SSH"
+    "4": "Telnet"
+  right_items:
+    A: "supports clear-text connections to the controller CLI"
+    B: "supports encrypted access to CLI and a secure channel for data transfer"
+    C: "supports physical connections over a serial cable"
+    D: "supports secure web access for management of the device"
+  correct_matches:
+    "1": "C"
+    "2": "D"
+    "3": "B"
+    "4": "A"
+  explanation: "Console uses a physical serial connection, HTTPS provides secure web management, SSH provides encrypted CLI access, and Telnet is clear-text CLI access."
+  source: adapted_from_images
+
+# NA-069 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-070
+  topic: Network Access
+  subtopic: "VLANs"
+  type: single_choice
+  difficulty: easy
+  tags: [voice-vlan, access-port, ip-phone]
+  question: "Refer to the exhibit. Switch A is newly configured. All VLANs are present in the VLAN database. The IP phone and PC A on Gi0/1 must be configured for the appropriate VLANs to establish connectivity between the PCs. Which command set fulfills the requirement?"
+  exhibit: |
+    Interface requirement on Gi0/1:
+    - PC uses data VLAN 50
+    - IP phone uses voice VLAN 51
+    - all VLANs already exist
+
+    Task:
+    - choose the correct access-port configuration for data plus voice VLANs
+  options:
+    A: "SwitchA(config-if)#switchport mode access
+SwitchA(config-if)#switchport access vlan 50
+SwitchA(config-if)#switchport voice vlan 51"
+    B: "SwitchA(config-if)#switchport mode trunk
+SwitchA(config-if)#switchport trunk allowed vlan add 50, 51
+SwitchA(config-if)#switchport voice vlan dot1p"
+    C: "SwitchA(config-if)#switchport mode trunk
+SwitchA(config-if)#switchport trunk allowed vlan 50, 51
+SwitchA(config-if)#mls qos trust cos"
+    D: "SwitchA(config-if)#switchport mode access
+SwitchA(config-if)#switchport access vlan 50
+SwitchA(config-if)#switchport voice vlan untagged"
+  correct_answer: A
+  explanation: "A PC behind an IP phone is typically connected through an access port in the data VLAN, with the phone using a separate configured voice VLAN."
+  source: 2-Network-Access_103/NA-070.png
+
+- id: NA-071
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: easy
+  tags: [bpduguard, portfast, errdisable]
+  question: "Refer to the exhibit. What is the result if Gig1/11 receives an STP BPDU?"
+  exhibit: |
+    Interface protection clue:
+    - Gig1/11 is configured as an edge/PortFast-style access port
+    - BPDU Guard is enabled on the port
+
+    Task:
+    - determine what happens if the port receives a BPDU
+  options:
+    A: "The port transitions to STP blocking."
+    B: "The port immediately transitions to STP forwarding."
+    C: "The port goes into error-disable state."
+    D: "The port transitions to the root port."
+  correct_answer: C
+  explanation: "A PortFast access port with BPDU Guard enabled is placed into err-disabled state if it receives a BPDU."
+  source: 2-Network-Access_103/NA-071.png
+
+- id: NA-072
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [autonomous-ap, vlan-mapping, trunk]
+  question: "Which type of port is used to connect to the wired network when an autonomous AP maps two VLANs to its WLANs?"
+  options:
+    A: "access"
+    B: "LAG"
+    C: "trunk"
+    D: "EtherChannel"
+  correct_answer: C
+  explanation: "When an autonomous AP carries multiple VLANs for different WLANs, the switch-facing wired connection must be a trunk."
+  source: adapted_from_images
+
+- id: NA-073
+  topic: Network Access
+  subtopic: "Wireless Security"
+  type: single_choice
+  difficulty: medium
+  tags: [pmf, comeback-timer, spoofed-association]
+  question: "An administrator must secure the WLC from receiving spoofed association requests. Which steps must be taken to configure the WLC to restrict the requests and force the user to wait 10 ms to retry an association request?"
+  options:
+    A: "Enable MAC filtering and set the SA Query timeout to 10."
+    B: "Enable 802.1x Layer 2 security and set the Comeback timer to 10."
+    C: "Enable Security Association Teardown Protection and set the SA Query timeout to 10."
+    D: "Enable the Protected Management Frame service and set the Comeback timer to 10."
+  correct_answer: D
+  explanation: "Protected Management Frames help defend against spoofed management traffic, and the comeback timer controls how long a client waits before retrying association."
+  source: adapted_from_images
+
+- id: NA-074
+  topic: Network Access
+  subtopic: "Wireless Architecture"
+  type: single_choice
+  difficulty: medium
+  tags: [split-mac, wlc, ap]
+  question: "What does the term 'split MAC' refer to in a wireless architecture?"
+  options:
+    A: "leverages two APs to handle control and data traffic"
+    B: "uses different MAC addresses for 2.4 GHz and 5 GHz bands on the same AP"
+    C: "divides data link layer functions between the AP and WLC"
+    D: "combines the management and control functions from the data-forwarding functions"
+  correct_answer: C
+  explanation: "In split-MAC architecture, some Layer 2 functions stay on the AP while higher-level control functions are centralized on the WLC."
+  source: adapted_from_images
+
+- id: NA-075
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [wlc, http, web-management]
+  question: "Which command enables HTTP access to the Cisco WLC?"
+  options:
+    A: "config network telnet enable"
+    B: "config network secureweb enable"
+    C: "config certificate generate webadmin"
+    D: "config network webmode enable"
+  correct_answer: D
+  explanation: "The command 'config network webmode enable' enables HTTP-based web access on the WLC."
+  source: adapted_from_images
+
+- id: NA-076
+  topic: Network Access
+  subtopic: "VLANs"
+  type: single_choice
+  difficulty: medium
+  tags: [trunk, access-port, vlan, switching]
+  question: "Refer to the exhibit. Switch AccSw1 has just been added to the network along with PC2. All VLANs have been implemented on AccSw2. How must the ports on AccSw2 be configured to establish Layer 2 connectivity between PC1 and PC2?"
+  exhibit: |
+    Topology requirement:
+    - PC2 is newly connected to AccSw1
+    - PC1 and PC2 must communicate at Layer 2
+    - VLANs already exist on AccSw2
+
+    Task on AccSw2:
+    - configure the PC-facing port as an access port in the correct VLAN
+    - configure the inter-switch link as a trunk
+  options:
+    A: "interface GigabitEthernet1/2
+switchport mode access
+switchport access vlan 2
+!
+interface GigabitEthernet1/24
+switchport mode trunk"
+    B: "interface GigabitEthernet1/1
+switchport mode access
+switchport access vlan 11
+!
+interface GigabitEthernet1/24
+switchport mode trunk"
+    C: "interface GigabitEthernet1/24
+switchport mode trunk
+switchport trunk allowed vlan 11, 12
+!
+interface GigabitEthernet1/1
+switchport access vlan 11"
+    D: "interface GigabitEthernet1/2
+switchport mode access
+switchport access vlan 12
+!
+interface GigabitEthernet1/24
+switchport trunk allowed vlan 11, 12"
+  correct_answer: B
+  explanation: "PC2 connects on Gi1/1 in VLAN 11, and the inter-switch link on Gi1/24 must be configured as a trunk so VLAN 11 can traverse between the switches."
+  source: 2-Network-Access_103/NA-076.png
+
+- id: NA-077
+  topic: Network Access
+  subtopic: "EtherChannel"
+  type: single_choice
+  difficulty: easy
+  tags: [lacp, active, passive, etherchannel]
+  question: "Refer to the exhibit. An engineer is configuring an EtherChannel using LACP between Switches 1 and 2. Which configuration must be applied so that only Switch 1 sends LACP initiation packets?"
+  exhibit: |
+    LACP requirement:
+    - only Switch 1 should initiate LACP negotiation
+    - Switch 2 should only respond
+
+    Task:
+    - choose the active/passive combination that matches that behavior
+  options:
+    A: "Switch1(config-if)#channel-group 1 mode on
+
+Switch2(config-if)#channel-group 1 mode active"
+    B: "Switch1(config-if)#channel-group 1 mode active
+
+Switch2(config-if)#channel-group 1 mode passive"
+    C: "Switch1(config-if)#channel-group 1 mode passive
+
+Switch2(config-if)#channel-group 1 mode active"
+    D: "Switch1(config-if)#channel-group 1 mode on
+
+Switch2(config-if)#channel-group 1 mode passive"
+  correct_answer: B
+  explanation: "In LACP, the active side initiates negotiation packets and the passive side only responds, so Switch 1 must be active and Switch 2 passive."
+  source: 2-Network-Access_103/NA-077.png
+
+- id: NA-078
+  topic: Network Access
+  subtopic: "Wireless Architecture"
+  type: multiple_choice
+  difficulty: medium
+  tags: [autonomous, cloud-based, split-mac, lightweight-ap]
+  question: "A network architect planning a new Wi-Fi network must decide between autonomous, cloud-based, and split MAC architectures. Which two facts should the architect consider? (Choose two.)"
+  options:
+    A: "Cloud-based architectures uniquely use the CAPWAP protocol to communicate between access points and clients."
+    B: "Autonomous architectures exclusively use tunneling protocols to manage access points remotely."
+    C: "All three architectures use access points to manage the wireless devices connected to the wired infrastructure."
+    D: "Lightweight access points are solely used by split MAC architectures."
+    E: "Each of the three architectures must use WLCs to manage their access points."
+  correct_answer: [C, D]
+  explanation: "All three designs still rely on APs to connect wireless clients to the wired network, and lightweight APs are characteristic of split-MAC architectures."
+  source: adapted_from_images
+
+- id: NA-079
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: medium
+  tags: [stp, root-bridge, bridge-id, mac-address]
+  question: "Refer to the exhibit. Which switch in this configuration will be elected as the root bridge?"
+  exhibit: |
+    STP root election task:
+    - choose the switch with the lowest bridge priority
+    - if priorities tie, choose the switch with the lower MAC address
+
+    Key clue from the exhibit:
+    - SW2 and SW3 share the lowest priority
+    - SW2 has the lower MAC address of the tied pair
+  options:
+    A: "SW1"
+    B: "SW2"
+    C: "SW3"
+    D: "SW4"
+  correct_answer: B
+  explanation: "SW2 and SW3 share the lowest STP priority of 4096, so the tiebreaker is the MAC address. SW2 has the lower MAC address and becomes the root bridge."
+  source: 2-Network-Access_103/NA-079.png
+
+# NA-080 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-081
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: medium
+  tags: [stp, root-bridge, bridge-id, mac-address]
+  question: "Refer to the exhibit. Which switch in this configuration will be elected as the root bridge?"
+  exhibit: |
+    STP root election task:
+    - compare bridge priorities first
+    - if there is a tie, compare MAC addresses
+
+    Key clue from the exhibit:
+    - SW2 and SW3 share the lowest priority
+    - SW3 has the lower MAC address of the tied pair
+  options:
+    A: "SW1"
+    B: "SW2"
+    C: "SW3"
+    D: "SW4"
+  correct_answer: C
+  explanation: "SW2 and SW3 share the lowest STP priority of 8192, so the MAC-address tiebreaker applies. SW3 has the lower MAC address and becomes the root bridge."
+  source: 2-Network-Access_103/NA-081.png
+
+- id: NA-082
+  topic: Network Access
+  subtopic: "VLANs"
+  type: single_choice
+  difficulty: medium
+  tags: [access-port, trunk, mac-address-table, switching]
+  question: "Refer to the exhibit. An engineer has started to configure replacement switch SW1. To verify part of the configuration, the engineer issued the commands as shown and noticed that the entry for PC2 is missing. Which change must be applied to SW1 so that PC1 and PC2 communicate normally?"
+  exhibit: |
+    Troubleshooting clue:
+    - PC2 MAC entry is missing from SW1
+    - the PC2-facing port is misconfigured as a trunk
+    - PC2 should be attached to a normal access port
+
+    Task:
+    - return the PC-facing interface to the correct access-port behavior
+  options:
+    A: "SW1(config)#interface fa0/2
+SW1(config-if)#no switchport access vlan 2
+SW1(config-if)#no switchport trunk allowed vlan 3
+SW1(config-if)#switchport trunk allowed vlan 2"
+    B: "SW1(config)#interface fa0/1
+SW1(config-if)#no switchport access vlan 2
+SW1(config-if)#switchport trunk native vlan 2
+SW1(config-if)#switchport trunk allowed vlan 3"
+    C: "SW1(config)#interface fa0/2
+SW1(config-if)#no switchport mode trunk
+SW1(config-if)#no switchport trunk allowed vlan 3
+SW1(config-if)#switchport mode access"
+    D: "SW1(config)#interface fa0/1
+SW1(config-if)#no switchport access vlan 2
+SW1(config-if)#switchport access vlan 3
+SW1(config-if)#switchport trunk allowed vlan 2"
+  correct_answer: C
+  explanation: "PC2 is on Fa0/2 but that port is incorrectly configured as a trunk allowing VLAN 3. It must be returned to an access port in VLAN 2 so both PCs can communicate normally."
+  source: 2-Network-Access_103/NA-082.png
+
+- id: NA-083
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: easy
+  tags: [stp, root-port, switching]
+  question: "What is the role of the root port in a switched network?"
+  options:
+    A: "It replaces the designated port when the designated port fails."
+    B: "It replaces the designated port when the root port fails."
+    C: "It is the best path to the root from a nonroot switch."
+    D: "It is administratively disabled until a failover occurs."
+  correct_answer: C
+  explanation: "On each nonroot switch, the root port is the port with the lowest-cost path toward the root bridge."
+  source: adapted_from_images
+
+- id: NA-084
+  topic: Network Access
+  subtopic: "STP"
+  type: multiple_choice
+  difficulty: medium
+  tags: [rstp, 802.1w, port-states]
+  question: "Aside from discarding, which two states does the switch port transition through while using RSTP (802.1w)? (Choose two.)"
+  options:
+    A: "blocking"
+    B: "speaking"
+    C: "listening"
+    D: "learning"
+    E: "forwarding"
+  correct_answer: [D, E]
+  explanation: "RSTP uses the port states discarding, learning, and forwarding."
+  source: adapted_from_images
+
+- id: NA-085
+  topic: Network Access
+  subtopic: "Switch Security"
+  type: single_choice
+  difficulty: easy
+  tags: [errdisable, port-security]
+  question: "What causes a port to be placed in the err-disabled state?"
+  options:
+    A: "shutdown command issued on the port"
+    B: "port security violation"
+    C: "nothing plugged into the port"
+    D: "latency"
+  correct_answer: B
+  explanation: "A port-security violation is a common cause of an interface being placed into err-disabled state."
+  source: adapted_from_images
+
+- id: NA-086
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [wlc, lag, redundancy, load-balancing]
+  question: "What is a reason to implement LAG on a Cisco WLC?"
+  options:
+    A: "Enable connected switch ports to fail over and use different VLANs"
+    B: "Increase security and encrypt management frames"
+    C: "Allow for stateful and link-state failover"
+    D: "Provide link redundancy and load balancing"
+  correct_answer: D
+  explanation: "LAG on a WLC bundles multiple links to increase bandwidth while adding redundancy and load sharing."
+  source: adapted_from_images
+
+- id: NA-087
+  topic: Network Access
+  subtopic: "Wireless"
+  type: multiple_choice
+  difficulty: easy
+  tags: [wlc, out-of-band, console, service-port]
+  question: "What are two port types used by a Cisco WLC for out-of-band management? (Choose two.)"
+  options:
+    A: "service"
+    B: "console"
+    C: "management"
+    D: "distribution system"
+    E: "redundant"
+  correct_answer: [A, B]
+  explanation: "Cisco WLCs use the service port and the console port for out-of-band management access."
+  source: adapted_from_images
+
+- id: NA-088
+  topic: Network Access
+  subtopic: "Switching"
+  type: single_choice
+  difficulty: medium
+  tags: [routing-table, longest-prefix-match, static-route]
+  question: "Refer to the exhibit. Which IP route command created the best path for a packet destined for 10.10.10.3?"
+  exhibit: |
+    Route-selection task:
+    - destination IP is 10.10.10.3
+    - multiple static routes could match
+
+    Task:
+    - choose the route that provides the most specific valid match by longest-prefix logic
+  options:
+    A: "ip route 10.10.0.0 255.255.252.0 g0/0"
+    B: "ip route 10.10.10.0 255.255.255.240 g0/0"
+    C: "ip route 10.0.0.0 255.0.0.0 g0/0"
+    D: "ip route 10.10.10.1 255.255.255.255 g0/0"
+  correct_answer: B
+  explanation: "The packet for 10.10.10.3 matches the most specific valid route among the choices by longest-prefix match: 10.10.10.0/28."
+  source: 2-Network-Access_103/NA-088.png
+
+# NA-089 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-090
+  topic: Network Access
+  subtopic: "AAA"
+  type: single_choice
+  difficulty: easy
+  tags: [aaa, authentication, accounting, authorization]
+  question: "How do AAA operations compare regarding user identification, user services, and access control?"
+  options:
+    A: "Authorization provides access control, and authentication tracks user services"
+    B: "Authentication identifies users, and accounting tracks user services"
+    C: "Accounting tracks user services, and authentication provides access control"
+    D: "Authorization identifies users, and authentication provides access control"
+  correct_answer: B
+  explanation: "In AAA, authentication identifies users, authorization determines what they can do, and accounting records resource and service usage."
+  source: adapted_from_images
+
+- id: NA-091
+  topic: Network Access
+  subtopic: "EtherChannel"
+  type: single_choice
+  difficulty: easy
+  tags: [lacp, lag, link-aggregation]
+  question: "A network administrator needs to aggregate 4 ports into a single logical link which must negotiate layer 2 connectivity to ports on another switch. What must be configured when using active mode on both sides of the connection?"
+  options:
+    A: "LLDP"
+    B: "LACP"
+    C: "Cisco vPC"
+    D: "802.1q trunks"
+  correct_answer: B
+  explanation: "Active mode on both sides indicates LACP negotiation for forming the EtherChannel."
+  source: adapted_from_images
+
+- id: NA-092
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [wlc, in-band-management, management-interface]
+  question: "What is the default interface for in-band wireless network management on a WLC?"
+  options:
+    A: "out-of-band"
+    B: "redundant port"
+    C: "service port"
+    D: "wireless management"
+  correct_answer: D
+  explanation: "The wireless management interface is used for normal in-band management of the WLC."
+  source: adapted_from_images
+
+- id: NA-093
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: medium
+  tags: [portfast, bpdu, broadcast-storm]
+  question: "What occurs when PortFast is enabled on an interface that is connected to another switch?"
+  options:
+    A: "Root port choice and spanning-tree recalculation are accelerated when a switch link goes down."
+    B: "After spanning-tree converges, PortFast shuts down any port that receives BPDUs."
+    C: "VTP is allowed to propagate VLAN configuration information from switch to switch automatically."
+    D: "Spanning-tree fails to detect a switching loop, increasing the likelihood of broadcast storms."
+  correct_answer: D
+  explanation: "PortFast should not be used on links between switches because bypassing normal STP transition can hide loops and lead to broadcast storms."
+  source: adapted_from_images
+
+- id: NA-094
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [wlc, trunk, vlan, distribution-port]
+  question: "What is a reason to configure a trunk port that connects to a WLC distribution port?"
+  options:
+    A: "Provide redundancy if there is a link failure for out-of-band management."
+    B: "Allow multiple VLANs to be used in the data path."
+    C: "Permit multiple VLANs to provide out-of-band management."
+    D: "Eliminate redundancy with a link failure in the data path."
+  correct_answer: B
+  explanation: "A WLC distribution port commonly uses a trunk so multiple VLANs can traverse a single physical link."
+  source: adapted_from_images
+
+- id: NA-095
+  topic: Network Access
+  subtopic: "Wireless"
+  type: single_choice
+  difficulty: easy
+  tags: [hotspot, captive-portal, guest-access]
+  question: "Which AP feature provides a captive portal for users to authenticate, register, and accept terms before accessing the internet?"
+  options:
+    A: "One-Click"
+    B: "Hotspot"
+    C: "Enhanced Bluetooth"
+    D: "Whole Home"
+  correct_answer: B
+  explanation: "Hotspot mode provides a captive portal workflow for guest-style internet access."
+  source: adapted_from_images
+
+- id: NA-096
+  topic: Network Access
+  subtopic: "STP"
+  type: single_choice
+  difficulty: easy
+  tags: [portfast, forwarding]
+  question: "What is the benefit of configuring PortFast on an interface?"
+  options:
+    A: "The frames entering the interface are marked with the higher priority and then processed faster by a switch."
+    B: "After the cable is connected, the interface is available faster to send and receive user data."
+    C: "Real-time voice and video frames entering the interface are processed faster."
+    D: "After the cable is connected, the interface uses the fastest speed setting available for that cable type."
+  correct_answer: B
+  explanation: "PortFast lets an edge port enter forwarding immediately, making it available for end-host traffic more quickly."
+  source: adapted_from_images
+
+# NA-097 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.
+
+- id: NA-098
+  topic: Network Access
+  subtopic: "Device Management"
+  type: multiple_choice
+  difficulty: medium
+  tags: [ssh, ios, crypto, domain-name]
+  question: "Which two conditions must be met before SSH operates normally on a Cisco IOS switch? (Choose two.)"
+  options:
+    A: "IP routing must be enabled on the switch."
+    B: "A console password must be configured on the switch."
+    C: "Telnet must be disabled on the switch."
+    D: "The switch must be running a k9 (crypto) IOS image."
+    E: "The ip domain-name command must be configured on the switch."
+  correct_answer: [D, E]
+  explanation: "SSH requires cryptographic support in the IOS image and a configured domain name so RSA keys can be generated."
+  source: adapted_from_images
+
+- id: NA-099
+  topic: Network Access
+  subtopic: "STP"
+  type: multiple_choice
+  difficulty: medium
+  tags: [rapid-pvst, root-port, show-spanning-tree]
+  question: "Refer to the exhibit. What are two conclusions about this configuration? (Choose two.)"
+  exhibit: |
+    Spanning-tree output analysis:
+    - evaluate the spanning-tree mode shown in the exhibit
+    - identify whether the switch is root or nonroot
+    - determine which interface is acting as the root port/designated port
+  options:
+    A: "The spanning-tree mode is Rapid PVST+."
+    B: "This is a root bridge."
+    C: "The spanning-tree mode is PVST+."
+    D: "The designated port is FastEthernet 2/1."
+    E: "The root port is FastEthernet 2/1."
+  correct_answer: [A, E]
+  explanation: "The exhibit shows Rapid PVST+ operation, and the interface identified toward the root is FastEthernet 2/1, making it the root port rather than a designated port."
+  source: 2-Network-Access_103/NA-099.png
+
+- id: NA-100
+  topic: Network Access
+  subtopic: "VLANs"
+  type: single_choice
+  difficulty: easy
+  tags: [trunk, native-vlan, untagged]
+  question: "Refer to the exhibit. Which action is expected from SW1 when the untagged frame is received on the GigabitEthernet0/1 interface?"
+  exhibit: |
+    Trunking clue:
+    - an untagged frame arrives on Gi0/1
+    - the interface treats untagged traffic as belonging to the native VLAN
+
+    Task:
+    - identify the native VLAN configured in the exhibit
+  options:
+    A: "The frame is processed in VLAN 1"
+    B: "The frame is processed in VLAN 11"
+    C: "The frame is processed in VLAN 5"
+    D: "The frame is dropped"
+  correct_answer: C
+  explanation: "On an 802.1Q trunk, untagged frames are associated with the native VLAN. In the exhibit, the native VLAN is VLAN 5."
+  source: 2-Network-Access_103/NA-100.png
+
+- id: NA-101
+  topic: Network Access
+  subtopic: "Discovery Protocols"
+  type: single_choice
+  difficulty: medium
+  tags: [cdp, lldp, interfaces, neighbors]
+  question: "Refer to the exhibit. For security reasons, automatic neighbor discovery must be disabled on the R5 Gi0/1 interface. These tasks must be completed: disable all neighbor discovery methods on R5 interface Gi0/1, permit neighbor discovery on R5 interface Gi0/2, verify there are no dynamically learned neighbors on R5 interface Gi0/1, and display the IP address of R6's interface Gi0/2. Which configuration must be used?"
+  exhibit: |
+    Security requirement on R5:
+    - disable all automatic neighbor discovery only on Gi0/1
+    - keep neighbor discovery available on Gi0/2
+
+    Verification requirements:
+    - confirm no dynamic neighbors are learned on Gi0/1
+    - display neighbor detail that includes R6 Gi0/2 IP information
+  options:
+    A: "R5(config)#int Gi0/1
+R5(config-if)#no cdp enable
+R5(config-if)#exit
+R5(config)#lldp run
+R5(config)#no cdp run
+R5#sh cdp neighbor detail
+R5#sh lldp neighbor"
+    B: "R5(config)#int Gi0/1
+R5(config-if)#no cdp enable
+R5(config-if)#exit
+R5(config)#no lldp run
+R5(config)#cdp run
+R5#sh cdp neighbor
+R5#sh lldp neighbor"
+    C: "R5(config)#int Gi0/1
+R5(config-if)#no cdp run
+R5(config-if)#exit
+R5(config)#lldp run
+R5(config)#cdp enable
+R5#sh cdp neighbor
+R5#sh lldp neighbor"
+    D: "R5(config)#int Gi0/1
+R5(config-if)#no cdp enable
+R5(config-if)#exit
+R5(config)#no lldp run
+R5(config)#cdp run
+R5#sh cdp neighbor detail
+R5#sh lldp neighbor"
+  correct_answer: D
+  explanation: "The solution must disable neighbor discovery on the sensitive interface while still allowing the required verification. The correct option preserves CDP where needed and uses detail output to display the neighbor IP address information."
+  source: 2-Network-Access_103/NA-101.png
+
+- id: NA-102
+  topic: Network Access
+  subtopic: "VLANs"
+  type: single_choice
+  difficulty: easy
+  tags: [voice-vlan, access-port, ip-phone]
+  question: "Refer to the exhibit. An administrator must configure interfaces Gi1/1 and Gi1/3 on switch SW11. PC-1 and PC-2 must be placed in the Data VLAN, and Phone-1 must be placed in the Voice VLAN. Which configuration meets these requirements?"
+  exhibit: |
+    Interface requirements on SW11:
+    - Gi1/1 connects to PC-1 and should be in Data VLAN 8
+    - Gi1/3 connects to Phone-1 with PC-2 behind it
+    - Phone-1 should use Voice VLAN 9
+    - PC-2 should stay in Data VLAN 8
+
+    Task:
+    - choose the access-port configuration with the correct voice VLAN on Gi1/3
+  options:
+    A: "interface gigabitethernet1/1
+switchport mode access
+switchport access vlan 8
+!
+interface gigabitethernet1/3
+switchport mode access
+switchport access vlan 8
+switchport voice vlan 9"
+    B: "interface gigabitethernet1/1
+switchport mode access
+switchport access vlan 8
+!
+interface gigabitethernet1/3
+switchport mode trunk
+switchport trunk vlan 8
+switchport voice vlan 9"
+    C: "interface gigabitethernet1/1
+switchport mode access
+switchport access vlan 9
+!
+interface gigabitethernet1/3
+switchport mode trunk
+switchport trunk vlan 8
+switchport trunk vlan 9"
+    D: "interface gigabitethernet1/1
+switchport mode access
+switchport access vlan 8
+!
+interface gigabitethernet1/3
+switchport mode access
+switchport voice vlan 8
+switchport access vlan 9"
+  correct_answer: A
+  explanation: "The PC-only port should be an access port in the data VLAN, and the phone-plus-PC port should also be an access port in the data VLAN with a separate configured voice VLAN for the IP phone."
+  source: 2-Network-Access_103/NA-102.png
+
+# NA-103 is a simulation/lab item in the source images and is being deferred
+# until the runtime schema supports simulation questions cleanly.

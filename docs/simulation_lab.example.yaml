@@ -1,0 +1,35 @@
+# Example only. Keep this file outside data/<cert>/questions/ so it is not loaded by the quiz.
+- id: NA-006
+  topic: Network Access
+  subtopic: "Simulation Lab"
+  type: simulation_lab
+  difficulty: medium
+  tags: [lab, cdp, lldp, interface-security]
+  question: "Disable neighbor discovery on Gi0/1 while preserving it on Gi0/2, then verify the neighbor IP information."
+  exhibit: |
+    You are connected to R5.
+    Follow the task goals and use the lab image when needed.
+  source: 2-Network-Access_103/NA-006.png
+  explanation: "The target interface must stop advertising or learning neighbors, while other interfaces continue to function normally."
+  lab:
+    intro: "This lab accepts command input in Telegram chat. Type commands one at a time, then tap Submit Lab."
+    initial_prompt: "R5#"
+    image: 2-Network-Access_103/NA-006.png
+    objectives:
+      - "Disable CDP on Gi0/1"
+      - "Keep discovery active on Gi0/2"
+      - "Verify neighbor IP details"
+    required_commands:
+      - "configure terminal"
+      - "interface gi0/1"
+      - "no cdp enable"
+    verification_commands:
+      - "show cdp neighbor detail"
+    command_responses:
+      "show cdp neighbor detail": |
+        Device ID: R6
+        Interface: Gig0/2
+        IP address: 10.10.10.6
+      "show lldp neighbor": |
+        Local Intf: Gi0/2
+        Neighbor: R6

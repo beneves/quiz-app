@@ -1,0 +1,1417 @@
+# Topic: Automation and Programmability
+# IDs:   AP-001 -> AP-071
+# Global sequential range: #483 - #553 (71 questions)
+# Source folder: sshots/6-Automation-and-Programmability_71/
+
+- id: AP-001
+  topic: Automation and Programmability
+  subtopic: AAA
+  type: equivalence_buttons
+  difficulty: medium
+  tags:
+  - aaa
+  - authentication
+  - authorization
+  - accounting
+  question: Drag and drop the AAA terms from the left onto the descriptions on the right.
+  premises:
+  - accounting
+  - authentication
+  - authorization
+  - CoA
+  responses:
+  - tracks activity
+  - updates session attributes
+  - verifies access rights
+  - verifies identity
+  correct_matches:
+    accounting: tracks activity
+    CoA: updates session attributes
+    authorization: verifies access rights
+    authentication: verifies identity
+  explanation: The correct mappings are `accounting` -> `tracks activity`, `CoA` -> `updates session attributes`, `authorization` -> `verifies access rights`, `authentication` -> `verifies identity`.
+  source: 6-Automation-and-Programmability_71/AP-001.png
+
+- id: AP-002
+  topic: Automation and Programmability
+  subtopic: Controller-Based Networking
+  type: multiple_choice
+  difficulty: medium
+  tags:
+  - sdn
+  - controller-based
+  - apis
+  question: What are two characteristics of a controller-based network? (Choose two.)
+  options:
+    A: It uses Telnet to report system issues.
+    B: The administrator can make configuration updates from the CLI.
+    C: It uses northbound and southbound APIs to communicate between architectural layers.
+    D: It decentralizes the control plane, which allows each device to make its own forwarding decisions.
+    E: It moves the control plane to a central point.
+  correct_answer:
+  - C
+  - E
+  explanation: The correct answers are `C` (It uses northbound and southbound APIs to communicate between architectural layers.) and `E` (It moves the control plane to a central point.).
+  source: adapted_from_images
+
+- id: AP-003
+  topic: Automation and Programmability
+  subtopic: Virtualization
+  type: single_choice
+  difficulty: easy
+  tags:
+  - virtualization
+  - vm
+  - hypervisor
+  question: Which statement describes virtual machines?
+  options:
+    A: They facilitate local management of infrastructure devices
+    B: They use a supervisor to provide management for services
+    C: They include a guest OS and the service
+    D: They enable the network to become agile and hardware-centric
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: They include a guest OS and the service.'
+  source: adapted_from_images
+
+- id: AP-004
+  topic: Automation and Programmability
+  subtopic: Software-Defined Networking
+  type: single_choice
+  difficulty: easy
+  tags:
+  - sdn
+  - controller
+  - control-plane
+  question: What is the advantage of separating the control plane from the data plane within an SDN network?
+  options:
+    A: limits data queries to the control plane
+    B: reduces cost
+    C: decreases overall network complexity
+    D: offloads the creation of virtual machines to the data plane
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: decreases overall network complexity.'
+  source: adapted_from_images
+
+- id: AP-005
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: medium
+  tags:
+  - automation
+  exhibit: "[\n  {\"switch\": \"3750\", \"port\": \"e2\"},\n  {\"router\": \"2951\", \"port\": \"e20\"},\n  {\"switch\": \"3750\", \"port\": \"e23\"}\n]\n"
+  question: Refer to the exhibit. What is represented beginning with line 1 and ending with line 5?
+  options:
+    A: object
+    B: value
+    C: key
+    D: array
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: array.'
+  source: 6-Automation-and-Programmability_71/AP-005.png
+
+- id: AP-006
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: easy
+  tags:
+  - automation
+  question: What is a reason why an administrator would choose to implement an automated network management approach?
+  options:
+    A: Enable "box by box" configuration and deployment.
+    B: Decipher simple password policies.
+    C: Reduce inconsistencies in the network configuration.
+    D: Increase recurrent management costs.
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: Reduce inconsistencies in the network configuration..'
+  source: adapted_from_images
+
+- id: AP-007
+  topic: Automation and Programmability
+  subtopic: JSON
+  type: single_choice
+  difficulty: medium
+  tags:
+  - json
+  - data-format
+  exhibit: "{\n  \"Interfaces\": [\"ethernet0/3\", \"ethernet0/4\", \"ethernet0/5\"]\n}\n"
+  question: Refer to the exhibit. Which type of JSON data is shown?
+  options:
+    A: Boolean
+    B: string
+    C: object
+    D: sequence
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: object.'
+  source: 6-Automation-and-Programmability_71/AP-007.png
+
+- id: AP-008
+  topic: Automation and Programmability
+  subtopic: Ansible
+  type: equivalence_buttons
+  difficulty: medium
+  tags:
+  - ansible
+  - automation
+  - yaml
+  - ssh
+  question: Drag and drop the Ansible features from the left to the right. Not all features are used.
+  premises:
+  - executes modules via SSH by default
+  - uses the YAML language
+  - uses agents to manage hosts
+  - pushes configurations to the client
+  - requires clients to pull configurations from the server
+  - operates without agents
+  responses:
+  - selected 1
+  - selected 2
+  - selected 3
+  - selected 4
+  correct_matches:
+    executes modules via SSH by default: selected 1
+    uses the YAML language: selected 2
+    pushes configurations to the client: selected 3
+    operates without agents: selected 4
+  explanation: The correct mappings are `executes modules via SSH by default` -> `selected 1`, `uses the YAML language` -> `selected 2`, `pushes configurations to the client` -> `selected 3`, `operates without agents` -> `selected 4`.
+  source: 6-Automation-and-Programmability_71/AP-008.png
+
+- id: AP-009
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - rest
+  - api
+  - http
+  question: Which set of methods is supported with the REST API?
+  options:
+    A: GET, PUT, ERASE, CHANGE
+    B: GET, POST, MOD, ERASE
+    C: GET, PUT, POST, DELETE
+    D: GET, POST, ERASE, CHANGE
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: GET, PUT, POST, DELETE.'
+  source: adapted_from_images
+
+- id: AP-010
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: easy
+  tags:
+  - automation
+  question: Why would a network administrator choose to implement automation in a network environment?
+  options:
+    A: To simplify the process of maintaining a consistent configuration state across all devices
+    B: To centralize device information storage
+    C: To implement centralized user account management
+    D: To deploy the management plane separately from the rest of the network
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: To simplify the process of maintaining a consistent configuration state across all devices.'
+  source: adapted_from_images
+
+- id: AP-011
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - rest
+  - http
+  - api
+  question: What describes the functionality of southbound APIs?
+  options:
+    A: They enable communication between the controller and the network device.
+    B: They communicate with the management plane.
+    C: They use HTTP messages to communicate.
+    D: They convey information from the controller to the SDN applications.
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: They enable communication between the controller and the network device..'
+  source: adapted_from_images
+
+- id: AP-012
+  topic: Automation and Programmability
+  subtopic: Virtualization
+  type: multiple_choice
+  difficulty: medium
+  tags:
+  - virtualization
+  - vm
+  - hypervisor
+  question: Which two characteristics are representative of virtual machines (VMs)? (Choose two.)
+  options:
+    A: multiple VMs operate on the same underlying hardware
+    B: Each VMs operating system depends on its hypervisor
+    C: A VM on a hypervisor is automatically interconnected to other VMs
+    D: A VM on an individual hypervisor shares resources equally
+    E: Each VM runs independently of any other VM in the same hypervisor
+  correct_answer:
+  - A
+  - E
+  explanation: The correct answers are `A` (multiple VMs operate on the same underlying hardware) and `E` (Each VM runs independently of any other VM in the same hypervisor).
+  source: adapted_from_images
+
+- id: AP-013
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: multiple_choice
+  difficulty: medium
+  tags:
+  - automation
+  question: What are two benefits of network automation? (Choose two.)
+  options:
+    A: reduced hardware footprint
+    B: reduced operational costs
+    C: faster changes with more reliable results
+    D: fewer network failures
+    E: increased network security
+  correct_answer:
+  - B
+  - C
+  explanation: The correct answers are `B` (reduced operational costs) and `C` (faster changes with more reliable results).
+  source: adapted_from_images
+
+- id: AP-014
+  topic: Automation and Programmability
+  subtopic: Cisco DNA Center
+  type: single_choice
+  difficulty: medium
+  tags:
+  - dna-center
+  - campus-management
+  - automation
+  question: How do traditional campus device management and Cisco DNA Center device management differ in regards to deployment?
+  options:
+    A: Traditional campus device management allows a network to scale quicker than using Cisco DNA Center device management.
+    B: Cisco DNA Center device management deploys a network faster than traditional campus device management.
+    C: Cisco DNA Center device management is implemented at a lower cost than most traditional campus device management options.
+    D: Traditional campus device management schemes typically deploy patches and updates quicker than Cisco DNA Center device management.
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: Cisco DNA Center device management deploys a network faster than traditional campus device management..'
+  source: adapted_from_images
+
+- id: AP-015
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - rest
+  - api
+  - http
+  question: Which HTTP status code is returned after a successful REST API request?
+  options:
+    A: '200'
+    B: '301'
+    C: '404'
+    D: '500'
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: 200.'
+  source: adapted_from_images
+
+- id: AP-016
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - rest
+  - api
+  - http
+  question: What describes a northbound REST API for SDN?
+  options:
+    A: network-element-facing interface for GET, POST, PUT, and DELETE methods
+    B: application-facing interface for SNMP GET requests
+    C: application-facing interface for GET, POST, PUT, and DELETE methods
+    D: network-element-facing interface for the control and data planes
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: application-facing interface for GET, POST, PUT, and DELETE methods.'
+  source: adapted_from_images
+
+- id: AP-017
+  topic: Automation and Programmability
+  subtopic: AI in Networking
+  type: single_choice
+  difficulty: easy
+  tags:
+  - ai
+  - analytics
+  - anomaly-detection
+  question: How is AI used to identify issues within network traffic?
+  options:
+    A: It analyzes patterns for anomaly detection.
+    B: It enhances data packet delivery speeds.
+    C: It simplifies traffic route mapping.
+    D: It exclusively predicts device malfunctions.
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: It analyzes patterns for anomaly detection..'
+  source: adapted_from_images
+
+- id: AP-018
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: easy
+  tags:
+  - automation
+  question: What is the function of a controller in a software-defined network?
+  options:
+    A: forwarding packets
+    B: multicast replication at the hardware level
+    C: setting packet-handling policies
+    D: fragmenting and reassembling packets
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: setting packet-handling policies.'
+  source: adapted_from_images
+
+- id: AP-019
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - rest
+  - api
+  - http
+  question: Which REST-based authentication type remains valid until the service endpoint provider or the client manually revokes it?
+  options:
+    A: access tokens
+    B: client certificates.
+    C: session cookies
+    D: API keys
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: API keys.'
+  source: adapted_from_images
+
+- id: AP-020
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: easy
+  tags:
+  - automation
+  question: Which function generally performed by a traditional network device is replaced by a software-defined controller?
+  options:
+    A: building route tables and updating the forwarding table
+    B: encapsulation and decapsulation of packets in a data-link frame
+    C: changing the source or destination address during NAT operations
+    D: encryption and decryption for VPN link processing
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: building route tables and updating the forwarding table.'
+  source: adapted_from_images
+
+- id: AP-021
+  topic: Automation and Programmability
+  subtopic: Virtualization
+  type: single_choice
+  difficulty: easy
+  tags:
+  - virtualization
+  - vm
+  - hypervisor
+  question: Which statement describes virtualization on containers?
+  options:
+    A: It emulates a physical computer and enables multiple machines to run with many operating systems on a physical machine.
+    B: It contains a guest operating system and virtual partition of hardware for OS and requires application libraries.
+    C: It is a type of operating system virtualization that allows the host operating system to control the different CPU memory processes.
+    D: It separates virtual machines from each other and allocates memory, processors, and storage to compute.
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: It is a type of operating system virtualization that allows the host operating system to control the different CPU memory processes..'
+  source: adapted_from_images
+
+- id: AP-022
+  topic: Automation and Programmability
+  subtopic: SDN APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - sdn
+  - northbound
+  - api
+  question: What is a function of a northbound API?
+  options:
+    A: It relies on global provisioning and configuration.
+    B: It upgrades software and restores files.
+    C: It supports distributed processing for configuration.
+    D: It provides a path between an SDN controller and network applications.
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: It provides a path between an SDN controller and network applications..'
+  source: adapted_from_images
+
+- id: AP-023
+  topic: Automation and Programmability
+  subtopic: Ansible
+  type: single_choice
+  difficulty: easy
+  tags:
+  - ansible
+  - automation
+  - yaml
+  - ssh
+  question: What is an Ansible inventory?
+  options:
+    A: unit of Python code to be executed within Ansible
+    B: file that defines the target devices upon which commands and tasks are executed
+    C: device with Ansible installed that manages target devices
+    D: collection of actions to perform on target devices, expressed in YAML format
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: file that defines the target devices upon which commands and tasks are executed.'
+  source: adapted_from_images
+
+- id: AP-024
+  topic: Automation and Programmability
+  subtopic: Cisco DNA Center
+  type: single_choice
+  difficulty: easy
+  tags:
+  - dna-center
+  - campus-management
+  - automation
+  question: What is an advantage of Cisco DNA Center versus traditional campus device management?
+  options:
+    A: It is designed primarily to provide network assurance.
+    B: It supports numerous extensibility options, including cross-domain adapters and third-party SDKs.
+    C: It supports high availability for management functions when operating in cluster mode.
+    D: It enables easy aut0discovery of network elements in a brownfield deployment.
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: It supports numerous extensibility options, including cross-domain adapters and third-party SDKs..'
+  source: adapted_from_images
+
+- id: AP-025
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: multiple_choice
+  difficulty: medium
+  tags:
+  - rest
+  - api
+  - http
+  question: Which two HTTP methods are suitable for actions performed by REST-based APIs? (Choose two.)
+  options:
+    A: REMOVE
+    B: REDIRECT
+    C: POST
+    D: GET
+    E: POP
+  correct_answer:
+  - C
+  - D
+  explanation: The correct answers are `C` (POST) and `D` (GET).
+  source: adapted_from_images
+
+- id: AP-026
+  topic: Automation and Programmability
+  subtopic: AI in Networking
+  type: single_choice
+  difficulty: medium
+  tags:
+  - ai
+  - generative-ai
+  - simulation
+  question: How do generative models support network design testing?
+  options:
+    A: They compute optimal data storage solutions.
+    B: They manage user access control lists.
+    C: They deploy network firmware updates.
+    D: They create synthetic network configurations.
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: They create synthetic network configurations..'
+  source: adapted_from_images
+
+- id: AP-027
+  topic: Automation and Programmability
+  subtopic: JSON
+  type: single_choice
+  difficulty: medium
+  tags:
+  - json
+  - data-format
+  exhibit: "{\n  \"Test_Questions\": [\"Automation\", \"Configuration\"],\n  \"Test_Exam_Level\": [\"CCNA\", \"CCNP\"],\n  \"Test_Response\": [\"Correct\", \"Incorrect\"]\n}\n"
+  question: Refer to the exhibit. How many arrays are present in the JSON data?
+  options:
+    A: one
+    B: three
+    C: six
+    D: nine
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: three.'
+  source: 6-Automation-and-Programmability_71/AP-027.png
+
+- id: AP-028
+  topic: Automation and Programmability
+  subtopic: AI in Networking
+  type: single_choice
+  difficulty: easy
+  tags:
+  - ai
+  - generative-ai
+  - simulation
+  question: In which way does generative AI aid network simulations?
+  options:
+    A: It computes optimal data storage solutions.
+    B: It creates synthetic network configurations.
+    C: It produces a greenfield network design.
+    D: It deploys network firmware updates.
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: It creates synthetic network configurations..'
+  source: adapted_from_images
+
+- id: AP-029
+  topic: Automation and Programmability
+  subtopic: JSON
+  type: single_choice
+  difficulty: medium
+  tags:
+  - json
+  - data-format
+  exhibit: "{\n  \"Employee's name\": \"Arthur\"\n}\n"
+  question: Refer to the exhibit. Which type of JSON data is shown?
+  options:
+    A: boolean
+    B: array
+    C: key
+    D: object
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: object.'
+  source: 6-Automation-and-Programmability_71/AP-029.png
+
+- id: AP-030
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: equivalence_buttons
+  difficulty: medium
+  tags:
+  - rest
+  - api
+  - http
+  question: Drag and drop the characteristics of northbound APIs from the left onto any position on the right. Not all characteristics are used.
+  premises:
+  - supports automation
+  - communicates between the SDN controller and the application plane
+  - communicates between the SDN controller and the data plane
+  - supports data sharing between systems
+  - supports network virtualization protocols
+  - supports REST-based requirements
+  - uses OpenFlow to interface between the data and control planes
+  responses:
+  - selected 1
+  - selected 2
+  - selected 3
+  - selected 4
+  correct_matches:
+    supports automation: selected 1
+    communicates between the SDN controller and the application plane: selected 2
+    supports data sharing between systems: selected 3
+    supports REST-based requirements: selected 4
+  explanation: The correct mappings are `supports automation` -> `selected 1`, `communicates between the SDN controller and the application plane` -> `selected 2`, `supports data sharing between systems` -> `selected 3`, `supports REST-based requirements` -> `selected 4`.
+  source: 6-Automation-and-Programmability_71/AP-030.png
+
+- id: AP-031
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - rest
+  - api
+  - http
+  question: Which protocol does a REST API use to communicate?
+  options:
+    A: SSH
+    B: STP
+    C: SNMP
+    D: HTTP
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: HTTP.'
+  source: adapted_from_images
+
+- id: AP-032
+  topic: Automation and Programmability
+  subtopic: AI in Networking
+  type: single_choice
+  difficulty: medium
+  tags:
+  - ai
+  - analytics
+  - anomaly-detection
+  question: How does AI contribute to network traffic analysis?
+  options:
+    A: It analyzes patterns for anomaly detection.
+    B: It enhances data packet delivery speeds.
+    C: It simplifies traffic route mapping.
+    D: It eliminates network threats.
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: It analyzes patterns for anomaly detection..'
+  source: adapted_from_images
+
+- id: AP-033
+  topic: Automation and Programmability
+  subtopic: SDN APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - sdn
+  - northbound
+  - api
+  question: What is an advantage of using SDN versus traditional networking when it comes to security?
+  options:
+    A: SDN security is managed near the perimeter of the network with firewalls, VPNs, and IPS, and traditional networking security policies are created based on telemetry data.
+    B: SDN exposes an API to configure local per device for security policies, and traditional networking uses northbound API for network admin interface for configuring security policies.
+    C: SDN devices communicate with each other to establish a security policy, and in traditional networking, devices communicate upstream to a central location to establish a security policy.
+    D: SDN creates a unified control point making security policies consistent across all devices, and traditional networking must be configured device by device, leaving room for error.
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: SDN creates a unified control point making security policies consistent across all devices, and traditional networking must be configured device by device, leaving room for error..'
+  source: adapted_from_images
+
+- id: AP-034
+  topic: Automation and Programmability
+  subtopic: Virtualization
+  type: single_choice
+  difficulty: easy
+  tags:
+  - virtualization
+  - containers
+  - os-level
+  question: Which technology allows multiple operating systems to run a single physical server?
+  options:
+    A: virtualization
+    B: containers
+    C: application hosting
+    D: cloud computing
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: virtualization.'
+  source: adapted_from_images
+
+- id: AP-035
+  topic: Automation and Programmability
+  subtopic: Cisco DNA Center
+  type: single_choice
+  difficulty: easy
+  tags:
+  - dna-center
+  - campus-management
+  - automation
+  question: What differentiates device management enabled by Cisco DNA Center from traditional campus device management?
+  options:
+    A: CLI-oriented device
+    B: centralized
+    C: device-by-device hands-on
+    D: per-device
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: centralized.'
+  source: adapted_from_images
+
+- id: AP-036
+  topic: Automation and Programmability
+  subtopic: Virtualization
+  type: single_choice
+  difficulty: easy
+  tags:
+  - virtualization
+  - hypervisor
+  - vm
+  question: What is the central role of a hypervisor in a virtualized environment?
+  options:
+    A: Support many applications to run on a shared guest operating system.
+    B: Present virtualized hardware to a guest operating system.
+    C: Allow a single guest operating system to run on the physical server.
+    D: Create a single library environment for many operating systems.
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: Present virtualized hardware to a guest operating system..'
+  source: adapted_from_images
+
+- id: AP-037
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: easy
+  tags:
+  - automation
+  question: What is the purpose of the URI string in a REST request?
+  options:
+    A: to transport data or payload to a remote resource
+    B: to specify the way in which a remote resource is modified
+    C: to respond with the data content encoding for a request
+    D: to identify a resource on a target server
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: to identify a resource on a target server.'
+  source: adapted_from_images
+
+- id: AP-038
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: easy
+  tags:
+  - automation
+  question: Which plane is centralized in software-defined networking?
+  options:
+    A: application
+    B: services
+    C: data
+    D: control
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: control.'
+  source: adapted_from_images
+
+- id: AP-039
+  topic: Automation and Programmability
+  subtopic: Controller-Based Networking
+  type: single_choice
+  difficulty: easy
+  tags:
+  - sdn
+  - controller-based
+  - apis
+  question: Which API is used in controller-based architectures to interact with edge devices?
+  options:
+    A: southbound
+    B: overlay
+    C: northbound
+    D: underlay
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: southbound.'
+  source: adapted_from_images
+
+- id: AP-040
+  topic: Automation and Programmability
+  subtopic: SDN APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - sdn
+  - southbound
+  - api
+  question: Which communication interaction takes place when a southbound API is used?
+  options:
+    A: between the SDN controller and PCs on the network
+    B: between the SDN controller and switches and routers on the network
+    C: between the SDN controller and services and applications on the network
+    D: between network applications and switches and routers on the network
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: between the SDN controller and switches and routers on the network.'
+  source: adapted_from_images
+
+- id: AP-041
+  topic: Automation and Programmability
+  subtopic: JSON
+  type: single_choice
+  difficulty: easy
+  tags:
+  - json
+  - data-format
+  question: What is the RFC 4627 default encoding for JSON text?
+  options:
+    A: UCS-2
+    B: GB18030
+    C: UTF-8
+    D: Hex
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: UTF-8.'
+  source: adapted_from_images
+
+- id: AP-042
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - rest
+  - api
+  - http
+  question: Which part of the HTTP request is used in REST API basic authentication to carry credentials?
+  options:
+    A: accept
+    B: content-type
+    C: cookie
+    D: authorization
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: authorization.'
+  source: adapted_from_images
+
+- id: AP-043
+  topic: Automation and Programmability
+  subtopic: Cisco DNA Center
+  type: single_choice
+  difficulty: easy
+  tags:
+  - dna-center
+  - campus-management
+  - automation
+  question: Which benefit does Cisco DNA Center provide over traditional campus management?
+  options:
+    A: Cisco DNA Center automates HTTPS for secure web access, and traditional campus management uses HTTP.
+    B: Cisco DNA Center leverages SNMPv3 for encrypted management, and traditional campus management uses SNMPv2.
+    C: Cisco DNA Center leverages APIs, and traditional campus management requires manual data gathering.
+    D: Cisco DNA Center automates SSH access for encrypted entry, and SSH is absent from traditional campus management.
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: Cisco DNA Center leverages APIs, and traditional campus management requires manual data gathering..'
+  source: adapted_from_images
+
+- id: AP-044
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: easy
+  tags:
+  - automation
+  question: What is an expected outcome when network management automation is deployed?
+  options:
+    A: A distributed management plane must be used.
+    B: Complexity increases when new device configurations are added.
+    C: Custom applications are needed to configure network devices.
+    D: Software upgrades are performed from a central controller.
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: Software upgrades are performed from a central controller..'
+  source: adapted_from_images
+
+- id: AP-045
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: medium
+  tags:
+  - automation
+  exhibit: "{\n  \"Cisco Devices\": [\n    {\n      \"name\": \"ASA - Security Device\",\n      \"name\": \"Cisco 1100 ASR Router\",\n      \"name\": \"Cisco 6800 Switch\"\n    }\n  ]\n  # missing closing }\n"
+  question: Refer to the exhibit. What is missing from this output for it to be executed?
+  options:
+    A: double quotes around the Cisco Devices string
+    B: exclamation point at the beginning of each line
+    C: square bracket at the beginning
+    D: curly brace at the end
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: curly brace at the end.'
+  source: 6-Automation-and-Programmability_71/AP-045.png
+
+- id: AP-046
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: easy
+  tags:
+  - automation
+  question: What is the PUT method within HTTP?
+  options:
+    A: It replaces data at the destination.
+    B: It is a nonidempotent operation.
+    C: It is a read-only operation.
+    D: It displays a web site.
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: It replaces data at the destination..'
+  source: adapted_from_images
+
+- id: AP-047
+  topic: Automation and Programmability
+  subtopic: Cisco DNA Center
+  type: single_choice
+  difficulty: easy
+  tags:
+  - dna-center
+  - campus-management
+  - automation
+  question: Why choose Cisco DNA Center for automated lifecycle management?
+  options:
+    A: to allow SSH access to all nodes in the network
+    B: to provide software redundancy in the network
+    C: to perform upgrades without service interruption
+    D: to provide fast and accurate deployment of patches and updates
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: to provide fast and accurate deployment of patches and updates.'
+  source: adapted_from_images
+
+- id: AP-048
+  topic: Automation and Programmability
+  subtopic: Controller-Based Networking
+  type: single_choice
+  difficulty: medium
+  tags:
+  - sdn
+  - controller-based
+  - apis
+  question: What is the main difference between traditional networks and controller-based networking?
+  options:
+    A: Controller-based networks increase TCO for the company, and traditional networks require less investment.
+    B: Controller-based networks provide a framework for innovation, and traditional networks create efficiency.
+    C: Controller-based networks are open for application requests, and traditional networks operate manually.
+    D: Controller-based networks are a closed ecosystem, and traditional networks take advantage of programmability.
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: Controller-based networks are open for application requests, and traditional networks operate manually..'
+  source: adapted_from_images
+
+- id: AP-049
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: multiple_choice
+  difficulty: medium
+  tags:
+  - rest
+  - api
+  - http
+  question: Which two encoding methods are supported by REST APIs? (Choose two.)
+  options:
+    A: SGML
+    B: YAML
+    C: XML
+    D: JSON
+    E: EBCDIC
+  correct_answer:
+  - C
+  - D
+  explanation: The correct answers are `C` (XML) and `D` (JSON).
+  source: adapted_from_images
+
+- id: AP-050
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: equivalence_buttons
+  difficulty: medium
+  tags:
+  - automation
+  question: Drag and drop the statements about networking from the left onto the corresponding networking types on the right.
+  premises:
+  - This type allows better control over how networks work and how networks are configured.
+  - This type enables networks to integrate with applications through APIs.
+  - New devices are configured using the physical infrastructure.
+  - This type provisions resources from a centralized location.
+  - This type requires a distributed control plane.
+  responses:
+  - Controller-Based Networking
+  - Traditional Networking
+  correct_matches:
+    This type allows better control over how networks work and how networks are configured.: Controller-Based Networking
+    This type enables networks to integrate with applications through APIs.: Controller-Based Networking
+    This type provisions resources from a centralized location.: Controller-Based Networking
+    New devices are configured using the physical infrastructure.: Traditional Networking
+    This type requires a distributed control plane.: Traditional Networking
+  explanation: The correct mappings are `This type allows better control over how networks work and how networks are configured.` -> `Controller-Based Networking`, `This type enables networks to integrate with applications through APIs.` -> `Controller-Based Networking`, `This type provisions resources from a centralized location.` -> `Controller-Based Networking`, `New devices are configured using the physical infrastructure.` -> `Traditional Networking`, `This type requires a distributed control plane.` -> `Traditional Networking`.
+  source: 6-Automation-and-Programmability_71/AP-050.png
+
+- id: AP-051
+  topic: Automation and Programmability
+  subtopic: SDN APIs
+  type: equivalence_buttons
+  difficulty: medium
+  tags:
+  - sdn
+  - southbound
+  - api
+  question: Drag and drop the statements about networking from the left onto the corresponding networking types on the right. Not all statements are used.
+  premises:
+  - This type deploys a consistent configuration across multiple devices.
+  - A distributed control plane is needed.
+  - This type requires a distributed management plane.
+  - Southbound APIs are used to apply configurations.
+  - Northbound APIs interact with end devices.
+  responses:
+  - Controller-Based Networking
+  - Traditional Networking
+  correct_matches:
+    This type deploys a consistent configuration across multiple devices.: Controller-Based Networking
+    Southbound APIs are used to apply configurations.: Controller-Based Networking
+    A distributed control plane is needed.: Traditional Networking
+    This type requires a distributed management plane.: Traditional Networking
+  explanation: The correct mappings are `This type deploys a consistent configuration across multiple devices.` -> `Controller-Based Networking`, `Southbound APIs are used to apply configurations.` -> `Controller-Based Networking`, `A distributed control plane is needed.` -> `Traditional Networking`, `This type requires a distributed management plane.` -> `Traditional Networking`.
+  source: 6-Automation-and-Programmability_71/AP-051.png
+
+- id: AP-052
+  topic: Automation and Programmability
+  subtopic: Virtualization
+  type: single_choice
+  difficulty: easy
+  tags:
+  - virtualization
+  - hypervisor
+  - vm
+  question: Which virtualization technology requires a base OS installation but does not require a hypervisor?
+  options:
+    A: virtual server
+    B: virtual routers
+    C: container
+    D: Kubernetes
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: container.'
+  source: adapted_from_images
+
+- id: AP-053
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - rest
+  - http
+  - api
+  question: Which CRUD operation corresponds to the HTTP GET method?
+  options:
+    A: create
+    B: read
+    C: delete
+    D: update
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: read.'
+  source: adapted_from_images
+
+- id: AP-054
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: equivalence_buttons
+  difficulty: medium
+  tags:
+  - automation
+  question: Drag and drop the descriptions of device management from the left onto the types of device management on the right.
+  premises:
+  - implements changes via an SSH terminal
+  - manages device configurations on a per-device basis
+  - monitors the cloud for software updates
+  - security is managed near the perimeter of the network with firewalls, VPNs, and IPS
+  - uses CLI templates to apply a consistent configuration to multiple devices at an individual location
+  - uses NetFlow to analyze potential security threats throughout the network and take appropriate action on that traffic
+  responses:
+  - Cisco DNA Center Device Management
+  - Traditional Device Management
+  correct_matches:
+    monitors the cloud for software updates: Cisco DNA Center Device Management
+    uses CLI templates to apply a consistent configuration to multiple devices at an individual location: Cisco DNA Center Device Management
+    uses NetFlow to analyze potential security threats throughout the network and take appropriate action on that traffic: Cisco DNA Center Device Management
+    implements changes via an SSH terminal: Traditional Device Management
+    manages device configurations on a per-device basis: Traditional Device Management
+    security is managed near the perimeter of the network with firewalls, VPNs, and IPS: Traditional Device Management
+  explanation: The correct mappings are `monitors the cloud for software updates` -> `Cisco DNA Center Device Management`, `uses CLI templates to apply a consistent configuration to multiple devices at an individual location` -> `Cisco DNA Center Device Management`, `uses NetFlow to analyze potential security threats throughout the network and take appropriate action on that traffic` -> `Cisco DNA Center Device Management`, `implements changes via an SSH terminal` -> `Traditional Device Management`, `manages device configurations on a per-device basis` -> `Traditional Device Management`, `security is managed near the perimeter of the network with firewalls, VPNs, and IPS` -> `Traditional Device Management`.
+  source: 6-Automation-and-Programmability_71/AP-054.png
+
+- id: AP-055
+  topic: Automation and Programmability
+  subtopic: SDN APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - sdn
+  - southbound
+  - api
+  question: What does an SDN controller use as a communication protocol to relay forwarding changes to a southbound API?
+  options:
+    A: Java
+    B: REST
+    C: OpenFlow
+    D: XML
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: OpenFlow.'
+  source: adapted_from_images
+
+- id: AP-056
+  topic: Automation and Programmability
+  subtopic: AI in Networking
+  type: single_choice
+  difficulty: easy
+  tags:
+  - ai
+  - analytics
+  - anomaly-detection
+  question: Which role does AI play in monitoring network data flow?
+  options:
+    A: It enhances data packet delivery speeds.
+    B: It exclusively predicts device malfunctions.
+    C: It simplifies traffic route mapping.
+    D: It analyzes patterns for anomaly detection.
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: It analyzes patterns for anomaly detection..'
+  source: adapted_from_images
+
+- id: AP-057
+  topic: Automation and Programmability
+  subtopic: Controller-Based Networking
+  type: single_choice
+  difficulty: medium
+  tags:
+  - sdn
+  - controller-based
+  - apis
+  question: What is the difference between controller-based networks and traditional networks as they relate to control-plane and/or data-plane functions?
+  options:
+    A: Controller-based networks centralize all important data-plane functions, and traditional networks distribute data-plane functions.
+    B: Traditional networks centralize all important control-plane functions, and controller-based networks distribute control-plane functions.
+    C: Traditional networks centralize all important data-plane functions, and controller-based networks distribute data-plane functions.
+    D: Controller-based networks centralize all important control-plane functions, and traditional networks distribute control-plane functions.
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: Controller-based networks centralize all important control-plane functions, and traditional networks distribute control-plane functions..'
+  source: adapted_from_images
+
+- id: AP-058
+  topic: Automation and Programmability
+  subtopic: SDN APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - sdn
+  - southbound
+  - api
+  question: What is a function of a southbound API?
+  options:
+    A: Use orchestration to provision a virtual server configuration from a web server
+    B: Automate configuration changes between a server and a switching fabric
+    C: Manage flow control between an SDN controller and a switching fabric
+    D: Facilitate the information exchange between an SDN controller and application
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: Manage flow control between an SDN controller and a switching fabric.'
+  source: adapted_from_images
+
+- id: AP-059
+  topic: Automation and Programmability
+  subtopic: Ansible
+  type: single_choice
+  difficulty: easy
+  tags:
+  - ansible
+  - automation
+  - yaml
+  - ssh
+  question: Which protocol does Ansible use to push modules to nodes in a network?
+  options:
+    A: Telnet
+    B: Kerberos
+    C: SNMP
+    D: SSH
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: SSH.'
+  source: adapted_from_images
+
+- id: AP-060
+  topic: Automation and Programmability
+  subtopic: Ansible
+  type: multiple_choice
+  difficulty: medium
+  tags:
+  - ansible
+  - automation
+  - yaml
+  - ssh
+  question: Which two components are needed to create an Ansible script that configures a VLAN on a switch? (Choose two.)
+  options:
+    A: playbook
+    B: recipe
+    C: model
+    D: cookbook
+    E: task
+  correct_answer:
+  - A
+  - E
+  explanation: The correct answers are `A` (playbook) and `E` (task).
+  source: adapted_from_images
+
+- id: AP-061
+  topic: Automation and Programmability
+  subtopic: AI in Networking
+  type: single_choice
+  difficulty: medium
+  tags:
+  - ai
+  - prediction
+  - capacity
+  question: How do predictive models enhance network resource allocation?
+  options:
+    A: They solely monitor historical traffic volumes.
+    B: They assign IP addresses to devices.
+    C: They anticipate future traffic spikes.
+    D: They select correct cabling types for deployment.
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: They anticipate future traffic spikes..'
+  source: adapted_from_images
+
+- id: AP-062
+  topic: Automation and Programmability
+  subtopic: Cloud Computing
+  type: single_choice
+  difficulty: easy
+  tags:
+  - cloud
+  - elasticity
+  question: In a cloud-computing environment, what is rapid elasticity?
+  options:
+    A: control and monitoring of resource consumption by the tenant
+    B: automatic adjustment of capacity based on need
+    C: pooling resources in a multitenant model based on need
+    D: self-service of computing resources by the tenant
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: automatic adjustment of capacity based on need.'
+  source: adapted_from_images
+
+- id: AP-063
+  topic: Automation and Programmability
+  subtopic: Ansible
+  type: single_choice
+  difficulty: easy
+  tags:
+  - ansible
+  - automation
+  - yaml
+  - ssh
+  question: Which configuration management mechanism uses TCP port 22 by default when communicating with managed nodes?
+  options:
+    A: Ansible
+    B: Python
+    C: Puppet
+    D: Chef
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: Ansible.'
+  source: adapted_from_images
+
+- id: AP-064
+  topic: Automation and Programmability
+  subtopic: Virtualization
+  type: single_choice
+  difficulty: medium
+  tags:
+  - virtualization
+  - hypervisor
+  - vm
+  question: How do servers connect to the network in a virtual environment?
+  options:
+    A: a cable connected to a physical switch on the network
+    B: wireless to an access point that is physically connected to the network
+    C: a virtual switch that links to an access point that is physically connected to the network
+    D: a software switch on a hypervisor that is physically connected to the network
+  correct_answer: D
+  explanation: 'The correct answer is `D` because it best matches the concept being tested: a software switch on a hypervisor that is physically connected to the network.'
+  source: adapted_from_images
+
+- id: AP-065
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: equivalence_buttons
+  difficulty: medium
+  tags:
+  - automation
+  question: Drag and drop the statements about networking from the left onto the corresponding networking types on the right.
+  premises:
+  - Maintenance costs are higher than with other networking options.
+  - This type provides a centralized view of the network.
+  - This type implements changes individually at each device.
+  - This type leverages controllers to handle network management.
+  responses:
+  - Traditional Networking
+  - Controller-Based Networking
+  correct_matches:
+    This type provides a centralized view of the network.: Controller-Based Networking
+    This type leverages controllers to handle network management.: Controller-Based Networking
+    Maintenance costs are higher than with other networking options.: Traditional Networking
+    This type implements changes individually at each device.: Traditional Networking
+  explanation: The correct mappings are `This type provides a centralized view of the network.` -> `Controller-Based Networking`, `This type leverages controllers to handle network management.` -> `Controller-Based Networking`, `Maintenance costs are higher than with other networking options.` -> `Traditional Networking`, `This type implements changes individually at each device.` -> `Traditional Networking`.
+  source: 6-Automation-and-Programmability_71/AP-065.png
+
+- id: AP-066
+  topic: Automation and Programmability
+  subtopic: API Security
+  type: single_choice
+  difficulty: easy
+  tags:
+  - api-keys
+  - authentication
+  - rate-limiting
+  question: Why are API keys used to enforce rate limiting?
+  options:
+    A: to encrypt data to prevent excessive usage
+    B: to track the geographical location of each request
+    C: to uniquely identify clients to monitor their usage patterns
+    D: to contain embedded permissions that automatically expire
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: to uniquely identify clients to monitor their usage patterns.'
+  source: adapted_from_images
+
+- id: AP-067
+  topic: Automation and Programmability
+  subtopic: Controller-Based Networking
+  type: single_choice
+  difficulty: easy
+  tags:
+  - sdn
+  - controller-based
+  - apis
+  question: Which purpose does a northbound API serve in a controller-based networking architecture?
+  options:
+    A: facilitates communication between the controller and the applications
+    B: reports device errors to a controller
+    C: generates statistics for network hardware and traffic
+    D: communicates between the controller and the physical network hardware
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: facilitates communication between the controller and the applications.'
+  source: adapted_from_images
+
+- id: AP-068
+  topic: Automation and Programmability
+  subtopic: REST APIs
+  type: single_choice
+  difficulty: easy
+  tags:
+  - rest
+  - http
+  - api
+  question: What uses HTTP messages to transfer data to applications residing on different hosts?
+  options:
+    A: OpenStack
+    B: OpFlex
+    C: REST
+    D: OpenFlow
+  correct_answer: C
+  explanation: 'The correct answer is `C` because it best matches the concept being tested: REST.'
+  source: adapted_from_images
+
+- id: AP-069
+  topic: Automation and Programmability
+  subtopic: Automation Fundamentals
+  type: single_choice
+  difficulty: easy
+  tags:
+  - automation
+  question: When is the PUT method used within HTTP?
+  options:
+    A: to update a DNS server
+    B: when a nonidempotent operation is needed
+    C: to display a web site
+    D: when a read-only operation is required
+  correct_answer: A
+  explanation: 'The correct answer is `A` because it best matches the concept being tested: to update a DNS server.'
+  source: adapted_from_images
+
+- id: AP-070
+  topic: Automation and Programmability
+  subtopic: Controller-Based Networking
+  type: multiple_choice
+  difficulty: medium
+  tags:
+  - sdn
+  - controller-based
+  - apis
+  question: What are two benefits of controller-based networking compared to traditional networking? (Choose two.)
+  options:
+    A: controller-based increases network bandwidth usage, while traditional lightens the load on the network
+    B: controller-based reduces network configuration complexity, while traditional increases the potential for errors
+    C: controller-based allows for fewer network failures, while traditional increases failure rates
+    D: controller-based provides centralization of key IT functions, while traditional requires distributed management functions
+    E: controller-based inflates software costs, while traditional decreases individual licensing costs
+  correct_answer:
+  - B
+  - D
+  explanation: The correct answers are `B` (controller-based reduces network configuration complexity, while traditional increases the potential for errors) and `D` (controller-based provides centralization of key IT functions, while traditional requires distributed management functions).
+  source: adapted_from_images
+
+- id: AP-071
+  topic: Automation and Programmability
+  subtopic: AI in Networking
+  type: single_choice
+  difficulty: easy
+  tags:
+  - ai
+  - generative-ai
+  - simulation
+  question: What is the function of generative AI in network operations?
+  options:
+    A: It computes optimal data storage solutions.
+    B: It creates synthetic network configurations.
+    C: It disables unused services.
+    D: It deploys network firmware updates.
+  correct_answer: B
+  explanation: 'The correct answer is `B` because it best matches the concept being tested: It creates synthetic network configurations..'
+  source: adapted_from_images
