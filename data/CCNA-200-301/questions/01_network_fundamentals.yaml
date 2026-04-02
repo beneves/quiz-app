@@ -2,1322 +2,1530 @@
 # IDs:   NF-001 → NF-083
 # Global sequential range: #1 – #83 (83 questions)
 # Source folder: sshots/1-Network-Fundamentals_83/
-
 - id: NF-001
   topic: Network Fundamentals
-  subtopic: "PoE"
+  subtopic: PoE
   type: single_choice
   difficulty: medium
-  tags: [poe]
-  question: "Which action is taken by a switch port enabled for PoE power classification override?"
+  tags:
+  - poe
+  question: Which action is taken by a switch port enabled for PoE power classification override?
   options:
-    A: "Should a monitored port exceed the maximum administrative value for power, the port is shut down and err-disabled"
-    B: "When a powered device begins drawing power, a syslog message is generated"
-    C: "If power usage is checked, data flow is paused"
-    D: "Device disconnects if power is below minimum"
+    A: Should a monitored port exceed the maximum administrative value for power, the port is shut down and err-disabled
+    B: When a powered device begins drawing power, a syslog message is generated
+    C: If power usage is checked, data flow is paused
+    D: Device disconnects if power is below minimum
   correct_answer: A
-  explanation: "PoE policing disables the port if power exceeds the configured maximum."
+  explanation: PoE policing disables the port if power exceeds the configured maximum.
 
 - id: NF-002
   topic: Network Fundamentals
-  subtopic: "Routing"
+  subtopic: Routing
   type: single_choice
   difficulty: medium
-  tags: [routing, longest-prefix-match]
-  question: "Which prefix does Router1 use for traffic to Host A (10.10.13.214)?"
+  tags:
+  - routing
+  - longest-prefix-match
+  question: Which prefix does Router1 use for traffic to Host A (10.10.13.214)?
   options:
-    A: "10.10.10.0/28"
-    B: "10.10.13.0/25"
-    C: "10.10.13.144/28"
-    D: "10.10.13.208/29"
+    A: 10.10.10.0/28
+    B: 10.10.13.0/25
+    C: 10.10.13.144/28
+    D: 10.10.13.208/29
   correct_answer: D
-  explanation: "Routers use longest prefix match; /29 is the most specific."
+  explanation: Routers use longest prefix match; /29 is the most specific.
 
 - id: NF-003
   topic: Network Fundamentals
-  subtopic: "Cabling"
+  subtopic: Cabling
   type: single_choice
   difficulty: easy
-  tags: [utp, stp]
-  question: "How do UTP and STP cables compare?"
+  tags:
+  - utp
+  - stp
+  question: How do UTP and STP cables compare?
   options:
-    A: "UTP faster than STP"
-    B: "STP is shielded and protects against EMI; UTP does not"
-    C: "STP cheaper"
-    D: "UTP less interference than STP"
+    A: UTP faster than STP
+    B: STP is shielded and protects against EMI; UTP does not
+    C: STP cheaper
+    D: UTP less interference than STP
   correct_answer: B
-  explanation: "STP includes shielding to reduce electromagnetic interference."
+  explanation: STP includes shielding to reduce electromagnetic interference.
 
 - id: NF-004
   topic: Network Fundamentals
-  subtopic: "Optical"
+  subtopic: Optical
   type: single_choice
   difficulty: medium
-  tags: [fiber, sfp]
-  question: "Users report intermittent connectivity over a 7 km fiber link. What is the issue?"
+  tags:
+  - fiber
+  - sfp
+  question: Users report intermittent connectivity over a 7 km fiber link. What is the issue?
   options:
-    A: "Physical errors"
-    B: "High latency"
-    C: "Wrong cable"
-    D: "Incorrect transceiver type"
+    A: Physical errors
+    B: High latency
+    C: Wrong cable
+    D: Incorrect transceiver type
   correct_answer: D
-  explanation: "SR vs LR mismatch; 7km requires LR optics."
+  explanation: SR vs LR mismatch; 7km requires LR optics.
 
 - id: NF-005
   topic: Network Fundamentals
-  subtopic: "Wireless"
+  subtopic: Wireless
   type: single_choice
   difficulty: easy
-  tags: [wifi]
-  question: "What should be enabled to push clients to 5GHz?"
+  tags:
+  - wifi
+  question: What should be enabled to push clients to 5GHz?
   options:
-    A: "Band Select"
-    B: "DTIM"
-    C: "RX-SOP"
-    D: "AAA override"
+    A: Band Select
+    B: DTIM
+    C: RX-SOP
+    D: AAA override
   correct_answer: A
-  explanation: "Band steering moves clients to 5 GHz."
+  explanation: Band steering moves clients to 5 GHz.
 
 - id: NF-006
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: single_choice
   difficulty: easy
-  tags: [control-plane]
-  question: "Which plane manages routing decisions?"
+  tags:
+  - control-plane
+  question: Which plane manages routing decisions?
   options:
-    A: "Management plane"
-    B: "Data plane"
-    C: "Policy plane"
-    D: "Control plane"
+    A: Management plane
+    B: Data plane
+    C: Policy plane
+    D: Control plane
   correct_answer: D
-  explanation: "Control plane builds routing table and topology."
+  explanation: Control plane builds routing table and topology.
 
 - id: NF-007
   topic: Network Fundamentals
-  subtopic: "Security"
+  subtopic: Security
   type: single_choice
   difficulty: easy
-  tags: [firewall]
-  question: "What is the role of a firewall?"
+  tags:
+  - firewall
+  question: What is the role of a firewall?
   options:
-    A: "Determines which packets can cross network boundaries"
-    B: "Allows unauthorized traffic"
-    C: "Only forwards packets"
-    D: "Denies all traffic"
+    A: Determines which packets can cross network boundaries
+    B: Allows unauthorized traffic
+    C: Only forwards packets
+    D: Denies all traffic
   correct_answer: A
-  explanation: "Firewalls enforce security policies."
+  explanation: Firewalls enforce security policies.
 
 - id: NF-008
   topic: Network Fundamentals
-  subtopic: "Subnetting"
+  subtopic: Subnetting
   type: single_choice
   difficulty: medium
-  tags: [subnetting]
-  question: "Which subnet supports ~380 users with growth?"
+  tags:
+  - subnetting
+  question: Which subnet supports ~380 users with growth?
   options:
-    A: "255.255.128.0"
-    B: "255.255.255.0"
-    C: "255.255.254.0"
-    D: "255.255.254.0 with broadcast 10.7.55.255"
+    A: 255.255.128.0
+    B: 255.255.255.0
+    C: 255.255.254.0
+    D: 255.255.254.0 with broadcast 10.7.55.255
   correct_answer: D
-  explanation: "/23 supports up to 510 hosts."
+  explanation: /23 supports up to 510 hosts.
 
 - id: NF-009
   topic: Network Fundamentals
-  subtopic: "IPv6"
+  subtopic: IPv6
   type: single_choice
   difficulty: medium
-  tags: [ipv6]
-  question: "Which is the correct compressed IPv6?"
+  tags:
+  - ipv6
+  question: Which is the correct compressed IPv6?
   options:
-    A: "2001:db8:0000::500:a400f:583B"
-    B: "2001:db8:0:500::4F:583B"
-    C: "2001:db8::500:a400f:583B"
-    D: "2001:db8::5:a4F:583B"
+    A: 2001:db8:0000::500:a400f:583B
+    B: 2001:db8:0:500::4F:583B
+    C: 2001:db8::500:a400f:583B
+    D: 2001:db8::5:a4F:583B
   correct_answer: C
-  explanation: "Correct zero compression rules applied."
+  explanation: Correct zero compression rules applied.
 
 - id: NF-010
   topic: Network Fundamentals
-  subtopic: "Subnetting"
+  subtopic: Subnetting
   type: single_choice
   difficulty: medium
-  tags: [subnetting]
-  question: "Which subnet fits 20 hosts with minimal waste?"
+  tags:
+  - subnetting
+  question: Which subnet fits 20 hosts with minimal waste?
   options:
-    A: "/28 (14 hosts)"
-    B: "/27 (30 hosts)"
-    C: "/26"
-    D: "/27 at correct block"
+    A: /28 (14 hosts)
+    B: /27 (30 hosts)
+    C: /26
+    D: /27 at correct block
   correct_answer: D
-  explanation: "/27 supports 30 hosts, minimal waste."
+  explanation: /27 supports 30 hosts, minimal waste.
 
 - id: NF-011
   topic: Network Fundamentals
-  subtopic: "IP Config"
+  subtopic: IP Config
   type: drag_drop
   difficulty: easy
-  tags: [ipconfig]
-  question: "Match IP parameters to values."
+  tags:
+  - ipconfig
+  question: Match IP parameters to values.
   pairs:
-    broadcast address: "192.168.1.255"
-    default gateway: "192.168.1.1"
-    host IP address: "192.168.1.20"
-    last assignable IP address: "192.168.1.254"
-    MAC address: "B8-76-3F-7C-57-DF"
-  explanation: "Standard /24 mapping."
+    broadcast address: 192.168.1.255
+    default gateway: 192.168.1.1
+    host IP address: 192.168.1.20
+    last assignable IP address: 192.168.1.254
+    MAC address: B8-76-3F-7C-57-DF
+  explanation: Standard /24 mapping.
 
 - id: NF-012
   topic: Network Fundamentals
-  subtopic: "Transport"
+  subtopic: Transport
   type: drag_drop
   difficulty: easy
-  tags: [tcp, udp]
-  question: "Match TCP vs UDP characteristics."
+  tags:
+  - tcp
+  - udp
+  question: Match TCP vs UDP characteristics.
   pairs:
     TCP:
-      - "used to reliably share files between devices"
-      - "supports reliable data transmission"
+    - used to reliably share files between devices
+    - supports reliable data transmission
     UDP:
-      - "appropriate for streaming operations with minimal latency"
-      - "provides best-effort service"
-  explanation: "TCP = reliability; UDP = low latency."
+    - appropriate for streaming operations with minimal latency
+    - provides best-effort service
+  explanation: TCP = reliability; UDP = low latency.
 
 - id: NF-013
   topic: Network Fundamentals
-  subtopic: "Switching"
-  type: simulation
+  subtopic: Switching
+  type: simulation_lab
   difficulty: hard
-  tags: [vlan, trunk, etherchannel]
-  question: "Configure trunk and EtherChannel between SW1 and SW2."
-  requirements:
-    - "Use 802.1Q"
-    - "Allow VLAN 110 and native VLAN 99"
-    - "Use LACP (802.3ad)"
-    - "Port-channel 20"
-  solution:
-    sw1:
-      - "interface range e0/0 - 1"
-      - "switchport mode trunk"
-      - "switchport trunk encapsulation dot1q"
-      - "switchport trunk allowed vlan 110,99"
-      - "switchport trunk native vlan 99"
-      - "channel-group 20 mode active"
-    sw2:
-      - "interface range e0/0 - 1"
-      - "switchport mode trunk"
-      - "switchport trunk encapsulation dot1q"
-      - "switchport trunk allowed vlan 110,99"
-      - "switchport trunk native vlan 99"
-      - "channel-group 20 mode active"
-  explanation: "Trunk + LACP EtherChannel configuration."
+  tags:
+  - vlan
+  - trunk
+  - etherchannel
+  question: Configure trunk and EtherChannel between SW1 and SW2.
+  explanation: Trunk + LACP EtherChannel configuration.
+  source: 1-Network-Fundamentals_83/NF-013.png
+  exhibit: Open the exhibit image for the original simulation task and topology.
+  lab:
+    intro: Legacy simulation converted to interactive lab mode.
+    objectives:
+    - Use 802.1Q
+    - Allow VLAN 110 and native VLAN 99
+    - Use LACP (802.3ad)
+    - Port-channel 20
+    initial_prompt: SW1#
+    image: 1-Network-Fundamentals_83/NF-013.png
+    required_commands:
+    - interface range e0/0 - 1
+    - switchport mode trunk
+    - switchport trunk encapsulation dot1q
+    - switchport trunk allowed vlan 110,99
+    - switchport trunk native vlan 99
+    - channel-group 20 mode active
+    - interface range e0/0 - 1
+    - switchport mode trunk
+    - switchport trunk encapsulation dot1q
+    - switchport trunk allowed vlan 110,99
+    - switchport trunk native vlan 99
+    - channel-group 20 mode active
+    verification_commands: []
+    command_responses:
+      interface range e0/0 - 1: OK
+      switchport mode trunk: OK
+      switchport trunk encapsulation dot1q: OK
+      switchport trunk allowed vlan 110,99: OK
+      switchport trunk native vlan 99: OK
+      channel-group 20 mode active: OK
 
 - id: NF-014
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: single_choice
   difficulty: easy
-  tags: [control-plane]
-  question: "What is a functionality of the control plane in the network?"
+  tags:
+  - control-plane
+  question: What is a functionality of the control plane in the network?
   options:
-    A: "It looks up an egress interface in the forwarding information base"
-    B: "It forwards traffic to the next hop"
-    C: "It exchanges topology information with other routers"
-    D: "It provides CLI access to the network device"
+    A: It looks up an egress interface in the forwarding information base
+    B: It forwards traffic to the next hop
+    C: It exchanges topology information with other routers
+    D: It provides CLI access to the network device
   correct_answer: C
-  explanation: "Control plane learns topology and builds routing tables."
+  explanation: Control plane learns topology and builds routing tables.
 
 - id: NF-015
   topic: Network Fundamentals
-  subtopic: "IPv6"
+  subtopic: IPv6
   type: drag_drop
   difficulty: medium
-  tags: [ipv6]
-  question: "Match IPv6 addresses to their types."
+  tags:
+  - ipv6
+  question: Match IPv6 addresses to their types.
   pairs:
     global_unicast:
-      - "2001:db8:600d:cafe::123"
-      - "3ffe:e54d:620:a87a::f00d"
+    - 2001:db8:600d:cafe::123
+    - 3ffe:e54d:620:a87a::f00d
     unique_local:
-      - "fcba:926a:e8e:7a25:b1:c6d2:1a76:8fdc"
-      - "fd6d:c83b:5cef:b6b2::1"
-  explanation: "Global = 2000::/3, ULA = fc00::/7."
+    - fcba:926a:e8e:7a25:b1:c6d2:1a76:8fdc
+    - fd6d:c83b:5cef:b6b2::1
+  explanation: Global = 2000::/3, ULA = fc00::/7.
 
 - id: NF-016
   topic: Network Fundamentals
-  subtopic: "Wireless"
+  subtopic: Wireless
   type: single_choice
   difficulty: easy
-  tags: [wifi]
-  question: "What is a requirement for nonoverlapping Wi-Fi channels?"
+  tags:
+  - wifi
+  question: What is a requirement for nonoverlapping Wi-Fi channels?
   options:
-    A: "different security settings"
-    B: "discontinuous frequency ranges"
-    C: "unique SSIDs"
-    D: "different transmission speeds"
+    A: different security settings
+    B: discontinuous frequency ranges
+    C: unique SSIDs
+    D: different transmission speeds
   correct_answer: B
-  explanation: "Channels must not overlap in frequency spectrum."
+  explanation: Channels must not overlap in frequency spectrum.
 
 - id: NF-017
   topic: Network Fundamentals
-  subtopic: "Cabling"
+  subtopic: Cabling
   type: multiple_choice
   difficulty: medium
-  tags: [fiber]
-  question: "What are two facts about optical fiber vs copper? (Choose two)"
+  tags:
+  - fiber
+  question: What are two facts about optical fiber vs copper? (Choose two)
   options:
-    A: "Less expensive"
-    B: "Carries electrical current"
-    C: "Provides greater throughput"
-    D: "More sensitive to environment"
-    E: "Supports longer distances"
-  correct_answer: [C, E]
-  explanation: "Fiber = high bandwidth + long distance."
+    A: Less expensive
+    B: Carries electrical current
+    C: Provides greater throughput
+    D: More sensitive to environment
+    E: Supports longer distances
+  correct_answer:
+  - C
+  - E
+  explanation: Fiber = high bandwidth + long distance.
 
 - id: NF-018
   topic: Network Fundamentals
-  subtopic: "IP Addressing"
+  subtopic: IP Addressing
   type: single_choice
   difficulty: easy
-  tags: [ipv4]
-  question: "What is an appropriate use for private IPv4 addressing?"
+  tags:
+  - ipv4
+  question: What is an appropriate use for private IPv4 addressing?
   options:
-    A: "Communicate externally bidirectionally"
-    B: "Stream only to external resources"
-    C: "Public-facing firewall interface"
-    D: "Internal-only communication"
+    A: Communicate externally bidirectionally
+    B: Stream only to external resources
+    C: Public-facing firewall interface
+    D: Internal-only communication
   correct_answer: D
-  explanation: "Private IP is not routable on internet."
+  explanation: Private IP is not routable on internet.
 
 - id: NF-019
   topic: Network Fundamentals
-  subtopic: "Transport"
+  subtopic: Transport
   type: drag_drop
   difficulty: easy
-  tags: [tcp, udp]
-  question: "Match TCP vs UDP characteristics."
+  tags:
+  - tcp
+  - udp
+  question: Match TCP vs UDP characteristics.
   pairs:
     TCP:
-      - "sends data in a specific order"
-      - "requires an established connection"
-      - "supports web browsing"
+    - sends data in a specific order
+    - requires an established connection
+    - supports web browsing
     UDP:
-      - "suited for live streaming"
-      - "retransmission is unsupported"
-      - "tolerates packet loss"
-  explanation: "TCP reliable; UDP fast."
+    - suited for live streaming
+    - retransmission is unsupported
+    - tolerates packet loss
+  explanation: TCP reliable; UDP fast.
 
 - id: NF-020
   topic: Network Fundamentals
-  subtopic: "Switching"
+  subtopic: Switching
   type: single_choice
   difficulty: easy
-  tags: [mac-table]
-  question: "How does a switch handle frame with known MAC?"
+  tags:
+  - mac-table
+  question: How does a switch handle frame with known MAC?
   options:
-    A: "Floods"
-    B: "First port"
-    C: "Forwards to specific port"
-    D: "Broadcasts"
+    A: Floods
+    B: First port
+    C: Forwards to specific port
+    D: Broadcasts
   correct_answer: C
-  explanation: "Uses MAC address table."
+  explanation: Uses MAC address table.
 
 - id: NF-021
   topic: Network Fundamentals
-  subtopic: "Wireless"
+  subtopic: Wireless
   type: single_choice
   difficulty: easy
-  tags: [wifi]
-  question: "What occurs with overlapping Wi-Fi channels?"
+  tags:
+  - wifi
+  question: What occurs with overlapping Wi-Fi channels?
   options:
-    A: "Poor performance"
-    B: "SSID confusion"
-    C: "Security vulnerability"
-    D: "Eavesdropping"
+    A: Poor performance
+    B: SSID confusion
+    C: Security vulnerability
+    D: Eavesdropping
   correct_answer: A
-  explanation: "Interference reduces performance."
+  explanation: Interference reduces performance.
 
 - id: NF-022
   topic: Network Fundamentals
-  subtopic: "Troubleshooting"
+  subtopic: Troubleshooting
   type: single_choice
   difficulty: medium
-  tags: [crc, interfaces]
-  question: "What causes poor performance with high CRC errors?"
+  tags:
+  - crc
+  - interfaces
+  question: What causes poor performance with high CRC errors?
   options:
-    A: "Broadcast storm"
-    B: "Bandwidth issue"
-    C: "Faulty cable"
-    D: "Speed mismatch"
+    A: Broadcast storm
+    B: Bandwidth issue
+    C: Faulty cable
+    D: Speed mismatch
   correct_answer: C
-  explanation: "CRC errors = physical layer issue."
+  explanation: CRC errors = physical layer issue.
 
 - id: NF-023
   topic: Network Fundamentals
-  subtopic: "Security"
+  subtopic: Security
   type: single_choice
   difficulty: easy
-  tags: [https]
-  question: "Which protocol uses SSL/TLS?"
+  tags:
+  - https
+  question: Which protocol uses SSL/TLS?
   options:
-    A: "SSH"
-    B: "HTTPS"
-    C: "HTTP"
-    D: "Telnet"
+    A: SSH
+    B: HTTPS
+    C: HTTP
+    D: Telnet
   correct_answer: B
-  explanation: "HTTPS uses TLS."
+  explanation: HTTPS uses TLS.
 
 - id: NF-024
   topic: Network Fundamentals
-  subtopic: "Routing"
+  subtopic: Routing
   type: single_choice
   difficulty: hard
-  tags: [routing, ad]
-  question: "Which route is selected based on AD?"
+  tags:
+  - routing
+  - ad
+  question: Which route is selected based on AD?
   options:
-    A: "OSPF [110]"
-    B: "Static [108]"
-    C: "OSPF alt"
-    D: "Static alt"
+    A: OSPF [110]
+    B: Static [108]
+    C: OSPF alt
+    D: Static alt
   correct_answer: B
-  explanation: "Lower administrative distance wins."
+  explanation: Lower administrative distance wins.
 
 - id: NF-025
   topic: Network Fundamentals
-  subtopic: "Applications"
+  subtopic: Applications
   type: single_choice
   difficulty: easy
-  tags: [http]
-  question: "What does a web server do?"
+  tags:
+  - http
+  question: What does a web server do?
   options:
-    A: "Email"
-    B: "FTP storage"
-    C: "Auth system"
-    D: "Delivers HTTP applications"
+    A: Email
+    B: FTP storage
+    C: Auth system
+    D: Delivers HTTP applications
   correct_answer: D
-  explanation: "Web server = HTTP content delivery."
+  explanation: Web server = HTTP content delivery.
 
 - id: NF-026
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: drag_drop
   difficulty: medium
-  tags: [hierarchical]
-  question: "Match architecture layers to functions."
+  tags:
+  - hierarchical
+  question: Match architecture layers to functions.
   pairs:
-    access: "end user connectivity"
-    spine-leaf: "top-of-rack"
-    distribution: "routing filtering WAN"
-    core: "fast switching"
-  explanation: "Classic 3-tier + DC architecture."
+    access: end user connectivity
+    spine-leaf: top-of-rack
+    distribution: routing filtering WAN
+    core: fast switching
+  explanation: Classic 3-tier + DC architecture.
 
 - id: NF-027
   topic: Network Fundamentals
-  subtopic: "Ethernet"
+  subtopic: Ethernet
   type: single_choice
   difficulty: medium
-  tags: [speed, duplex]
-  question: "Why are interfaces down between switches?"
+  tags:
+  - speed
+  - duplex
+  question: Why are interfaces down between switches?
   options:
-    A: "Speed mismatch"
-    B: "Distance"
-    C: "Duplex mismatch"
-    D: "Portfast missing"
+    A: Speed mismatch
+    B: Distance
+    C: Duplex mismatch
+    D: Portfast missing
   correct_answer: A
-  explanation: "Speed mismatch can prevent link up."
+  explanation: Speed mismatch can prevent link up.
 
 - id: NF-028
   topic: Network Fundamentals
-  subtopic: "Switching"
+  subtopic: Switching
   type: single_choice
   difficulty: easy
-  tags: [layer3]
-  question: "What is a function of a Layer 3 switch?"
+  tags:
+  - layer3
+  question: What is a function of a Layer 3 switch?
   options:
-    A: "Routes between VLANs"
-    B: "Broadcast only"
-    C: "Moves frames only"
-    D: "MAC forwarding only"
+    A: Routes between VLANs
+    B: Broadcast only
+    C: Moves frames only
+    D: MAC forwarding only
   correct_answer: A
-  explanation: "L3 switch performs inter-VLAN routing."
+  explanation: L3 switch performs inter-VLAN routing.
 
 - id: NF-029
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: drag_drop
   difficulty: medium
-  tags: [hierarchical]
-  question: "Match characteristics to architecture types."
+  tags:
+  - hierarchical
+  question: Match characteristics to architecture types.
   pairs:
     collapsed_core:
-      - "single device handles core and distribution"
-      - "more cost-effective"
-      - "best for small networks"
+    - single device handles core and distribution
+    - more cost-effective
+    - best for small networks
     three_tier:
-      - "enhances network availability"
-      - "separate core and distribution devices"
-  explanation: "Collapsed = simple; 3-tier = scalable + resilient."
+    - enhances network availability
+    - separate core and distribution devices
+  explanation: Collapsed = simple; 3-tier = scalable + resilient.
 
 - id: NF-030
   topic: Network Fundamentals
-  subtopic: "Services"
+  subtopic: Services
   type: single_choice
   difficulty: medium
-  tags: [dns]
-  question: "Which IP receives DNS queries for www.cisco.com?"
+  tags:
+  - dns
+  question: Which IP receives DNS queries for www.cisco.com?
   options:
-    A: "192.168.1.253"
-    B: "192.168.1.100"
-    C: "192.168.1.226"
-    D: "192.168.1.254"
+    A: 192.168.1.253
+    B: 192.168.1.100
+    C: 192.168.1.226
+    D: 192.168.1.254
   correct_answer: A
-  explanation: "DNS server handles name resolution."
+  explanation: DNS server handles name resolution.
 
 - id: NF-031
   topic: Network Fundamentals
-  subtopic: "Troubleshooting"
+  subtopic: Troubleshooting
   type: single_choice
   difficulty: medium
-  tags: [fcs, crc]
-  question: "What causes high FCS errors and poor throughput?"
+  tags:
+  - fcs
+  - crc
+  question: What causes high FCS errors and poor throughput?
   options:
-    A: "Physical cable fault"
-    B: "Speed mismatch"
-    C: "High bandwidth usage"
-    D: "Cable too long"
+    A: Physical cable fault
+    B: Speed mismatch
+    C: High bandwidth usage
+    D: Cable too long
   correct_answer: A
-  explanation: "FCS/CRC = physical layer issue."
+  explanation: FCS/CRC = physical layer issue.
 
 - id: NF-032
   topic: Network Fundamentals
-  subtopic: "Ethernet"
+  subtopic: Ethernet
   type: single_choice
   difficulty: medium
-  tags: [duplex]
-  question: "What issue is identified in interface statistics?"
+  tags:
+  - duplex
+  question: What issue is identified in interface statistics?
   options:
-    A: "MTU mismatch"
-    B: "Duplex mismatch"
-    C: "QoS drops"
-    D: "Overutilization"
+    A: MTU mismatch
+    B: Duplex mismatch
+    C: QoS drops
+    D: Overutilization
   correct_answer: B
-  explanation: "Collisions + errors → duplex mismatch."
+  explanation: "Collisions + errors \u2192 duplex mismatch."
 
 - id: NF-033
   topic: Network Fundamentals
-  subtopic: "Transport"
+  subtopic: Transport
   type: drag_drop
   difficulty: easy
-  tags: [tcp, udp]
-  question: "Match protocol characteristics."
+  tags:
+  - tcp
+  - udp
+  question: Match protocol characteristics.
   pairs:
     TCP:
-      - "three-way handshake"
-      - "reliable connection"
-      - "preferred for web browsing"
+    - three-way handshake
+    - reliable connection
+    - preferred for web browsing
     UDP:
-      - "faster transmission"
-      - "used for streaming/VoIP"
-      - "connectionless"
-  explanation: "TCP = reliability; UDP = speed."
+    - faster transmission
+    - used for streaming/VoIP
+    - connectionless
+  explanation: TCP = reliability; UDP = speed.
 
 - id: NF-034
   topic: Network Fundamentals
-  subtopic: "Transport"
+  subtopic: Transport
   type: drag_drop
   difficulty: medium
-  tags: [tcp, udp]
-  question: "Match transport requirements to protocols."
+  tags:
+  - tcp
+  - udp
+  question: Match transport requirements to protocols.
   pairs:
     TCP:
-      - "client confirms delivery"
-      - "error checking and guaranteed reception"
-      - "delays transmission during congestion"
+    - client confirms delivery
+    - error checking and guaranteed reception
+    - delays transmission during congestion
     UDP:
-      - "no connection required"
-      - "supports broadcast/multicast"
-      - "no guaranteed order"
-  explanation: "TCP = control + reliability; UDP = lightweight."
+    - no connection required
+    - supports broadcast/multicast
+    - no guaranteed order
+  explanation: TCP = control + reliability; UDP = lightweight.
 
 - id: NF-035
   topic: Network Fundamentals
-  subtopic: "Switching"
+  subtopic: Switching
   type: multiple_choice
   difficulty: easy
-  tags: [layer2]
-  question: "What are two functions of a Layer 2 switch?"
+  tags:
+  - layer2
+  question: What are two functions of a Layer 2 switch?
   options:
-    A: "Authentication services"
-    B: "Routing WAN"
-    C: "Moves packets within VLAN"
-    D: "Moves between VLANs"
-    E: "MAC-based forwarding"
-  correct_answer: [C, E]
-  explanation: "L2 = switching within VLAN using MAC table."
+    A: Authentication services
+    B: Routing WAN
+    C: Moves packets within VLAN
+    D: Moves between VLANs
+    E: MAC-based forwarding
+  correct_answer:
+  - C
+  - E
+  explanation: L2 = switching within VLAN using MAC table.
 
 - id: NF-036
   topic: Network Fundamentals
-  subtopic: "IP Addressing"
+  subtopic: IP Addressing
   type: single_choice
   difficulty: easy
-  tags: [ipv4]
-  question: "Why implement private IPv4 addressing?"
+  tags:
+  - ipv4
+  question: Why implement private IPv4 addressing?
   options:
-    A: "PCI compliance"
-    B: "Reduce routing table"
-    C: "Improve security"
-    D: "Local law compliance"
+    A: PCI compliance
+    B: Reduce routing table
+    C: Improve security
+    D: Local law compliance
   correct_answer: C
-  explanation: "Private IP reduces exposure."
+  explanation: Private IP reduces exposure.
 
 - id: NF-037
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: multiple_choice
   difficulty: medium
-  tags: [sdn]
-  question: "What are two benefits of controller-based networking?"
+  tags:
+  - sdn
+  question: What are two benefits of controller-based networking?
   options:
-    A: "VM connectivity"
-    B: "DDoS protection"
-    C: "Complex addressing"
-    D: "Automation"
-    E: "Scalability"
-  correct_answer: [D, E]
-  explanation: "SDN = automation + scalability."
+    A: VM connectivity
+    B: DDoS protection
+    C: Complex addressing
+    D: Automation
+    E: Scalability
+  correct_answer:
+  - D
+  - E
+  explanation: SDN = automation + scalability.
 
 - id: NF-038
   topic: Network Fundamentals
-  subtopic: "IPv6"
+  subtopic: IPv6
   type: single_choice
   difficulty: medium
-  tags: [ipv6]
-  question: "Difference between IPv6 unicast and anycast?"
+  tags:
+  - ipv6
+  question: Difference between IPv6 unicast and anycast?
   options:
-    A: "Unicast = single node; anycast = multiple nodes"
-    B: "Anycast requires config; unicast doesn't"
-    C: "Unicast requires config; anycast doesn't"
-    D: "Unicast assigned to multiple nodes"
+    A: Unicast = single node; anycast = multiple nodes
+    B: Anycast requires config; unicast doesn't
+    C: Unicast requires config; anycast doesn't
+    D: Unicast assigned to multiple nodes
   correct_answer: A
-  explanation: "Anycast = same address on multiple devices."
+  explanation: Anycast = same address on multiple devices.
 
 - id: NF-039
   topic: Network Fundamentals
-  subtopic: "WAN"
+  subtopic: WAN
   type: single_choice
   difficulty: easy
-  tags: [wan]
-  question: "Best WAN option for small office?"
+  tags:
+  - wan
+  question: Best WAN option for small office?
   options:
-    A: "Broadband cable"
-    B: "Frame relay"
-    C: "Leased line"
-    D: "ISDN"
+    A: Broadband cable
+    B: Frame relay
+    C: Leased line
+    D: ISDN
   correct_answer: A
-  explanation: "Broadband is common and cost-effective."
+  explanation: Broadband is common and cost-effective.
 
 - id: NF-040
   topic: Network Fundamentals
-  subtopic: "WAN"
+  subtopic: WAN
   type: single_choice
   difficulty: easy
-  tags: [t1]
-  question: "T1 bandwidth?"
+  tags:
+  - t1
+  question: T1 bandwidth?
   options:
-    A: "1.544 Mbps"
-    B: "2.048 Mbps"
-    C: "34 Mbps"
-    D: "43 Mbps"
+    A: 1.544 Mbps
+    B: 2.048 Mbps
+    C: 34 Mbps
+    D: 43 Mbps
   correct_answer: A
-  explanation: "Standard T1 speed."
+  explanation: Standard T1 speed.
 
 - id: NF-041
   topic: Network Fundamentals
-  subtopic: "Cloud"
+  subtopic: Cloud
   type: single_choice
   difficulty: easy
-  tags: [cloud]
-  question: "Benefit of public cloud?"
+  tags:
+  - cloud
+  question: Benefit of public cloud?
   options:
-    A: "Dedicated WAN"
-    B: "Physical servers"
-    C: "Access via Internet"
-    D: "Same data center"
+    A: Dedicated WAN
+    B: Physical servers
+    C: Access via Internet
+    D: Same data center
   correct_answer: C
-  explanation: "Public cloud = internet-based."
+  explanation: Public cloud = internet-based.
 
 - id: NF-042
   topic: Network Fundamentals
-  subtopic: "IP Addressing"
+  subtopic: IP Addressing
   type: single_choice
   difficulty: easy
-  tags: [ipv4]
-  question: "Primary purpose of private IP?"
+  tags:
+  - ipv4
+  question: Primary purpose of private IP?
   options:
-    A: "Limit nodes"
-    B: "Simplify addressing"
-    C: "Conserve public IP"
-    D: "Reduce complexity"
+    A: Limit nodes
+    B: Simplify addressing
+    C: Conserve public IP
+    D: Reduce complexity
   correct_answer: C
-  explanation: "Main goal = conserve IPv4 space."
+  explanation: Main goal = conserve IPv4 space.
 
 - id: NF-043
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: single_choice
   difficulty: medium
-  tags: [sdn]
-  question: "Function of SDN controller?"
+  tags:
+  - sdn
+  question: Function of SDN controller?
   options:
-    A: "Centralized management"
-    B: "Core router pair"
-    C: "Data plane centralization"
-    D: "Hardware card"
+    A: Centralized management
+    B: Core router pair
+    C: Data plane centralization
+    D: Hardware card
   correct_answer: A
-  explanation: "Controller = control plane centralization."
+  explanation: Controller = control plane centralization.
 
 - id: NF-044
   topic: Network Fundamentals
-  subtopic: "IPv6"
+  subtopic: IPv6
   type: single_choice
   difficulty: medium
-  tags: [ipv6]
-  question: "Correct compressed IPv6 address?"
+  tags:
+  - ipv6
+  question: Correct compressed IPv6 address?
   options:
-    A: "2001:EB8:C1:2:1::331/64"
-    B: "21:EB8:C1:2200:1::331/64"
-    C: "2001:EB8:C1:2200:1:0000:31/64"
-    D: "2001:EB8:C1:2200:1::331/64"
+    A: 2001:EB8:C1:2:1::331/64
+    B: 21:EB8:C1:2200:1::331/64
+    C: 2001:EB8:C1:2200:1:0000:31/64
+    D: 2001:EB8:C1:2200:1::331/64
   correct_answer: D
-  explanation: "Proper zero compression rules."
+  explanation: Proper zero compression rules.
 
 - id: NF-045
   topic: Network Fundamentals
-  subtopic: "IP Addressing"
+  subtopic: IP Addressing
   type: single_choice
   difficulty: easy
-  tags: [subnetting, ipv4, cidr]
-  question: "A network engineer must configure an interface with IP address 10.10.10.145 and a subnet mask equivalent to 11111111.11111111.11111111.11111000. Which subnet mask must the engineer use?"
+  tags:
+  - subnetting
+  - ipv4
+  - cidr
+  question: A network engineer must configure an interface with IP address 10.10.10.145 and a subnet mask equivalent to 11111111.11111111.11111111.11111000. Which subnet mask must the engineer use?
   options:
-    A: "/29"
-    B: "/30"
-    C: "/27"
-    D: "/28"
+    A: /29
+    B: /30
+    C: /27
+    D: /28
   correct_answer: A
-  explanation: "The binary mask has 29 bits set to 1 (8+8+8+5), resulting in a /29 prefix."
+  explanation: The binary mask has 29 bits set to 1 (8+8+8+5), resulting in a /29 prefix.
 
 - id: NF-046
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: single_choice
   difficulty: easy
-  tags: [collapsed-core, hierarchical-network]
-  question: "What is the collapsed layer in collapsed core architectures?"
+  tags:
+  - collapsed-core
+  - hierarchical-network
+  question: What is the collapsed layer in collapsed core architectures?
   options:
-    A: "core and distribution"
-    B: "access and WAN"
-    C: "distribution and access"
-    D: "core and WAN"
+    A: core and distribution
+    B: access and WAN
+    C: distribution and access
+    D: core and WAN
   correct_answer: A
-  explanation: "A collapsed-core design combines the core and distribution functions into a single layer, which is common in smaller campus networks."
+  explanation: A collapsed-core design combines the core and distribution functions into a single layer, which is common in smaller campus networks.
 
 - id: NF-047
   topic: Network Fundamentals
-  subtopic: "Wireless"
+  subtopic: Wireless
   type: single_choice
   difficulty: easy
-  tags: [wifi, 2.4ghz, channels]
-  question: "Which group of channels in the 802.11b/g/n/ac/ax 2.4 GHz frequency band are nonoverlapping channels?"
+  tags:
+  - wifi
+  - 2.4ghz
+  - channels
+  question: Which group of channels in the 802.11b/g/n/ac/ax 2.4 GHz frequency band are nonoverlapping channels?
   options:
-    A: "channels 1, 5, and 10"
-    B: "channels 1, 6, and 11"
-    C: "channels 1, 5, and 11"
-    D: "channels 1, 6, and 10"
+    A: channels 1, 5, and 10
+    B: channels 1, 6, and 11
+    C: channels 1, 5, and 11
+    D: channels 1, 6, and 10
   correct_answer: B
-  explanation: "In most deployments, channels 1, 6, and 11 are used on 2.4 GHz because they do not overlap."
+  explanation: In most deployments, channels 1, 6, and 11 are used on 2.4 GHz because they do not overlap.
 
 - id: NF-048
   topic: Network Fundamentals
-  subtopic: "Cabling"
+  subtopic: Cabling
   type: single_choice
   difficulty: medium
-  tags: [fiber, gbic, sfp, connectors]
-  question: "Which cable type must be used to interconnect one switch using 1000BASE-SX GBIC modules and another switch using 1000BASE-SX SFP modules?"
+  tags:
+  - fiber
+  - gbic
+  - sfp
+  - connectors
+  question: Which cable type must be used to interconnect one switch using 1000BASE-SX GBIC modules and another switch using 1000BASE-SX SFP modules?
   options:
-    A: "LC to SC"
-    B: "SC to SC"
-    C: "LC to LC"
-    D: "SC to ST"
+    A: LC to SC
+    B: SC to SC
+    C: LC to LC
+    D: SC to ST
   correct_answer: A
-  explanation: "A 1000BASE-SX SFP typically uses an LC connector, while a GBIC commonly uses SC, so an LC-to-SC fiber patch cable is required."
+  explanation: A 1000BASE-SX SFP typically uses an LC connector, while a GBIC commonly uses SC, so an LC-to-SC fiber patch cable is required.
 
 - id: NF-049
   topic: Network Fundamentals
-  subtopic: "Transport"
+  subtopic: Transport
   type: single_choice
   difficulty: easy
-  tags: [tcp, udp, headers]
-  question: "What is the difference between the TCP and UDP protocols?"
+  tags:
+  - tcp
+  - udp
+  - headers
+  question: What is the difference between the TCP and UDP protocols?
   options:
-    A: "TCP has an inherent order for packet assembly, and UDP reassembles packets in a specific order."
-    B: "TCP has a 20-byte minimal header size, and UDP has an 8-byte header size."
-    C: "TCP requires five packets to set up a connection, and UDP requires only three packets."
-    D: "TCP uses only a checksum, and UDP has an acknowledgment mechanism."
+    A: TCP has an inherent order for packet assembly, and UDP reassembles packets in a specific order.
+    B: TCP has a 20-byte minimal header size, and UDP has an 8-byte header size.
+    C: TCP requires five packets to set up a connection, and UDP requires only three packets.
+    D: TCP uses only a checksum, and UDP has an acknowledgment mechanism.
   correct_answer: B
-  explanation: "TCP has a minimum 20-byte header, while UDP uses a smaller 8-byte header."
+  explanation: TCP has a minimum 20-byte header, while UDP uses a smaller 8-byte header.
 
 - id: NF-050
   topic: Network Fundamentals
-  subtopic: "Servers"
+  subtopic: Servers
   type: multiple_choice
   difficulty: easy
-  tags: [servers, client-server]
-  question: "What are two functions of a server on a network? (Choose two.)"
+  tags:
+  - servers
+  - client-server
+  question: What are two functions of a server on a network? (Choose two.)
   options:
-    A: "handles requests from multiple workstations at the same time"
-    B: "achieves redundancy by exclusively using virtual server clustering"
-    C: "is housed solely in a data center that is dedicated to a single client"
-    D: "runs the same operating system in order to communicate with other servers"
-    E: "runs applications that send and retrieve data for workstations that make requests"
-  correct_answer: [A, E]
-  explanation: "A server provides services to clients, commonly by handling requests from many hosts and running applications that respond with data or resources."
+    A: handles requests from multiple workstations at the same time
+    B: achieves redundancy by exclusively using virtual server clustering
+    C: is housed solely in a data center that is dedicated to a single client
+    D: runs the same operating system in order to communicate with other servers
+    E: runs applications that send and retrieve data for workstations that make requests
+  correct_answer:
+  - A
+  - E
+  explanation: A server provides services to clients, commonly by handling requests from many hosts and running applications that respond with data or resources.
 
 - id: NF-051
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: single_choice
   difficulty: easy
-  tags: [data-plane, forwarding]
-  question: "Which networking function occurs on the data plane?"
+  tags:
+  - data-plane
+  - forwarding
+  question: Which networking function occurs on the data plane?
   options:
-    A: "processing inbound SSH management traffic"
-    B: "sending and receiving OSPF Hello packets"
-    C: "facilitates spanning-tree elections"
-    D: "forwarding remote client/server traffic"
+    A: processing inbound SSH management traffic
+    B: sending and receiving OSPF Hello packets
+    C: facilitates spanning-tree elections
+    D: forwarding remote client/server traffic
   correct_answer: D
-  explanation: "The data plane is responsible for forwarding transit traffic through the device."
+  explanation: The data plane is responsible for forwarding transit traffic through the device.
 
 - id: NF-052
   topic: Network Fundamentals
-  subtopic: "Virtualization"
+  subtopic: Virtualization
   type: single_choice
   difficulty: easy
-  tags: [virtualization, resources]
-  question: "What must be considered before deploying virtual machines?"
+  tags:
+  - virtualization
+  - resources
+  question: What must be considered before deploying virtual machines?
   options:
-    A: "resource limitations, such as the number of CPU cores and the amount of memory"
-    B: "support for physical peripherals, such as monitors, keyboards, and mice"
-    C: "whether to leverage VSM to map multiple virtual processors to two or more virtual machines"
-    D: "location of the virtual machines within the data center environment"
+    A: resource limitations, such as the number of CPU cores and the amount of memory
+    B: support for physical peripherals, such as monitors, keyboards, and mice
+    C: whether to leverage VSM to map multiple virtual processors to two or more virtual machines
+    D: location of the virtual machines within the data center environment
   correct_answer: A
-  explanation: "Virtual machines share host resources, so CPU and memory capacity must be planned before deployment."
+  explanation: Virtual machines share host resources, so CPU and memory capacity must be planned before deployment.
 
 - id: NF-053
   topic: Network Fundamentals
-  subtopic: "Transport"
+  subtopic: Transport
   type: single_choice
   difficulty: easy
-  tags: [tcp, udp, reliability]
-  question: "Under which condition is TCP preferred over UDP?"
+  tags:
+  - tcp
+  - udp
+  - reliability
+  question: Under which condition is TCP preferred over UDP?
   options:
-    A: "UDP is used when low latency is optimal, and TCP is used when latency is tolerable."
-    B: "TCP is used when dropped data is more acceptable, and UDP is used when data is accepted out-of-order."
-    C: "TCP is used when data reliability is critical, and UDP is used when missing packets are acceptable."
-    D: "UDP is used when data is highly interactive, and TCP is used when data is time-sensitive."
+    A: UDP is used when low latency is optimal, and TCP is used when latency is tolerable.
+    B: TCP is used when dropped data is more acceptable, and UDP is used when data is accepted out-of-order.
+    C: TCP is used when data reliability is critical, and UDP is used when missing packets are acceptable.
+    D: UDP is used when data is highly interactive, and TCP is used when data is time-sensitive.
   correct_answer: C
-  explanation: "TCP is preferred when reliable delivery matters more than speed, while UDP is acceptable when some loss can be tolerated."
+  explanation: TCP is preferred when reliable delivery matters more than speed, while UDP is acceptable when some loss can be tolerated.
 
 - id: NF-054
   topic: Network Fundamentals
-  subtopic: "Ethernet"
+  subtopic: Ethernet
   type: multiple_choice
   difficulty: medium
-  tags: [ethernet, late-collisions, duplex]
-  question: "What are two reasons that cause late collisions to increment on an Ethernet interface? (Choose two.)"
+  tags:
+  - ethernet
+  - late-collisions
+  - duplex
+  question: What are two reasons that cause late collisions to increment on an Ethernet interface? (Choose two.)
   options:
-    A: "when Carrier Sense Multiple Access/Collision Detection is used"
-    B: "when one side of the connection is configured for half-duplex"
-    C: "when the sending device waits 15 seconds before sending the frame again"
-    D: "when a collision occurs after the 32nd byte of a frame has been transmitted"
-    E: "when the cable length limits are exceeded"
-  correct_answer: [B, E]
-  explanation: "Late collisions are commonly caused by duplex mismatches and excessive cable length or other physical design problems."
+    A: when Carrier Sense Multiple Access/Collision Detection is used
+    B: when one side of the connection is configured for half-duplex
+    C: when the sending device waits 15 seconds before sending the frame again
+    D: when a collision occurs after the 32nd byte of a frame has been transmitted
+    E: when the cable length limits are exceeded
+  correct_answer:
+  - B
+  - E
+  explanation: Late collisions are commonly caused by duplex mismatches and excessive cable length or other physical design problems.
 
 - id: NF-055
   topic: Network Fundamentals
-  subtopic: "IPv6"
+  subtopic: IPv6
   type: single_choice
   difficulty: easy
-  tags: [ipv6, global-unicast]
-  question: "Which type of IPv6 address is publicly routable in the same way as IPv4 public addresses?"
+  tags:
+  - ipv6
+  - global-unicast
+  question: Which type of IPv6 address is publicly routable in the same way as IPv4 public addresses?
   options:
-    A: "multicast"
-    B: "unique local"
-    C: "link-local"
-    D: "global unicast"
+    A: multicast
+    B: unique local
+    C: link-local
+    D: global unicast
   correct_answer: D
-  explanation: "Global unicast IPv6 addresses are Internet-routable, similar to public IPv4 addresses."
+  explanation: Global unicast IPv6 addresses are Internet-routable, similar to public IPv4 addresses.
 
 - id: NF-056
   topic: Network Fundamentals
-  subtopic: "Security"
+  subtopic: Security
   type: single_choice
   difficulty: easy
-  tags: [firewall, segmentation]
-  question: "Which device segregates a network into separate zones that have their own security policies?"
+  tags:
+  - firewall
+  - segmentation
+  question: Which device segregates a network into separate zones that have their own security policies?
   options:
-    A: "IPS"
-    B: "switch"
-    C: "access point"
-    D: "firewall"
+    A: IPS
+    B: switch
+    C: access point
+    D: firewall
   correct_answer: D
-  explanation: "A firewall separates network segments and enforces security policies between them."
+  explanation: A firewall separates network segments and enforces security policies between them.
 
 - id: NF-057
   topic: Network Fundamentals
-  subtopic: "Virtualization"
+  subtopic: Virtualization
   type: single_choice
   difficulty: easy
-  tags: [virtualization, hypervisor]
-  question: "Which component controls and distributes physical resources for each virtual machine?"
+  tags:
+  - virtualization
+  - hypervisor
+  question: Which component controls and distributes physical resources for each virtual machine?
   options:
-    A: "hypervisor"
-    B: "OS"
-    C: "CPU"
-    D: "physical enclosure"
+    A: hypervisor
+    B: OS
+    C: CPU
+    D: physical enclosure
   correct_answer: A
-  explanation: "The hypervisor allocates host resources such as CPU and memory to the virtual machines."
+  explanation: The hypervisor allocates host resources such as CPU and memory to the virtual machines.
 
 - id: NF-058
   topic: Network Fundamentals
-  subtopic: "Ethernet"
+  subtopic: Ethernet
   type: single_choice
   difficulty: medium
-  tags: [duplex, auto-negotiation, troubleshooting]
-  question: "Refer to the exhibit. PC1 is manually configured for 100 Mb/s full duplex, while the switch port is set to auto speed and auto duplex. The link is up but performing poorly. Which interface condition is causing the problem?"
-  exhibit: |
-    Ethernet mismatch scenario:
+  tags:
+  - duplex
+  - auto-negotiation
+  - troubleshooting
+  question: Refer to the exhibit. PC1 is manually configured for 100 Mb/s full duplex, while the switch port is set to auto speed and auto duplex. The link is up but performing poorly. Which interface condition is causing the problem?
+  exhibit: 'Ethernet mismatch scenario:
+
     - PC1 is manually set to 100 Mb/s full duplex
+
     - switch interface is left at auto speed and auto duplex
+
     - link is up, but performance is poor
 
+
     Task:
+
     - identify the interface condition created by this mixed negotiation setup
+
+    '
   options:
-    A: "There is an issue with the fiber on the switch interface."
-    B: "There is a duplex mismatch on the interface."
-    C: "There is an interface type mismatch."
-    D: "There is a speed mismatch on the interface."
+    A: There is an issue with the fiber on the switch interface.
+    B: There is a duplex mismatch on the interface.
+    C: There is an interface type mismatch.
+    D: There is a speed mismatch on the interface.
   correct_answer: B
-  explanation: "When one side is manually set and the other relies on auto-negotiation, the auto side can fall back to half-duplex, creating a duplex mismatch."
+  explanation: When one side is manually set and the other relies on auto-negotiation, the auto side can fall back to half-duplex, creating a duplex mismatch.
   source: 1-Network-Fundamentals_83/NF-058.png
 
 - id: NF-059
   topic: Network Fundamentals
-  subtopic: "Subnetting"
+  subtopic: Subnetting
   type: single_choice
   difficulty: easy
-  tags: [ipv4, subnet-mask]
-  question: "An engineer must update the configuration on two PCs in different subnets to communicate locally with each other. One PC is configured with IP address 192.168.25.128/25 and the other with 192.168.25.100/25. Which network mask must the engineer configure on both PCs to enable the communication?"
+  tags:
+  - ipv4
+  - subnet-mask
+  question: An engineer must update the configuration on two PCs in different subnets to communicate locally with each other. One PC is configured with IP address 192.168.25.128/25 and the other with 192.168.25.100/25. Which network mask must the engineer configure on both PCs to enable the communication?
   options:
-    A: "255.255.255.248"
-    B: "255.255.255.224"
-    C: "255.255.255.0"
-    D: "255.255.255.252"
+    A: 255.255.255.248
+    B: 255.255.255.224
+    C: 255.255.255.0
+    D: 255.255.255.252
   correct_answer: C
-  explanation: "A /24 mask places both hosts in the same 192.168.25.0 network."
+  explanation: A /24 mask places both hosts in the same 192.168.25.0 network.
 
 - id: NF-060
   topic: Network Fundamentals
-  subtopic: "Cloud"
+  subtopic: Cloud
   type: single_choice
   difficulty: easy
-  tags: [cloud, saas]
-  question: "A manager asks a network engineer to advise which cloud service model is used so employees do not have to waste their time installing, managing, and updating software that is only used occasionally. Which cloud service model does the engineer recommend?"
+  tags:
+  - cloud
+  - saas
+  question: A manager asks a network engineer to advise which cloud service model is used so employees do not have to waste their time installing, managing, and updating software that is only used occasionally. Which cloud service model does the engineer recommend?
   options:
-    A: "infrastructure-as-a-service"
-    B: "platform-as-a-service"
-    C: "business process as a service to support different types of service"
-    D: "software-as-a-service"
+    A: infrastructure-as-a-service
+    B: platform-as-a-service
+    C: business process as a service to support different types of service
+    D: software-as-a-service
   correct_answer: D
-  explanation: "SaaS delivers the application over the Internet so users do not need to install or maintain it locally."
+  explanation: SaaS delivers the application over the Internet so users do not need to install or maintain it locally.
 
 - id: NF-061
   topic: Network Fundamentals
-  subtopic: "IPv6"
+  subtopic: IPv6
   type: multiple_choice
   difficulty: hard
-  tags: [ipv6, eui-64, interface-config]
-  question: "Refer to the exhibit. IPv6 must be implemented on R1 to the ISP. The uplink between R1 and the ISP must use a manual assignment, and the LAN interface must self-provision. Both connections must use the applicable IPv6 networks. Which two configurations must be applied to R1? (Choose two.)"
-  exhibit: |
-    IPv6 addressing requirements:
+  tags:
+  - ipv6
+  - eui-64
+  - interface-config
+  question: Refer to the exhibit. IPv6 must be implemented on R1 to the ISP. The uplink between R1 and the ISP must use a manual assignment, and the LAN interface must self-provision. Both connections must use the applicable IPv6 networks. Which two configurations must be applied to R1? (Choose two.)
+  exhibit: 'IPv6 addressing requirements:
+
     - ISP uplink on Gi0/1 must use a manual IPv6 assignment
+
     - LAN interface on Gi0/0 must self-generate its interface ID
+
     - both interfaces must use the correct prefixes from the exhibit
 
+
     Task:
+
     - choose the manual /127 WAN address
+
     - choose the LAN /64 configuration that uses EUI-64
+
+    '
   options:
-    A: "interface Gi0/1
-ipv6 address 2001:db8:0f1b:fccb:acce:fced:abcd:fa03/127"
-    B: "interface Gi0/0
-ipv6 address 2001:db8:0:afff::/64 eui-64"
-    C: "interface Gi0/1
-ipv6 address 2001:db8:0f1b:fccb:acce:fced:abcd:fa02/127"
-    D: "interface Gi0/0
-ipv6 address 2001:db8:0:afff::/64 eui-64"
-    E: "interface Gi0/1
-ipv6 address 2001:db8:0f1b:fccb:acce:fced:abcd:fa00/127"
-  correct_answer: [A, D]
-  explanation: "The WAN link uses a manual /127 address on the ISP-facing interface, while the LAN interface uses the /64 prefix with EUI-64 for self-generated addressing."
+    A: interface Gi0/1 ipv6 address 2001:db8:0f1b:fccb:acce:fced:abcd:fa03/127
+    B: interface Gi0/0 ipv6 address 2001:db8:0:afff::/64 eui-64
+    C: interface Gi0/1 ipv6 address 2001:db8:0f1b:fccb:acce:fced:abcd:fa02/127
+    D: interface Gi0/0 ipv6 address 2001:db8:0:afff::/64 eui-64
+    E: interface Gi0/1 ipv6 address 2001:db8:0f1b:fccb:acce:fced:abcd:fa00/127
+  correct_answer:
+  - A
+  - D
+  explanation: The WAN link uses a manual /127 address on the ISP-facing interface, while the LAN interface uses the /64 prefix with EUI-64 for self-generated addressing.
   source: 1-Network-Fundamentals_83/NF-061.png
 
 - id: NF-062
   topic: Network Fundamentals
-  subtopic: "Subnetting"
+  subtopic: Subnetting
   type: single_choice
   difficulty: medium
-  tags: [subnetting, svi, layer3-switch]
-  question: "The address block 192.168.32.0/24 must be subnetted into smaller networks. The engineer must create 8 new subnets, each supporting just over 30 hosts. Interface VLAN 10 must use the last usable IP in the first new subnet, and the interface is a Layer 3 interface. Which configuration must be applied to the interface?"
+  tags:
+  - subnetting
+  - svi
+  - layer3-switch
+  question: The address block 192.168.32.0/24 must be subnetted into smaller networks. The engineer must create 8 new subnets, each supporting just over 30 hosts. Interface VLAN 10 must use the last usable IP in the first new subnet, and the interface is a Layer 3 interface. Which configuration must be applied to the interface?
   options:
-    A: "no switchport mode trunk\nip address 192.168.32.97 255.255.255.224"
-    B: "switchport\nip address 192.168.32.65 255.255.255.240"
-    C: "no switchport\nip address 192.168.32.30 255.255.255.224"
-    D: "no switchport mode access\nip address 192.168.32.62 255.255.255.240"
+    A: 'no switchport mode trunk
+
+      ip address 192.168.32.97 255.255.255.224'
+    B: 'switchport
+
+      ip address 192.168.32.65 255.255.255.240'
+    C: 'no switchport
+
+      ip address 192.168.32.30 255.255.255.224'
+    D: 'no switchport mode access
+
+      ip address 192.168.32.62 255.255.255.240'
   correct_answer: C
-  explanation: "Eight subnets from a /24 requires borrowing 3 bits, resulting in /27 networks. The first /27 is 192.168.32.0/27, and its last usable IP is 192.168.32.30."
+  explanation: Eight subnets from a /24 requires borrowing 3 bits, resulting in /27 networks. The first /27 is 192.168.32.0/27, and its last usable IP is 192.168.32.30.
 
 - id: NF-063
   topic: Network Fundamentals
-  subtopic: "Cabling"
+  subtopic: Cabling
   type: multiple_choice
   difficulty: easy
-  tags: [fiber, copper]
-  question: "What are two differences between optical-fiber cabling and copper cabling? (Choose two.)"
+  tags:
+  - fiber
+  - copper
+  question: What are two differences between optical-fiber cabling and copper cabling? (Choose two.)
   options:
-    A: "A BNC connector is used for fiber connections."
-    B: "The glass core component is encased in a cladding."
-    C: "The data can pass through the cladding."
-    D: "Light is transmitted through the core of the fiber."
-    E: "Fiber connects to physical interfaces using RJ-45 connections."
-  correct_answer: [B, D]
-  explanation: "Fiber uses a glass core surrounded by cladding, and it carries light through the core rather than electrical signals."
+    A: A BNC connector is used for fiber connections.
+    B: The glass core component is encased in a cladding.
+    C: The data can pass through the cladding.
+    D: Light is transmitted through the core of the fiber.
+    E: Fiber connects to physical interfaces using RJ-45 connections.
+  correct_answer:
+  - B
+  - D
+  explanation: Fiber uses a glass core surrounded by cladding, and it carries light through the core rather than electrical signals.
 
 - id: NF-064
   topic: Network Fundamentals
-  subtopic: "Ethernet"
+  subtopic: Ethernet
   type: single_choice
   difficulty: easy
-  tags: [late-collision, interfaces]
-  question: "A device detects two stations transmitting frames at the same time. This condition occurs after the first 64 bytes of the frame are received. Which interface counter increments?"
+  tags:
+  - late-collision
+  - interfaces
+  question: A device detects two stations transmitting frames at the same time. This condition occurs after the first 64 bytes of the frame are received. Which interface counter increments?
   options:
-    A: "runt"
-    B: "collision"
-    C: "late collision"
-    D: "CRC"
+    A: runt
+    B: collision
+    C: late collision
+    D: CRC
   correct_answer: C
-  explanation: "A collision detected after the first 64 bytes have been transmitted is counted as a late collision."
+  explanation: A collision detected after the first 64 bytes have been transmitted is counted as a late collision.
 
 - id: NF-065
   topic: Network Fundamentals
-  subtopic: "IPv6"
+  subtopic: IPv6
   type: single_choice
   difficulty: hard
-  tags: [ipv6, eui-64, modified-eui64]
-  question: "Refer to the exhibit. An engineer is configuring the HO router. Which IPv6 address configuration must be applied to the router Fa0/1 interface for the router to assign a unique 64-bit IPv6 address to itself?"
-  exhibit: |
-    Modified EUI-64 task:
+  tags:
+  - ipv6
+  - eui-64
+  - modified-eui64
+  question: Refer to the exhibit. An engineer is configuring the HO router. Which IPv6 address configuration must be applied to the router Fa0/1 interface for the router to assign a unique 64-bit IPv6 address to itself?
+  exhibit: 'Modified EUI-64 task:
+
     - interface Fa0/1 must generate its IPv6 interface ID from the MAC address shown in the exhibit
 
+
     Key rule:
+
     - insert FFFE in the middle of the MAC-derived value
+
     - flip the universal/local bit in the first byte
+
+    '
   options:
-    A: "ipv6 address 2001:db8:0:1:ffff:c601:420f:7/64"
-    B: "ipv6 address 2001:db8:0:1:fe80:c601:420f:7/64"
-    C: "ipv6 address 2001:db8:0:1:c601:42ff:fe0f:7/64"
-    D: "ipv6 address 2001:db8:0:1:c601:42fe:800f:7/64"
+    A: ipv6 address 2001:db8:0:1:ffff:c601:420f:7/64
+    B: ipv6 address 2001:db8:0:1:fe80:c601:420f:7/64
+    C: ipv6 address 2001:db8:0:1:c601:42ff:fe0f:7/64
+    D: ipv6 address 2001:db8:0:1:c601:42fe:800f:7/64
   correct_answer: C
-  explanation: "Modified EUI-64 inserts FFFE into the MAC-derived interface ID and flips the universal/local bit, producing c601:42ff:fe0f:7 from MAC C601.420F.0007."
+  explanation: Modified EUI-64 inserts FFFE into the MAC-derived interface ID and flips the universal/local bit, producing c601:42ff:fe0f:7 from MAC C601.420F.0007.
   source: 1-Network-Fundamentals_83/NF-065.png
 
 - id: NF-066
   topic: Network Fundamentals
-  subtopic: "WAN"
+  subtopic: WAN
   type: multiple_choice
   difficulty: easy
-  tags: [soho, broadband, wan]
-  question: "What are two characteristics of a small office / home office connection environment? (Choose two.)"
+  tags:
+  - soho
+  - broadband
+  - wan
+  question: What are two characteristics of a small office / home office connection environment? (Choose two.)
   options:
-    A: "It requires 10Gb ports on all uplinks."
-    B: "It supports between 1 and 50 users."
-    C: "It supports between 50 and 100 users."
-    D: "A router port connects to a broadband connection."
-    E: "It requires a core, distribution, and access layer architecture."
-  correct_answer: [B, D]
-  explanation: "SOHO networks are small and commonly use broadband Internet access through a router."
+    A: It requires 10Gb ports on all uplinks.
+    B: It supports between 1 and 50 users.
+    C: It supports between 50 and 100 users.
+    D: A router port connects to a broadband connection.
+    E: It requires a core, distribution, and access layer architecture.
+  correct_answer:
+  - B
+  - D
+  explanation: SOHO networks are small and commonly use broadband Internet access through a router.
 
 - id: NF-067
   topic: Network Fundamentals
-  subtopic: "Cabling"
+  subtopic: Cabling
   type: single_choice
   difficulty: easy
-  tags: [ethernet, straight-through, mdix]
-  question: "Which cable type must be used when connecting a router and switch together using these criteria: pins 1 and 2 are receivers, pins 3 and 6 are transmitters, and auto detection MDI-X is unavailable?"
+  tags:
+  - ethernet
+  - straight-through
+  - mdix
+  question: 'Which cable type must be used when connecting a router and switch together using these criteria: pins 1 and 2 are receivers, pins 3 and 6 are transmitters, and auto detection MDI-X is unavailable?'
   options:
-    A: "crossover"
-    B: "rollover"
-    C: "console"
-    D: "straight-through"
+    A: crossover
+    B: rollover
+    C: console
+    D: straight-through
   correct_answer: D
-  explanation: "Router-to-switch is a connection between unlike Ethernet devices, so a straight-through cable is used when auto-MDI/MDIX is unavailable."
+  explanation: Router-to-switch is a connection between unlike Ethernet devices, so a straight-through cable is used when auto-MDI/MDIX is unavailable.
 
 - id: NF-068
   topic: Network Fundamentals
-  subtopic: "Subnetting"
+  subtopic: Subnetting
   type: single_choice
   difficulty: medium
-  tags: [ipv4, subnetting, svi]
-  question: "An office has 8 floors with approximately 30 to 40 users per floor. One subnet must be used. Which command must be configured on the router Switched Virtual Interface to use address space efficiently?"
+  tags:
+  - ipv4
+  - subnetting
+  - svi
+  question: An office has 8 floors with approximately 30 to 40 users per floor. One subnet must be used. Which command must be configured on the router Switched Virtual Interface to use address space efficiently?
   options:
-    A: "ip address 192.168.0.0 255.255.0.0"
-    B: "ip address 192.168.0.0 255.255.254.0"
-    C: "ip address 192.168.0.0 255.255.255.128"
-    D: "ip address 192.168.0.0 255.255.255.224"
+    A: ip address 192.168.0.0 255.255.0.0
+    B: ip address 192.168.0.0 255.255.254.0
+    C: ip address 192.168.0.0 255.255.255.128
+    D: ip address 192.168.0.0 255.255.255.224
   correct_answer: B
-  explanation: "About 320 hosts are needed, so a /23 mask provides enough usable addresses without wasting as much space as a /16."
+  explanation: About 320 hosts are needed, so a /23 mask provides enough usable addresses without wasting as much space as a /16.
 
 - id: NF-069
   topic: Network Fundamentals
-  subtopic: "Switching"
+  subtopic: Switching
   type: single_choice
   difficulty: easy
-  tags: [errdisable, link-flap]
-  question: "What causes a port to be placed in the err-disabled state?"
+  tags:
+  - errdisable
+  - link-flap
+  question: What causes a port to be placed in the err-disabled state?
   options:
-    A: "nothing plugged into the port"
-    B: "link flapping"
-    C: "latency"
-    D: "shutdown command issued on the port"
+    A: nothing plugged into the port
+    B: link flapping
+    C: latency
+    D: shutdown command issued on the port
   correct_answer: B
-  explanation: "Err-disable can be triggered by conditions such as link flapping, BPDU guard violations, port security violations, and other interface faults."
+  explanation: Err-disable can be triggered by conditions such as link flapping, BPDU guard violations, port security violations, and other interface faults.
 
 - id: NF-070
   topic: Network Fundamentals
-  subtopic: "Wireless"
+  subtopic: Wireless
   type: single_choice
   difficulty: easy
-  tags: [wireless, band-select, 5ghz]
-  question: "An engineer observes high usage on the 2.4 GHz channels and lower usage on the 5 GHz channels. What must be configured to allow clients to preferentially use 5 GHz access points?"
+  tags:
+  - wireless
+  - band-select
+  - 5ghz
+  question: An engineer observes high usage on the 2.4 GHz channels and lower usage on the 5 GHz channels. What must be configured to allow clients to preferentially use 5 GHz access points?
   options:
-    A: "Client Band Select"
-    B: "Re-Anchor Roamed Clients"
-    C: "EAP Split Tunnel"
-    D: "11ac MU-MIMO"
+    A: Client Band Select
+    B: Re-Anchor Roamed Clients
+    C: EAP Split Tunnel
+    D: 11ac MU-MIMO
   correct_answer: A
-  explanation: "Band Select, also called band steering, encourages capable clients to associate on the 5 GHz band."
+  explanation: Band Select, also called band steering, encourages capable clients to associate on the 5 GHz band.
 
 - id: NF-071
   topic: Network Fundamentals
-  subtopic: "IPv6"
+  subtopic: IPv6
   type: single_choice
   difficulty: medium
-  tags: [ipv6, slaac, eui-64]
-  question: "Which action must be taken to assign a global unicast IPv6 address on an interface that is derived from the MAC address of that interface?"
+  tags:
+  - ipv6
+  - slaac
+  - eui-64
+  question: Which action must be taken to assign a global unicast IPv6 address on an interface that is derived from the MAC address of that interface?
   options:
-    A: "explicitly assign a link-local address"
-    B: "disable the EUI-64 bit process"
-    C: "enable SLAAC on an interface"
-    D: "configure a stateful DHCPv6 server on the network"
+    A: explicitly assign a link-local address
+    B: disable the EUI-64 bit process
+    C: enable SLAAC on an interface
+    D: configure a stateful DHCPv6 server on the network
   correct_answer: C
-  explanation: "SLAAC allows an interface to self-generate a global unicast IPv6 address, commonly using EUI-64 to derive the interface ID from the MAC address."
+  explanation: SLAAC allows an interface to self-generate a global unicast IPv6 address, commonly using EUI-64 to derive the interface ID from the MAC address.
 
 - id: NF-072
   topic: Network Fundamentals
-  subtopic: "Subnetting"
+  subtopic: Subnetting
   type: single_choice
   difficulty: medium
-  tags: [subnetting, summarization]
-  question: "A corporate office uses four floors in a building. Floor 1 has 24 users, Floor 2 has 29 users, Floor 3 has 28 users, and Floor 4 has 22 users. Which subnet summarizes and gives the most efficient distribution of IP addresses for the router configuration?"
+  tags:
+  - subnetting
+  - summarization
+  question: A corporate office uses four floors in a building. Floor 1 has 24 users, Floor 2 has 29 users, Floor 3 has 28 users, and Floor 4 has 22 users. Which subnet summarizes and gives the most efficient distribution of IP addresses for the router configuration?
   options:
-    A: "192.168.0.0/24 as summary and 192.168.0.0/28 for each floor"
-    B: "192.168.0.0/23 as summary and 192.168.0.0/25 for each floor"
-    C: "192.168.0.0/25 as summary and 192.168.0.0/27 for each floor"
-    D: "192.168.0.0/26 as summary and 192.168.0.0/29 for each floor"
+    A: 192.168.0.0/24 as summary and 192.168.0.0/28 for each floor
+    B: 192.168.0.0/23 as summary and 192.168.0.0/25 for each floor
+    C: 192.168.0.0/25 as summary and 192.168.0.0/27 for each floor
+    D: 192.168.0.0/26 as summary and 192.168.0.0/29 for each floor
   correct_answer: C
-  explanation: "Each floor needs up to 30 usable addresses, so /27 works per floor. Four /27 networks summarize neatly into a /25."
+  explanation: Each floor needs up to 30 usable addresses, so /27 works per floor. Four /27 networks summarize neatly into a /25.
 
 - id: NF-073
   topic: Network Fundamentals
-  subtopic: "Wireless"
+  subtopic: Wireless
   type: single_choice
   difficulty: easy
-  tags: [802.11, management-frame]
-  question: "Which 802.11 frame type is Association Response?"
+  tags:
+  - 802.11
+  - management-frame
+  question: Which 802.11 frame type is Association Response?
   options:
-    A: "management"
-    B: "protected frame"
-    C: "action"
-    D: "control"
+    A: management
+    B: protected frame
+    C: action
+    D: control
   correct_answer: A
-  explanation: "Association Request and Association Response are 802.11 management frames."
+  explanation: Association Request and Association Response are 802.11 management frames.
 
 - id: NF-074
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: single_choice
   difficulty: medium
-  tags: [cisco-dna-center, sdn]
-  question: "What is the functionality of the Cisco DNA Center?"
+  tags:
+  - cisco-dna-center
+  - sdn
+  question: What is the functionality of the Cisco DNA Center?
   options:
-    A: "IP address pool distribution scheduler"
-    B: "data center network policy controller"
-    C: "console server that permits secure access to all network devices"
-    D: "software-defined controller for automation of devices and services"
+    A: IP address pool distribution scheduler
+    B: data center network policy controller
+    C: console server that permits secure access to all network devices
+    D: software-defined controller for automation of devices and services
   correct_answer: D
-  explanation: "Cisco DNA Center provides centralized policy, automation, assurance, and management in a controller-based architecture."
+  explanation: Cisco DNA Center provides centralized policy, automation, assurance, and management in a controller-based architecture.
 
 - id: NF-075
   topic: Network Fundamentals
-  subtopic: "WAN"
+  subtopic: WAN
   type: single_choice
   difficulty: easy
-  tags: [soho, broadband]
-  question: "What is a characteristic of a SOHO network?"
+  tags:
+  - soho
+  - broadband
+  question: What is a characteristic of a SOHO network?
   options:
-    A: "includes at least three tiers of devices to provide load balancing and redundancy"
-    B: "connects each switch to every other switch in the network"
-    C: "enables multiple users to share a single broadband connection"
-    D: "provides high throughput access for 1000 or more users"
+    A: includes at least three tiers of devices to provide load balancing and redundancy
+    B: connects each switch to every other switch in the network
+    C: enables multiple users to share a single broadband connection
+    D: provides high throughput access for 1000 or more users
   correct_answer: C
-  explanation: "A SOHO network typically lets a small number of users share a broadband connection."
+  explanation: A SOHO network typically lets a small number of users share a broadband connection.
 
 - id: NF-076
   topic: Network Fundamentals
-  subtopic: "Transport"
+  subtopic: Transport
   type: single_choice
   difficulty: easy
-  tags: [tcp, udp, connectionless]
-  question: "How do TCP and UDP fit into a query-response model?"
+  tags:
+  - tcp
+  - udp
+  - connectionless
+  question: How do TCP and UDP fit into a query-response model?
   options:
-    A: "TCP avoids using sequencing and UDP avoids using acknowledgments."
-    B: "TCP establishes a connection prior to sending data, and UDP sends immediately."
-    C: "TCP encourages out-of-order packet delivery, and UDP prevents re-ordering."
-    D: "TCP uses error detection for packets, and UDP uses error recovery."
+    A: TCP avoids using sequencing and UDP avoids using acknowledgments.
+    B: TCP establishes a connection prior to sending data, and UDP sends immediately.
+    C: TCP encourages out-of-order packet delivery, and UDP prevents re-ordering.
+    D: TCP uses error detection for packets, and UDP uses error recovery.
   correct_answer: B
-  explanation: "TCP is connection-oriented and uses a session before data transfer, while UDP is connectionless and transmits without establishing one."
+  explanation: TCP is connection-oriented and uses a session before data transfer, while UDP is connectionless and transmits without establishing one.
 
 - id: NF-077
   topic: Network Fundamentals
-  subtopic: "IP Addressing"
+  subtopic: IP Addressing
   type: single_choice
   difficulty: easy
-  tags: [private-ipv4, rfc1918]
-  question: "What is a benefit of using private IPv4 addressing?"
+  tags:
+  - private-ipv4
+  - rfc1918
+  question: What is a benefit of using private IPv4 addressing?
   options:
-    A: "Multiple companies can use the same addresses without conflicts."
-    B: "Direct connectivity is provided to internal hosts from outside an enterprise network."
-    C: "Communication to the Internet is reachable without the use of NAT."
-    D: "All external hosts are provided with secure communication to the Internet."
+    A: Multiple companies can use the same addresses without conflicts.
+    B: Direct connectivity is provided to internal hosts from outside an enterprise network.
+    C: Communication to the Internet is reachable without the use of NAT.
+    D: All external hosts are provided with secure communication to the Internet.
   correct_answer: A
-  explanation: "Private IPv4 space can be reused independently by different organizations because it is not globally routed on the Internet."
+  explanation: Private IPv4 space can be reused independently by different organizations because it is not globally routed on the Internet.
 
 - id: NF-078
   topic: Network Fundamentals
-  subtopic: "Cabling"
+  subtopic: Cabling
   type: single_choice
   difficulty: easy
-  tags: [crossover, mdix, ethernet]
-  question: "Which cable type must be used when connecting two like devices together using these criteria: pins 1 and 3 and 2 and 6 are required, and auto detection MDI-X is unavailable?"
+  tags:
+  - crossover
+  - mdix
+  - ethernet
+  question: 'Which cable type must be used when connecting two like devices together using these criteria: pins 1 and 3 and 2 and 6 are required, and auto detection MDI-X is unavailable?'
   options:
-    A: "straight-through"
-    B: "console"
-    C: "crossover"
-    D: "rollover"
+    A: straight-through
+    B: console
+    C: crossover
+    D: rollover
   correct_answer: C
-  explanation: "A crossover cable is used to connect like Ethernet devices when auto-MDI/MDIX is not available."
+  explanation: A crossover cable is used to connect like Ethernet devices when auto-MDI/MDIX is not available.
 
 - id: NF-079
   topic: Network Fundamentals
-  subtopic: "Virtualization"
+  subtopic: Virtualization
   type: single_choice
   difficulty: easy
-  tags: [virtualization, servers]
-  question: "Which technology allows for multiple operating systems to be run on a single host computer?"
+  tags:
+  - virtualization
+  - servers
+  question: Which technology allows for multiple operating systems to be run on a single host computer?
   options:
-    A: "virtual routing and forwarding"
-    B: "virtual device contexts"
-    C: "network port ID virtualization"
-    D: "server virtualization"
+    A: virtual routing and forwarding
+    B: virtual device contexts
+    C: network port ID virtualization
+    D: server virtualization
   correct_answer: D
-  explanation: "Server virtualization allows a single physical host to run multiple virtual machines with different operating systems."
+  explanation: Server virtualization allows a single physical host to run multiple virtual machines with different operating systems.
 
 - id: NF-080
   topic: Network Fundamentals
-  subtopic: "Ethernet"
+  subtopic: Ethernet
   type: single_choice
   difficulty: medium
-  tags: [duplex, crc, interface-counters]
-  question: "Refer to the exhibit. Router-WAN1 has a new connection via Gi0/0 to the ISP. Users running web applications indicate that connectivity is unstable to the Internet. What is causing the interface issue?"
-  exhibit: |
-    Interface-counter clue:
+  tags:
+  - duplex
+  - crc
+  - interface-counters
+  question: Refer to the exhibit. Router-WAN1 has a new connection via Gi0/0 to the ISP. Users running web applications indicate that connectivity is unstable to the Internet. What is causing the interface issue?
+  exhibit: 'Interface-counter clue:
+
     - Gi0/0 shows instability symptoms
+
     - input errors, CRCs, and frame errors appear in the interface output
 
+
     Task:
+
     - identify the physical/interface condition most strongly indicated by those counters
+
+    '
   options:
-    A: "The receive buffer is full due to a broadcast storm."
-    B: "Frames are discarded due to a half-duplex negotiation."
-    C: "Broadcast packets are rejected because ARP timeout is enabled."
-    D: "Small frames less than 64 bytes are rejected due to size."
+    A: The receive buffer is full due to a broadcast storm.
+    B: Frames are discarded due to a half-duplex negotiation.
+    C: Broadcast packets are rejected because ARP timeout is enabled.
+    D: Small frames less than 64 bytes are rejected due to size.
   correct_answer: B
-  explanation: "Input errors, CRCs, and frame errors are classic indicators of a duplex mismatch, which often results in one side operating at half-duplex."
+  explanation: Input errors, CRCs, and frame errors are classic indicators of a duplex mismatch, which often results in one side operating at half-duplex.
   source: 1-Network-Fundamentals_83/NF-080.png
 
 - id: NF-081
   topic: Network Fundamentals
-  subtopic: "Architecture"
+  subtopic: Architecture
   type: single_choice
   difficulty: easy
-  tags: [collapsed-core, campus]
-  question: "What is a characteristic of a collapsed-core network topology?"
+  tags:
+  - collapsed-core
+  - campus
+  question: What is a characteristic of a collapsed-core network topology?
   options:
-    A: "It enables all workstations in a SOHO environment to connect on a single switch with Internet access."
-    B: "It enables the core and access layers to connect to one logical distribution device over an EtherChannel."
-    C: "It allows wireless devices to connect directly to the core layer, which enables faster data transmission."
-    D: "It allows the core and distribution layers to run as a single combined layer."
+    A: It enables all workstations in a SOHO environment to connect on a single switch with Internet access.
+    B: It enables the core and access layers to connect to one logical distribution device over an EtherChannel.
+    C: It allows wireless devices to connect directly to the core layer, which enables faster data transmission.
+    D: It allows the core and distribution layers to run as a single combined layer.
   correct_answer: D
-  explanation: "In a collapsed-core design, the core and distribution roles are merged into one combined layer."
+  explanation: In a collapsed-core design, the core and distribution roles are merged into one combined layer.
 
 - id: NF-082
   topic: Network Fundamentals
-  subtopic: "IPv6"
+  subtopic: IPv6
   type: single_choice
   difficulty: easy
-  tags: [ipv6, multicast]
-  question: "Which IPv6 address block forwards packets to a multicast address rather than a unicast address?"
+  tags:
+  - ipv6
+  - multicast
+  question: Which IPv6 address block forwards packets to a multicast address rather than a unicast address?
   options:
-    A: "2000::/3"
-    B: "FC00::/7"
-    C: "FE80::/10"
-    D: "FF00::/12"
+    A: 2000::/3
+    B: FC00::/7
+    C: FE80::/10
+    D: FF00::/12
   correct_answer: D
-  explanation: "IPv6 multicast addresses use the FF00::/8 space; among the options provided, FF00::/12 identifies the multicast block."
+  explanation: IPv6 multicast addresses use the FF00::/8 space; among the options provided, FF00::/12 identifies the multicast block.
 
 - id: NF-083
   topic: Network Fundamentals
-  subtopic: "Wireless"
+  subtopic: Wireless
   type: single_choice
   difficulty: easy
-  tags: [802.11, probe-response, management-frame]
-  question: "Which 802.11 frame type is indicated by a probe response after a client sends a probe request?"
+  tags:
+  - 802.11
+  - probe-response
+  - management-frame
+  question: Which 802.11 frame type is indicated by a probe response after a client sends a probe request?
   options:
-    A: "data"
-    B: "management"
-    C: "control"
-    D: "action"
+    A: data
+    B: management
+    C: control
+    D: action
   correct_answer: B
-  explanation: "Probe Request and Probe Response are 802.11 management frames."
+  explanation: Probe Request and Probe Response are 802.11 management frames.

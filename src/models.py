@@ -89,6 +89,8 @@ class Question:
             issued = set(str(cmd).strip().lower() for cmd in answer.get("commands", []))
             required = set(self.lab.required_commands)
             verification = set(self.lab.verification_commands)
+            if not required and not verification:
+                return bool(issued)
             return required.issubset(issued) and verification.issubset(issued)
         return False
 
