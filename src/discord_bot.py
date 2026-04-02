@@ -270,8 +270,8 @@ async def render_topic_screen(target, uid: int) -> None:
             ("❌ None", none_cb, discord.ButtonStyle.secondary),
         ])
     rows.append([
-        ("▶ Next →", done_cb, discord.ButtonStyle.primary),
         *_nav_row(uid),
+        ("▶ Next →", done_cb, discord.ButtonStyle.primary),
     ])
     text = "🧩 **Select Topics** — tap to toggle:" if mode == Mode.EXAM else \
            "📘 **Select One Topic** — choose a single topic for Study mode:"
@@ -500,6 +500,9 @@ async def _send_question(target, uid: int) -> None:
 
 
 def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
+    async def skip_cb(inter):
+        await on_next_question(inter, uid)
+
     async def exit_cb(inter):
         await _show_exit_warning(inter, uid, "back")
 
@@ -510,6 +513,7 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
         ("⚠️ Exit Quiz", exit_cb, discord.ButtonStyle.danger),
         ("🏠 Home",      home_cb, discord.ButtonStyle.secondary),
     ]
+    skip_row = [("▶ Next Question", skip_cb, discord.ButtonStyle.primary)]
 
     if q.type == QuestionType.SINGLE_CHOICE:
         rows = []
@@ -517,6 +521,7 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
             async def opt_cb(inter, key=k):
                 await _process_answer(inter, uid, key)
             rows.append([(k, opt_cb, discord.ButtonStyle.primary)])
+        rows.append(skip_row)
         rows.append(nav)
         return _make_view(rows)
 
@@ -531,6 +536,7 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
         async def submit_cb(inter):
             await on_mc_submit(inter, uid)
         rows.append([("✅ Submit Answer", submit_cb, discord.ButtonStyle.success)])
+        rows.append(skip_row)
         rows.append(nav)
         return _make_view(rows)
 
@@ -559,6 +565,7 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
                 await on_eq_submit(inter, uid)
             rows.append([("✅ Submit Matches", eq_submit_cb, discord.ButtonStyle.success)])
 
+        rows.append(skip_row)
         rows.append(nav)
         return _make_view(rows)
 
@@ -570,11 +577,12 @@ def _build_question_view(q: Question, ud: dict, uid: int) -> discord.ui.View:
         rows = [
             [("Submit Lab", submit_lab_cb, discord.ButtonStyle.success)],
             [("Reset Lab", reset_lab_cb, discord.ButtonStyle.secondary)],
+            skip_row,
             nav,
         ]
         return _make_view(rows)
 
-    return _make_view([nav])
+    return _make_view([skip_row, nav])
 
 
 # ── answer handlers ───────────────────────────────────────────────────────────
@@ -722,6 +730,20 @@ async def on_lab_message(message: discord.Message) -> None:
     await message.reply("\n".join(parts), mention_author=False)
 
 
+async def on_next_question(target, uid: int) -> None:
+    ud = _ud(uid)
+    session = _session(uid)
+    if ud.get("state") == "quiz":
+        session.skip_current()
+    ud["state"] = "quiz"
+    ud.pop("lab_state", None)
+    ud.pop("lab_image_for", None)
+    if session.is_finished:
+        await _show_result(target, uid)
+        return
+    await _send_question(target, uid)
+
+
 async def _process_answer(target, uid: int, answer) -> None:
     ud      = _ud(uid)
     session = _session(uid)
@@ -764,10 +786,7 @@ async def _process_answer(target, uid: int, answer) -> None:
         view = _make_view([[("🏁 See Results", results_cb, discord.ButtonStyle.success)]])
     else:
         async def next_cb(inter):
-            ud["state"] = "quiz"
-            ud.pop("lab_state", None)
-            ud.pop("lab_image_for", None)
-            await _send_question(inter, uid)
+            await on_next_question(inter, uid)
         view = _make_view([[("▶ Next Question", next_cb, discord.ButtonStyle.primary)]])
 
     await _edit(target, feedback + extra + progress, view)
@@ -778,6 +797,8 @@ async def _process_answer(target, uid: int, answer) -> None:
 async def _show_result(target, uid: int) -> None:
     ud      = _ud(uid)
     session = _session(uid)
+    if not session.is_finished:
+        return
     cert    = ud.get("cert", "")
     mode    = ud.get("mode", Mode.STUDY)
     username = str(uid)

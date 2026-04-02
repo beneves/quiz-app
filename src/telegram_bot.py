@@ -231,7 +231,7 @@ async def render_topic_screen(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     if mode == Mode.EXAM:
         rows.append([("✅ All", "topic_all"), ("❌ None", "topic_none")])
-    rows.append([("▶ Next →", "topic_done")] + [_nav()[0]])
+    rows.append([_nav()[0], ("▶ Next →", "topic_done")])
     prompt = "🧩 <b>Select Topics</b> — tap to toggle:" if mode == Mode.EXAM else \
              "📘 <b>Select One Topic</b> — choose a single topic for Study mode:"
     await _edit(update, prompt, _kb(rows))
@@ -456,9 +456,11 @@ async def _send_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 def _build_question_keyboard(q: Question, ud: dict) -> InlineKeyboardMarkup:
     nav = _nav("⚠️ Exit Quiz")
+    skip_row = [("▶ Next Question", "next")]
 
     if q.type == QuestionType.SINGLE_CHOICE:
         rows = [[(f"{k}", f"opt:{k}")] for k in (q.options or {})]
+        rows.append(skip_row)
         rows.append(nav)
         return _kb(rows)
 
@@ -469,6 +471,7 @@ def _build_question_keyboard(q: Question, ud: dict) -> InlineKeyboardMarkup:
             for k in (q.options or {})
         ]
         rows.append([("✅ Submit Answer", "mc_submit")])
+        rows.append(skip_row)
         rows.append(nav)
         return _kb(rows)
 
@@ -488,10 +491,11 @@ def _build_question_keyboard(q: Question, ud: dict) -> InlineKeyboardMarkup:
                     rows.append([(f"→ {rk}: {esc(rv)}", f"eq_right:{rk}")])
         if not unmatched_left:
             rows.append([("✅ Submit Matches", "eq_submit")])
+        rows.append(skip_row)
         rows.append(nav)
         return _kb(rows)
 
-    return _kb([nav])
+    return _kb([skip_row, nav])
 
 
 def _eq_matches_text(q: Question, matches: dict) -> str:
@@ -712,21 +716,28 @@ async def _process_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, an
 async def on_next(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.callback_query.answer()
     ud = _ud(context)
+    s = _session(context)
+    if ud.get("state") == "quiz":
+        s.skip_current()
     ud["state"] = "quiz"
     ud.pop("lab_state", None)
     ud.pop("lab_image_for", None)
-    s = _session(context)
     await (_show_result if s.is_finished else _send_question)(update, context)
 
 
 async def on_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.callback_query.answer()
+    if not _session(context).is_finished:
+        await update.callback_query.answer("Answer all questions before viewing results.", show_alert=True)
+        return
     await _show_result(update, context)
 
 
 async def _show_result(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ud      = _ud(context)
     session = _session(context)
+    if not session.is_finished:
+        return
     cert    = ud.get("cert", "")
     mode    = ud.get("mode", Mode.STUDY)
     username = str(update.effective_user.id)

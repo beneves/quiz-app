@@ -131,3 +131,12 @@ class QuizSession:
         self.results.append(SessionResult(q.id, correct, answer))
         self.current_index += 1
         return correct
+
+    def skip_current(self) -> bool:
+        q = self.current_question
+        if q is None:
+            return False
+        # Move the unanswered question to the end so users can come back to it
+        # later without losing the fixed ordering of the remaining questions.
+        self.questions.append(self.questions.pop(self.current_index))
+        return True
