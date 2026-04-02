@@ -212,19 +212,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-006.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-006.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-007
   topic: IP Connectivity
@@ -672,19 +681,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-019.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-019.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-020
   topic: IP Connectivity
@@ -1175,19 +1193,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-036.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-036.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-037
   topic: IP Connectivity
@@ -1923,19 +1950,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-056.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-056.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-057
   topic: IP Connectivity
@@ -1948,19 +1984,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-057.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-057.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-058
   topic: IP Connectivity
@@ -3294,19 +3339,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-098.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-098.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-099
   topic: IP Connectivity
@@ -3530,19 +3584,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-106.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-106.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-107
   topic: IP Connectivity
@@ -3833,19 +3896,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-115.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-115.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-116
   topic: IP Connectivity
@@ -4221,19 +4293,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-127.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-127.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-128
   topic: IP Connectivity
@@ -4279,19 +4360,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-129.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-129.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-130
   topic: IP Connectivity
@@ -4534,19 +4624,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and routing verification before submission.
   source: 3-IP-Connectivity_151/IC-138.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This IP Connectivity lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the router configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: R1#
     image: 3-IP-Connectivity_151/IC-138.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show ip route
+    command_responses:
+      show ip route: Use this to verify route learning, static routes, route preference, or next-hop behavior required by the exhibit.
+      show ip interface brief: Use this to verify interface addressing and status required by the task.
+      show running-config: Use this to confirm protocol or interface configuration against the exhibit.
+      show ip ospf neighbor: Use this when the lab focuses on OSPF neighbor or DR/BDR behavior.
+      show ip protocols: Use this to verify routing-protocol configuration when relevant.
+      show ipv6 route: Use this when the task involves IPv6 routing verification.
 
 - id: IC-139
   topic: IP Connectivity

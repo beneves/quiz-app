@@ -178,19 +178,37 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now validates the key configuration flow shown in the exhibit.
   source: 2-Network-Access_103/NA-006.png
   lab:
     intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    - Create VLAN 35 named SALES on SW1.
+    - Create VLAN 39 named MARKETING on SW2.
+    - Configure the PC-facing interfaces as access ports in the correct VLANs.
+    - Enable LLDP globally on both switches and disable LLDP transmit/receive on the SW1 interface connected to PC1.
+    - Verify the final switch configuration before submitting.
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-006.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - vlan 35
+    - name sales
+    - vlan 39
+    - name marketing
+    - interface e0/2
+    - switchport mode access
+    - switchport access vlan 35
+    - lldp run
+    - no lldp transmit
+    - no lldp receive
+    - end
+    verification_commands:
+    - show vlan brief
+    - show lldp neighbors
+    command_responses:
+      show vlan brief: Confirm VLAN 35 SALES and VLAN 39 MARKETING exist and the PC-facing ports are assigned to the expected access VLANs.
+      show lldp neighbors: Confirm LLDP is enabled where required and disabled on the SW1 PC1-facing interface.
 
 - id: NA-007
   topic: Network Access
@@ -410,19 +428,42 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now validates the key configuration flow shown in the exhibit.
   source: 2-Network-Access_103/NA-014.png
   lab:
     intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
     objectives:
-    - Review the exhibit image for the topology and task list.
-    - Enter the commands needed to complete the simulation.
-    - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    - Create VLANs 100, 101, 200, and 201 on both switches with the names shown in the exhibit.
+    - Assign E0/1, E0/2, and E0/3 on both switches as non-trunking access ports in the correct VLANs.
+    - Disable the configured neighbor discovery protocol on E0/1, E0/2, and E0/3 as required by the task.
+    - Verify the switch configuration before submitting.
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-014.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - vlan 100
+    - name it_data
+    - vlan 101
+    - name hr_data
+    - vlan 200
+    - name it_voice
+    - vlan 201
+    - name hr_voice
+    - interface e0/1
+    - switchport mode access
+    - switchport access vlan 100
+    - interface e0/2
+    - switchport access vlan 200
+    - interface e0/3
+    - switchport access vlan 101
+    - no cdp enable
+    - end
+    verification_commands:
+    - show vlan brief
+    - show running-config
+    command_responses:
+      show vlan brief: Verify the VLAN names and access-port assignments for E0/1, E0/2, and E0/3 on both switches.
+      show running-config: Verify that CDP is disabled on the required interfaces and that each port is configured as a single-VLAN access port.
 
 - id: NA-015
   topic: Network Access
@@ -698,19 +739,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-026.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-026.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-027
   topic: Network Access
@@ -723,19 +773,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-027.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-027.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-028
   topic: Network Access
@@ -748,19 +807,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-028.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-028.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-029
   topic: Network Access
@@ -911,19 +979,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-034.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-034.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-035
   topic: Network Access
@@ -1019,19 +1096,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-038.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-038.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-039
   topic: Network Access
@@ -1461,19 +1547,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-056.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-056.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-057
   topic: Network Access
@@ -1524,19 +1619,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-059.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-059.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-060
   topic: Network Access
@@ -1693,19 +1797,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-066.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-066.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-067
   topic: Network Access
@@ -1782,19 +1895,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-069.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-069.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-070
   topic: Network Access
@@ -2080,19 +2202,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-080.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-080.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-081
   topic: Network Access
@@ -2306,19 +2437,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-089.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-089.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-090
   topic: Network Access
@@ -2465,19 +2605,28 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-097.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-097.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.
 
 - id: NA-098
   topic: Network Access
@@ -2644,16 +2793,25 @@
   - interactive
   question: Simulation lab. Review the exhibit image and complete the required configuration or verification tasks.
   exhibit: Open the exhibit image for the full topology, task list, and any answer-reference text captured from the source screenshots.
-  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow.
+  explanation: This simulation lab was converted from the source screenshots. Review the exhibit image, enter the IOS commands needed for the task, and submit the lab after completing the workflow. This lab now requires configuration mode and configuration verification before submission.
   source: 2-Network-Access_103/NA-103.png
   lab:
-    intro: This lab is driven by the original simulation screenshots. Use the exhibit image as the task sheet and enter the commands you would use on the simulated devices.
+    intro: This Network Access lab uses the original simulation screenshots. Use the exhibit image as the task sheet and work through the switch or wireless configuration in chat.
     objectives:
     - Review the exhibit image for the topology and task list.
     - Enter the commands needed to complete the simulation.
     - Submit the lab after you finish the workflow.
-    initial_prompt: Device#
+    initial_prompt: SW1#
     image: 2-Network-Access_103/NA-103.png
-    required_commands: []
-    verification_commands: []
-    command_responses: {}
+    required_commands:
+    - configure terminal
+    - end
+    verification_commands:
+    - show running-config
+    command_responses:
+      show running-config: Review the exhibit image and confirm the running configuration matches the required switching, VLAN, trunking, discovery, or wireless task.
+      show vlan brief: Use this to verify VLAN creation and access-port assignments from the exhibit.
+      show interfaces trunk: Use this to verify trunk state and allowed/native VLAN settings when the task involves trunking.
+      show etherchannel summary: Use this to verify the Port-channel state when the task involves EtherChannel.
+      show cdp neighbors: Use this to verify Cisco neighbor-discovery settings when relevant to the exhibit.
+      show lldp neighbors: Use this to verify LLDP settings when relevant to the exhibit.

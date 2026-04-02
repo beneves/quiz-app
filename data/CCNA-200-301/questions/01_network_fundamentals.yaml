@@ -209,32 +209,27 @@
   - trunk
   - etherchannel
   question: Configure trunk and EtherChannel between SW1 and SW2.
-  explanation: Trunk + LACP EtherChannel configuration.
+  explanation: Trunk + LACP EtherChannel configuration. This lab now validates the key configuration flow shown in the exhibit.
   source: 1-Network-Fundamentals_83/NF-013.png
   exhibit: Open the exhibit image for the original simulation task and topology.
   lab:
     intro: Legacy simulation converted to interactive lab mode.
     objectives:
-    - Use 802.1Q
-    - Allow VLAN 110 and native VLAN 99
-    - Use LACP (802.3ad)
-    - Port-channel 20
+    - Create the required VLAN and trunk settings for the EtherChannel scenario shown in the exhibit.
+    - Configure the channel group exactly as required by the task.
+    - Verify the result from privileged EXEC mode before submitting.
     initial_prompt: SW1#
     image: 1-Network-Fundamentals_83/NF-013.png
     required_commands:
+    - configure terminal
     - interface range e0/0 - 1
     - switchport mode trunk
-    - switchport trunk encapsulation dot1q
     - switchport trunk allowed vlan 110,99
     - switchport trunk native vlan 99
     - channel-group 20 mode active
-    - interface range e0/0 - 1
-    - switchport mode trunk
-    - switchport trunk encapsulation dot1q
-    - switchport trunk allowed vlan 110,99
-    - switchport trunk native vlan 99
-    - channel-group 20 mode active
-    verification_commands: []
+    - end
+    verification_commands:
+    - show running-config
     command_responses:
       interface range e0/0 - 1: OK
       switchport mode trunk: OK
@@ -242,6 +237,7 @@
       switchport trunk allowed vlan 110,99: OK
       switchport trunk native vlan 99: OK
       channel-group 20 mode active: OK
+      show running-config: Verify the trunk, native VLAN, allowed VLANs, and Port-channel 20 configuration against the exhibit.
 
 - id: NF-014
   topic: Network Fundamentals
