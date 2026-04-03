@@ -23,7 +23,7 @@ if ROOT not in sys.path:
 import discord
 from discord.ext import commands
 
-from src.loader import available_certs, available_topics, build_topic_ranges, load_questions
+from src.loader import available_certs, available_question_types, available_topics, build_topic_ranges, load_questions
 from src.models import Mode, Question, QuestionType, QuizSession
 from src.progress import load_history, save_session
 from src.quiz_engine import submit_answer, summary
@@ -52,6 +52,43 @@ def _session(uid: int) -> QuizSession:
 def _fmt_time(seconds: int) -> str:
     m, s = divmod(seconds, 60)
     return f"{m}m {s:02d}s"
+
+
+def _study_group_label(group_by: str, value: str) -> str:
+    if group_by == "type":
+        labels = {
+            "single_choice": "Single Choice",
+            "multiple_choice": "Multiple Choice",
+            "equivalence_buttons": "Equivalence",
+            "drag_drop": "Drag & Drop",
+            "simulation_lab": "Simulation Lab",
+        }
+        return labels.get(value, value.replace("_", " ").title())
+    return value
+
+
+def _study_group_icon(group_by: str, value: str) -> str:
+    if group_by == "type":
+        return {
+            "single_choice": "🎯",
+            "multiple_choice": "🧠",
+            "equivalence_buttons": "🧩",
+            "drag_drop": "🧩",
+            "simulation_lab": "🧪",
+        }.get(value, "📘")
+    return "📘"
+
+
+def _study_group_values(questions: list[Question], group_by: str) -> list[str]:
+    if group_by == "type":
+        return available_question_types(questions)
+    return available_topics(questions)
+
+
+def _study_group_pool(questions: list[Question], group_by: str, group_value: str) -> list[Question]:
+    if group_by == "type":
+        return [q for q in questions if str(q.type.value) == group_value]
+    return [q for q in questions if q.topic == group_value]
 
 
 def _normalize_lab_command(text: str) -> str:
@@ -233,6 +270,31 @@ async def render_mode_screen(target, uid: int) -> None:
     )
 
 
+async def render_study_group_mode_screen(target, uid: int) -> None:
+    ud = _ud(uid)
+    ud["state"] = "study_mode"
+    total = len(ud.get("questions", []))
+
+    async def by_topic_cb(inter):
+        await on_study_group_mode(inter, uid, "topic")
+
+    async def by_type_cb(inter):
+        await on_study_group_mode(inter, uid, "type")
+
+    rows = [
+        [("ðŸ“š By Topic", by_topic_cb, discord.ButtonStyle.primary)],
+        [("ðŸ§© By Type", by_type_cb, discord.ButtonStyle.primary)],
+        _nav_row(uid),
+    ]
+    await _edit(
+        target,
+        f"ðŸ“˜ **Study Mode**  â€”  {ud['cert']}\n\n"
+        f"Total questions: **{total}**\n\n"
+        "Choose how you want to organize the questions:",
+        _make_view(rows),
+    )
+
+
 async def render_topic_screen(target, uid: int) -> None:
     ud        = _ud(uid)
     ud["state"] = "topic"
@@ -278,6 +340,43 @@ async def render_topic_screen(target, uid: int) -> None:
     await _edit(target, text, _make_view(rows))
 
 
+async def render_study_group_select_screen(target, uid: int) -> None:
+    ud = _ud(uid)
+    ud["state"] = "study_group"
+    questions = ud["questions"]
+    group_by = ud.get("study_group_by", "topic")
+    values = _study_group_values(questions, group_by)
+    ud["study_group_values"] = values
+
+    rows = []
+    if group_by == "topic":
+        t_ranges = build_topic_ranges(questions)
+        for idx, value in enumerate(values):
+            lo, hi, cnt = t_ranges[value]
+            async def group_cb(inter, group_index=idx):
+                await on_study_group_select(inter, uid, group_index)
+            rows.append([(
+                f"{_study_group_icon(group_by, value)} {value}  #{lo}â€“#{hi}  ({cnt})",
+                group_cb,
+                discord.ButtonStyle.secondary,
+            )])
+        text = "ðŸ“š **Study by Topic**\n\nChoose one theme:"
+    else:
+        for idx, value in enumerate(values):
+            pool = _study_group_pool(questions, group_by, value)
+            async def group_cb(inter, group_index=idx):
+                await on_study_group_select(inter, uid, group_index)
+            rows.append([(
+                f"{_study_group_icon(group_by, value)} {_study_group_label(group_by, value)}  ({len(pool)})",
+                group_cb,
+                discord.ButtonStyle.secondary,
+            )])
+        text = "ðŸ§© **Study by Type**\n\nChoose one question type:"
+
+    rows.append(_nav_row(uid))
+    await _edit(target, text, _make_view(rows))
+
+
 async def render_count_screen(target, uid: int) -> None:
     ud        = _ud(uid)
     ud["state"] = "count"
@@ -306,31 +405,32 @@ async def render_count_screen(target, uid: int) -> None:
 
 
 async def render_study_select_screen(target, uid: int) -> None:
-    ud         = _ud(uid)
+    ud = _ud(uid)
     ud["state"] = "study_select"
-    questions  = ud["questions"]
-    sel_topics = list(ud.get("topics_selected", set()))
-    topic = sel_topics[0] if sel_topics else ""
-    pool = [q for q in questions if q.topic == topic]
+    questions = ud["questions"]
+    group_by = ud.get("study_group_by", "topic")
+    group_value = ud.get("study_group_value", "")
+    pool = _study_group_pool(questions, group_by, group_value)
+    group_label = _study_group_label(group_by, group_value)
+    group_title = "Topic" if group_by == "topic" else "Type"
 
     rows = []
     async def all_cb(inter):
         await on_study_select(inter, uid, "ALL")
-    rows.append([(f"📋 All questions ({len(pool)}q)", all_cb, discord.ButtonStyle.secondary)])
+    rows.append([(f"All questions ({len(pool)}q)", all_cb, discord.ButtonStyle.secondary)])
 
     for start in range(0, len(pool), 10):
         end = min(start + 10, len(pool))
         async def block_cb(inter, s=start, e=end):
             await on_study_select(inter, uid, f"BLOCK:{s}:{e}")
-        rows.append([(f"📘 Questions {start + 1}-{end}", block_cb, discord.ButtonStyle.primary)])
+        rows.append([(f"Questions {start + 1}-{end}", block_cb, discord.ButtonStyle.primary)])
 
     rows.append(_nav_row(uid))
     await _edit(
         target,
-        f"📘 **Study Mode**  —  {ud['cert']}\n\nTopic: **{topic}**\nTotal questions: **{len(pool)}**\n\nChoose the whole topic or one block of 10 questions:",
+        f"**Study Mode** - {ud['cert']}\n\n{group_title}: **{group_label}**\nTotal questions: **{len(pool)}**\n\nChoose all questions or one block of 10 questions:",
         _make_view(rows),
     )
-
 
 # ── flow handlers ─────────────────────────────────────────────────────────────
 
@@ -344,7 +444,7 @@ async def on_cert(inter: discord.Interaction, uid: int, cert: str) -> None:
             content=f"⚠️ Error loading questions:\n```{exc}```", view=None
         )
         return
-    for key in ("mode", "topics_selected", "topic_pool", "filtered_questions"):
+    for key in ("mode", "topics_selected", "topic_pool", "filtered_questions", "study_group_by", "study_group_value", "study_group_values", "pre_quiz_state"):
         ud.pop(key, None)
     await render_mode_screen(inter, uid)
 
@@ -353,7 +453,30 @@ async def on_mode(inter: discord.Interaction, uid: int, mode: Mode) -> None:
     ud = _ud(uid)
     ud["mode"] = mode
     ud["topics_selected"] = set(available_topics(ud["questions"])) if mode == Mode.EXAM else set()
-    await render_topic_screen(inter, uid)
+    if mode == Mode.STUDY:
+        ud.pop("study_group_by", None)
+        ud.pop("study_group_value", None)
+        ud.pop("study_group_values", None)
+        await render_study_group_mode_screen(inter, uid)
+    else:
+        await render_topic_screen(inter, uid)
+
+
+async def on_study_group_mode(inter: discord.Interaction, uid: int, group_by: str) -> None:
+    ud = _ud(uid)
+    ud["study_group_by"] = group_by
+    ud.pop("study_group_value", None)
+    await render_study_group_select_screen(inter, uid)
+
+
+async def on_study_group_select(inter: discord.Interaction, uid: int, group_index: int) -> None:
+    ud = _ud(uid)
+    values = ud.get("study_group_values") or _study_group_values(ud["questions"], ud.get("study_group_by", "topic"))
+    if group_index < 0 or group_index >= len(values):
+        await inter.response.send_message("âš ï¸ Invalid study group.", ephemeral=True)
+        return
+    ud["study_group_value"] = values[group_index]
+    await render_study_select_screen(inter, uid)
 
 
 async def on_topic_toggle(inter: discord.Interaction, uid: int, topic: str) -> None:
@@ -404,9 +527,7 @@ async def on_count(inter: discord.Interaction, uid: int, n: int) -> None:
 async def on_study_select(inter: discord.Interaction, uid: int, val: str) -> None:
     ud        = _ud(uid)
     questions = ud["questions"]
-    sel_topics = list(ud.get("topics_selected", set()))
-    topic = sel_topics[0] if sel_topics else ""
-    pool = [q for q in questions if q.topic == topic]
+    pool = _study_group_pool(questions, ud.get("study_group_by", "topic"), ud.get("study_group_value", ""))
     if val == "ALL":
         ud["filtered_questions"] = pool
     elif val.startswith("BLOCK:"):
@@ -421,6 +542,7 @@ async def on_study_select(inter: discord.Interaction, uid: int, val: str) -> Non
 
 async def _start_quiz(target, uid: int) -> None:
     ud   = _ud(uid)
+    ud["pre_quiz_state"] = ud.get("state")
     pool = list(ud.get("filtered_questions") or ud["topic_pool"])
     if not pool:
         await _edit(target, "⚠️ No questions found for this selection.")
@@ -910,7 +1032,9 @@ _BACK_MAP = {
     "mode":         render_cert_screen,
     "topic":        render_mode_screen,
     "count":        render_topic_screen,
-    "study_select": render_topic_screen,
+    "study_mode":   render_mode_screen,
+    "study_group":  render_study_group_mode_screen,
+    "study_select": render_study_group_select_screen,
     "done":         render_cert_screen,
 }
 
@@ -966,14 +1090,23 @@ async def on_nav_confirm(inter: discord.Interaction, uid: int) -> None:
     cert      = ud.get("cert")
     questions = ud.get("questions")
     mode      = ud.get("mode")
+    study_group_by = ud.get("study_group_by")
+    study_group_value = ud.get("study_group_value")
+    study_group_values = ud.get("study_group_values")
+    pre_quiz_state = ud.get("pre_quiz_state")
     _sessions.pop(uid, None)
     if cert:
         ud2 = _ud(uid)
         ud2["cert"]      = cert
         ud2["questions"] = questions
         ud2["mode"]      = mode
+        ud2["study_group_by"] = study_group_by
+        ud2["study_group_value"] = study_group_value
+        ud2["study_group_values"] = study_group_values
+        ud2["pre_quiz_state"] = pre_quiz_state
     if nav_target == "back":
-        await render_topic_screen(inter, uid)
+        renderer = _BACK_MAP.get(_ud(uid).get("pre_quiz_state", "topic"), render_cert_screen)
+        await renderer(inter, uid)
     else:
         _sessions.pop(uid, None)
         await render_cert_screen(inter, uid)

@@ -32,6 +32,7 @@ from telegram.ext import (
 
 from src.loader import (
     available_certs,
+    available_question_types,
     available_topics,
     build_topic_ranges,
     load_questions,
@@ -97,6 +98,43 @@ def _cert_icon(cert: str) -> str:
 def _fmt_time(seconds: int) -> str:
     m, s = divmod(seconds, 60)
     return f"{m}m {s:02d}s"
+
+
+def _study_group_label(group_by: str, value: str) -> str:
+    if group_by == "type":
+        labels = {
+            "single_choice": "Single Choice",
+            "multiple_choice": "Multiple Choice",
+            "equivalence_buttons": "Equivalence",
+            "drag_drop": "Drag & Drop",
+            "simulation_lab": "Simulation Lab",
+        }
+        return labels.get(value, value.replace("_", " ").title())
+    return value
+
+
+def _study_group_icon(group_by: str, value: str) -> str:
+    if group_by == "type":
+        return {
+            "single_choice": "🎯",
+            "multiple_choice": "🧠",
+            "equivalence_buttons": "🧩",
+            "drag_drop": "🧩",
+            "simulation_lab": "🧪",
+        }.get(value, "📘")
+    return "📘"
+
+
+def _study_group_values(questions: list[Question], group_by: str) -> list[str]:
+    if group_by == "type":
+        return available_question_types(questions)
+    return available_topics(questions)
+
+
+def _study_group_pool(questions: list[Question], group_by: str, group_value: str) -> list[Question]:
+    if group_by == "type":
+        return [q for q in questions if str(q.type.value) == group_value]
+    return [q for q in questions if q.topic == group_value]
 
 
 def _normalize_lab_command(text: str) -> str:
@@ -210,6 +248,24 @@ async def render_mode_screen(update: Update, context: ContextTypes.DEFAULT_TYPE)
     )
 
 
+async def render_study_group_mode_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    ud["state"] = "study_mode"
+    total = len(ud.get("questions", []))
+    rows = [
+        [("ðŸ“š By Topic", "studymode:topic")],
+        [("ðŸ§© By Type", "studymode:type")],
+        _nav("ðŸ”™ Back"),
+    ]
+    await _edit(
+        update,
+        f"ðŸ“˜ <b>Study Mode</b>  â€”  {esc(ud['cert'])}\n\n"
+        f"Total questions: <b>{total}</b>\n\n"
+        "Choose how you want to organize the questions:",
+        _kb(rows),
+    )
+
+
 async def render_topic_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ud = _ud(context)
     ud["state"] = "topic"
@@ -235,6 +291,35 @@ async def render_topic_screen(update: Update, context: ContextTypes.DEFAULT_TYPE
     prompt = "🧩 <b>Select Topics</b> — tap to toggle:" if mode == Mode.EXAM else \
              "📘 <b>Select One Topic</b> — choose a single topic for Study mode:"
     await _edit(update, prompt, _kb(rows))
+
+
+async def render_study_group_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    ud["state"] = "study_group"
+    questions = ud["questions"]
+    group_by = ud.get("study_group_by", "topic")
+    values = _study_group_values(questions, group_by)
+    ud["study_group_values"] = values
+
+    rows = []
+    if group_by == "topic":
+        t_ranges = build_topic_ranges(questions)
+        for idx, value in enumerate(values):
+            lo, hi, cnt = t_ranges[value]
+            label = f"{_study_group_icon(group_by, value)} {esc(value)}  #{lo}â€“#{hi}  ({cnt})"
+            rows.append([(label, f"studygroup:{idx}")])
+        title = "ðŸ“š <b>Study by Topic</b>"
+        prompt = "Choose one theme:"
+    else:
+        for idx, value in enumerate(values):
+            pool = _study_group_pool(questions, group_by, value)
+            label = _study_group_label(group_by, value)
+            rows.append([(f"{_study_group_icon(group_by, value)} {esc(label)}  ({len(pool)})", f"studygroup:{idx}")])
+        title = "ðŸ§© <b>Study by Type</b>"
+        prompt = "Choose one question type:"
+
+    rows.append(_nav("ðŸ”™ Back"))
+    await _edit(update, f"{title}\n\n{prompt}", _kb(rows))
 
 
 async def render_count_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -266,9 +351,11 @@ async def render_study_select_screen(update: Update, context: ContextTypes.DEFAU
     ud = _ud(context)
     ud["state"] = "study_select"
     questions  = ud["questions"]
-    sel_topics = list(ud.get("topics_selected", set()))
-    topic = sel_topics[0] if sel_topics else ""
-    pool = [q for q in questions if q.topic == topic]
+    group_by = ud.get("study_group_by", "topic")
+    group_value = ud.get("study_group_value", "")
+    pool = _study_group_pool(questions, group_by, group_value)
+    group_label = _study_group_label(group_by, group_value)
+    group_title = "Topic" if group_by == "topic" else "Type"
 
     rows = [[(f"📋 All questions ({len(pool)} q)", "study:ALL")]]
     for start in range(0, len(pool), 10):
@@ -279,10 +366,10 @@ async def render_study_select_screen(update: Update, context: ContextTypes.DEFAU
     lines = [
         f"📘 <b>Study Mode</b>  —  {esc(ud['cert'])}",
         "",
-        f"Topic: <b>{esc(topic)}</b>",
+        f"{group_title}: <b>{esc(group_label)}</b>",
         f"Total questions: <b>{len(pool)}</b>",
         "",
-        "Choose the whole topic or one block of 10 questions:",
+        "Choose all questions or one block of 10 questions:",
     ]
 
     await _edit(update, "\n".join(lines), _kb(rows))
@@ -300,7 +387,7 @@ async def on_cert(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     except Exception as exc:
         await _edit(update, f"⚠️ Error loading questions:\n<code>{esc(exc)}</code>")
         return
-    for key in ("mode", "topics_selected", "topic_pool", "filtered_questions"):
+    for key in ("mode", "topics_selected", "topic_pool", "filtered_questions", "study_group_by", "study_group_value", "study_group_values", "pre_quiz_state"):
         ud.pop(key, None)
     await render_mode_screen(update, context)
 
@@ -312,7 +399,33 @@ async def on_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ud = _ud(context)
     ud["mode"] = Mode(update.callback_query.data.split(":", 1)[1])
     ud["topics_selected"] = set(available_topics(ud["questions"])) if ud["mode"] == Mode.EXAM else set()
-    await render_topic_screen(update, context)
+    if ud["mode"] == Mode.STUDY:
+        ud.pop("study_group_by", None)
+        ud.pop("study_group_value", None)
+        ud.pop("study_group_values", None)
+        await render_study_group_mode_screen(update, context)
+    else:
+        await render_topic_screen(update, context)
+
+
+async def on_study_group_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.callback_query.answer()
+    ud = _ud(context)
+    ud["study_group_by"] = update.callback_query.data.split(":", 1)[1]
+    ud.pop("study_group_value", None)
+    await render_study_group_select_screen(update, context)
+
+
+async def on_study_group_select(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.callback_query.answer()
+    ud = _ud(context)
+    values = ud.get("study_group_values") or _study_group_values(ud["questions"], ud.get("study_group_by", "topic"))
+    idx = int(update.callback_query.data.split(":", 1)[1])
+    if idx < 0 or idx >= len(values):
+        await update.callback_query.answer("Invalid study group.", show_alert=True)
+        return
+    ud["study_group_value"] = values[idx]
+    await render_study_select_screen(update, context)
 
 
 # ── topics ────────────────────────────────────────────────────────────────────
@@ -372,9 +485,7 @@ async def on_study_select(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     parts = update.callback_query.data.split(":")
     ud  = _ud(context)
     questions = ud["questions"]
-    sel_topics = list(ud.get("topics_selected", set()))
-    topic = sel_topics[0] if sel_topics else ""
-    pool = [q for q in questions if q.topic == topic]
+    pool = _study_group_pool(questions, ud.get("study_group_by", "topic"), ud.get("study_group_value", ""))
 
     if len(parts) == 2 and parts[1] == "ALL":
         ud["filtered_questions"] = pool
@@ -392,6 +503,7 @@ async def on_study_select(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
 async def _start_quiz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ud   = _ud(context)
+    ud["pre_quiz_state"] = ud.get("state")
     pool = list(ud.get("filtered_questions") or ud["topic_pool"])
     if not pool:
         await _edit(update, "⚠️ No questions found for this selection.")
@@ -815,7 +927,9 @@ _BACK_MAP = {
     "mode":         render_cert_screen,
     "topic":        render_mode_screen,
     "count":        render_topic_screen,
-    "study_select": render_topic_screen,
+    "study_mode":   render_mode_screen,
+    "study_group":  render_study_group_mode_screen,
+    "study_select": render_study_group_select_screen,
     "done":         render_cert_screen,
 }
 
@@ -866,13 +980,22 @@ async def on_nav_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     cert      = ud.get("cert")
     questions = ud.get("questions")
     mode      = ud.get("mode")
+    study_group_by = ud.get("study_group_by")
+    study_group_value = ud.get("study_group_value")
+    study_group_values = ud.get("study_group_values")
+    pre_quiz_state = ud.get("pre_quiz_state")
     context.user_data.clear()
     if cert:
         ud["cert"]      = cert
         ud["questions"] = questions
         ud["mode"]      = mode
+        ud["study_group_by"] = study_group_by
+        ud["study_group_value"] = study_group_value
+        ud["study_group_values"] = study_group_values
+        ud["pre_quiz_state"] = pre_quiz_state
     if target == "back":
-        await render_topic_screen(update, context)
+        renderer = _BACK_MAP.get(ud.get("pre_quiz_state", "topic"), render_cert_screen)
+        await renderer(update, context)
     else:
         context.user_data.clear()
         await render_cert_screen(update, context)
@@ -935,6 +1058,8 @@ def build_app(token: str) -> Application:
     # Flow
     app.add_handler(CallbackQueryHandler(on_cert,         pattern=r"^cert:"))
     app.add_handler(CallbackQueryHandler(on_mode,         pattern=r"^mode:"))
+    app.add_handler(CallbackQueryHandler(on_study_group_mode, pattern=r"^studymode:"))
+    app.add_handler(CallbackQueryHandler(on_study_group_select, pattern=r"^studygroup:"))
     app.add_handler(CallbackQueryHandler(on_topic_done,   pattern=r"^topic_done$"))
     app.add_handler(CallbackQueryHandler(on_topic_toggle, pattern=r"^topic"))
     app.add_handler(CallbackQueryHandler(on_count,        pattern=r"^count:"))

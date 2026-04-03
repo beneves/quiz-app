@@ -245,6 +245,16 @@ def available_topics(questions: List[Question]) -> List[str]:
     return seen
 
 
+def available_question_types(questions: List[Question]) -> List[str]:
+    """Return question types in first-seen order."""
+    seen = []
+    for q in questions:
+        qtype = str(q.type.value if isinstance(q.type, QuestionType) else q.type)
+        if qtype not in seen:
+            seen.append(qtype)
+    return seen
+
+
 def build_seq_map(questions: List[Question]) -> Dict[str, int]:
     """Return {question_id: sequential_number} in load order (1-based)."""
     return {q.id: i + 1 for i, q in enumerate(questions)}
