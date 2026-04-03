@@ -1121,6 +1121,227 @@ async def on_nav_cancel(inter: discord.Interaction, uid: int) -> None:
 
 # ── bot builder ───────────────────────────────────────────────────────────────
 
+def _study_group_icon(group_by: str, value: str) -> str:
+    if group_by == "type":
+        return {
+            "single_choice": "[ONE]",
+            "multiple_choice": "[MULTI]",
+            "__images__": "[IMG]",
+            "equivalence_buttons": "[MATCH]",
+            "drag_drop": "[MATCH]",
+            "simulation_lab": "[LAB]",
+        }.get(value, "[SET]")
+    return "[TOPIC]"
+
+
+def _question_image_path(cert: str, q: Question) -> str | None:
+    rel = ""
+    if q.lab and q.lab.image:
+        rel = q.lab.image.strip()
+    elif q.source:
+        rel = str(q.source).split(",")[0].strip()
+    if not rel or not rel.lower().endswith((".png", ".jpg", ".jpeg", ".gif")):
+        return None
+    if os.path.isabs(rel):
+        return rel if os.path.isfile(rel) else None
+    path = os.path.join(ROOT, "data", cert, "images", rel)
+    return path if os.path.isfile(path) else None
+
+
+def _question_has_image(cert: str, q: Question) -> bool:
+    return _question_image_path(cert, q) is not None
+
+
+def _study_group_values(questions: list[Question], group_by: str, cert: str = "") -> list[str]:
+    if group_by == "type":
+        values = available_question_types(questions)
+        if cert and any(_question_has_image(cert, q) for q in questions):
+            insert_at = values.index("multiple_choice") + 1 if "multiple_choice" in values else len(values)
+            values.insert(insert_at, "__images__")
+        return values
+    return available_topics(questions)
+
+
+def _study_group_pool(questions: list[Question], group_by: str, group_value: str, cert: str = "") -> list[Question]:
+    if group_by == "type":
+        if group_value == "__images__":
+            return [q for q in questions if cert and _question_has_image(cert, q)]
+        return [q for q in questions if str(q.type.value) == group_value]
+    return [q for q in questions if q.topic == group_value]
+
+
+async def _maybe_send_lab_image(target, uid: int, q: Question) -> None:
+    ud = _ud(uid)
+    if ud.get("lab_image_for") == q.id:
+        return
+    cert = ud.get("cert", "")
+    image_path = _question_image_path(cert, q)
+    if not image_path or not os.path.isfile(image_path):
+        return
+    channel = getattr(target, "channel", None)
+    if channel is None and hasattr(target, "message"):
+        channel = getattr(target.message, "channel", None)
+    if channel is None:
+        return
+    await channel.send(content=f"Exhibit for `[{q.id}]`", file=discord.File(image_path))
+    ud["lab_image_for"] = q.id
+
+
+async def render_study_group_mode_screen(target, uid: int) -> None:
+    ud = _ud(uid)
+    ud["state"] = "study_mode"
+    total = len(ud.get("questions", []))
+
+    async def by_type_cb(inter):
+        await on_study_group_mode(inter, uid, "type")
+
+    async def by_topic_cb(inter):
+        await on_study_group_mode(inter, uid, "topic")
+
+    rows = [
+        [("By Type", by_type_cb, discord.ButtonStyle.primary)],
+        [("By Topic", by_topic_cb, discord.ButtonStyle.primary)],
+        _nav_row(uid, "Back"),
+    ]
+    await _edit(
+        target,
+        f"**Study Mode** - {ud['cert']}\n\nTotal questions: **{total}**\n\nChoose how you want to organize the questions:",
+        _make_view(rows),
+    )
+
+
+async def render_study_group_select_screen(target, uid: int) -> None:
+    ud = _ud(uid)
+    ud["state"] = "study_group"
+    questions = ud["questions"]
+    group_by = ud.get("study_group_by", "topic")
+    values = _study_group_values(questions, group_by, ud["cert"])
+    ud["study_group_values"] = values
+
+    rows = []
+    if group_by == "topic":
+        t_ranges = build_topic_ranges(questions)
+        for idx, value in enumerate(values):
+            lo, hi, cnt = t_ranges[value]
+            async def group_cb(inter, group_index=idx):
+                await on_study_group_select(inter, uid, group_index)
+            rows.append([(f"{_study_group_icon(group_by, value)} {value}  #{lo}-{hi}  ({cnt})", group_cb, discord.ButtonStyle.secondary)])
+        text = "**Study by Topic**\n\nChoose one theme:"
+    else:
+        for idx, value in enumerate(values):
+            pool = _study_group_pool(questions, group_by, value, ud["cert"])
+            async def group_cb(inter, group_index=idx):
+                await on_study_group_select(inter, uid, group_index)
+            rows.append([(f"{_study_group_icon(group_by, value)} {_study_group_label(group_by, value)}  ({len(pool)})", group_cb, discord.ButtonStyle.secondary)])
+        text = "**Study by Type**\n\nChoose one question type:"
+
+    rows.append(_nav_row(uid, "Back"))
+    await _edit(target, text, _make_view(rows))
+
+
+async def render_study_select_screen(target, uid: int) -> None:
+    ud = _ud(uid)
+    ud["state"] = "study_select"
+    questions = ud["questions"]
+    group_by = ud.get("study_group_by", "topic")
+    group_value = ud.get("study_group_value", "")
+    pool = _study_group_pool(questions, group_by, group_value, ud["cert"])
+    group_label = _study_group_label(group_by, group_value)
+    group_title = "Topic" if group_by == "topic" else "Type"
+
+    rows = []
+    async def all_cb(inter):
+        await on_study_select(inter, uid, "ALL")
+    rows.append([(f"All questions ({len(pool)}q)", all_cb, discord.ButtonStyle.secondary)])
+
+    for start in range(0, len(pool), 10):
+        end = min(start + 10, len(pool))
+        async def block_cb(inter, s=start, e=end):
+            await on_study_select(inter, uid, f"BLOCK:{s}:{e}")
+        rows.append([(f"Questions {start + 1}-{end}", block_cb, discord.ButtonStyle.primary)])
+
+    rows.append(_nav_row(uid))
+    await _edit(
+        target,
+        f"**Study Mode** - {ud['cert']}\n\n{group_title}: **{group_label}**\nTotal questions: **{len(pool)}**\n\nChoose all questions or one block of 10 questions:",
+        _make_view(rows),
+    )
+
+
+async def on_study_select(inter: discord.Interaction, uid: int, val: str) -> None:
+    ud = _ud(uid)
+    questions = ud["questions"]
+    pool = _study_group_pool(questions, ud.get("study_group_by", "topic"), ud.get("study_group_value", ""), ud["cert"])
+    if val == "ALL":
+        ud["filtered_questions"] = pool
+    elif val.startswith("BLOCK:"):
+        _, start, end = val.split(":")
+        ud["filtered_questions"] = pool[int(start):int(end)]
+    else:
+        ud["filtered_questions"] = pool
+    await _start_quiz(inter, uid)
+
+
+async def _send_question(target, uid: int) -> None:
+    ud = _ud(uid)
+    session = _session(uid)
+    q = session.current_question
+    if q is None:
+        await _show_result(target, uid)
+        return
+
+    idx = session.current_index
+    total = len(session.questions)
+    type_hint = {
+        QuestionType.SINGLE_CHOICE: "Choose ONE answer",
+        QuestionType.MULTIPLE_CHOICE: "Choose ALL correct answers, then Submit",
+        QuestionType.EQUIVALENCE: "Tap a left item, then a right item to match",
+        QuestionType.DRAG_DROP: "Tap a left item, then a right item to match",
+        QuestionType.SIMULATION_LAB: "Type commands in chat, then Submit Lab",
+    }[q.type]
+
+    timer_txt = ""
+    if ud["mode"] == Mode.EXAM:
+        elapsed = int(time.time() - ud.get("quiz_start", time.time()))
+        timer_txt = f"  |  {_fmt_time(elapsed)}"
+
+    topo = f"\n```\n{render_topology(q.topology)}\n```" if q.topology else ""
+    exhibit = f"\n```text\n{q.exhibit}\n```" if q.exhibit else ""
+
+    options_text = ""
+    if q.type in (QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE):
+        options_text = "\n\n" + "\n".join(f"**{k}.** {v}" for k, v in (q.options or {}).items())
+
+    if q.type == QuestionType.MULTIPLE_CHOICE:
+        ud["mc_selected"] = set()
+    if q.type in (QuestionType.EQUIVALENCE, QuestionType.DRAG_DROP):
+        ud["eq_matches"] = {}
+        ud["eq_pending_left"] = None
+
+    lab_text = ""
+    if q.type == QuestionType.SIMULATION_LAB and q.lab:
+        state = _ensure_lab_state(ud, q)
+        objectives = "\n".join(f"- {item}" for item in q.lab.objectives)
+        recent = "\n".join(state.get("raw_history", [])[-5:])
+        recent_block = f"\n\n**Recent commands**\n```text\n{recent}\n```" if recent else ""
+        objectives_block = f"\n\n**Objectives**\n{objectives}" if objectives else ""
+        intro = f"\n\n{q.lab.intro}" if q.lab.intro else ""
+        lab_text = f"{intro}{objectives_block}{recent_block}\n\n**Prompt**\n```text\n{state['prompt']}\n```"
+
+    text_out = (
+        f"**Question {idx + 1}/{total}**{timer_txt}  |  {q.topic}  `[{q.id}]`\n"
+        f"{type_hint}"
+        f"{topo}"
+        f"{exhibit}\n"
+        f"**{q.question}**"
+        f"{options_text}"
+        f"{lab_text}"
+    )
+
+    await _edit(target, text_out, _build_question_view(q, ud, uid))
+    await _maybe_send_lab_image(target, uid, q)
+
+
 def build_bot(token: str) -> commands.Bot:
     intents = discord.Intents.default()
     intents.message_content = True

@@ -105,6 +105,7 @@ def _study_group_label(group_by: str, value: str) -> str:
         labels = {
             "single_choice": "Single Choice",
             "multiple_choice": "Multiple Choice",
+            "__images__": "Images",
             "equivalence_buttons": "Equivalence",
             "drag_drop": "Drag & Drop",
             "simulation_lab": "Simulation Lab",
@@ -164,6 +165,69 @@ async def _maybe_send_lab_image(update: Update, context: ContextTypes.DEFAULT_TY
         return
     with open(path, "rb") as fh:
         await target.reply_photo(photo=fh, caption=f"{q.id} lab image")
+    ud["lab_image_for"] = q.id
+
+
+def _question_image_path(cert: str, q: Question) -> str | None:
+    candidate = ""
+    if q.lab and q.lab.image:
+        candidate = q.lab.image.strip()
+    elif q.source:
+        candidate = str(q.source).split(",")[0].strip()
+    if not candidate or not candidate.lower().endswith((".png", ".jpg", ".jpeg", ".gif")):
+        return None
+    path = os.path.join(ROOT, "data", cert, "images", candidate)
+    return path if os.path.isfile(path) else None
+
+
+def _question_has_image(cert: str, q: Question) -> bool:
+    return _question_image_path(cert, q) is not None
+
+
+def _study_group_icon(group_by: str, value: str) -> str:
+    if group_by == "type":
+        return {
+            "single_choice": "[ONE]",
+            "multiple_choice": "[MULTI]",
+            "__images__": "[IMG]",
+            "equivalence_buttons": "[MATCH]",
+            "drag_drop": "[MATCH]",
+            "simulation_lab": "[LAB]",
+        }.get(value, "[SET]")
+    return "[TOPIC]"
+
+
+def _study_group_values(questions: list[Question], group_by: str, cert: str = "") -> list[str]:
+    if group_by == "type":
+        values = available_question_types(questions)
+        if cert and any(_question_has_image(cert, q) for q in questions):
+            insert_at = values.index("multiple_choice") + 1 if "multiple_choice" in values else len(values)
+            values.insert(insert_at, "__images__")
+        return values
+    return available_topics(questions)
+
+
+def _study_group_pool(questions: list[Question], group_by: str, group_value: str, cert: str = "") -> list[Question]:
+    if group_by == "type":
+        if group_value == "__images__":
+            return [q for q in questions if cert and _question_has_image(cert, q)]
+        return [q for q in questions if str(q.type.value) == group_value]
+    return [q for q in questions if q.topic == group_value]
+
+
+async def _maybe_send_lab_image(update: Update, context: ContextTypes.DEFAULT_TYPE, q: Question) -> None:
+    cert = _ud(context).get("cert", "")
+    path = _question_image_path(cert, q)
+    if not path:
+        return
+    ud = _ud(context)
+    if ud.get("lab_image_for") == q.id:
+        return
+    target = update.callback_query.message if update.callback_query else update.effective_message
+    if target is None:
+        return
+    with open(path, "rb") as fh:
+        await target.reply_photo(photo=fh, caption=f"{q.id} image")
     ud["lab_image_for"] = q.id
 
 
@@ -375,6 +439,80 @@ async def render_study_select_screen(update: Update, context: ContextTypes.DEFAU
     await _edit(update, "\n".join(lines), _kb(rows))
 
 
+async def render_study_group_mode_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    ud["state"] = "study_mode"
+    total = len(ud.get("questions", []))
+    rows = [
+        [("By Type", "studymode:type")],
+        [("By Topic", "studymode:topic")],
+        _nav("Back"),
+    ]
+    await _edit(
+        update,
+        f"<b>Study Mode</b> - {esc(ud['cert'])}\n\n"
+        f"Total questions: <b>{total}</b>\n\n"
+        "Choose how you want to organize the questions:",
+        _kb(rows),
+    )
+
+
+async def render_study_group_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    ud["state"] = "study_group"
+    questions = ud["questions"]
+    group_by = ud.get("study_group_by", "topic")
+    values = _study_group_values(questions, group_by, ud["cert"])
+    ud["study_group_values"] = values
+
+    rows = []
+    if group_by == "topic":
+        t_ranges = build_topic_ranges(questions)
+        for idx, value in enumerate(values):
+            lo, hi, cnt = t_ranges[value]
+            rows.append([(f"{_study_group_icon(group_by, value)} {esc(value)}  #{lo}-{hi}  ({cnt})", f"studygroup:{idx}")])
+        title = "<b>Study by Topic</b>"
+        prompt = "Choose one theme:"
+    else:
+        for idx, value in enumerate(values):
+            pool = _study_group_pool(questions, group_by, value, ud["cert"])
+            label = _study_group_label(group_by, value)
+            rows.append([(f"{_study_group_icon(group_by, value)} {esc(label)}  ({len(pool)})", f"studygroup:{idx}")])
+        title = "<b>Study by Type</b>"
+        prompt = "Choose one question type:"
+
+    rows.append(_nav("Back"))
+    await _edit(update, f"{title}\n\n{prompt}", _kb(rows))
+
+
+async def render_study_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    ud["state"] = "study_select"
+    questions = ud["questions"]
+    group_by = ud.get("study_group_by", "topic")
+    group_value = ud.get("study_group_value", "")
+    pool = _study_group_pool(questions, group_by, group_value, ud["cert"])
+    group_label = _study_group_label(group_by, group_value)
+    group_title = "Topic" if group_by == "topic" else "Type"
+
+    rows = [[(f"All questions ({len(pool)} q)", "study:ALL")]]
+    for start in range(0, len(pool), 10):
+        end = min(start + 10, len(pool))
+        rows.append([(f"Questions {start + 1}-{end}", f"study:block:{start}:{end}")])
+    rows.append(_nav())
+
+    lines = [
+        f"<b>Study Mode</b> - {esc(ud['cert'])}",
+        "",
+        f"{group_title}: <b>{esc(group_label)}</b>",
+        f"Total questions: <b>{len(pool)}</b>",
+        "",
+        "Choose all questions or one block of 10 questions:",
+    ]
+
+    await _edit(update, "\n".join(lines), _kb(rows))
+
+
 # ── cert ──────────────────────────────────────────────────────────────────────
 
 async def on_cert(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -485,7 +623,7 @@ async def on_study_select(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     parts = update.callback_query.data.split(":")
     ud  = _ud(context)
     questions = ud["questions"]
-    pool = _study_group_pool(questions, ud.get("study_group_by", "topic"), ud.get("study_group_value", ""))
+    pool = _study_group_pool(questions, ud.get("study_group_by", "topic"), ud.get("study_group_value", ""), ud["cert"])
 
     if len(parts) == 2 and parts[1] == "ALL":
         ud["filtered_questions"] = pool
@@ -1048,6 +1186,277 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 # ── app builder ───────────────────────────────────────────────────────────────
+
+def _study_group_icon(group_by: str, value: str) -> str:
+    if group_by == "type":
+        return {
+            "single_choice": "[ONE]",
+            "multiple_choice": "[MULTI]",
+            "__images__": "[IMG]",
+            "equivalence_buttons": "[MATCH]",
+            "drag_drop": "[MATCH]",
+            "simulation_lab": "[LAB]",
+        }.get(value, "[SET]")
+    return "[TOPIC]"
+
+
+def _question_image_path(cert: str, q: Question) -> str | None:
+    candidate = ""
+    if q.lab and q.lab.image:
+        candidate = q.lab.image.strip()
+    elif q.source:
+        candidate = str(q.source).split(",")[0].strip()
+    if not candidate or not candidate.lower().endswith((".png", ".jpg", ".jpeg", ".gif")):
+        return None
+    path = os.path.join(ROOT, "data", cert, "images", candidate)
+    return path if os.path.isfile(path) else None
+
+
+def _question_has_image(cert: str, q: Question) -> bool:
+    return _question_image_path(cert, q) is not None
+
+
+def _study_group_values(questions: list[Question], group_by: str, cert: str = "") -> list[str]:
+    if group_by == "type":
+        values = available_question_types(questions)
+        if cert and any(_question_has_image(cert, q) for q in questions):
+            insert_at = values.index("multiple_choice") + 1 if "multiple_choice" in values else len(values)
+            values.insert(insert_at, "__images__")
+        return values
+    return available_topics(questions)
+
+
+def _study_group_pool(questions: list[Question], group_by: str, group_value: str, cert: str = "") -> list[Question]:
+    if group_by == "type":
+        if group_value == "__images__":
+            return [q for q in questions if cert and _question_has_image(cert, q)]
+        return [q for q in questions if str(q.type.value) == group_value]
+    return [q for q in questions if q.topic == group_value]
+
+
+async def _maybe_send_lab_image(update: Update, context: ContextTypes.DEFAULT_TYPE, q: Question) -> None:
+    cert = _ud(context).get("cert", "")
+    path = _question_image_path(cert, q)
+    if not path:
+        return
+    ud = _ud(context)
+    if ud.get("lab_image_for") == q.id:
+        return
+    target = update.callback_query.message if update.callback_query else update.effective_message
+    if target is None:
+        return
+    with open(path, "rb") as fh:
+        await target.reply_photo(photo=fh, caption=f"{q.id} image")
+    ud["lab_image_for"] = q.id
+
+
+async def render_study_group_mode_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    ud["state"] = "study_mode"
+    total = len(ud.get("questions", []))
+    rows = [
+        [("By Type", "studymode:type")],
+        [("By Topic", "studymode:topic")],
+        _nav("Back"),
+    ]
+    await _edit(
+        update,
+        f"<b>Study Mode</b> - {esc(ud['cert'])}\n\n"
+        f"Total questions: <b>{total}</b>\n\n"
+        "Choose how you want to organize the questions:",
+        _kb(rows),
+    )
+
+
+async def render_study_group_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    ud["state"] = "study_group"
+    questions = ud["questions"]
+    group_by = ud.get("study_group_by", "topic")
+    values = _study_group_values(questions, group_by, ud["cert"])
+    ud["study_group_values"] = values
+
+    rows = []
+    if group_by == "topic":
+        t_ranges = build_topic_ranges(questions)
+        for idx, value in enumerate(values):
+            lo, hi, cnt = t_ranges[value]
+            rows.append([(f"{_study_group_icon(group_by, value)} {esc(value)}  #{lo}-{hi}  ({cnt})", f"studygroup:{idx}")])
+        title = "<b>Study by Topic</b>"
+        prompt = "Choose one theme:"
+    else:
+        for idx, value in enumerate(values):
+            pool = _study_group_pool(questions, group_by, value, ud["cert"])
+            label = _study_group_label(group_by, value)
+            rows.append([(f"{_study_group_icon(group_by, value)} {esc(label)}  ({len(pool)})", f"studygroup:{idx}")])
+        title = "<b>Study by Type</b>"
+        prompt = "Choose one question type:"
+
+    rows.append(_nav("Back"))
+    await _edit(update, f"{title}\n\n{prompt}", _kb(rows))
+
+
+async def render_study_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    ud["state"] = "study_select"
+    questions = ud["questions"]
+    group_by = ud.get("study_group_by", "topic")
+    group_value = ud.get("study_group_value", "")
+    pool = _study_group_pool(questions, group_by, group_value, ud["cert"])
+    group_label = _study_group_label(group_by, group_value)
+    group_title = "Topic" if group_by == "topic" else "Type"
+
+    rows = [[(f"All questions ({len(pool)} q)", "study:ALL")]]
+    for start in range(0, len(pool), 10):
+        end = min(start + 10, len(pool))
+        rows.append([(f"Questions {start + 1}-{end}", f"study:block:{start}:{end}")])
+    rows.append(_nav())
+
+    lines = [
+        f"<b>Study Mode</b> - {esc(ud['cert'])}",
+        "",
+        f"{group_title}: <b>{esc(group_label)}</b>",
+        f"Total questions: <b>{len(pool)}</b>",
+        "",
+        "Choose all questions or one block of 10 questions:",
+    ]
+    await _edit(update, "\n".join(lines), _kb(rows))
+
+
+async def on_study_select(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.callback_query.answer()
+    parts = update.callback_query.data.split(":")
+    ud = _ud(context)
+    questions = ud["questions"]
+    pool = _study_group_pool(questions, ud.get("study_group_by", "topic"), ud.get("study_group_value", ""), ud["cert"])
+
+    if len(parts) == 2 and parts[1] == "ALL":
+        ud["filtered_questions"] = pool
+    elif len(parts) == 4 and parts[1] == "block":
+        start = int(parts[2])
+        end = int(parts[3])
+        ud["filtered_questions"] = pool[start:end]
+    else:
+        ud["filtered_questions"] = pool
+
+    await _start_quiz(update, context)
+
+
+def _build_question_keyboard(q: Question, ud: dict) -> InlineKeyboardMarkup:
+    nav = _nav("Exit Quiz")
+    mode = ud.get("mode", Mode.STUDY)
+    study_nav = [("Back Question", "prev"), ("Next Question", "next")] if mode == Mode.STUDY else None
+
+    if q.type == QuestionType.SINGLE_CHOICE:
+        rows = [[(f"{k}", f"opt:{k}")] for k in (q.options or {})]
+        if study_nav:
+            rows.append(study_nav)
+        rows.append(nav)
+        return _kb(rows)
+
+    if q.type == QuestionType.MULTIPLE_CHOICE:
+        sel: set = ud.get("mc_selected", set())
+        rows = [[(f"{'[x]' if k in sel else '[ ]'} {k}", f"mc:{k}")] for k in (q.options or {})]
+        rows.append([("Submit Answer", "mc_submit")])
+        if study_nav:
+            rows.append(study_nav)
+        rows.append(nav)
+        return _kb(rows)
+
+    if q.type in (QuestionType.EQUIVALENCE, QuestionType.DRAG_DROP):
+        matches: dict = ud.get("eq_matches", {})
+        pending: str | None = ud.get("eq_pending_left")
+        unmatched_left = [k for k in (q.left_items or {}) if k not in matches]
+        matched_right = set(matches.values())
+        rows = []
+        for lk in unmatched_left:
+            icon = "[*]" if lk == pending else "[ ]"
+            rows.append([(f"{icon} {lk}: {esc(q.left_items[lk])}", f"eq_left:{lk}")])
+        if pending is not None:
+            rows.append([("Match to", "noop")])
+            for rk, rv in (q.right_items or {}).items():
+                if rk not in matched_right:
+                    rows.append([(f"-> {rk}: {esc(rv)}", f"eq_right:{rk}")])
+        if not unmatched_left:
+            rows.append([("Submit Matches", "eq_submit")])
+        if study_nav:
+            rows.append(study_nav)
+        rows.append(nav)
+        return _kb(rows)
+
+    if q.type == QuestionType.SIMULATION_LAB:
+        rows = [[("Submit Lab", "lab_submit")], [("Reset Lab", "lab_reset")]]
+        if study_nav:
+            rows.append(study_nav)
+        rows.append(nav)
+        return _kb(rows)
+
+    rows = []
+    if study_nav:
+        rows.append(study_nav)
+    rows.append(nav)
+    return _kb(rows)
+
+
+async def _send_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    session = _session(context)
+    q = session.current_question
+    if q is None:
+        await _show_result(update, context)
+        return
+
+    idx = session.current_index
+    total = len(session.questions)
+    type_hint = {
+        QuestionType.SINGLE_CHOICE: "Choose ONE answer",
+        QuestionType.MULTIPLE_CHOICE: "Choose ALL correct answers, then Submit",
+        QuestionType.EQUIVALENCE: "Tap a left item, then a right item to match",
+        QuestionType.DRAG_DROP: "Tap a left item, then a right item to match",
+        QuestionType.SIMULATION_LAB: "Type commands in chat, then tap Submit Lab",
+    }[q.type]
+
+    topo = f"\n<pre>{esc(render_topology(q.topology))}</pre>" if q.topology else ""
+    exhibit = f"\n<pre>{esc(q.exhibit)}</pre>" if q.exhibit else ""
+
+    timer_txt = ""
+    if ud["mode"] == Mode.EXAM:
+        elapsed = int(time.time() - ud.get("quiz_start", time.time()))
+        timer_txt = f"  |  {_fmt_time(elapsed)}"
+
+    options_text = ""
+    if q.type in (QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE):
+        options_text = "\n\n" + "\n".join(f"<b>{k}.</b> {esc(v)}" for k, v in (q.options or {}).items())
+
+    lab_text = ""
+    if q.type == QuestionType.SIMULATION_LAB and q.lab:
+        state = _ensure_lab_state(ud, q)
+        objectives = "\n".join(f"- {esc(item)}" for item in q.lab.objectives)
+        recent = "\n".join(esc(line) for line in state.get("raw_history", [])[-5:])
+        recent_block = f"\n\n<b>Recent commands</b>\n<pre>{recent}</pre>" if recent else ""
+        objectives_block = f"\n\n<b>Objectives</b>\n{objectives}" if objectives else ""
+        intro = f"\n\n{esc(q.lab.intro)}" if q.lab.intro else ""
+        lab_text = f"{intro}{objectives_block}{recent_block}\n\n<b>Prompt</b>\n<pre>{esc(state['prompt'])}</pre>"
+
+    text = (
+        f"<b>Question {idx + 1}/{total}</b>{timer_txt}  |  {esc(q.topic)}  <code>[{esc(q.id)}]</code>\n"
+        f"{esc(type_hint)}"
+        f"{topo}"
+        f"{exhibit}\n"
+        f"<b>{esc(q.question)}</b>"
+        f"{options_text}"
+        f"{lab_text}"
+    )
+
+    if q.type == QuestionType.MULTIPLE_CHOICE:
+        ud["mc_selected"] = set()
+    if q.type in (QuestionType.EQUIVALENCE, QuestionType.DRAG_DROP):
+        ud["eq_matches"] = {}
+        ud["eq_pending_left"] = None
+
+    await _edit(update, text, _build_question_keyboard(q, ud))
+    await _maybe_send_lab_image(update, context, q)
+
 
 def build_app(token: str) -> Application:
     app = Application.builder().token(token).build()
