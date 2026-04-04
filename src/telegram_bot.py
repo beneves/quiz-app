@@ -165,7 +165,7 @@ def _study_group_pool(questions: list[Question], group_by: str, group_value: str
     return [q for q in questions if q.topic == group_value]
 
 
-async def _maybe_send_lab_image(update: Update, context: ContextTypes.DEFAULT_TYPE, q: Question) -> None:
+async def _obsolete_maybe_send_lab_image(update: Update, context: ContextTypes.DEFAULT_TYPE, q: Question) -> None:
     cert = _ud(context).get("cert", "")
     path = _question_image_path(cert, q)
     if not path:
@@ -934,15 +934,7 @@ async def on_retry(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 # ── navigation ────────────────────────────────────────────────────────────────
 
-_BACK_MAP = {
-    "mode":         render_cert_screen,
-    "topic":        render_mode_screen,
-    "count":        render_topic_screen,
-    "study_mode":   render_mode_screen,
-    "study_group":  render_study_group_mode_screen,
-    "study_select": render_study_group_select_screen,
-    "done":         render_cert_screen,
-}
+_BACK_MAP = {}
 
 
 async def on_nav_back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -1120,7 +1112,9 @@ async def _maybe_send_lab_image(update: Update, context: ContextTypes.DEFAULT_TY
     if target is None:
         return
     with open(path, "rb") as fh:
-        await target.reply_photo(photo=fh, caption=f"{q.id} image")
+        sent = await target.reply_photo(photo=fh, caption=f"{q.id} image")
+    ud["lab_image_chat_id"] = sent.chat_id
+    ud["lab_image_message_id"] = sent.message_id
     ud["lab_image_for"] = q.id
 
 
@@ -1195,6 +1189,17 @@ async def render_study_select_screen(update: Update, context: ContextTypes.DEFAU
         "Choose all questions or one block of 10 questions:",
     ]
     await _edit(update, "\n".join(lines), _kb(rows))
+
+
+_BACK_MAP = {
+    "mode":         render_cert_screen,
+    "topic":        render_mode_screen,
+    "count":        render_topic_screen,
+    "study_mode":   render_mode_screen,
+    "study_group":  render_study_group_mode_screen,
+    "study_select": render_study_group_select_screen,
+    "done":         render_cert_screen,
+}
 
 
 async def on_study_select(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
