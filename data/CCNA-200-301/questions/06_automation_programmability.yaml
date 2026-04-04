@@ -1,8 +1,3 @@
-# Topic: Automation and Programmability
-# IDs:   AP-001 -> AP-071
-# Global sequential range: #483 - #553 (71 questions)
-# Source folder: sshots/6-Automation-and-Programmability_71/
-
 - id: AP-001
   topic: Automation and Programmability
   subtopic: AAA
@@ -108,7 +103,7 @@
     D: array
   correct_answer: D
   explanation: 'The correct answer is `D` because it best matches the concept being tested: array.'
-  source: 6-Automation-and-Programmability_71/AP-005.png
+  source: adapted_from_images
 
 - id: AP-006
   topic: Automation and Programmability
@@ -144,7 +139,7 @@
     D: sequence
   correct_answer: C
   explanation: 'The correct answer is `C` because it best matches the concept being tested: object.'
-  source: 6-Automation-and-Programmability_71/AP-007.png
+  source: adapted_from_images
 
 - id: AP-008
   topic: Automation and Programmability
@@ -538,7 +533,7 @@
     D: nine
   correct_answer: B
   explanation: 'The correct answer is `B` because it best matches the concept being tested: three.'
-  source: 6-Automation-and-Programmability_71/AP-027.png
+  source: adapted_from_images
 
 - id: AP-028
   topic: Automation and Programmability
@@ -576,7 +571,7 @@
     D: object
   correct_answer: D
   explanation: 'The correct answer is `D` because it best matches the concept being tested: object.'
-  source: 6-Automation-and-Programmability_71/AP-029.png
+  source: adapted_from_images
 
 - id: AP-030
   topic: Automation and Programmability
@@ -884,7 +879,7 @@
     D: curly brace at the end
   correct_answer: D
   explanation: 'The correct answer is `D` because it best matches the concept being tested: curly brace at the end.'
-  source: 6-Automation-and-Programmability_71/AP-045.png
+  source: adapted_from_images
 
 - id: AP-046
   topic: Automation and Programmability

@@ -1,1834 +1,1855 @@
-﻿# Topic: Security Fundamentals
-# IDs:   SF-001 -> SF-088
-# Global sequential range: #397 - #484 (88 questions)
-# Source folder: sshots/Security-Fundamentals_88/
-
 - id: SF-001
   topic: Security Fundamentals
-  subtopic: "ACLs"
+  subtopic: ACLs
   type: multiple_choice
   difficulty: medium
-  tags: [acl, ipv4, permit, deny, sequence]
-  question: "While examining excessive traffic on the network, it is noted that all incoming packets on an interface appear to be allowed even though an IPv4 ACL is applied to the interface. Which two misconfigurations cause this behavior? (Choose two.)"
+  tags:
+  - acl
+  - ipv4
+  - permit
+  - deny
+  - sequence
+  question: While examining excessive traffic on the network, it is noted that all incoming packets on an interface appear to be allowed even though an IPv4 ACL is applied to the interface. Which two misconfigurations cause this behavior? (Choose two.)
   options:
-    A: "The ACL is empty"
-    B: "A matching permit statement is too broadly defined"
-    C: "The packets fail to match any permit statement"
-    D: "A matching deny statement is too high in the access list"
-    E: "A matching permit statement is too high in the access list"
-  correct_answer: [B, E]
-  explanation: "Traffic can be allowed unexpectedly if a permit statement is overly broad or if a permit entry appears before a more specific deny entry. ACLs are processed top down, and the first match wins."
+    A: The ACL is empty
+    B: A matching permit statement is too broadly defined
+    C: The packets fail to match any permit statement
+    D: A matching deny statement is too high in the access list
+    E: A matching permit statement is too high in the access list
+  correct_answer:
+  - B
+  - E
+  explanation: Traffic can be allowed unexpectedly if a permit statement is overly broad or if a permit entry appears before a more specific deny entry. ACLs are processed top down, and the first match wins.
   source: adapted_from_images
 
 - id: SF-002
   topic: Security Fundamentals
-  subtopic: "ACLs"
+  subtopic: ACLs
   type: multiple_choice
   difficulty: hard
-  tags: [acl, extended-acl, wildcard-mask, interface-direction]
-  exhibit: |
-    Topology:
-
-      Internet -- Gi0/1 R1 Gi0/2 -- Gi0/1 R2
-                     |                         |
-                    Gi0/3                    Gi0/2
-                     |                         |
-                   Switch                    Switch
-                     |                         |
-                PC: 10.0.20.0/26         PC: 10.0.10.0/26
-
-    R2 configuration shown:
-
-      R2# config t
-      R2(config)#access-list 101 deny tcp 10.0.20.0 0.0.0.63 10.0.10.0 0.0.0.63 eq smtp
-      R2(config)#access-list 101 deny tcp 10.0.20.0 0.0.0.63 10.0.10.0 0.0.0.63 eq www
-      R2(config)#int gi0/2
-      R2(config-if)# ip access-group 101 in
-  question: "Refer to the exhibit. An extended ACL has been configured and applied to router R2. The configuration failed to work as intended. Which two changes stop outbound traffic on TCP ports 25 and 80 to 10.0.20.0/26 from the 10.0.10.0/26 subnet while still allowing all other traffic? (Choose two.)"
+  tags:
+  - acl
+  - extended-acl
+  - wildcard-mask
+  - interface-direction
+  exhibit: "Topology:\n\n  Internet -- Gi0/1 R1 Gi0/2 -- Gi0/1 R2\n                 |                         |\n                Gi0/3                    Gi0/2\n                 |                         |\n               Switch                    Switch\n                 |                         |\n            PC: 10.0.20.0/26         PC: 10.0.10.0/26\n\nR2 configuration shown:\n\n  R2# config t\n  R2(config)#access-list 101 deny tcp 10.0.20.0 0.0.0.63 10.0.10.0 0.0.0.63 eq smtp\n  R2(config)#access-list 101 deny tcp 10.0.20.0 0.0.0.63 10.0.10.0 0.0.0.63 eq www\n  R2(config)#int gi0/2\n  R2(config-if)# ip access-group 101 in\n"
+  question: Refer to the exhibit. An extended ACL has been configured and applied to router R2. The configuration failed to work as intended. Which two changes stop outbound traffic on TCP ports 25 and 80 to 10.0.20.0/26 from the 10.0.10.0/26 subnet while still allowing all other traffic? (Choose two.)
   options:
-    A: "Add a `permit ip any any` statement at the end of ACL 101 for allowed traffic."
-    B: "Add a `permit ip any any` statement at the beginning of ACL 101 for allowed traffic."
-    C: "The ACL must be moved to the Gi0/1 interface outbound on R2."
-    D: "The source and destination IPs must be swapped in ACL 101."
-    E: "The ACL must be configured on the Gi0/2 interface inbound on R1."
-  correct_answer: [A, D]
-  explanation: "The ACL entries must match the actual source and destination correctly, so the source and destination need to be reversed. To allow all other traffic, an explicit `permit ip any any` must be added because of the implicit deny at the end of the ACL."
+    A: Add a `permit ip any any` statement at the end of ACL 101 for allowed traffic.
+    B: Add a `permit ip any any` statement at the beginning of ACL 101 for allowed traffic.
+    C: The ACL must be moved to the Gi0/1 interface outbound on R2.
+    D: The source and destination IPs must be swapped in ACL 101.
+    E: The ACL must be configured on the Gi0/2 interface inbound on R1.
+  correct_answer:
+  - A
+  - D
+  explanation: The ACL entries must match the actual source and destination correctly, so the source and destination need to be reversed. To allow all other traffic, an explicit `permit ip any any` must be added because of the implicit deny at the end of the ACL.
   source: 5-Security-Fundamentals_88/SF-002.png
 
 - id: SF-003
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: easy
-  tags: [wpa3, sae, wireless]
-  question: "Which mechanism allows WPA3 to provide a higher degree of security than its predecessors?"
+  tags:
+  - wpa3
+  - sae
+  - wireless
+  question: Which mechanism allows WPA3 to provide a higher degree of security than its predecessors?
   options:
-    A: "automatic device pairing"
-    B: "SAE password-based key exchange"
-    C: "certificate-based authentication"
-    D: "special-character support in preshared keys"
+    A: automatic device pairing
+    B: SAE password-based key exchange
+    C: certificate-based authentication
+    D: special-character support in preshared keys
   correct_answer: B
-  explanation: "WPA3 replaces the older PSK exchange with SAE, which improves resistance to offline password attacks and strengthens the key establishment process."
+  explanation: WPA3 replaces the older PSK exchange with SAE, which improves resistance to offline password attacks and strengthens the key establishment process.
   source: adapted_from_images
 
 - id: SF-004
   topic: Security Fundamentals
-  subtopic: "Port Security"
+  subtopic: Port Security
   type: multiple_choice
   difficulty: medium
-  tags: [port-security, sticky-mac, violation-mode]
-  exhibit: |
-    Topology:
-
-      SW Gi0/1 -------- host
-
-    Existing configuration:
-
-      SW# conf t
-      SW(config)#interface gigabitEthernet0/1
-      SW(config-if)#switchport mode access
-      SW(config-if)#switchport port-security
-  question: "Refer to the exhibit. A network engineer started to configure port security on a new switch. These requirements must be met: MAC addresses must be learned dynamically, and log messages must be generated without disabling the interface when unwanted traffic is seen. Which two commands must be configured to complete this task? (Choose two.)"
+  tags:
+  - port-security
+  - sticky-mac
+  - violation-mode
+  exhibit: "Topology:\n\n  SW Gi0/1 -------- host\n\nExisting configuration:\n\n  SW# conf t\n  SW(config)#interface gigabitEthernet0/1\n  SW(config-if)#switchport mode access\n  SW(config-if)#switchport port-security\n"
+  question: 'Refer to the exhibit. A network engineer started to configure port security on a new switch. These requirements must be met: MAC addresses must be learned dynamically, and log messages must be generated without disabling the interface when unwanted traffic is seen. Which two commands must be configured to complete this task? (Choose two.)'
   options:
-    A: "`SW(config-if)#switchport port-security violation restrict`"
-    B: "`SW(config-if)#switchport port-security mac-address 0010.7B84.45E6`"
-    C: "`SW(config-if)#switchport port-security maximum 2`"
-    D: "`SW(config-if)#switchport port-security violation shutdown`"
-    E: "`SW(config-if)#switchport port-security mac-address sticky`"
-  correct_answer: [A, E]
-  explanation: "Sticky MAC learning allows secure MAC addresses to be learned dynamically. The `restrict` violation mode drops offending traffic, increments the violation counter, and generates log or SNMP notifications without shutting down the port."
+    A: '`SW(config-if)#switchport port-security violation restrict`'
+    B: '`SW(config-if)#switchport port-security mac-address 0010.7B84.45E6`'
+    C: '`SW(config-if)#switchport port-security maximum 2`'
+    D: '`SW(config-if)#switchport port-security violation shutdown`'
+    E: '`SW(config-if)#switchport port-security mac-address sticky`'
+  correct_answer:
+  - A
+  - E
+  explanation: Sticky MAC learning allows secure MAC addresses to be learned dynamically. The `restrict` violation mode drops offending traffic, increments the violation counter, and generates log or SNMP notifications without shutting down the port.
   source: 5-Security-Fundamentals_88/SF-004.png
 
 - id: SF-005
   topic: Security Fundamentals
-  subtopic: "VPN Technologies"
+  subtopic: VPN Technologies
   type: single_choice
   difficulty: medium
-  tags: [gre, ipsec, multicast, encryption]
-  question: "Which mechanism carries multicast traffic between remote sites and supports encryption?"
+  tags:
+  - gre
+  - ipsec
+  - multicast
+  - encryption
+  question: Which mechanism carries multicast traffic between remote sites and supports encryption?
   options:
-    A: "ISATAP"
-    B: "IPsec over ISATAP"
-    C: "GRE"
-    D: "GRE over IPsec"
+    A: ISATAP
+    B: IPsec over ISATAP
+    C: GRE
+    D: GRE over IPsec
   correct_answer: D
-  explanation: "GRE can carry multicast and other non-unicast traffic, while IPsec provides confidentiality and integrity. Combining them as GRE over IPsec supports both requirements."
+  explanation: GRE can carry multicast and other non-unicast traffic, while IPsec provides confidentiality and integrity. Combining them as GRE over IPsec supports both requirements.
   source: adapted_from_images
 
 - id: SF-006
   topic: Security Fundamentals
-  subtopic: "AAA"
+  subtopic: AAA
   type: single_choice
   difficulty: easy
-  tags: [aaa, authentication, authorization, accounting]
-  question: "What is the difference between AAA authentication and authorization?"
+  tags:
+  - aaa
+  - authentication
+  - authorization
+  - accounting
+  question: What is the difference between AAA authentication and authorization?
   options:
-    A: "Authentication identifies and verifies a user who is attempting to access a system, and authorization controls the tasks the user performs."
-    B: "Authentication controls the system processes a user accesses, and authorization logs the activities the user initiates."
-    C: "Authentication verifies a username and password, and authorization handles the communication between the authentication agent and the user database."
-    D: "Authentication identifies a user who is attempting to access a system, and authorization validates the user's password."
+    A: Authentication identifies and verifies a user who is attempting to access a system, and authorization controls the tasks the user performs.
+    B: Authentication controls the system processes a user accesses, and authorization logs the activities the user initiates.
+    C: Authentication verifies a username and password, and authorization handles the communication between the authentication agent and the user database.
+    D: Authentication identifies a user who is attempting to access a system, and authorization validates the user's password.
   correct_answer: A
-  explanation: "Authentication verifies identity. Authorization determines what that authenticated user is permitted to do after access is granted."
+  explanation: Authentication verifies identity. Authorization determines what that authenticated user is permitted to do after access is granted.
   source: adapted_from_images
 
 - id: SF-007
   topic: Security Fundamentals
-  subtopic: "SSH and ACLs"
+  subtopic: SSH and ACLs
   type: single_choice
   difficulty: hard
-  tags: [ssh, acl, extended-acl, access-group]
-  question: "An engineer is configuring remote access to a router from IP subnet 10.139.58.0/28. The domain name, crypto keys, and SSH have been configured. Which configuration enables the traffic on the destination router?"
+  tags:
+  - ssh
+  - acl
+  - extended-acl
+  - access-group
+  question: An engineer is configuring remote access to a router from IP subnet 10.139.58.0/28. The domain name, crypto keys, and SSH have been configured. Which configuration enables the traffic on the destination router?
   options:
-    A: "`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.252` `ip access-group 110 in` `ip access-list extended 110` `permit tcp 10.139.58.0 0.0.0.15 host 10.122.49.1 eq 22`"
-    B: "`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.240` `access-group 120 in` `ip access-list extended 120` `permit tcp 10.139.58.0 255.255.255.248 any eq 22`"
-    C: "`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.252` `ip access-group 105 in` `ip access-list standard 105` `permit tcp 10.139.58.0 0.0.0.7 eq 22 host 10.122.49.1`"
-    D: "`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.248` `ip access-group 10 in` `ip access-list standard 10` `permit udp 10.139.58.0 0.0.0.7 host 10.122.49.1 eq 22`"
+    A: '`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.252` `ip access-group 110 in` `ip access-list extended 110` `permit tcp 10.139.58.0 0.0.0.15 host 10.122.49.1 eq 22`'
+    B: '`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.240` `access-group 120 in` `ip access-list extended 120` `permit tcp 10.139.58.0 255.255.255.248 any eq 22`'
+    C: '`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.252` `ip access-group 105 in` `ip access-list standard 105` `permit tcp 10.139.58.0 0.0.0.7 eq 22 host 10.122.49.1`'
+    D: '`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.248` `ip access-group 10 in` `ip access-list standard 10` `permit udp 10.139.58.0 0.0.0.7 host 10.122.49.1 eq 22`'
   correct_answer: A
-  explanation: "SSH uses TCP port 22, and the destination router must permit inbound SSH from subnet 10.139.58.0/28 to the router interface address. An extended ACL is required to match protocol, source, destination, and port correctly."
+  explanation: SSH uses TCP port 22, and the destination router must permit inbound SSH from subnet 10.139.58.0/28 to the router interface address. An extended ACL is required to match protocol, source, destination, and port correctly.
   source: adapted_from_images
 
 - id: SF-008
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: easy
-  tags: [wpa3, pmf, deauthentication, disassociation]
-  question: "What is an enhancement implemented in WPA3?"
+  tags:
+  - wpa3
+  - pmf
+  - deauthentication
+  - disassociation
+  question: What is an enhancement implemented in WPA3?
   options:
-    A: "applies 802.1X authentication and AES-128 encryption"
-    B: "employs PKI and RADIUS to identify access points"
-    C: "uses TKIP and per-packet keying"
-    D: "defends against deauthentication and disassociation attacks"
+    A: applies 802.1X authentication and AES-128 encryption
+    B: employs PKI and RADIUS to identify access points
+    C: uses TKIP and per-packet keying
+    D: defends against deauthentication and disassociation attacks
   correct_answer: D
-  explanation: "WPA3 requires Protected Management Frames, which add protection against forged deauthentication and disassociation management frames."
+  explanation: WPA3 requires Protected Management Frames, which add protection against forged deauthentication and disassociation management frames.
   source: adapted_from_images
 
 - id: SF-009
   topic: Security Fundamentals
-  subtopic: "AAA"
+  subtopic: AAA
   type: single_choice
   difficulty: medium
-  tags: [aaa, local-user, console, radius]
-  question: "After a recent security breach and a RADIUS failure, an engineer must secure the console port of each enterprise router with a local username and password. Which configuration must the engineer apply to accomplish this task?"
+  tags:
+  - aaa
+  - local-user
+  - console
+  - radius
+  question: After a recent security breach and a RADIUS failure, an engineer must secure the console port of each enterprise router with a local username and password. Which configuration must the engineer apply to accomplish this task?
   options:
-    A: "`aaa new-model` `line con 0` `password plaintextpassword` `privilege level 15`"
-    B: "`aaa new-model` `aaa authorization exec default local` `aaa authentication login default radius` `username localuser privilege 15 secret plaintextpassword`"
-    C: "`username localuser secret plaintextpassword` `line con 0` `no login local` `privilege level 15`"
-    D: "`username localuser secret plaintextpassword` `line con 0` `login authentication default` `privilege level 15`"
+    A: '`aaa new-model` `line con 0` `password plaintextpassword` `privilege level 15`'
+    B: '`aaa new-model` `aaa authorization exec default local` `aaa authentication login default radius` `username localuser privilege 15 secret plaintextpassword`'
+    C: '`username localuser secret plaintextpassword` `line con 0` `no login local` `privilege level 15`'
+    D: '`username localuser secret plaintextpassword` `line con 0` `login authentication default` `privilege level 15`'
   correct_answer: D
-  explanation: "The requirement is to use a local username and password when centralized authentication is unavailable. The selected option uses a locally defined user and applies the configured login method to the console line."
+  explanation: The requirement is to use a local username and password when centralized authentication is unavailable. The selected option uses a locally defined user and applies the configured login method to the console line.
   source: adapted_from_images
 
 - id: SF-010
   topic: Security Fundamentals
-  subtopic: "Port Security"
+  subtopic: Port Security
   type: single_choice
   difficulty: medium
-  tags: [port-security, violation-mode, snmp]
-  question: "A port security violation has occurred on a switch port due to the maximum MAC address count being exceeded. Which command must be configured to increment the security-violation count and forward an SNMP trap?"
+  tags:
+  - port-security
+  - violation-mode
+  - snmp
+  question: A port security violation has occurred on a switch port due to the maximum MAC address count being exceeded. Which command must be configured to increment the security-violation count and forward an SNMP trap?
   options:
-    A: "`switchport port-security violation access`"
-    B: "`switchport port-security violation protect`"
-    C: "`switchport port-security violation restrict`"
-    D: "`switchport port-security violation shutdown`"
+    A: '`switchport port-security violation access`'
+    B: '`switchport port-security violation protect`'
+    C: '`switchport port-security violation restrict`'
+    D: '`switchport port-security violation shutdown`'
   correct_answer: C
-  explanation: "The `restrict` mode drops offending frames, increments the violation counter, and can send SNMP traps or syslog messages without putting the port into err-disabled state."
+  explanation: The `restrict` mode drops offending frames, increments the violation counter, and can send SNMP traps or syslog messages without putting the port into err-disabled state.
   source: adapted_from_images
 
 - id: SF-011
   topic: Security Fundamentals
-  subtopic: "Physical Security"
+  subtopic: Physical Security
   type: single_choice
   difficulty: easy
-  tags: [physical-security, badge, access-control]
-  question: "To improve corporate security, an organization is planning to implement badge authentication to limit access to the data center. Which element of a security program is being deployed?"
+  tags:
+  - physical-security
+  - badge
+  - access-control
+  question: To improve corporate security, an organization is planning to implement badge authentication to limit access to the data center. Which element of a security program is being deployed?
   options:
-    A: "user awareness"
-    B: "user training"
-    C: "physical access control"
-    D: "vulnerability verification"
+    A: user awareness
+    B: user training
+    C: physical access control
+    D: vulnerability verification
   correct_answer: C
-  explanation: "Badge authentication that restricts entry to secured spaces is a physical access control measure."
+  explanation: Badge authentication that restricts entry to secured spaces is a physical access control measure.
   source: adapted_from_images
 
 - id: SF-012
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: easy
-  tags: [wpa2, psk, wireless]
-  question: "Which WPA mode uses PSK authentication?"
+  tags:
+  - wpa2
+  - psk
+  - wireless
+  question: Which WPA mode uses PSK authentication?
   options:
-    A: "Local"
-    B: "Personal"
-    C: "Enterprise"
-    D: "Client"
+    A: Local
+    B: Personal
+    C: Enterprise
+    D: Client
   correct_answer: B
-  explanation: "WPA Personal, also called WPA-PSK, uses a pre-shared key for client authentication instead of 802.1X with an authentication server."
+  explanation: WPA Personal, also called WPA-PSK, uses a pre-shared key for client authentication instead of 802.1X with an authentication server.
   source: adapted_from_images
 
 - id: SF-013
   topic: Security Fundamentals
-  subtopic: "Security Analytics"
+  subtopic: Security Analytics
   type: single_choice
   difficulty: easy
-  tags: [machine-learning, intrusion-detection, anomaly-detection]
-  question: "How does machine learning improve the detection of unauthorized network access?"
+  tags:
+  - machine-learning
+  - intrusion-detection
+  - anomaly-detection
+  question: How does machine learning improve the detection of unauthorized network access?
   options:
-    A: "It identifies patterns indicating intrusions."
-    B: "It assigns security clearance levels."
-    C: "It monitors for outdated software."
-    D: "It dictates security policy updates."
+    A: It identifies patterns indicating intrusions.
+    B: It assigns security clearance levels.
+    C: It monitors for outdated software.
+    D: It dictates security policy updates.
   correct_answer: A
-  explanation: "Machine learning can analyze large amounts of normal and abnormal behavior to identify patterns and anomalies that may indicate unauthorized access or intrusions."
+  explanation: Machine learning can analyze large amounts of normal and abnormal behavior to identify patterns and anomalies that may indicate unauthorized access or intrusions.
   source: adapted_from_images
 
 - id: SF-014
   topic: Security Fundamentals
-  subtopic: "Device Hardening"
+  subtopic: Device Hardening
   type: equivalence_buttons
   difficulty: medium
-  tags: [enable-secret, password-encryption, drag-and-drop, router]
-  question: "An engineer is configuring an encrypted password for the enable command on a router where the local user database has already been configured. Drag and drop the configuration commands from the left into the correct sequence on the right. Not all commands are used."
+  tags:
+  - enable-secret
+  - password-encryption
+  - drag-and-drop
+  - router
+  question: An engineer is configuring an encrypted password for the enable command on a router where the local user database has already been configured. Drag and drop the configuration commands from the left into the correct sequence on the right. Not all commands are used.
   premises:
-    - "configure terminal"
-    - "enable"
-    - "enable secret Shf!@4fs"
-    - "exit"
-    - "line vty 0 4"
-    - "service password-encryption"
+  - configure terminal
+  - enable
+  - enable secret Shf!@4fs
+  - exit
+  - line vty 0 4
+  - service password-encryption
   responses:
-    - "first"
-    - "second"
-    - "third"
-    - "fourth"
+  - first
+  - second
+  - third
+  - fourth
   correct_matches:
-    "enable": "first"
-    "configure terminal": "second"
-    "enable secret Shf!@4fs": "third"
-    "exit": "fourth"
-  explanation: "To configure the encrypted enable password from user EXEC mode, enter privileged EXEC with `enable`, move to global configuration with `configure terminal`, set the password with `enable secret`, and then exit configuration mode."
+    enable: first
+    configure terminal: second
+    enable secret Shf!@4fs: third
+    exit: fourth
+  explanation: To configure the encrypted enable password from user EXEC mode, enter privileged EXEC with `enable`, move to global configuration with `configure terminal`, set the password with `enable secret`, and then exit configuration mode.
   source: adapted_from_images
 
 - id: SF-015
   topic: Security Fundamentals
-  subtopic: "VPN Technologies"
+  subtopic: VPN Technologies
   type: single_choice
   difficulty: medium
-  tags: [ipsec, tunnel-mode, esp, site-to-site-vpn]
-  question: "When a site-to-site VPN is configured which IPsec mode provides encapsulation and encryption of the entire original IP packet?"
+  tags:
+  - ipsec
+  - tunnel-mode
+  - esp
+  - site-to-site-vpn
+  question: When a site-to-site VPN is configured which IPsec mode provides encapsulation and encryption of the entire original IP packet?
   options:
-    A: "IPsec transport mode with AH"
-    B: "IPsec tunnel mode with AH"
-    C: "IPsec transport mode with ESP"
-    D: "IPsec tunnel mode with ESP"
+    A: IPsec transport mode with AH
+    B: IPsec tunnel mode with AH
+    C: IPsec transport mode with ESP
+    D: IPsec tunnel mode with ESP
   correct_answer: D
-  explanation: "ESP tunnel mode encapsulates and encrypts the entire original IP packet inside a new IP packet, which is the common choice for site-to-site VPNs."
+  explanation: ESP tunnel mode encapsulates and encrypts the entire original IP packet inside a new IP packet, which is the common choice for site-to-site VPNs.
   source: adapted_from_images
 
 - id: SF-016
   topic: Security Fundamentals
-  subtopic: "Device Hardening"
+  subtopic: Device Hardening
   type: single_choice
   difficulty: medium
-  tags: [telnet, local-user, privilege-level, switch-hardening]
-  exhibit: |
-    Existing configuration:
-
-      Switch(config)#hostname R1
-      R1(config)#interface FastEthernet0/1
-      R1(config-if)#no switchport
-      R1(config-if)#ip address 10.100.20.42 255.255.255.0
-      R1(config-if)#line vty 0 4
-      R1(config-line)#login
-  question: "Refer to the exhibit. An engineer booted a new switch and applied this configuration to the console port. Which additional configuration must be applied to allow administrators to authenticate directly to global configuration mode via Telnet using a local username and password?"
+  tags:
+  - telnet
+  - local-user
+  - privilege-level
+  - switch-hardening
+  exhibit: "Existing configuration:\n\n  Switch(config)#hostname R1\n  R1(config)#interface FastEthernet0/1\n  R1(config-if)#no switchport\n  R1(config-if)#ip address 10.100.20.42 255.255.255.0\n  R1(config-if)#line vty 0 4\n  R1(config-line)#login\n"
+  question: Refer to the exhibit. An engineer booted a new switch and applied this configuration to the console port. Which additional configuration must be applied to allow administrators to authenticate directly to global configuration mode via Telnet using a local username and password?
   options:
-    A: "`R1(config)#username admin` `R1(config-if)#line vty 0 4` `R1(config-line)#password p@ss1234` `R1(config-line)#transport input telnet`"
-    B: "`R1(config)#username admin privilege 15 secret p@ss1234` `R1(config)#line vty 0 4` `R1(config-line)#login local`"
-    C: "`R1(config)#username admin secret p@ss1234` `R1(config)#line vty 0 4` `R1(config-line)#login local` `R1(config-line)#enable secret p@ss1234`"
-    D: "`R1(config)#username admin` `R1(config)#line vty 0 4` `R1(config-line)#password p@ss1234`"
+    A: '`R1(config)#username admin` `R1(config-if)#line vty 0 4` `R1(config-line)#password p@ss1234` `R1(config-line)#transport input telnet`'
+    B: '`R1(config)#username admin privilege 15 secret p@ss1234` `R1(config)#line vty 0 4` `R1(config-line)#login local`'
+    C: '`R1(config)#username admin secret p@ss1234` `R1(config)#line vty 0 4` `R1(config-line)#login local` `R1(config-line)#enable secret p@ss1234`'
+    D: '`R1(config)#username admin` `R1(config)#line vty 0 4` `R1(config-line)#password p@ss1234`'
   correct_answer: B
-  explanation: "To authenticate with a local username and password over Telnet, the VTY lines must use `login local`, and the local user should be defined with privilege level 15 so the administrator lands directly in privileged access after login."
-  source: 5-Security-Fundamentals_88/SF-016.png
+  explanation: To authenticate with a local username and password over Telnet, the VTY lines must use `login local`, and the local user should be defined with privilege level 15 so the administrator lands directly in privileged access after login.
+  source: adapted_from_images
 
 - id: SF-017
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: medium
-  tags: [wpa3, sae, pmf, protected-management-frames]
-  exhibit: |
-    WLC Add WLAN > Security > Layer 2
-
-    Layer 2 mode:
-      - WPA2 + WPA3 selected
-
-    WPA / WPA2 / WPA3 settings:
-      - WPA2 Policy: enabled
-      - WPA3 Policy: enabled
-      - Fast Transition: Enabled
-
-    Encryption options shown:
-      - GCMP128
-      - GCMP256
-
-    Auth Key Management options shown:
-      - SAE
-      - OWE
-      - 802.1x
-      - FT + SAE
-      - FT + 802.1x
-      - 802.1x + SHA256
-
-    Protected Management Frame:
-      - PMF: Required
-  question: "Refer to the exhibit. Which functionalities will this SSID have while being used by wireless clients?"
+  tags:
+  - wpa3
+  - sae
+  - pmf
+  - protected-management-frames
+  exhibit: "WLC Add WLAN > Security > Layer 2\n\nLayer 2 mode:\n  - WPA2 + WPA3 selected\n\nWPA / WPA2 / WPA3 settings:\n  - WPA2 Policy: enabled\n  - WPA3 Policy: enabled\n  - Fast Transition: Enabled\n\nEncryption options shown:\n  - GCMP128\n  - GCMP256\n\nAuth Key Management options shown:\n  - SAE\n  - OWE\n  - 802.1x\n  - FT + SAE\n  - FT + 802.1x\n  - 802.1x + SHA256\n\nProtected Management Frame:\n  - PMF: Required\n"
+  question: Refer to the exhibit. Which functionalities will this SSID have while being used by wireless clients?
   options:
-    A: "decreases network security against air sniffing attacks and discourages the use of complex passwords"
-    B: "increases network security against offline dictionary attacks and discourages time-consuming brute force attacks"
-    C: "decreases network security against offline dictionary attacks and encourages easy access to the network"
-    D: "increases network security against man in the middle attacks and discourages denial of service attacks"
+    A: decreases network security against air sniffing attacks and discourages the use of complex passwords
+    B: increases network security against offline dictionary attacks and discourages time-consuming brute force attacks
+    C: decreases network security against offline dictionary attacks and encourages easy access to the network
+    D: increases network security against man in the middle attacks and discourages denial of service attacks
   correct_answer: B
-  explanation: "The WLAN is configured with WPA3-related features such as SAE and required Protected Management Frames. SAE strengthens resistance to offline dictionary attacks and makes brute-force password attacks less practical."
+  explanation: The WLAN is configured with WPA3-related features such as SAE and required Protected Management Frames. SAE strengthens resistance to offline dictionary attacks and makes brute-force password attacks less practical.
   source: 5-Security-Fundamentals_88/SF-017.png
 
 - id: SF-018
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: multiple_choice
   difficulty: medium
-  tags: [wpa, 802.1x, ldap, wireless, authentication]
-  exhibit: |
-    WLC Security view:
-
-      Tabs shown:
-        General | Security | QoS | Policy-Mapping | Advanced
-        Layer 2 | Layer 3 | AAA Servers
-
-      Layer 2 Security:
-        [dropdown]
-
-      Options shown:
-        - MAC Filtering
-        - Fast Transition
-        - PMF
-
-      WPA + WPA2 Parameters:
-        - WPA Policy
-        - WPA2 Policy
-        - WPA2 Encryption: AES / TKIP
-
-      Authentication Key Management:
-        - 802.1X
-        - CCKM
-        - PSK
-  question: "Refer to the exhibit. What are the two steps an engineer must take to provide the highest encryption and authentication using domain credentials from LDAP? (Choose two.)"
+  tags:
+  - wpa
+  - 802.1x
+  - ldap
+  - wireless
+  - authentication
+  exhibit: "WLC Security view:\n\n  Tabs shown:\n    General | Security | QoS | Policy-Mapping | Advanced\n    Layer 2 | Layer 3 | AAA Servers\n\n  Layer 2 Security:\n    [dropdown]\n\n  Options shown:\n    - MAC Filtering\n    - Fast Transition\n    - PMF\n\n  WPA + WPA2 Parameters:\n    - WPA Policy\n    - WPA2 Policy\n    - WPA2 Encryption: AES / TKIP\n\n  Authentication Key Management:\n    - 802.1X\n    - CCKM\n    - PSK\n"
+  question: Refer to the exhibit. What are the two steps an engineer must take to provide the highest encryption and authentication using domain credentials from LDAP? (Choose two.)
   options:
-    A: "Select PSK under Authentication Key Management."
-    B: "Select Static-WEP + 802.1X on Layer 2 Security."
-    C: "Select WPA+WPA2 on Layer 2 Security."
-    D: "Select 802.1X from under Authentication Key Management."
-    E: "Select WPA Policy with TKIP Encryption."
-  correct_answer: [C, D]
-  explanation: "Using domain credentials through LDAP implies enterprise authentication with 802.1X rather than PSK. Among the given choices, enabling WPA or WPA2 mode and selecting 802.1X under Authentication Key Management provides the strongest authentication model available in the options."
+    A: Select PSK under Authentication Key Management.
+    B: Select Static-WEP + 802.1X on Layer 2 Security.
+    C: Select WPA+WPA2 on Layer 2 Security.
+    D: Select 802.1X from under Authentication Key Management.
+    E: Select WPA Policy with TKIP Encryption.
+  correct_answer:
+  - C
+  - D
+  explanation: Using domain credentials through LDAP implies enterprise authentication with 802.1X rather than PSK. Among the given choices, enabling WPA or WPA2 mode and selecting 802.1X under Authentication Key Management provides the strongest authentication model available in the options.
   source: 5-Security-Fundamentals_88/SF-018.png
 
 - id: SF-019
   topic: Security Fundamentals
-  subtopic: "Threat Defense"
+  subtopic: Threat Defense
   type: single_choice
   difficulty: easy
-  tags: [amp, ngips, malware]
-  question: "What is a function of Cisco Advanced Malware Protection for a Next-Generation IPS?"
+  tags:
+  - amp
+  - ngips
+  - malware
+  question: What is a function of Cisco Advanced Malware Protection for a Next-Generation IPS?
   options:
-    A: "inspecting specific files and file types for malware"
-    B: "authorizing potentially compromised wireless traffic"
-    C: "authenticating end users"
-    D: "URL filtering"
+    A: inspecting specific files and file types for malware
+    B: authorizing potentially compromised wireless traffic
+    C: authenticating end users
+    D: URL filtering
   correct_answer: A
-  explanation: "Cisco AMP for Networks can inspect files and file types traversing the network to identify malware and related malicious behavior."
+  explanation: Cisco AMP for Networks can inspect files and file types traversing the network to identify malware and related malicious behavior.
   source: adapted_from_images
 
 - id: SF-020
   topic: Security Fundamentals
-  subtopic: "AAA"
+  subtopic: AAA
   type: equivalence_buttons
   difficulty: medium
-  tags: [aaa, authentication, authorization, tacacs, drag-and-drop]
-  question: "Drag and drop the statements about AAA services from the left to the corresponding AAA services on the right. Not all options are used."
+  tags:
+  - aaa
+  - authentication
+  - authorization
+  - tacacs
+  - drag-and-drop
+  question: Drag and drop the statements about AAA services from the left to the corresponding AAA services on the right. Not all options are used.
   premises:
-    - "It grants access to network assets, such as FTP servers."
-    - "It restricts the CLI commands that a user is able to perform."
-    - "It performs user validation via TACACS+."
-    - "It records the duration of each connection."
-    - "It supports User Access Reporting."
-    - "It verifies \"who you are\"."
+  - It grants access to network assets, such as FTP servers.
+  - It restricts the CLI commands that a user is able to perform.
+  - It performs user validation via TACACS+.
+  - It records the duration of each connection.
+  - It supports User Access Reporting.
+  - It verifies "who you are".
   responses:
-    - "Authentication"
-    - "Authorization"
+  - Authentication
+  - Authorization
   correct_matches:
-    "It performs user validation via TACACS+.": "Authentication"
-    "It verifies \"who you are\".": "Authentication"
-    "It grants access to network assets, such as FTP servers.": "Authorization"
-    "It restricts the CLI commands that a user is able to perform.": "Authorization"
-  explanation: "Authentication verifies identity, while authorization determines which resources and commands an authenticated user is allowed to access or use. The unused statements relate to accounting rather than authentication or authorization."
+    It performs user validation via TACACS+.: Authentication
+    It verifies "who you are".: Authentication
+    It grants access to network assets, such as FTP servers.: Authorization
+    It restricts the CLI commands that a user is able to perform.: Authorization
+  explanation: Authentication verifies identity, while authorization determines which resources and commands an authenticated user is allowed to access or use. The unused statements relate to accounting rather than authentication or authorization.
   source: adapted_from_images
 
 - id: SF-021
   topic: Security Fundamentals
-  subtopic: "Password Policy"
+  subtopic: Password Policy
   type: single_choice
   difficulty: easy
-  tags: [passwords, policy, complexity]
-  question: "Which guideline helps to create a secure password policy?"
+  tags:
+  - passwords
+  - policy
+  - complexity
+  question: Which guideline helps to create a secure password policy?
   options:
-    A: "restricting password sharing to a very small group"
-    B: "requiring complex, lengthy passwords instead of simple, short ones"
-    C: "forbidding users from storing passwords in a password manager"
-    D: "allowing passwords used by service accounts to never expire"
+    A: restricting password sharing to a very small group
+    B: requiring complex, lengthy passwords instead of simple, short ones
+    C: forbidding users from storing passwords in a password manager
+    D: allowing passwords used by service accounts to never expire
   correct_answer: B
-  explanation: "Strong password policies require passwords that are both complex and long enough to resist guessing, brute-force, and dictionary attacks."
+  explanation: Strong password policies require passwords that are both complex and long enough to resist guessing, brute-force, and dictionary attacks.
   source: adapted_from_images
 
 - id: SF-022
   topic: Security Fundamentals
-  subtopic: "Password Policy"
+  subtopic: Password Policy
   type: single_choice
   difficulty: easy
-  tags: [passwords, special-characters, complexity]
-  question: "Which action must be taken when password protection is implemented?"
+  tags:
+  - passwords
+  - special-characters
+  - complexity
+  question: Which action must be taken when password protection is implemented?
   options:
-    A: "Use less than eight characters in length when passwords are complex."
-    B: "Include special characters and make passwords as long as allowed."
-    C: "Share passwords with senior IT management to ensure proper oversight."
-    D: "Store passwords as contacts on a mobile device with single-factor authentication."
+    A: Use less than eight characters in length when passwords are complex.
+    B: Include special characters and make passwords as long as allowed.
+    C: Share passwords with senior IT management to ensure proper oversight.
+    D: Store passwords as contacts on a mobile device with single-factor authentication.
   correct_answer: B
-  explanation: "Good password protection practices include long passwords and a mix of character types such as uppercase, lowercase, numbers, and special characters."
+  explanation: Good password protection practices include long passwords and a mix of character types such as uppercase, lowercase, numbers, and special characters.
   source: adapted_from_images
 
 - id: SF-023
   topic: Security Fundamentals
-  subtopic: "Device Hardening"
+  subtopic: Device Hardening
   type: single_choice
   difficulty: medium
-  tags: [telnet, enable-secret, login-local, vty]
-  exhibit: |
-    Topology:
-
-                 R6
-                 |
-            10.10.198.0/30
-                 |
-                WAN
-               /   \
-      10.111.87.0/30  10.128.1.0/30
-             /             \
-            R4             R5
-
-    Requirements shown:
-      - Only Telnet access is allowed
-      - The enable password must be stored securely
-      - The enable password must not be plain text
-      - Full access to R4 must be permitted after login
-  question: "Refer to the exhibit. Local access for R4 must be established and these requirements must be met: only Telnet access is allowed, the enable password must be stored securely, the enable password must not be applied in plain text, and full access to R4 must be permitted upon successful login. Which configuration script meets the requirements?"
+  tags:
+  - telnet
+  - enable-secret
+  - login-local
+  - vty
+  exhibit: "Topology:\n\n             R6\n             |\n        10.10.198.0/30\n             |\n            WAN\n           /   \\\n  10.111.87.0/30  10.128.1.0/30\n         /             \\\n        R4             R5\n\nRequirements shown:\n  - Only Telnet access is allowed\n  - The enable password must be stored securely\n  - The enable password must not be plain text\n  - Full access to R4 must be permitted after login\n"
+  question: 'Refer to the exhibit. Local access for R4 must be established and these requirements must be met: only Telnet access is allowed, the enable password must be stored securely, the enable password must not be applied in plain text, and full access to R4 must be permitted upon successful login. Which configuration script meets the requirements?'
   options:
-    A: "`conf t` `username test1 password testpass1` `enable secret level 15 Test123` `line vty 0 15` `login local` `transport input telnet`"
-    B: "`conf t` `username test1 password testpass1` `enable password level 15 Test123` `line vty 0 15` `login local` `transport input all`"
-    C: "`conf t` `username test1 password testpass1` `enable password level 17 Test123` `line vty 0 15` `accounting exec default` `transport input all`"
-    D: "`conf t` `username test1 password testpass1` `enable secret level 10 Test123` `line vty 0 15` `login authentication` `password Test123` `transport input telnet`"
+    A: '`conf t` `username test1 password testpass1` `enable secret level 15 Test123` `line vty 0 15` `login local` `transport input telnet`'
+    B: '`conf t` `username test1 password testpass1` `enable password level 15 Test123` `line vty 0 15` `login local` `transport input all`'
+    C: '`conf t` `username test1 password testpass1` `enable password level 17 Test123` `line vty 0 15` `accounting exec default` `transport input all`'
+    D: '`conf t` `username test1 password testpass1` `enable secret level 10 Test123` `line vty 0 15` `login authentication` `password Test123` `transport input telnet`'
   correct_answer: A
-  explanation: "The requirements call for Telnet-only remote access, local authentication, and a securely stored enable credential. Option A uses `enable secret`, `login local`, and `transport input telnet`, satisfying those conditions."
+  explanation: The requirements call for Telnet-only remote access, local authentication, and a securely stored enable credential. Option A uses `enable secret`, `login local`, and `transport input telnet`, satisfying those conditions.
   source: 5-Security-Fundamentals_88/SF-023.png
 
 - id: SF-024
   topic: Security Fundamentals
-  subtopic: "WLC Security"
+  subtopic: WLC Security
   type: multiple_choice
   difficulty: easy
-  tags: [wlc, management, telnet, http, insecure-protocols]
-  question: "Which two protocols must be disabled to increase security for management connections to a Wireless LAN Controller? (Choose two.)"
+  tags:
+  - wlc
+  - management
+  - telnet
+  - http
+  - insecure-protocols
+  question: Which two protocols must be disabled to increase security for management connections to a Wireless LAN Controller? (Choose two.)
   options:
-    A: "HTTPS"
-    B: "SSH"
-    C: "HTTP"
-    D: "Telnet"
-    E: "TFTP"
-  correct_answer: [C, D]
-  explanation: "HTTP and Telnet transmit management traffic without encryption, so they should be disabled in favor of HTTPS and SSH."
+    A: HTTPS
+    B: SSH
+    C: HTTP
+    D: Telnet
+    E: TFTP
+  correct_answer:
+  - C
+  - D
+  explanation: HTTP and Telnet transmit management traffic without encryption, so they should be disabled in favor of HTTPS and SSH.
   source: adapted_from_images
 
 - id: SF-025
   topic: Security Fundamentals
-  subtopic: "Device Hardening"
+  subtopic: Device Hardening
   type: single_choice
   difficulty: medium
-  tags: [ssh, username, secret, service-password-encryption]
-  exhibit: |
-    Existing configuration:
-
-      Router#conf t
-      Router(config)#hostname R1
-      R1(config)#ip domain-name cc-Net.com
-      R1(config)#enable secret Passwordnuser
-      R1(config)#line vty 0 15
-      R1(config-line)#transport input ssh
-      R1(config-line)#login local
-
-    Requirements shown:
-      - Create the username as CCUser
-      - Create the password as NA!2$cc
-      - Encrypt the user password
-  question: "Refer to the exhibit. A network administrator is configuring a router for user access via SSH. The `service-password encryption` command has been issued. The configuration must meet these requirements: create the username as `CCUser`, create the password as `NA!2$cc`, and encrypt the user password. What must be configured to meet the requirements?"
+  tags:
+  - ssh
+  - username
+  - secret
+  - service-password-encryption
+  exhibit: "Existing configuration:\n\n  Router#conf t\n  Router(config)#hostname R1\n  R1(config)#ip domain-name cc-Net.com\n  R1(config)#enable secret Passwordnuser\n  R1(config)#line vty 0 15\n  R1(config-line)#transport input ssh\n  R1(config-line)#login local\n\nRequirements shown:\n  - Create the username as CCUser\n  - Create the password as NA!2$cc\n  - Encrypt the user password\n"
+  question: 'Refer to the exhibit. A network administrator is configuring a router for user access via SSH. The `service-password encryption` command has been issued. The configuration must meet these requirements: create the username as `CCUser`, create the password as `NA!2$cc`, and encrypt the user password. What must be configured to meet the requirements?'
   options:
-    A: "`username CCUser privilege 10 password NA!2$cc`"
-    B: "`username CCUser privilege 15 password NA!2$cc` and `enable secret 0 NA!2$cc`"
-    C: "`username CCUser secret NA!2$cc`"
-    D: "`username CCUser password NA!2$cc` and `enable password level 5 NA!2$cc`"
+    A: '`username CCUser privilege 10 password NA!2$cc`'
+    B: '`username CCUser privilege 15 password NA!2$cc` and `enable secret 0 NA!2$cc`'
+    C: '`username CCUser secret NA!2$cc`'
+    D: '`username CCUser password NA!2$cc` and `enable password level 5 NA!2$cc`'
   correct_answer: C
-  explanation: "Using the `secret` keyword stores the user password as a stronger hash than `password`, which satisfies the requirement to encrypt the user credential for SSH access."
-  source: 5-Security-Fundamentals_88/SF-025.png
+  explanation: Using the `secret` keyword stores the user password as a stronger hash than `password`, which satisfies the requirement to encrypt the user credential for SSH access.
+  source: adapted_from_images
 
 - id: SF-026
   topic: Security Fundamentals
-  subtopic: "Security Analytics"
+  subtopic: Security Analytics
   type: single_choice
   difficulty: easy
-  tags: [machine-learning, threat-detection, anomaly-detection]
-  question: "Which advantage does machine learning offer for network security?"
+  tags:
+  - machine-learning
+  - threat-detection
+  - anomaly-detection
+  question: Which advantage does machine learning offer for network security?
   options:
-    A: "It improves real-time threat detection."
-    B: "It manages firewall rule sets."
-    C: "It enforces password complexity requirements."
-    D: "It controls VPN access permissions."
+    A: It improves real-time threat detection.
+    B: It manages firewall rule sets.
+    C: It enforces password complexity requirements.
+    D: It controls VPN access permissions.
   correct_answer: A
-  explanation: "Machine learning helps analyze large volumes of network activity, detect abnormal patterns faster, and improve real-time threat detection."
+  explanation: Machine learning helps analyze large volumes of network activity, detect abnormal patterns faster, and improve real-time threat detection.
   source: adapted_from_images
 
 - id: SF-027
   topic: Security Fundamentals
-  subtopic: "Cryptography"
+  subtopic: Cryptography
   type: single_choice
   difficulty: easy
-  tags: [rsa, public-key, asymmetric]
-  question: "What is a characteristic of RSA?"
+  tags:
+  - rsa
+  - public-key
+  - asymmetric
+  question: What is a characteristic of RSA?
   options:
-    A: "It uses preshared keys for encryption."
-    B: "It is a public-key cryptosystem."
-    C: "It is a private-key encryption algorithm."
-    D: "It requires both sides to have identical keys."
+    A: It uses preshared keys for encryption.
+    B: It is a public-key cryptosystem.
+    C: It is a private-key encryption algorithm.
+    D: It requires both sides to have identical keys.
   correct_answer: B
-  explanation: "RSA is an asymmetric or public-key cryptosystem that uses a public key for encryption or signature verification and a private key for decryption or signing."
+  explanation: RSA is an asymmetric or public-key cryptosystem that uses a public key for encryption or signature verification and a private key for decryption or signing.
   source: adapted_from_images
 
 - id: SF-028
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: multiple_choice
   difficulty: medium
-  tags: [wpa2, psk, aes, wlan]
-  exhibit: |
-    WLC security options shown:
-
-      Policies:
-        - WPA2 Policy
-        - WPA3 Policy
-
-      WPA2/WPA3 Encryption choices:
-        - AES (CCMP128)
-        - CCMP256
-        - GCMP128
-        - GCMP256
-
-      Additional option:
-        - MPSK
-
-      Auth Key Mgmt choices:
-        - 802.1x
-        - PSK
-        - CCKM
-        - SAE
-        - OWE
-        - FT + 802.1x
-        - FT + PSK
-  question: "Refer to the exhibit. An engineer is creating a secure preshared key based SSID using WPA2 for a wireless network running on 2.4 GHz and 5 GHz. Which two tasks must the engineer perform to complete the process? (Choose two.)"
+  tags:
+  - wpa2
+  - psk
+  - aes
+  - wlan
+  exhibit: "WLC security options shown:\n\n  Policies:\n    - WPA2 Policy\n    - WPA3 Policy\n\n  WPA2/WPA3 Encryption choices:\n    - AES (CCMP128)\n    - CCMP256\n    - GCMP128\n    - GCMP256\n\n  Additional option:\n    - MPSK\n\n  Auth Key Mgmt choices:\n    - 802.1x\n    - PSK\n    - CCKM\n    - SAE\n    - OWE\n    - FT + 802.1x\n    - FT + PSK\n"
+  question: Refer to the exhibit. An engineer is creating a secure preshared key based SSID using WPA2 for a wireless network running on 2.4 GHz and 5 GHz. Which two tasks must the engineer perform to complete the process? (Choose two.)
   options:
-    A: "Select the 802.1X option for Auth Key Management."
-    B: "Select the AES (CCMP128) option for WPA2 WPA3 Encryption."
-    C: "Select the AES option for Auth Key Management."
-    D: "Select the PSK option for Auth Key Management."
-    E: "Select the WPA Policy option."
-  correct_answer: [B, D]
-  explanation: "For a WPA2 personal SSID, the WLAN must use PSK for key management and AES/CCMP for encryption. 802.1X is used for enterprise authentication, not preshared-key access."
+    A: Select the 802.1X option for Auth Key Management.
+    B: Select the AES (CCMP128) option for WPA2 WPA3 Encryption.
+    C: Select the AES option for Auth Key Management.
+    D: Select the PSK option for Auth Key Management.
+    E: Select the WPA Policy option.
+  correct_answer:
+  - B
+  - D
+  explanation: For a WPA2 personal SSID, the WLAN must use PSK for key management and AES/CCMP for encryption. 802.1X is used for enterprise authentication, not preshared-key access.
   source: 5-Security-Fundamentals_88/SF-028.png
 
 - id: SF-029
   topic: Security Fundamentals
-  subtopic: "Threats and Vulnerabilities"
+  subtopic: Threats and Vulnerabilities
   type: single_choice
   difficulty: easy
-  tags: [zero-day, vulnerability, exploit]
-  question: "What is a zero-day exploit?"
+  tags:
+  - zero-day
+  - vulnerability
+  - exploit
+  question: What is a zero-day exploit?
   options:
-    A: "It is when the network is saturated with malicious traffic that overloads resources and bandwidth."
-    B: "It is when an attacker inserts malicious code into a SQL server."
-    C: "It is when a new network vulnerability is discovered before a fix is available."
-    D: "It is when the perpetrator inserts itself in a conversation between two parties and captures or alters data."
+    A: It is when the network is saturated with malicious traffic that overloads resources and bandwidth.
+    B: It is when an attacker inserts malicious code into a SQL server.
+    C: It is when a new network vulnerability is discovered before a fix is available.
+    D: It is when the perpetrator inserts itself in a conversation between two parties and captures or alters data.
   correct_answer: C
-  explanation: "A zero-day exploit takes advantage of a newly discovered vulnerability before the vendor or administrator has had time to develop and deploy a fix."
+  explanation: A zero-day exploit takes advantage of a newly discovered vulnerability before the vendor or administrator has had time to develop and deploy a fix.
   source: adapted_from_images
 
 - id: SF-030
   topic: Security Fundamentals
-  subtopic: "Port Security"
+  subtopic: Port Security
   type: single_choice
   difficulty: medium
-  tags: [port-security, switchport, maximum, secure-mac]
-  exhibit: |
-    Topology:
-
-           SW1 ---------------- SW2
-          Gi0/0/1  802.1Q trunk  Gi0/0/1
-               carrying VLANs 1,100,101,102,103
-
-             |
-           Gi1/0/15
-             |
-            PC1
-          VLAN 100
-          MAC 0000.abcd.0004
-
-    Label shown:
-      - Lobby Conference Room access port
-  question: "Refer to the exhibit. SW1 supports connectivity for a lobby conference room and must be secured. The engineer must limit the connectivity from PC1 to the SW1 and SW2 network. The MAC addresses allowed must be limited to two. Which configuration secures the conference room connectivity?"
+  tags:
+  - port-security
+  - switchport
+  - maximum
+  - secure-mac
+  exhibit: "Topology:\n\n       SW1 ---------------- SW2\n      Gi0/0/1  802.1Q trunk  Gi0/0/1\n           carrying VLANs 1,100,101,102,103\n\n         |\n       Gi1/0/15\n         |\n        PC1\n      VLAN 100\n      MAC 0000.abcd.0004\n\nLabel shown:\n  - Lobby Conference Room access port\n"
+  question: Refer to the exhibit. SW1 supports connectivity for a lobby conference room and must be secured. The engineer must limit the connectivity from PC1 to the SW1 and SW2 network. The MAC addresses allowed must be limited to two. Which configuration secures the conference room connectivity?
   options:
-    A: "`interface gi1/0/15` `switchport port-security` `switchport port-security maximum 2`"
-    B: "`interface gi1/0/15` `switchport port-security` `switchport port-security mac-address 0000.abcd.0004 vlan 100`"
-    C: "`interface gi1/0/15` `switchport port-security mac-address 0000.abcd.0004 vlan 100`"
-    D: "`interface gi1/0/15` `switchport port-security mac-address 0000.abcd.0004 vlan 100` `interface switchport secure-mac limit 2`"
+    A: '`interface gi1/0/15` `switchport port-security` `switchport port-security maximum 2`'
+    B: '`interface gi1/0/15` `switchport port-security` `switchport port-security mac-address 0000.abcd.0004 vlan 100`'
+    C: '`interface gi1/0/15` `switchport port-security mac-address 0000.abcd.0004 vlan 100`'
+    D: '`interface gi1/0/15` `switchport port-security mac-address 0000.abcd.0004 vlan 100` `interface switchport secure-mac limit 2`'
   correct_answer: A
-  explanation: "Port security must first be enabled on the access interface, and the maximum number of learned secure MAC addresses must then be limited to two."
+  explanation: Port security must first be enabled on the access interface, and the maximum number of learned secure MAC addresses must then be limited to two.
   source: 5-Security-Fundamentals_88/SF-030.png
 
 - id: SF-031
   topic: Security Fundamentals
-  subtopic: "Management Security"
+  subtopic: Management Security
   type: single_choice
   difficulty: easy
-  tags: [snmpv3, monitoring, encryption, authentication]
-  question: "Which technology must be implemented to configure network device monitoring with the highest security?"
+  tags:
+  - snmpv3
+  - monitoring
+  - encryption
+  - authentication
+  question: Which technology must be implemented to configure network device monitoring with the highest security?
   options:
-    A: "IP SLA"
-    B: "syslog"
-    C: "NetFlow"
-    D: "SNMPv3"
+    A: IP SLA
+    B: syslog
+    C: NetFlow
+    D: SNMPv3
   correct_answer: D
-  explanation: "SNMPv3 supports authentication, integrity, and encryption, making it the most secure SNMP option for monitoring and managing network devices."
+  explanation: SNMPv3 supports authentication, integrity, and encryption, making it the most secure SNMP option for monitoring and managing network devices.
   source: adapted_from_images
 
 - id: SF-032
   topic: Security Fundamentals
-  subtopic: "Access Control"
+  subtopic: Access Control
   type: single_choice
   difficulty: easy
-  tags: [multifactor-authentication, passwords, access-control]
-  question: "Which solution is appropriate when mitigating password attacks where the attacker was able to sniff the clear-text password of the system administrator?"
+  tags:
+  - multifactor-authentication
+  - passwords
+  - access-control
+  question: Which solution is appropriate when mitigating password attacks where the attacker was able to sniff the clear-text password of the system administrator?
   options:
-    A: "next-generation firewall to keep stateful packet inspection"
-    B: "multifactor authentication using two separate authentication sources"
-    C: "ACL to restrict incoming Telnet sessions \"admin\" accounts"
-    D: "IPS with a block list of known attack vectors"
+    A: next-generation firewall to keep stateful packet inspection
+    B: multifactor authentication using two separate authentication sources
+    C: ACL to restrict incoming Telnet sessions "admin" accounts
+    D: IPS with a block list of known attack vectors
   correct_answer: B
-  explanation: "If an attacker has learned the clear-text password, adding multifactor authentication significantly reduces risk because the password alone is no longer enough to gain access."
+  explanation: If an attacker has learned the clear-text password, adding multifactor authentication significantly reduces risk because the password alone is no longer enough to gain access.
   source: adapted_from_images
 
 - id: SF-033
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: medium
-  tags: [wpa2, wpa3, mac-filtering, wlan]
-  exhibit: |
-    Pending exhibit attachment.
+  tags:
+  - wpa2
+  - wpa3
+  - mac-filtering
+  - wlan
+  exhibit: 'Pending exhibit attachment.
+
     Image file: SF-033.png
-  question: "Refer to the exhibit. An engineer must document all Wi-Fi services on a new wireless LAN controller. The Wi-Fi SSID \"Office_WLan\" has Layer 2 Security. What is determined by this configuration?"
+
+    '
+  question: Refer to the exhibit. An engineer must document all Wi-Fi services on a new wireless LAN controller. The Wi-Fi SSID "Office_WLan" has Layer 2 Security. What is determined by this configuration?
   options:
-    A: "There is Galois cache algorithm configured that provides strong encryption and authentication."
-    B: "There is a strong mutual authentication used between NAC and the network devices using x.509 standard."
-    C: "There is an extra layer of security that ensures only authorized devices with known MAC addresses connect to the network."
-    D: "There is a robust security mechanism configured to protect against various Layer 2 and Layer 3 attacks."
+    A: There is Galois cache algorithm configured that provides strong encryption and authentication.
+    B: There is a strong mutual authentication used between NAC and the network devices using x.509 standard.
+    C: There is an extra layer of security that ensures only authorized devices with known MAC addresses connect to the network.
+    D: There is a robust security mechanism configured to protect against various Layer 2 and Layer 3 attacks.
   correct_answer: C
-  explanation: "The exhibit shows Layer 2 wireless security with WPA2 or WPA3 parameters and MAC filtering enabled. That indicates an added control allowing only approved client MAC addresses to connect."
+  explanation: The exhibit shows Layer 2 wireless security with WPA2 or WPA3 parameters and MAC filtering enabled. That indicates an added control allowing only approved client MAC addresses to connect.
   source: adapted_from_images
 
 - id: SF-034
   topic: Security Fundamentals
-  subtopic: "Authentication Methods"
+  subtopic: Authentication Methods
   type: equivalence_buttons
   difficulty: medium
-  tags: [biometrics, certificates, multifactor-authentication, drag-and-drop]
-  question: "Drag and drop the descriptions of security features from the left onto the corresponding features on the right."
+  tags:
+  - biometrics
+  - certificates
+  - multifactor-authentication
+  - drag-and-drop
+  question: Drag and drop the descriptions of security features from the left onto the corresponding features on the right.
   premises:
-    - "may use a fingerprint reader to authenticate users"
-    - "may use time-based or one-time passwords to authenticate users"
-    - "relies on a \"something you are\" paradigm"
-    - "requires two or more authentication methods to verify a user's identity"
-    - "supports enterprise, third party, and public options"
-    - "issuer may revoke the digital credentials"
+  - may use a fingerprint reader to authenticate users
+  - may use time-based or one-time passwords to authenticate users
+  - relies on a "something you are" paradigm
+  - requires two or more authentication methods to verify a user's identity
+  - supports enterprise, third party, and public options
+  - issuer may revoke the digital credentials
   responses:
-    - "Biometrics"
-    - "Certificates"
-    - "Multifactor Authentication"
+  - Biometrics
+  - Certificates
+  - Multifactor Authentication
   correct_matches:
-    "may use a fingerprint reader to authenticate users": "Biometrics"
-    "relies on a \"something you are\" paradigm": "Biometrics"
-    "supports enterprise, third party, and public options": "Certificates"
-    "issuer may revoke the digital credentials": "Certificates"
-    "may use time-based or one-time passwords to authenticate users": "Multifactor Authentication"
-    "requires two or more authentication methods to verify a user's identity": "Multifactor Authentication"
-  explanation: "Biometrics use physical traits such as fingerprints. Certificates are digital credentials issued by certificate authorities and can be revoked. Multifactor authentication combines two or more authentication factors and often includes one-time passwords."
+    may use a fingerprint reader to authenticate users: Biometrics
+    relies on a "something you are" paradigm: Biometrics
+    supports enterprise, third party, and public options: Certificates
+    issuer may revoke the digital credentials: Certificates
+    may use time-based or one-time passwords to authenticate users: Multifactor Authentication
+    requires two or more authentication methods to verify a user's identity: Multifactor Authentication
+  explanation: Biometrics use physical traits such as fingerprints. Certificates are digital credentials issued by certificate authorities and can be revoked. Multifactor authentication combines two or more authentication factors and often includes one-time passwords.
   source: 5-Security-Fundamentals_88/SF-033.png
 
 - id: SF-035
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: medium
-  tags: [802.11r, fast-transition, ft-802.1x, wlan]
-  exhibit: |
-    WLC Layer 2 Security view:
-
-      Layer 2 Security:
-        - WPA+WPA2 selected
-
-      Fast Transition:
-        - Fast Transition: Adaptive
-        - Over the DS: enabled
-        - Reassociation Timeout: 20 seconds
-
-      Protected Management Frame:
-        - PMF: Disabled
-
-      WPA+WPA2 Parameters:
-        - WPA2 Policy: enabled
-        - WPA2 Encryption: AES enabled
-
-      Authentication Key Management:
-        - 802.1X: enabled
-        - FT 802.1X: available
-        - PSK / FT PSK: available but not selected
-  question: "Refer to the exhibit. Clients on the WLAN are required to use 802.11r. What action must be taken to meet the requirement?"
+  tags:
+  - 802.11r
+  - fast-transition
+  - ft-802.1x
+  - wlan
+  exhibit: "WLC Layer 2 Security view:\n\n  Layer 2 Security:\n    - WPA+WPA2 selected\n\n  Fast Transition:\n    - Fast Transition: Adaptive\n    - Over the DS: enabled\n    - Reassociation Timeout: 20 seconds\n\n  Protected Management Frame:\n    - PMF: Disabled\n\n  WPA+WPA2 Parameters:\n    - WPA2 Policy: enabled\n    - WPA2 Encryption: AES enabled\n\n  Authentication Key Management:\n    - 802.1X: enabled\n    - FT 802.1X: available\n    - PSK / FT PSK: available but not selected\n"
+  question: Refer to the exhibit. Clients on the WLAN are required to use 802.11r. What action must be taken to meet the requirement?
   options:
-    A: "Under Protected Management Frames, set the PMF option to Required."
-    B: "Enable CCKM under Authentication Key Management."
-    C: "Set the Fast Transition option and the WPA gtk-randomize State to disable."
-    D: "Set the Fast Transition option to Enable and enable FT 802.1X under Authentication Key Management."
+    A: Under Protected Management Frames, set the PMF option to Required.
+    B: Enable CCKM under Authentication Key Management.
+    C: Set the Fast Transition option and the WPA gtk-randomize State to disable.
+    D: Set the Fast Transition option to Enable and enable FT 802.1X under Authentication Key Management.
   correct_answer: D
-  explanation: "802.11r is Fast BSS Transition. To require it on an enterprise WLAN, Fast Transition must be enabled and the appropriate FT key management option such as FT 802.1X must also be enabled."
+  explanation: 802.11r is Fast BSS Transition. To require it on an enterprise WLAN, Fast Transition must be enabled and the appropriate FT key management option such as FT 802.1X must also be enabled.
   source: 5-Security-Fundamentals_88/SF-035.png
 
 - id: SF-036
   topic: Security Fundamentals
-  subtopic: "VPN Technologies"
+  subtopic: VPN Technologies
   type: multiple_choice
   difficulty: medium
-  tags: [ipsec, tunnel-mode, vpn, encapsulation]
-  question: "What are the two main capabilities of tunnel mode in IPsec site-to-site VPNs? (Choose two.)"
+  tags:
+  - ipsec
+  - tunnel-mode
+  - vpn
+  - encapsulation
+  question: What are the two main capabilities of tunnel mode in IPsec site-to-site VPNs? (Choose two.)
   options:
-    A: "It secures only the data field in the packet."
-    B: "It transmits with the original packet header visible."
-    C: "It inserts a new IPsec header with new IP address."
-    D: "It authenticates the data field in original packet."
-    E: "It encrypts the complete IP packet with the data field."
-  correct_answer: [C, E]
-  explanation: "In tunnel mode, the entire original IP packet is protected and encapsulated. A new outer IP header is added for the VPN endpoints, while the original packet is encrypted inside the tunnel."
+    A: It secures only the data field in the packet.
+    B: It transmits with the original packet header visible.
+    C: It inserts a new IPsec header with new IP address.
+    D: It authenticates the data field in original packet.
+    E: It encrypts the complete IP packet with the data field.
+  correct_answer:
+  - C
+  - E
+  explanation: In tunnel mode, the entire original IP packet is protected and encapsulated. A new outer IP header is added for the VPN endpoints, while the original packet is encrypted inside the tunnel.
   source: adapted_from_images
 
 - id: SF-037
   topic: Security Fundamentals
-  subtopic: "Authentication Methods"
+  subtopic: Authentication Methods
   type: single_choice
   difficulty: easy
-  tags: [biometric, authentication]
-  question: "Which authentication method requires the user to provide a physical attribute to authenticate successfully?"
+  tags:
+  - biometric
+  - authentication
+  question: Which authentication method requires the user to provide a physical attribute to authenticate successfully?
   options:
-    A: "biometric"
-    B: "password"
-    C: "multifactor"
-    D: "certificate"
+    A: biometric
+    B: password
+    C: multifactor
+    D: certificate
   correct_answer: A
-  explanation: "Biometric authentication uses a physical characteristic such as a fingerprint, retina pattern, or facial feature to verify identity."
+  explanation: Biometric authentication uses a physical characteristic such as a fingerprint, retina pattern, or facial feature to verify identity.
   source: adapted_from_images
 
 - id: SF-038
   topic: Security Fundamentals
-  subtopic: "Layer 2 Security"
+  subtopic: Layer 2 Security
   type: single_choice
   difficulty: medium
-  tags: [dynamic-arp-inspection, dai, trusted, untrusted]
-  exhibit: |
-    Configuration shown:
-
-      ip arp inspection vlan 2
-      interface fastethernet 0/1
-        switchport mode access
-        switchport access vlan 2
-  question: "Refer to the exhibit. What is the effect of this configuration?"
+  tags:
+  - dynamic-arp-inspection
+  - dai
+  - trusted
+  - untrusted
+  exhibit: "Configuration shown:\n\n  ip arp inspection vlan 2\n  interface fastethernet 0/1\n    switchport mode access\n    switchport access vlan 2\n"
+  question: Refer to the exhibit. What is the effect of this configuration?
   options:
-    A: "The switch port remains administratively down until the interface is connected to another switch."
-    B: "Dynamic ARP inspection is disabled because the ARP ACL is missing."
-    C: "The switch port interface trust state becomes untrusted."
-    D: "The port remains down until it is configured to trust or untrust incoming packets."
+    A: The switch port remains administratively down until the interface is connected to another switch.
+    B: Dynamic ARP inspection is disabled because the ARP ACL is missing.
+    C: The switch port interface trust state becomes untrusted.
+    D: The port remains down until it is configured to trust or untrust incoming packets.
   correct_answer: C
-  explanation: "When Dynamic ARP Inspection is enabled on a VLAN, interfaces are untrusted by default unless they are explicitly configured with `ip arp inspection trust`."
+  explanation: When Dynamic ARP Inspection is enabled on a VLAN, interfaces are untrusted by default unless they are explicitly configured with `ip arp inspection trust`.
   source: adapted_from_images
 
 - id: SF-039
   topic: Security Fundamentals
-  subtopic: "AAA"
+  subtopic: AAA
   type: single_choice
   difficulty: medium
-  tags: [radius, access-request, password]
-  question: "Which field within the access-request packet is encrypted by RADIUS?"
+  tags:
+  - radius
+  - access-request
+  - password
+  question: Which field within the access-request packet is encrypted by RADIUS?
   options:
-    A: "authorized services"
-    B: "password"
-    C: "authenticator"
-    D: "username"
+    A: authorized services
+    B: password
+    C: authenticator
+    D: username
   correct_answer: B
-  explanation: "In a RADIUS Access-Request, the User-Password attribute is obfuscated using the shared secret, while fields such as the username are not encrypted."
+  explanation: In a RADIUS Access-Request, the User-Password attribute is obfuscated using the shared secret, while fields such as the username are not encrypted.
   source: 5-Security-Fundamentals_88/SF-038.png
 
 - id: SF-040
   topic: Security Fundamentals
-  subtopic: "AAA"
+  subtopic: AAA
   type: single_choice
   difficulty: easy
-  tags: [aaa, authentication, authorization, accounting]
-  question: "Which characteristic differentiates the concept of authentication from authorization and accounting?"
+  tags:
+  - aaa
+  - authentication
+  - authorization
+  - accounting
+  question: Which characteristic differentiates the concept of authentication from authorization and accounting?
   options:
-    A: "consumption-based billing"
-    B: "identity verification"
-    C: "user-activity logging"
-    D: "service limitations"
+    A: consumption-based billing
+    B: identity verification
+    C: user-activity logging
+    D: service limitations
   correct_answer: B
-  explanation: "Authentication is the AAA function that verifies identity. Authorization controls what the user can do, and accounting records user activity for auditing or billing."
+  explanation: Authentication is the AAA function that verifies identity. Authorization controls what the user can do, and accounting records user activity for auditing or billing.
   source: adapted_from_images
 
 - id: SF-041
   topic: Security Fundamentals
-  subtopic: "Multifactor Authentication"
+  subtopic: Multifactor Authentication
   type: single_choice
   difficulty: easy
-  tags: [mfa, smartphone, pin, authenticator-app]
-  question: "An organization secures its network with multi-factor authentication using an authenticator app on employee smartphones. How is the application secured in the case of a user's smartphone being lost or stolen?"
+  tags:
+  - mfa
+  - smartphone
+  - pin
+  - authenticator-app
+  question: An organization secures its network with multi-factor authentication using an authenticator app on employee smartphones. How is the application secured in the case of a user's smartphone being lost or stolen?
   options:
-    A: "The application requires the user to enter a PIN before it provides the second factor"
-    B: "The application requires an administrator password to reactivate after a configured interval"
-    C: "The application verifies that the user is in a specific location before it provides the second factor"
-    D: "The application challenges a user by requiring an administrator password to reactivate when the smartphone is rebooted"
+    A: The application requires the user to enter a PIN before it provides the second factor
+    B: The application requires an administrator password to reactivate after a configured interval
+    C: The application verifies that the user is in a specific location before it provides the second factor
+    D: The application challenges a user by requiring an administrator password to reactivate when the smartphone is rebooted
   correct_answer: A
-  explanation: "Authenticator apps are typically protected by the phone's local security controls such as a PIN, password, fingerprint, or facial recognition so a stolen device does not automatically expose the second factor."
+  explanation: Authenticator apps are typically protected by the phone's local security controls such as a PIN, password, fingerprint, or facial recognition so a stolen device does not automatically expose the second factor.
   source: adapted_from_images
 
 - id: SF-042
   topic: Security Fundamentals
-  subtopic: "VPN Technologies"
+  subtopic: VPN Technologies
   type: single_choice
   difficulty: easy
-  tags: [ipsec, tunnel-mode, transport-mode]
-  question: "Which IPsec mode encapsulates the entire IP packet?"
+  tags:
+  - ipsec
+  - tunnel-mode
+  - transport-mode
+  question: Which IPsec mode encapsulates the entire IP packet?
   options:
-    A: "SSL VPN"
-    B: "tunnel"
-    C: "Q-in-Q"
-    D: "transport"
+    A: SSL VPN
+    B: tunnel
+    C: Q-in-Q
+    D: transport
   correct_answer: B
-  explanation: "IPsec tunnel mode protects and encapsulates the entire original IP packet, which is why it is commonly used for site-to-site VPNs."
+  explanation: IPsec tunnel mode protects and encapsulates the entire original IP packet, which is why it is commonly used for site-to-site VPNs.
   source: adapted_from_images
 
 - id: SF-043
   topic: Security Fundamentals
-  subtopic: "WLC Security"
+  subtopic: WLC Security
   type: single_choice
   difficulty: easy
-  tags: [wlc, telnet, management, man-in-the-middle]
-  question: "Which WLC management connection type is vulnerable to man-in-the-middle attacks?"
+  tags:
+  - wlc
+  - telnet
+  - management
+  - man-in-the-middle
+  question: Which WLC management connection type is vulnerable to man-in-the-middle attacks?
   options:
-    A: "console"
-    B: "Telnet"
-    C: "SSH"
-    D: "HTTPS"
+    A: console
+    B: Telnet
+    C: SSH
+    D: HTTPS
   correct_answer: B
-  explanation: "Telnet sends management traffic in clear text, making it susceptible to interception and man-in-the-middle attacks."
+  explanation: Telnet sends management traffic in clear text, making it susceptible to interception and man-in-the-middle attacks.
   source: adapted_from_images
 
 - id: SF-044
   topic: Security Fundamentals
-  subtopic: "SSH and ACLs"
+  subtopic: SSH and ACLs
   type: single_choice
   difficulty: medium
-  tags: [vty, access-class, extended-acl, ssh]
-  question: "An engineer is configuring remote access to a router from IP subnet 10.139.58.0/28. The domain name, crypto keys, and SSH have been configured. Which configuration enables the traffic on the destination router?"
+  tags:
+  - vty
+  - access-class
+  - extended-acl
+  - ssh
+  question: An engineer is configuring remote access to a router from IP subnet 10.139.58.0/28. The domain name, crypto keys, and SSH have been configured. Which configuration enables the traffic on the destination router?
   options:
-    A: "`line vty 0 15` `access-class 120 in` `ip access-list extended 120` `permit tcp 10.139.58.0 0.0.0.15 any eq 22`"
-    B: "`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.252` `ip access-group 10 in` `ip access-list standard 10` `permit udp 10.139.58.0 0.0.0.7 host 10.122.49.1 eq 22`"
-    C: "`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.252` `ip access-group 110 in` `ip access-list standard 110` `permit tcp 10.139.58.0 0.0.0.15 eq 22 host 10.122.49.1`"
-    D: "`line vty 0 15` `access-group 120 in` `ip access-list extended 120` `permit tcp 10.139.58.0 0.0.0.15 any eq 22`"
+    A: '`line vty 0 15` `access-class 120 in` `ip access-list extended 120` `permit tcp 10.139.58.0 0.0.0.15 any eq 22`'
+    B: '`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.252` `ip access-group 10 in` `ip access-list standard 10` `permit udp 10.139.58.0 0.0.0.7 host 10.122.49.1 eq 22`'
+    C: '`interface FastEthernet0/0` `ip address 10.122.49.1 255.255.255.252` `ip access-group 110 in` `ip access-list standard 110` `permit tcp 10.139.58.0 0.0.0.15 eq 22 host 10.122.49.1`'
+    D: '`line vty 0 15` `access-group 120 in` `ip access-list extended 120` `permit tcp 10.139.58.0 0.0.0.15 any eq 22`'
   correct_answer: A
-  explanation: "VTY access filtering uses `access-class`, not `access-group`, and SSH requires an extended ACL that matches TCP port 22 from the allowed source subnet."
+  explanation: VTY access filtering uses `access-class`, not `access-group`, and SSH requires an extended ACL that matches TCP port 22 from the allowed source subnet.
 
 - id: SF-045
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: easy
-  tags: [wpa2, aes, ccmp]
-  question: "Which cipher is supported for wireless encryption only with the WPA2 standard?"
+  tags:
+  - wpa2
+  - aes
+  - ccmp
+  question: Which cipher is supported for wireless encryption only with the WPA2 standard?
   options:
-    A: "RC4"
-    B: "AES"
-    C: "SHA"
-    D: "AES256"
+    A: RC4
+    B: AES
+    C: SHA
+    D: AES256
   correct_answer: B
-  explanation: "WPA2 uses AES with CCMP for wireless data protection, replacing older RC4-based TKIP approaches associated with WPA."
+  explanation: WPA2 uses AES with CCMP for wireless data protection, replacing older RC4-based TKIP approaches associated with WPA.
   source: adapted_from_images
 
 - id: SF-046
   topic: Security Fundamentals
-  subtopic: "ACLs"
+  subtopic: ACLs
   type: single_choice
   difficulty: hard
-  tags: [extended-acl, http, wildcard-mask, permit-deny]
-  question: "A network engineer must configure an access list on a new Cisco IOS router. The access list must deny HTTP traffic to network 10.125.128.32/27 from the 192.168.240.0/20 network, but it must allow the 192.168.240.0/20 network to reach the rest of the 10.0.0.0/8 network. Which configuration must the engineer apply?"
+  tags:
+  - extended-acl
+  - http
+  - wildcard-mask
+  - permit-deny
+  question: A network engineer must configure an access list on a new Cisco IOS router. The access list must deny HTTP traffic to network 10.125.128.32/27 from the 192.168.240.0/20 network, but it must allow the 192.168.240.0/20 network to reach the rest of the 10.0.0.0/8 network. Which configuration must the engineer apply?
   options:
-    A: "`ip access-list extended deny_outbound` `10 permit ip 192.168.240.0 255.255.240.0 10.0.0.0 255.0.0.0` `20 deny tcp 192.168.240.0 255.255.240.0 10.125.128.32 255.255.255.224 eq 443` `30 permit ip any any`"
-    B: "`ip access-list extended deny_outbound` `10 deny tcp 192.168.240.0 0.0.15.255 10.125.128.32 0.0.0.31 eq 80` `20 permit ip 192.168.240.0 0.0.15.255 10.0.0.0 0.255.255.255` `30 deny ip any any log`"
-    C: "`ip access-list extended deny_outbound` `10 deny tcp 10.125.128.32 255.255.255.224 192.168.240.0 255.255.240.0 eq 443` `20 deny tcp 192.168.240.0 255.255.240.0 10.125.128.32 255.255.255.224 eq 443` `30 permit ip 192.168.240.0 255.255.240.0 10.0.0.0 255.0.0.0`"
-    D: "`ip access-list extended deny_outbound` `10 deny tcp 192.168.240.0 0.0.15.255 any eq 80` `20 deny tcp 192.168.240.0 0.0.15.255 10.125.128.32 0.0.0.31 eq 80` `30 permit ip 192.168.240.0 0.0.15.255 10.0.0.0 0.255.255.255`"
+    A: '`ip access-list extended deny_outbound` `10 permit ip 192.168.240.0 255.255.240.0 10.0.0.0 255.0.0.0` `20 deny tcp 192.168.240.0 255.255.240.0 10.125.128.32 255.255.255.224 eq 443` `30 permit ip any any`'
+    B: '`ip access-list extended deny_outbound` `10 deny tcp 192.168.240.0 0.0.15.255 10.125.128.32 0.0.0.31 eq 80` `20 permit ip 192.168.240.0 0.0.15.255 10.0.0.0 0.255.255.255` `30 deny ip any any log`'
+    C: '`ip access-list extended deny_outbound` `10 deny tcp 10.125.128.32 255.255.255.224 192.168.240.0 255.255.240.0 eq 443` `20 deny tcp 192.168.240.0 255.255.240.0 10.125.128.32 255.255.255.224 eq 443` `30 permit ip 192.168.240.0 255.255.240.0 10.0.0.0 255.0.0.0`'
+    D: '`ip access-list extended deny_outbound` `10 deny tcp 192.168.240.0 0.0.15.255 any eq 80` `20 deny tcp 192.168.240.0 0.0.15.255 10.125.128.32 0.0.0.31 eq 80` `30 permit ip 192.168.240.0 0.0.15.255 10.0.0.0 0.255.255.255`'
   correct_answer: B
-  explanation: "The ACL must specifically deny TCP port 80 from source 192.168.240.0/20 to destination 10.125.128.32/27 using wildcard masks, then permit the same source network to the rest of 10.0.0.0/8. Option B matches both the required protocol and addressing."
+  explanation: The ACL must specifically deny TCP port 80 from source 192.168.240.0/20 to destination 10.125.128.32/27 using wildcard masks, then permit the same source network to the rest of 10.0.0.0/8. Option B matches both the required protocol and addressing.
   source: adapted_from_images
 
 - id: SF-047
   topic: Security Fundamentals
-  subtopic: "AAA"
+  subtopic: AAA
   type: equivalence_buttons
   difficulty: medium
-  tags: [aaa, accounting, authorization, drag-and-drop]
-  question: "Drag and drop the statements about AAA services from the left onto the corresponding AAA services on the right. Not all options are used."
+  tags:
+  - aaa
+  - accounting
+  - authorization
+  - drag-and-drop
+  question: Drag and drop the statements about AAA services from the left onto the corresponding AAA services on the right. Not all options are used.
   premises:
-    - "It grants access to network assets, such as FTP servers."
-    - "It restricts the CLI commands that a user is able to perform."
-    - "It performs user validation via TACACS+."
-    - "It records the duration of each connection."
-    - "It supports User Access Reporting."
-    - "It verifies \"who you are\"."
+  - It grants access to network assets, such as FTP servers.
+  - It restricts the CLI commands that a user is able to perform.
+  - It performs user validation via TACACS+.
+  - It records the duration of each connection.
+  - It supports User Access Reporting.
+  - It verifies "who you are".
   responses:
-    - "Accounting"
-    - "Authorization"
+  - Accounting
+  - Authorization
   correct_matches:
-    "It records the duration of each connection.": "Accounting"
-    "It supports User Access Reporting.": "Accounting"
-    "It grants access to network assets, such as FTP servers.": "Authorization"
-    "It restricts the CLI commands that a user is able to perform.": "Authorization"
-  explanation: "Accounting records user activity and session details for reporting. Authorization determines which resources and commands a user is permitted to access after successful authentication."
+    It records the duration of each connection.: Accounting
+    It supports User Access Reporting.: Accounting
+    It grants access to network assets, such as FTP servers.: Authorization
+    It restricts the CLI commands that a user is able to perform.: Authorization
+  explanation: Accounting records user activity and session details for reporting. Authorization determines which resources and commands a user is permitted to access after successful authentication.
   source: adapted_from_images
 
 - id: SF-048
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: medium
-  tags: [wlc, radius, aaa-override, wireless]
-  question: "Which selections must be used on the WLC when implementing a RADIUS server for wireless authentication?"
+  tags:
+  - wlc
+  - radius
+  - aaa-override
+  - wireless
+  question: Which selections must be used on the WLC when implementing a RADIUS server for wireless authentication?
   options:
-    A: "Client Exclusion and SSH"
-    B: "Network Access Control State and SSH"
-    C: "AAA Override and the IP address of the server"
-    D: "802.1x and the MAC address of the server"
+    A: Client Exclusion and SSH
+    B: Network Access Control State and SSH
+    C: AAA Override and the IP address of the server
+    D: 802.1x and the MAC address of the server
   correct_answer: C
-  explanation: "When integrating a RADIUS server with a WLC, the WLAN needs the appropriate AAA behavior such as AAA Override when required, and the controller must be configured with the server IP address."
+  explanation: When integrating a RADIUS server with a WLC, the WLAN needs the appropriate AAA behavior such as AAA Override when required, and the controller must be configured with the server IP address.
   source: adapted_from_images
 
 - id: SF-049
   topic: Security Fundamentals
-  subtopic: "Authentication Protocols"
+  subtopic: Authentication Protocols
   type: single_choice
   difficulty: medium
-  tags: [digest-authentication, nonce, hash]
-  question: "Which additional component does Digest Authentication use with credentials to form the response hash?"
+  tags:
+  - digest-authentication
+  - nonce
+  - hash
+  question: Which additional component does Digest Authentication use with credentials to form the response hash?
   options:
-    A: "server SSL certificate"
-    B: "client user agent string"
-    C: "client IP address"
-    D: "server-generated nonce"
+    A: server SSL certificate
+    B: client user agent string
+    C: client IP address
+    D: server-generated nonce
   correct_answer: D
-  explanation: "Digest authentication combines the username and password information with a server-generated nonce to build the response hash, helping protect against replay attacks."
+  explanation: Digest authentication combines the username and password information with a server-generated nonce to build the response hash, helping protect against replay attacks.
   source: adapted_from_images
 
 - id: SF-050
   topic: Security Fundamentals
-  subtopic: "Device Hardening"
+  subtopic: Device Hardening
   type: single_choice
   difficulty: medium
-  tags: [console, vty, enable-secret, login]
-  question: "A Cisco engineer is configuring a factory-default router with these three passwords: the user EXEC password for console access is `p4ssw0rd1`, the user EXEC password for Telnet access is `s3cr3t2`, and the password for privileged EXEC mode is `priv4t3p4ss`. Which command sequence must the engineer configure?"
+  tags:
+  - console
+  - vty
+  - enable-secret
+  - login
+  question: 'A Cisco engineer is configuring a factory-default router with these three passwords: the user EXEC password for console access is `p4ssw0rd1`, the user EXEC password for Telnet access is `s3cr3t2`, and the password for privileged EXEC mode is `priv4t3p4ss`. Which command sequence must the engineer configure?'
   options:
-    A: "`enable secret priv4t3p4ss` `line con 0` `password p4ssw0rd1` `line vty 0 15` `password s3cr3t2`"
-    B: "`enable secret priv4t3p4ss` `line con 0` `password p4ssw0rd1` `login` `line vty 0 15` `password s3cr3t2` `login`"
-    C: "`enable secret priv4t3p4ss` `line con 0` `password login p4ssw0rd1` `line vty 0 15` `password login s3cr3t2` `login`"
-    D: "`enable secret privilege 15 priv4t3p4ss` `line con 0` `password p4ssw0rd1` `login` `line vty 0 15` `password s3cr3t2` `login`"
+    A: '`enable secret priv4t3p4ss` `line con 0` `password p4ssw0rd1` `line vty 0 15` `password s3cr3t2`'
+    B: '`enable secret priv4t3p4ss` `line con 0` `password p4ssw0rd1` `login` `line vty 0 15` `password s3cr3t2` `login`'
+    C: '`enable secret priv4t3p4ss` `line con 0` `password login p4ssw0rd1` `line vty 0 15` `password login s3cr3t2` `login`'
+    D: '`enable secret privilege 15 priv4t3p4ss` `line con 0` `password p4ssw0rd1` `login` `line vty 0 15` `password s3cr3t2` `login`'
   correct_answer: B
-  explanation: "The console and VTY lines each need both a configured password and the `login` command to prompt for it. Privileged EXEC mode uses `enable secret` for the secure password."
+  explanation: The console and VTY lines each need both a configured password and the `login` command to prompt for it. Privileged EXEC mode uses `enable secret` for the secure password.
   source: adapted_from_images
 
 - id: SF-051
   topic: Security Fundamentals
-  subtopic: "AAA"
+  subtopic: AAA
   type: equivalence_buttons
   difficulty: medium
-  tags: [aaa, accounting, authentication, authorization, drag-and-drop]
-  question: "Drag and drop the descriptions of AAA services from the left onto the corresponding services on the right."
+  tags:
+  - aaa
+  - accounting
+  - authentication
+  - authorization
+  - drag-and-drop
+  question: Drag and drop the descriptions of AAA services from the left onto the corresponding services on the right.
   premises:
-    - "allows the user to change to enable mode"
-    - "limits the user's access permissions"
-    - "log session statistics"
-    - "records user commands"
-    - "secures access to routers"
-    - "validates user credentials"
+  - allows the user to change to enable mode
+  - limits the user's access permissions
+  - log session statistics
+  - records user commands
+  - secures access to routers
+  - validates user credentials
   responses:
-    - "Accounting"
-    - "Authentication"
-    - "Authorization"
+  - Accounting
+  - Authentication
+  - Authorization
   correct_matches:
-    "log session statistics": "Accounting"
-    "records user commands": "Accounting"
-    "validates user credentials": "Authentication"
-    "secures access to routers": "Authentication"
-    "limits the user's access permissions": "Authorization"
-    "allows the user to change to enable mode": "Authorization"
-  explanation: "Accounting tracks user activity, authentication verifies identity, and authorization determines what an authenticated user is allowed to do, including access level and permitted actions."
+    log session statistics: Accounting
+    records user commands: Accounting
+    validates user credentials: Authentication
+    secures access to routers: Authentication
+    limits the user's access permissions: Authorization
+    allows the user to change to enable mode: Authorization
+  explanation: Accounting tracks user activity, authentication verifies identity, and authorization determines what an authenticated user is allowed to do, including access level and permitted actions.
   source: adapted_from_images
 
 - id: SF-052
   topic: Security Fundamentals
-  subtopic: "Multifactor Authentication"
+  subtopic: Multifactor Authentication
   type: single_choice
   difficulty: easy
-  tags: [mfa, authentication-factors]
-  question: "What describes multifactor authentication in security password policies?"
+  tags:
+  - mfa
+  - authentication-factors
+  question: What describes multifactor authentication in security password policies?
   options:
-    A: "It enables a cryptographic link between a public key and the owning entity."
-    B: "It applies biological characteristics to authenticate and access the system."
-    C: "It uses factors from at least two different categories to identify all users."
-    D: "It uses an application programming interface to access the data of the operating system."
+    A: It enables a cryptographic link between a public key and the owning entity.
+    B: It applies biological characteristics to authenticate and access the system.
+    C: It uses factors from at least two different categories to identify all users.
+    D: It uses an application programming interface to access the data of the operating system.
   correct_answer: C
-  explanation: "Multifactor authentication requires at least two factors from different categories, such as something you know, something you have, or something you are."
+  explanation: Multifactor authentication requires at least two factors from different categories, such as something you know, something you have, or something you are.
   source: adapted_from_images
 
 - id: SF-053
   topic: Security Fundamentals
-  subtopic: "VPN Technologies"
+  subtopic: VPN Technologies
   type: single_choice
   difficulty: easy
-  tags: [ipsec, unicast, multicast, gre]
-  question: "Which type of traffic is sent with pure IPsec?"
+  tags:
+  - ipsec
+  - unicast
+  - multicast
+  - gre
+  question: Which type of traffic is sent with pure IPsec?
   options:
-    A: "multicast traffic from a server at one site to hosts at another location"
-    B: "broadcast packets from a switch that is attempting to locate a MAC address at one of several remote sites"
-    C: "unicast messages from a host at a remote site to a server at headquarters"
-    D: "spanning-tree updates between switches that are at two different sites"
+    A: multicast traffic from a server at one site to hosts at another location
+    B: broadcast packets from a switch that is attempting to locate a MAC address at one of several remote sites
+    C: unicast messages from a host at a remote site to a server at headquarters
+    D: spanning-tree updates between switches that are at two different sites
   correct_answer: C
-  explanation: "Pure IPsec supports unicast traffic. Broadcast and multicast traffic typically require an additional tunneling technology such as GRE."
+  explanation: Pure IPsec supports unicast traffic. Broadcast and multicast traffic typically require an additional tunneling technology such as GRE.
   source: adapted_from_images
 
 - id: SF-054
   topic: Security Fundamentals
-  subtopic: "SSH and ACLs"
+  subtopic: SSH and ACLs
   type: single_choice
   difficulty: medium
-  tags: [ssh, vty, access-class, acl]
-  exhibit: |
-    Topology:
-
-        RTR-1
-       G0/0 172.16.1.62
-          |
-         SW-1
-          |
-        PC-1
-      172.16.1.33/27
-
-    RTR-1 interfaces shown:
-      - Loopback1: 192.168.1.1 /24
-      - Loopback2: 192.168.2.1 /24
-      - Loopback3: 192.168.3.1 /24
-      - GigabitEthernet0/0: 172.16.1.62 /27
-  question: "Refer to the exhibit. Which configuration for RTR-1 denies SSH access from PC-1 to any RTR-1 interface and allows all other traffic?"
+  tags:
+  - ssh
+  - vty
+  - access-class
+  - acl
+  exhibit: "Topology:\n\n    RTR-1\n   G0/0 172.16.1.62\n      |\n     SW-1\n      |\n    PC-1\n  172.16.1.33/27\n\nRTR-1 interfaces shown:\n  - Loopback1: 192.168.1.1 /24\n  - Loopback2: 192.168.2.1 /24\n  - Loopback3: 192.168.3.1 /24\n  - GigabitEthernet0/0: 172.16.1.62 /27\n"
+  question: Refer to the exhibit. Which configuration for RTR-1 denies SSH access from PC-1 to any RTR-1 interface and allows all other traffic?
   options:
-    A: "`access-list 100 deny tcp host 172.16.1.33 any eq 22` `access-list 100 permit ip any any` `interface GigabitEthernet0/0` `ip access-group 100 in`"
-    B: "`access-list 100 deny tcp host 172.16.1.33 any eq 22` `access-list 100 permit ip any any` `line vty 0 15` `access-class 100 in`"
-    C: "`access-list 100 deny tcp host 172.16.1.33 any eq 23` `access-list 100 permit ip any any` `interface GigabitEthernet0/0` `ip access-group 100 in`"
-    D: "`access-list 100 deny tcp host 172.16.1.33 any eq 23` `access-list 100 permit ip any any` `line vty 0 15` `access-class 100 in`"
+    A: '`access-list 100 deny tcp host 172.16.1.33 any eq 22` `access-list 100 permit ip any any` `interface GigabitEthernet0/0` `ip access-group 100 in`'
+    B: '`access-list 100 deny tcp host 172.16.1.33 any eq 22` `access-list 100 permit ip any any` `line vty 0 15` `access-class 100 in`'
+    C: '`access-list 100 deny tcp host 172.16.1.33 any eq 23` `access-list 100 permit ip any any` `interface GigabitEthernet0/0` `ip access-group 100 in`'
+    D: '`access-list 100 deny tcp host 172.16.1.33 any eq 23` `access-list 100 permit ip any any` `line vty 0 15` `access-class 100 in`'
   correct_answer: B
-  explanation: "Restricting SSH access to the router itself should be done on the VTY lines with `access-class`, not by filtering transit traffic on a physical interface. The ACL must also match TCP port 22 for SSH."
+  explanation: Restricting SSH access to the router itself should be done on the VTY lines with `access-class`, not by filtering transit traffic on a physical interface. The ACL must also match TCP port 22 for SSH.
   source: 5-Security-Fundamentals_88/SF-054.png
 
 - id: SF-055
   topic: Security Fundamentals
-  subtopic: "Layer 2 Security"
+  subtopic: Layer 2 Security
   type: multiple_choice
   difficulty: medium
-  tags: [port-security, 802.1x, unused-ports, physical-security]
-  question: "What are two recommendations for protecting network ports from being exploited when located in an office space outside of an IT closet? (Choose two.)"
+  tags:
+  - port-security
+  - 802.1x
+  - unused-ports
+  - physical-security
+  question: What are two recommendations for protecting network ports from being exploited when located in an office space outside of an IT closet? (Choose two.)
   options:
-    A: "enable the PortFast feature on ports"
-    B: "configure static ARP entries"
-    C: "configure ports to a fixed speed"
-    D: "implement port-based authentication"
-    E: "shut down unused ports"
-  correct_answer: [D, E]
-  explanation: "802.1X or other port-based authentication helps ensure only authorized devices connect. Shutting down unused ports reduces the risk of unauthorized physical access through exposed wall jacks or switch ports."
+    A: enable the PortFast feature on ports
+    B: configure static ARP entries
+    C: configure ports to a fixed speed
+    D: implement port-based authentication
+    E: shut down unused ports
+  correct_answer:
+  - D
+  - E
+  explanation: 802.1X or other port-based authentication helps ensure only authorized devices connect. Shutting down unused ports reduces the risk of unauthorized physical access through exposed wall jacks or switch ports.
   source: adapted_from_images
 
 - id: SF-056
   topic: Security Fundamentals
-  subtopic: "Device Hardening"
+  subtopic: Device Hardening
   type: single_choice
   difficulty: medium
-  tags: [ssh, vty, service-password-encryption]
-  exhibit: |
-    Existing configuration:
-
-      SW1#conf t
-      SW1(config)#enable password test!2E
-      SW1(config)# line con 0
-      SW1(config-line)# password Labtest32!
-      SW1(config-line)# exit
-
-    Additional commands already entered:
-
-      SW1(config)#line vty 0 15
-      SW1(config-line)#password Labtest32!
-  question: "Refer to the exhibit. A network engineer started to change default settings on SW1 to allow remote access and has entered the following in configuration mode: `line vty 0 15` and `password Labtest32!`. Which set of commands are needed to allow only SSH access and hide passwords in the running configuration?"
+  tags:
+  - ssh
+  - vty
+  - service-password-encryption
+  exhibit: "Existing configuration:\n\n  SW1#conf t\n  SW1(config)#enable password test!2E\n  SW1(config)# line con 0\n  SW1(config-line)# password Labtest32!\n  SW1(config-line)# exit\n\nAdditional commands already entered:\n\n  SW1(config)#line vty 0 15\n  SW1(config-line)#password Labtest32!\n"
+  question: 'Refer to the exhibit. A network engineer started to change default settings on SW1 to allow remote access and has entered the following in configuration mode: `line vty 0 15` and `password Labtest32!`. Which set of commands are needed to allow only SSH access and hide passwords in the running configuration?'
   options:
-    A: "`login local` `exit` `enable secret test!2E`"
-    B: "`exit` `aaa new-model`"
-    C: "`login local` `exit` `crypto key generate rsa`"
-    D: "`transport input ssh` `exit` `service password-encryption`"
+    A: '`login local` `exit` `enable secret test!2E`'
+    B: '`exit` `aaa new-model`'
+    C: '`login local` `exit` `crypto key generate rsa`'
+    D: '`transport input ssh` `exit` `service password-encryption`'
   correct_answer: D
-  explanation: "`transport input ssh` restricts remote access to SSH only, and `service password-encryption` hides line passwords in the running configuration."
-  source: 5-Security-Fundamentals_88/SF-056.png
+  explanation: '`transport input ssh` restricts remote access to SSH only, and `service password-encryption` hides line passwords in the running configuration.'
+  source: adapted_from_images
 
 - id: SF-057
   topic: Security Fundamentals
-  subtopic: "Authentication Methods"
+  subtopic: Authentication Methods
   type: single_choice
   difficulty: easy
-  tags: [digital-certificates, passwordless, enterprise]
-  question: "Which alternative to password authentication is implemented to allow enterprise devices to log in to the corporate network?"
+  tags:
+  - digital-certificates
+  - passwordless
+  - enterprise
+  question: Which alternative to password authentication is implemented to allow enterprise devices to log in to the corporate network?
   options:
-    A: "90-day renewal policies"
-    B: "magic links"
-    C: "one-time passwords"
-    D: "digital certificates"
+    A: 90-day renewal policies
+    B: magic links
+    C: one-time passwords
+    D: digital certificates
   correct_answer: D
-  explanation: "Digital certificates can be used for enterprise device authentication, allowing systems to prove identity without relying on static passwords."
+  explanation: Digital certificates can be used for enterprise device authentication, allowing systems to prove identity without relying on static passwords.
   source: adapted_from_images
 
 - id: SF-058
   topic: Security Fundamentals
-  subtopic: "VPN Technologies"
+  subtopic: VPN Technologies
   type: single_choice
   difficulty: medium
-  tags: [ipsec, tunnel-mode, transport-mode]
-  question: "Which IPsec mode encrypts the IP header and the payload?"
+  tags:
+  - ipsec
+  - tunnel-mode
+  - transport-mode
+  question: Which IPsec mode encrypts the IP header and the payload?
   options:
-    A: "pipe"
-    B: "transport"
-    C: "control"
-    D: "tunnel"
+    A: pipe
+    B: transport
+    C: control
+    D: tunnel
   correct_answer: D
-  explanation: "According to the source item, the expected answer is tunnel mode, which protects the entire original IP packet by encapsulating it inside a new packet."
+  explanation: According to the source item, the expected answer is tunnel mode, which protects the entire original IP packet by encapsulating it inside a new packet.
   source: adapted_from_images
 
 - id: SF-059
   topic: Security Fundamentals
-  subtopic: "Port Security"
+  subtopic: Port Security
   type: single_choice
   difficulty: easy
-  tags: [port-security, sticky-mac, printer]
-  question: "A network administrator enabled port security on a switch interface connected to a printer. What is the next configuration action in order to allow the port to learn the MAC address of the printer and insert it into the table automatically?"
+  tags:
+  - port-security
+  - sticky-mac
+  - printer
+  question: A network administrator enabled port security on a switch interface connected to a printer. What is the next configuration action in order to allow the port to learn the MAC address of the printer and insert it into the table automatically?
   options:
-    A: "enable dynamic MAC address learning"
-    B: "implement static MAC addressing"
-    C: "enable sticky MAC addressing"
-    D: "implement auto MAC address learning"
+    A: enable dynamic MAC address learning
+    B: implement static MAC addressing
+    C: enable sticky MAC addressing
+    D: implement auto MAC address learning
   correct_answer: C
-  explanation: "Sticky MAC allows a switch port to learn a device MAC address dynamically and retain it as a secure MAC entry."
+  explanation: Sticky MAC allows a switch port to learn a device MAC address dynamically and retain it as a secure MAC entry.
   source: adapted_from_images
 
 - id: SF-060
   topic: Security Fundamentals
-  subtopic: "ACLs"
+  subtopic: ACLs
   type: single_choice
   difficulty: medium
-  tags: [acl, telnet, vty, access-class]
-  exhibit: |
-    Topology:
-
-        RTR-1 G0/0 10.150.1.254/24
-               |
-              SW-1
-             /    \
-          PC-1    PC-2
-       10.150.1.1/24  10.150.1.2/24
-
-    RTR-1 configuration shown:
-
-      access-list 10 deny host 10.150.1.1
-      line vty 0 4
-      access-class 10 in
-      password 7 0822455D0A16
-      login
-  question: "Refer to the exhibit. An access list is created to deny Telnet access from host PC-1 to RTR-1 and allow access from all other hosts. A Telnet attempt from PC-2 gives this message: \"% Connection refused by remote host.\" Without allowing Telnet access from PC-1, which action must be taken to permit the traffic?"
+  tags:
+  - acl
+  - telnet
+  - vty
+  - access-class
+  exhibit: "Topology:\n\n    RTR-1 G0/0 10.150.1.254/24\n           |\n          SW-1\n         /    \\\n      PC-1    PC-2\n   10.150.1.1/24  10.150.1.2/24\n\nRTR-1 configuration shown:\n\n  access-list 10 deny host 10.150.1.1\n  line vty 0 4\n  access-class 10 in\n  password 7 0822455D0A16\n  login\n"
+  question: 'Refer to the exhibit. An access list is created to deny Telnet access from host PC-1 to RTR-1 and allow access from all other hosts. A Telnet attempt from PC-2 gives this message: "% Connection refused by remote host." Without allowing Telnet access from PC-1, which action must be taken to permit the traffic?'
   options:
-    A: "Add the `access-list 10 permit any` command to the configuration."
-    B: "Remove the `access-class 10 in` command from line vty 0 4."
-    C: "Add the `ip access-group 10 out` command to interface g0/0."
-    D: "Remove the `password` command from line vty 0 4."
+    A: Add the `access-list 10 permit any` command to the configuration.
+    B: Remove the `access-class 10 in` command from line vty 0 4.
+    C: Add the `ip access-group 10 out` command to interface g0/0.
+    D: Remove the `password` command from line vty 0 4.
   correct_answer: A
-  explanation: "The ACL currently contains only a deny statement, so all other traffic is implicitly denied. Adding `permit any` allows hosts other than PC-1 to reach the VTY lines."
-  source: 5-Security-Fundamentals_88/SF-060.png
+  explanation: The ACL currently contains only a deny statement, so all other traffic is implicitly denied. Adding `permit any` allows hosts other than PC-1 to reach the VTY lines.
+  source: adapted_from_images
 
 - id: SF-061
   topic: Security Fundamentals
-  subtopic: "Security Analytics"
+  subtopic: Security Analytics
   type: single_choice
   difficulty: easy
-  tags: [machine-learning, intrusion-detection, anomaly-detection]
-  question: "Which role does machine learning play in identifying network security breaches?"
+  tags:
+  - machine-learning
+  - intrusion-detection
+  - anomaly-detection
+  question: Which role does machine learning play in identifying network security breaches?
   options:
-    A: "It identifies patterns indicating intrusions."
-    B: "It assigns security clearance levels."
-    C: "It monitors for outdated software."
-    D: "It dictates security policy updates."
+    A: It identifies patterns indicating intrusions.
+    B: It assigns security clearance levels.
+    C: It monitors for outdated software.
+    D: It dictates security policy updates.
   correct_answer: A
-  explanation: "Machine learning helps identify anomalies and patterns in traffic or behavior that may indicate intrusions or other security breaches."
+  explanation: Machine learning helps identify anomalies and patterns in traffic or behavior that may indicate intrusions or other security breaches.
   source: adapted_from_images
 
 - id: SF-062
   topic: Security Fundamentals
-  subtopic: "ACLs"
+  subtopic: ACLs
   type: single_choice
   difficulty: medium
-  tags: [acl, dns, tcp, sequence-numbers]
-  exhibit: |
-    Existing ACL:
-
-      CPE# show ip access-list Services
-      Extended IP access list Services
-        10 permit tcp 10.0.0.0 0.255.255.255 any eq www
-        20 permit tcp 10.0.0.0 0.255.255.255 any eq 443
-        30 permit udp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain
-        40 deny ip any any log
-  question: "Refer to the exhibit. This ACL is configured to allow client access only to HTTP, HTTPS, and DNS services via UDP. The new administrator wants to add TCP access to the DNS service. Which configuration updates the ACL efficiently?"
+  tags:
+  - acl
+  - dns
+  - tcp
+  - sequence-numbers
+  exhibit: "Existing ACL:\n\n  CPE# show ip access-list Services\n  Extended IP access list Services\n    10 permit tcp 10.0.0.0 0.255.255.255 any eq www\n    20 permit tcp 10.0.0.0 0.255.255.255 any eq 443\n    30 permit udp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain\n    40 deny ip any any log\n"
+  question: Refer to the exhibit. This ACL is configured to allow client access only to HTTP, HTTPS, and DNS services via UDP. The new administrator wants to add TCP access to the DNS service. Which configuration updates the ACL efficiently?
   options:
-    A: "`no ip access-list extended Services` `ip access-list extended Services` `30 permit tcp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain`"
-    B: "`ip access-list extended Services` `35 permit tcp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain`"
-    C: "`ip access-list extended Services` `permit tcp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain`"
-    D: "`no ip access-list extended Services` `ip access-list extended Services` `permit udp 10.0.0.0 0.255.255.255 any eq 53` `permit tcp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain` `deny ip any any log`"
+    A: '`no ip access-list extended Services` `ip access-list extended Services` `30 permit tcp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain`'
+    B: '`ip access-list extended Services` `35 permit tcp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain`'
+    C: '`ip access-list extended Services` `permit tcp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain`'
+    D: '`no ip access-list extended Services` `ip access-list extended Services` `permit udp 10.0.0.0 0.255.255.255 any eq 53` `permit tcp 10.0.0.0 0.255.255.255 host 198.51.100.11 eq domain` `deny ip any any log`'
   correct_answer: B
-  explanation: "Named ACLs can be edited in place by adding a new sequence number between existing entries. Adding sequence 35 inserts the TCP DNS permit before the final deny."
+  explanation: Named ACLs can be edited in place by adding a new sequence number between existing entries. Adding sequence 35 inserts the TCP DNS permit before the final deny.
   source: 5-Security-Fundamentals_88/SF-062.png
 
 - id: SF-063
   topic: Security Fundamentals
-  subtopic: "Layer 2 Security"
+  subtopic: Layer 2 Security
   type: single_choice
   difficulty: medium
-  tags: [dynamic-arp-inspection, dai, ingress]
-  exhibit: |
-    Configuration shown:
-
-      ip arp inspection vlan 5-10
-      interface fastethernet 0/1
-        switchport mode access
-        switchport access vlan 5
-  question: "Refer to the exhibit. What is the effect of this configuration?"
+  tags:
+  - dynamic-arp-inspection
+  - dai
+  - ingress
+  exhibit: "Configuration shown:\n\n  ip arp inspection vlan 5-10\n  interface fastethernet 0/1\n    switchport mode access\n    switchport access vlan 5\n"
+  question: Refer to the exhibit. What is the effect of this configuration?
   options:
-    A: "The switch discards all ingress ARP traffic with invalid MAC-to-IP address bindings."
-    B: "All ARP packets are dropped by the switch."
-    C: "Egress traffic is passed only if the destination is a DHCP server."
-    D: "All ingress and egress traffic is dropped because the interface is untrusted."
+    A: The switch discards all ingress ARP traffic with invalid MAC-to-IP address bindings.
+    B: All ARP packets are dropped by the switch.
+    C: Egress traffic is passed only if the destination is a DHCP server.
+    D: All ingress and egress traffic is dropped because the interface is untrusted.
   correct_answer: A
-  explanation: "Dynamic ARP Inspection is an ingress security feature that validates ARP packets and drops those with invalid IP-to-MAC bindings."
-  source: 5-Security-Fundamentals_88/SF-063.png
+  explanation: Dynamic ARP Inspection is an ingress security feature that validates ARP packets and drops those with invalid IP-to-MAC bindings.
+  source: adapted_from_images
 
 - id: SF-064
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: easy
-  tags: [wpa-psk, ascii, preshared-key]
-  question: "When a WPA2-PSK WLAN is configured in the Wireless LAN Controller, what is the minimum number of characters that is required in ASCII format?"
+  tags:
+  - wpa-psk
+  - ascii
+  - preshared-key
+  question: When a WPA2-PSK WLAN is configured in the Wireless LAN Controller, what is the minimum number of characters that is required in ASCII format?
   options:
-    A: "6"
-    B: "8"
-    C: "12"
-    D: "18"
+    A: '6'
+    B: '8'
+    C: '12'
+    D: '18'
   correct_answer: B
-  explanation: "A WPA or WPA2 preshared key in ASCII format must be between 8 and 63 characters long."
+  explanation: A WPA or WPA2 preshared key in ASCII format must be between 8 and 63 characters long.
   source: adapted_from_images
 
 - id: SF-065
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: easy
-  tags: [wpa3, sae, brute-force, pmf]
-  question: "Which enhancement is implemented in WPA3?"
+  tags:
+  - wpa3
+  - sae
+  - brute-force
+  - pmf
+  question: Which enhancement is implemented in WPA3?
   options:
-    A: "employs PKI to identify access points"
-    B: "applies 802.1x authentication"
-    C: "uses TKIP"
-    D: "protects against brute force attacks"
+    A: employs PKI to identify access points
+    B: applies 802.1x authentication
+    C: uses TKIP
+    D: protects against brute force attacks
   correct_answer: D
-  explanation: "WPA3 introduces SAE and additional protections that improve resistance to brute-force and offline dictionary attacks."
+  explanation: WPA3 introduces SAE and additional protections that improve resistance to brute-force and offline dictionary attacks.
   source: adapted_from_images
 
 - id: SF-066
   topic: Security Fundamentals
-  subtopic: "AAA"
+  subtopic: AAA
   type: multiple_choice
   difficulty: easy
-  tags: [authentication, accounting, aaa]
-  question: "Which two statements distinguish authentication from accounting? (Choose two.)"
+  tags:
+  - authentication
+  - accounting
+  - aaa
+  question: Which two statements distinguish authentication from accounting? (Choose two.)
   options:
-    A: "Only authentication supports user-activity audits."
-    B: "Only authentication challenges users for their credentials and returns a response."
-    C: "Only authentication validates \"who you are\"."
-    D: "Only authentication records the duration of a user's connection."
-    E: "Only authentication provides supporting information for billing users."
-  correct_answer: [B, C]
-  explanation: "Authentication verifies identity by challenging users for credentials. Accounting, by contrast, logs session details such as duration, commands, and usage information."
+    A: Only authentication supports user-activity audits.
+    B: Only authentication challenges users for their credentials and returns a response.
+    C: Only authentication validates "who you are".
+    D: Only authentication records the duration of a user's connection.
+    E: Only authentication provides supporting information for billing users.
+  correct_answer:
+  - B
+  - C
+  explanation: Authentication verifies identity by challenging users for credentials. Accounting, by contrast, logs session details such as duration, commands, and usage information.
   source: adapted_from_images
 
 - id: SF-067
   topic: Security Fundamentals
-  subtopic: "Multifactor Authentication"
+  subtopic: Multifactor Authentication
   type: single_choice
   difficulty: easy
-  tags: [mfa, otp, smartphone, login]
-  question: "Which security element uses a combination of one-time passwords, a login name, and a personal smartphone?"
+  tags:
+  - mfa
+  - otp
+  - smartphone
+  - login
+  question: Which security element uses a combination of one-time passwords, a login name, and a personal smartphone?
   options:
-    A: "rule-based access control"
-    B: "software-defined segmentation"
-    C: "multifactor authentication"
-    D: "attribute-based access control"
+    A: rule-based access control
+    B: software-defined segmentation
+    C: multifactor authentication
+    D: attribute-based access control
   correct_answer: C
-  explanation: "Using a login name together with a one-time password delivered to or generated by a smartphone combines multiple authentication factors and is an example of multifactor authentication."
+  explanation: Using a login name together with a one-time password delivered to or generated by a smartphone combines multiple authentication factors and is an example of multifactor authentication.
   source: adapted_from_images
 
 - id: SF-068
   topic: Security Fundamentals
-  subtopic: "Physical Security"
+  subtopic: Physical Security
   type: single_choice
   difficulty: easy
-  tags: [physical-access-control, facilities, equipment]
-  question: "What does physical access control regulate?"
+  tags:
+  - physical-access-control
+  - facilities
+  - equipment
+  question: What does physical access control regulate?
   options:
-    A: "access to networking equipment and facilities"
-    B: "access to servers to prevent malicious activity"
-    C: "access to specific networks based on business function"
-    D: "access to computer networks and file systems"
+    A: access to networking equipment and facilities
+    B: access to servers to prevent malicious activity
+    C: access to specific networks based on business function
+    D: access to computer networks and file systems
   correct_answer: A
-  explanation: "Physical access control governs entry to physical spaces and assets such as buildings, wiring closets, rooms, and networking equipment."
+  explanation: Physical access control governs entry to physical spaces and assets such as buildings, wiring closets, rooms, and networking equipment.
   source: adapted_from_images
 
 - id: SF-069
   topic: Security Fundamentals
-  subtopic: "Device Hardening"
+  subtopic: Device Hardening
   type: single_choice
   difficulty: medium
-  tags: [local-user, secret, password-strength]
-  question: "An engineer must configure R1 for a new user account. The account must meet these requirements: it must be configured in the local database, the username is `engineer2`, and it must use the strongest password configurable. Which command must the engineer configure on the router?"
+  tags:
+  - local-user
+  - secret
+  - password-strength
+  question: 'An engineer must configure R1 for a new user account. The account must meet these requirements: it must be configured in the local database, the username is `engineer2`, and it must use the strongest password configurable. Which command must the engineer configure on the router?'
   options:
-    A: "`username engineer2 privilege 1 password 7 test2021`"
-    B: "`username engineer2 secret 4 $1$b1Ju$kZbBS1Pyh4QzwXyZ`"
-    C: "`username engineer2 algorithm-type scrypt secret test2021`"
-    D: "`username engineer2 secret 5 password $1$b1Ju$kZbBS1Pyh4QzwXyZ`"
+    A: '`username engineer2 privilege 1 password 7 test2021`'
+    B: '`username engineer2 secret 4 $1$b1Ju$kZbBS1Pyh4QzwXyZ`'
+    C: '`username engineer2 algorithm-type scrypt secret test2021`'
+    D: '`username engineer2 secret 5 password $1$b1Ju$kZbBS1Pyh4QzwXyZ`'
   correct_answer: C
-  explanation: "The `algorithm-type scrypt secret` form provides the strongest password storage among the listed options because it uses a stronger secret mechanism than legacy password or older secret formats."
+  explanation: The `algorithm-type scrypt secret` form provides the strongest password storage among the listed options because it uses a stronger secret mechanism than legacy password or older secret formats.
   source: adapted_from_images
 
 - id: SF-070
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: easy
-  tags: [wpa3, perfect-forward-secrecy, sae]
-  question: "Which wireless security protocol relies on Perfect Forward Secrecy?"
+  tags:
+  - wpa3
+  - perfect-forward-secrecy
+  - sae
+  question: Which wireless security protocol relies on Perfect Forward Secrecy?
   options:
-    A: "WEP"
-    B: "WPA2"
-    C: "WPA"
-    D: "WPA3"
+    A: WEP
+    B: WPA2
+    C: WPA
+    D: WPA3
   correct_answer: D
-  explanation: "WPA3 uses SAE, which provides forward secrecy properties that improve resilience even if a long-term credential is later compromised."
+  explanation: WPA3 uses SAE, which provides forward secrecy properties that improve resilience even if a long-term credential is later compromised.
   source: adapted_from_images
 
 - id: SF-071
   topic: Security Fundamentals
-  subtopic: "Layer 2 Security"
+  subtopic: Layer 2 Security
   type: single_choice
   difficulty: medium
-  tags: [dynamic-arp-inspection, trusted-port, router]
-  exhibit: |
-    Configuration shown:
-
-      ip arp inspection vlan 2-10
-      interface fastethernet 0/1
-        ip arp inspection trust
-  question: "Refer to the exhibit. If the network environment is operating normally, which type of device must be connected to interface FastEthernet 0/1?"
+  tags:
+  - dynamic-arp-inspection
+  - trusted-port
+  - router
+  exhibit: "Configuration shown:\n\n  ip arp inspection vlan 2-10\n  interface fastethernet 0/1\n    ip arp inspection trust\n"
+  question: Refer to the exhibit. If the network environment is operating normally, which type of device must be connected to interface FastEthernet 0/1?
   options:
-    A: "DHCP client"
-    B: "access point"
-    C: "router"
-    D: "PC"
+    A: DHCP client
+    B: access point
+    C: router
+    D: PC
   correct_answer: C
-  explanation: "A port configured with `ip arp inspection trust` is typically connected to infrastructure such as a router, switch uplink, or other trusted device rather than an end host."
-  source: 5-Security-Fundamentals_88/SF-071.png
+  explanation: A port configured with `ip arp inspection trust` is typically connected to infrastructure such as a router, switch uplink, or other trusted device rather than an end host.
+  source: adapted_from_images
 
 - id: SF-072
   topic: Security Fundamentals
-  subtopic: "Access Control Lists"
+  subtopic: Access Control Lists
   type: single_choice
   difficulty: medium
-  tags: [acl, svi, http, vlan]
-  exhibit: |
-    Topology:
-
-      VLAN 20 hosts ---- Switch A ---- Switch B ---- Web Server
-           VLAN 10 host                |
-                                       |
-                              Server IP: 10.30.0.100/24
-
-    Switch B SVI addresses shown:
-      - interface vlan 10 = 10.10.0.0/24
-      - interface vlan 20 = 10.20.0.0/24
-      - interface vlan 30 = 10.30.0.0/24
-
-    Goal:
-      - Block HTTP from VLAN 20 to the web server
-      - Permit all other access
-  question: "Refer to the exhibit. A network engineer must block access for all computers on VLAN 20 to the web server via HTTP. All other computers must be able to access the web server. Which configuration, when applied to switch A, accomplishes the task?"
+  tags:
+  - acl
+  - svi
+  - http
+  - vlan
+  exhibit: "Topology:\n\n  VLAN 20 hosts ---- Switch A ---- Switch B ---- Web Server\n       VLAN 10 host                |\n                                   |\n                          Server IP: 10.30.0.100/24\n\nSwitch B SVI addresses shown:\n  - interface vlan 10 = 10.10.0.0/24\n  - interface vlan 20 = 10.20.0.0/24\n  - interface vlan 30 = 10.30.0.0/24\n\nGoal:\n  - Block HTTP from VLAN 20 to the web server\n  - Permit all other access\n"
+  question: Refer to the exhibit. A network engineer must block access for all computers on VLAN 20 to the web server via HTTP. All other computers must be able to access the web server. Which configuration, when applied to switch A, accomplishes the task?
   options:
-    A: "`config t` followed by `ip access-list extended wwwblock`, `permit ip any any`, `deny tcp any host 10.30.0.100 eq 80`, then applying `ip access-group wwwblock in` under `interface vlan 20`"
-    B: "`config t` followed by `ip access-list extended wwwblock`, `permit ip any any`, `deny tcp any host 10.30.0.100 eq 80`, then applying `ip access-group wwwblock in` under `interface vlan 30`"
-    C: "`config t` followed by `ip access-list extended wwwblock`, `deny tcp any host 10.30.0.100 eq 80`, then applying `ip access-group wwwblock in` under `interface vlan 10`"
-    D: "`config t` followed by `ip access-list extended wwwblock`, `deny tcp any host 10.30.0.100 eq 80`, `permit ip any any`, then applying `ip access-group wwwblock in` under `interface vlan 20`"
+    A: '`config t` followed by `ip access-list extended wwwblock`, `permit ip any any`, `deny tcp any host 10.30.0.100 eq 80`, then applying `ip access-group wwwblock in` under `interface vlan 20`'
+    B: '`config t` followed by `ip access-list extended wwwblock`, `permit ip any any`, `deny tcp any host 10.30.0.100 eq 80`, then applying `ip access-group wwwblock in` under `interface vlan 30`'
+    C: '`config t` followed by `ip access-list extended wwwblock`, `deny tcp any host 10.30.0.100 eq 80`, then applying `ip access-group wwwblock in` under `interface vlan 10`'
+    D: '`config t` followed by `ip access-list extended wwwblock`, `deny tcp any host 10.30.0.100 eq 80`, `permit ip any any`, then applying `ip access-group wwwblock in` under `interface vlan 20`'
   correct_answer: D
-  explanation: "The ACL must be applied inbound on the VLAN 20 SVI so it affects only hosts in VLAN 20. The deny for TCP port 80 to the web server must come before the permit statement so other traffic remains allowed."
+  explanation: The ACL must be applied inbound on the VLAN 20 SVI so it affects only hosts in VLAN 20. The deny for TCP port 80 to the web server must come before the permit statement so other traffic remains allowed.
   source: 5-Security-Fundamentals_88/SF-072.png
 
 - id: SF-073
   topic: Security Fundamentals
-  subtopic: "Threat Mitigation"
+  subtopic: Threat Mitigation
   type: equivalence_buttons
   difficulty: medium
-  tags: [vlan-hopping, dhcp-snooping, 802.1x, drag-and-drop]
-  question: "Drag and drop the attack-mitigation techniques from the left onto the types of attack that they mitigate on the right."
+  tags:
+  - vlan-hopping
+  - dhcp-snooping
+  - 802.1x
+  - drag-and-drop
+  question: Drag and drop the attack-mitigation techniques from the left onto the types of attack that they mitigate on the right.
   premises:
-    - "Configure the 802.1x authentication protocol"
-    - "Configure the DHCP snooping feature"
-    - "Configure the native VLAN with a nondefault VLAN"
-    - "Disable Dynamic Trunking Protocol - switch-spoofing VLAN-hopping attack"
+  - Configure the 802.1x authentication protocol
+  - Configure the DHCP snooping feature
+  - Configure the native VLAN with a nondefault VLAN
+  - Disable Dynamic Trunking Protocol - switch-spoofing VLAN-hopping attack
   responses:
-    - "802.1Q double-tagging VLAN-hopping attack"
-    - "man-in-the-middle spoofing attack"
-    - "switch-spoofing VLAN-hopping attack"
+  - 802.1Q double-tagging VLAN-hopping attack
+  - man-in-the-middle spoofing attack
+  - switch-spoofing VLAN-hopping attack
   correct_matches:
-    "Configure the native VLAN with a nondefault VLAN": "802.1Q double-tagging VLAN-hopping attack"
-    "Configure the DHCP snooping feature": "man-in-the-middle spoofing attack"
-    "Configure the 802.1x authentication protocol": "man-in-the-middle spoofing attack"
-    "Disable Dynamic Trunking Protocol - switch-spoofing VLAN-hopping attack": "switch-spoofing VLAN-hopping attack"
-  explanation: "A nondefault native VLAN mitigates double-tagging attacks, disabling DTP mitigates switch-spoofing VLAN hopping, and DHCP snooping or 802.1X help reduce spoofing-style attacks in the access layer."
+    Configure the native VLAN with a nondefault VLAN: 802.1Q double-tagging VLAN-hopping attack
+    Configure the DHCP snooping feature: man-in-the-middle spoofing attack
+    Configure the 802.1x authentication protocol: man-in-the-middle spoofing attack
+    Disable Dynamic Trunking Protocol - switch-spoofing VLAN-hopping attack: switch-spoofing VLAN-hopping attack
+  explanation: A nondefault native VLAN mitigates double-tagging attacks, disabling DTP mitigates switch-spoofing VLAN hopping, and DHCP snooping or 802.1X help reduce spoofing-style attacks in the access layer.
   source: adapted_from_images
 
 - id: SF-074
   topic: Security Fundamentals
-  subtopic: "VPN Technologies"
+  subtopic: VPN Technologies
   type: single_choice
   difficulty: easy
-  tags: [ipsec, tunnel-mode, transport-mode]
-  question: "Which fact must the engineer consider when implementing IPsec on a new network?"
+  tags:
+  - ipsec
+  - tunnel-mode
+  - transport-mode
+  question: Which fact must the engineer consider when implementing IPsec on a new network?
   options:
-    A: "The tunnel secures the entire packet and transport only safeguards the payload."
-    B: "The AH and ESP operate on top of the TCP protocol and use ports 50 and 51 respectively."
-    C: "IPsec tunnel mode has lower overhead than transport mode."
-    D: "The AH is used only in combination with ESP."
+    A: The tunnel secures the entire packet and transport only safeguards the payload.
+    B: The AH and ESP operate on top of the TCP protocol and use ports 50 and 51 respectively.
+    C: IPsec tunnel mode has lower overhead than transport mode.
+    D: The AH is used only in combination with ESP.
   correct_answer: A
-  explanation: "Tunnel mode protects the full original IP packet by encapsulating it, while transport mode protects only the payload and leaves the original IP header intact."
+  explanation: Tunnel mode protects the full original IP packet by encapsulating it, while transport mode protects only the payload and leaves the original IP header intact.
   source: adapted_from_images
 
 - id: SF-075
   topic: Security Fundamentals
-  subtopic: "Malware"
+  subtopic: Malware
   type: single_choice
   difficulty: easy
-  tags: [backdoor, malware, trojan]
-  question: "What is the definition of backdoor malware?"
+  tags:
+  - backdoor
+  - malware
+  - trojan
+  question: What is the definition of backdoor malware?
   options:
-    A: "malicious code that is installed onto a computer to allow access by an unauthorized user"
-    B: "malicious program that is used to launch other malicious programs"
-    C: "malicious code that infects a user machine and then uses that machine to send spam"
-    D: "malicious code with the main purpose of downloading other malicious code"
+    A: malicious code that is installed onto a computer to allow access by an unauthorized user
+    B: malicious program that is used to launch other malicious programs
+    C: malicious code that infects a user machine and then uses that machine to send spam
+    D: malicious code with the main purpose of downloading other malicious code
   correct_answer: A
-  explanation: "Backdoor malware creates unauthorized access to a system, allowing an attacker to bypass normal authentication and gain remote control."
+  explanation: Backdoor malware creates unauthorized access to a system, allowing an attacker to bypass normal authentication and gain remote control.
   source: adapted_from_images
 
 - id: SF-076
   topic: Security Fundamentals
-  subtopic: "Secure Management Access"
+  subtopic: Secure Management Access
   type: multiple_choice
   difficulty: medium
-  tags: [ssh, rsa, vty, telnet]
-  question: "A network engineer is replacing the switches that belong to a managed-services client with new Cisco Catalyst switches. The new switches will be configured for updated security standards, including replacing Telnet services with encrypted connections and doubling the modulus size of current RSA encryption. Which two commands or command sequences should be used to complete this configuration?"
+  tags:
+  - ssh
+  - rsa
+  - vty
+  - telnet
+  question: A network engineer is replacing the switches that belong to a managed-services client with new Cisco Catalyst switches. The new switches will be configured for updated security standards, including replacing Telnet services with encrypted connections and doubling the modulus size of current RSA encryption. Which two commands or command sequences should be used to complete this configuration?
   options:
-    A: "`transport input ssh`"
-    B: "`transport input all`"
-    C: "`crypto key generate rsa modulus 2048`"
-    D: "`crypto key generate rsa general-keys modulus 1024`"
-    E: "`crypto key generate rsa usage-keys`"
-  correct_answer: [A, C]
-  explanation: "Using `transport input ssh` restricts remote CLI access to encrypted SSH sessions, and generating RSA keys with a 2048-bit modulus updates the key size to the stronger required value."
+    A: '`transport input ssh`'
+    B: '`transport input all`'
+    C: '`crypto key generate rsa modulus 2048`'
+    D: '`crypto key generate rsa general-keys modulus 1024`'
+    E: '`crypto key generate rsa usage-keys`'
+  correct_answer:
+  - A
+  - C
+  explanation: Using `transport input ssh` restricts remote CLI access to encrypted SSH sessions, and generating RSA keys with a 2048-bit modulus updates the key size to the stronger required value.
   source: adapted_from_images
 
 - id: SF-077
   topic: Security Fundamentals
-  subtopic: "Secure Management Access"
+  subtopic: Secure Management Access
   type: multiple_choice
   difficulty: medium
-  tags: [ssh, vty, remote-access, switch-management]
-  exhibit: |
-    Existing switch configuration shown:
-
-      hostname SW1
-      ip domain-name CCNA-test
-      username CCNA privilege 1 password 0 cisco123
-
-      interface FastEthernet0/1
-        switchport access vlan 10
-
-      interface Vlan10
-        ip address 192.168.1.2 255.255.255.0
-
-      line vty 0 4
-        login local
-        transport input telnet
-      line vty 5 15
-        login local
-        transport input telnet
-
-      show crypto key mypubkey rsa
-        Key pair was generated
-  question: "Refer to the exhibit. An engineer is updating the management access configuration of switch SW1 to allow secured, encrypted remote configuration. Which two commands or command sequences must the engineer apply to the switch?"
+  tags:
+  - ssh
+  - vty
+  - remote-access
+  - switch-management
+  exhibit: "Existing switch configuration shown:\n\n  hostname SW1\n  ip domain-name CCNA-test\n  username CCNA privilege 1 password 0 cisco123\n\n  interface FastEthernet0/1\n    switchport access vlan 10\n\n  interface Vlan10\n    ip address 192.168.1.2 255.255.255.0\n\n  line vty 0 4\n    login local\n    transport input telnet\n  line vty 5 15\n    login local\n    transport input telnet\n\n  show crypto key mypubkey rsa\n    Key pair was generated\n"
+  question: Refer to the exhibit. An engineer is updating the management access configuration of switch SW1 to allow secured, encrypted remote configuration. Which two commands or command sequences must the engineer apply to the switch?
   options:
-    A: "`SW1(config)#enable secret ccnaTest123`"
-    B: "`SW1(config)#username NEW secret R3mote123`"
-    C: "`SW1(config)#line vty 0 15` followed by `SW1(config-line)#transport input ssh`"
-    D: "`SW1(config)#crypto key generate rsa`"
-    E: "`SW1(config-if)#interface f0/1` followed by `SW1(config-if)#switchport mode trunk`"
-  correct_answer: [C, D]
-  explanation: "To enable encrypted remote management, the switch must support SSH on the VTY lines and have RSA keys generated. The other options do not directly enable secure remote access."
-  source: 5-Security-Fundamentals_88/SF-077.png
+    A: '`SW1(config)#enable secret ccnaTest123`'
+    B: '`SW1(config)#username NEW secret R3mote123`'
+    C: '`SW1(config)#line vty 0 15` followed by `SW1(config-line)#transport input ssh`'
+    D: '`SW1(config)#crypto key generate rsa`'
+    E: '`SW1(config-if)#interface f0/1` followed by `SW1(config-if)#switchport mode trunk`'
+  correct_answer:
+  - C
+  - D
+  explanation: To enable encrypted remote management, the switch must support SSH on the VTY lines and have RSA keys generated. The other options do not directly enable secure remote access.
+  source: adapted_from_images
 
 - id: SF-078
   topic: Security Fundamentals
-  subtopic: "Security Analytics"
+  subtopic: Security Analytics
   type: single_choice
   difficulty: easy
-  tags: [machine-learning, ids, anomaly-detection]
-  question: "How does machine learning contribute to the effectiveness of intrusion detection systems?"
+  tags:
+  - machine-learning
+  - ids
+  - anomaly-detection
+  question: How does machine learning contribute to the effectiveness of intrusion detection systems?
   options:
-    A: "It identifies patterns indicating intrusions."
-    B: "It assigns security clearance levels."
-    C: "It monitors for outdated software."
-    D: "It dictates security policy updates."
+    A: It identifies patterns indicating intrusions.
+    B: It assigns security clearance levels.
+    C: It monitors for outdated software.
+    D: It dictates security policy updates.
   correct_answer: A
-  explanation: "Machine learning improves IDS effectiveness by analyzing network data to recognize anomalous patterns and behaviors that may indicate attacks or intrusions."
+  explanation: Machine learning improves IDS effectiveness by analyzing network data to recognize anomalous patterns and behaviors that may indicate attacks or intrusions.
   source: adapted_from_images
 
 - id: SF-079
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: multiple_choice
   difficulty: medium
-  tags: [wlc, wpa2, psk, aes]
-  exhibit: |
-    WLC WLAN > Edit > Security
-
-      Tabs shown:
-        General | Security | QoS | Advanced
-        Layer2 | Layer3 | AAA Server
-
-      Layer 2 Security section:
-        [dropdown]
-        MAC Filtering
-
-      WPA+WPA2 Parameters:
-        - WPA Policy
-        - WPA2 Policy
-        - WPA2 Encryption: AES / TKIP
-        - Auth Key Mgmt: [dropdown]
-        - PSK Format: [dropdown]
-        - key entry field
-  question: "Refer to the exhibit. An engineer is using the Cisco WLC GUI to configure a WLAN for WPA2 encryption with AES and preshared key `Cisco123456`. After selecting the WPA + WPA2 option from the Layer 2 Security drop-down list, which two tasks must they perform to complete the process?"
+  tags:
+  - wlc
+  - wpa2
+  - psk
+  - aes
+  exhibit: "WLC WLAN > Edit > Security\n\n  Tabs shown:\n    General | Security | QoS | Advanced\n    Layer2 | Layer3 | AAA Server\n\n  Layer 2 Security section:\n    [dropdown]\n    MAC Filtering\n\n  WPA+WPA2 Parameters:\n    - WPA Policy\n    - WPA2 Policy\n    - WPA2 Encryption: AES / TKIP\n    - Auth Key Mgmt: [dropdown]\n    - PSK Format: [dropdown]\n    - key entry field\n"
+  question: Refer to the exhibit. An engineer is using the Cisco WLC GUI to configure a WLAN for WPA2 encryption with AES and preshared key `Cisco123456`. After selecting the WPA + WPA2 option from the Layer 2 Security drop-down list, which two tasks must they perform to complete the process?
   options:
-    A: "Select `CCKM` from the Auth Key Mgmt drop-down list, set the PSK Format to `Hex`, and enter the key."
-    B: "Select `PSK` from the Auth Key Mgmt drop-down list, set the PSK Format to `ASCII`, and enter the key."
-    C: "Select `ASCII` from the PSK Format drop-down list, enter the key, and leave the Auth Key Mgmt setting blank."
-    D: "Select the `WPA2 Policy` and `AES` check boxes."
-    E: "Select the `WPA2 Policy`, `AES`, and `TKIP` check boxes."
-  correct_answer: [B, D]
-  explanation: "For WPA2-PSK with an ASCII preshared key, the WLC must use `PSK` as the authentication key management method and enable the `WPA2 Policy` with `AES` encryption."
+    A: Select `CCKM` from the Auth Key Mgmt drop-down list, set the PSK Format to `Hex`, and enter the key.
+    B: Select `PSK` from the Auth Key Mgmt drop-down list, set the PSK Format to `ASCII`, and enter the key.
+    C: Select `ASCII` from the PSK Format drop-down list, enter the key, and leave the Auth Key Mgmt setting blank.
+    D: Select the `WPA2 Policy` and `AES` check boxes.
+    E: Select the `WPA2 Policy`, `AES`, and `TKIP` check boxes.
+  correct_answer:
+  - B
+  - D
+  explanation: For WPA2-PSK with an ASCII preshared key, the WLC must use `PSK` as the authentication key management method and enable the `WPA2 Policy` with `AES` encryption.
   source: 5-Security-Fundamentals_88/SF-079.png
 
 - id: SF-080
   topic: Security Fundamentals
-  subtopic: "Multifactor Authentication"
+  subtopic: Multifactor Authentication
   type: single_choice
   difficulty: easy
-  tags: [mfa, authentication, smartphone]
-  question: "Which set of actions satisfy the requirement for multifactor authentication?"
+  tags:
+  - mfa
+  - authentication
+  - smartphone
+  question: Which set of actions satisfy the requirement for multifactor authentication?
   options:
-    A: "The user enters a user name and password, and then re-enters the credentials on a second screen."
-    B: "The user swipes a key fob, then clicks through an email link."
-    C: "The user enters a user name and password, and then clicks a notification in an authentication app on a mobile device."
-    D: "The user enters a PIN into an RSA token, and then enters the displayed RSA key on a login screen."
+    A: The user enters a user name and password, and then re-enters the credentials on a second screen.
+    B: The user swipes a key fob, then clicks through an email link.
+    C: The user enters a user name and password, and then clicks a notification in an authentication app on a mobile device.
+    D: The user enters a PIN into an RSA token, and then enters the displayed RSA key on a login screen.
   correct_answer: C
-  explanation: "This combines something the user knows, such as a password, with something the user has, such as a mobile authentication app, which satisfies multifactor authentication."
+  explanation: This combines something the user knows, such as a password, with something the user has, such as a mobile authentication app, which satisfies multifactor authentication.
   source: adapted_from_images
 
 - id: SF-081
   topic: Security Fundamentals
-  subtopic: "Secure Management Access"
+  subtopic: Secure Management Access
   type: single_choice
   difficulty: easy
-  tags: [ssh, management, encryption]
-  question: "What is the main purpose of SSH management access?"
+  tags:
+  - ssh
+  - management
+  - encryption
+  question: What is the main purpose of SSH management access?
   options:
-    A: "to enable secured access to the inbound management interface"
-    B: "to allow passwords protected with HTTPS encryption to be sent"
-    C: "to validate management access with username and domain name only"
-    D: "to support DES 56-bit and 3DES 168-bit ciphers"
+    A: to enable secured access to the inbound management interface
+    B: to allow passwords protected with HTTPS encryption to be sent
+    C: to validate management access with username and domain name only
+    D: to support DES 56-bit and 3DES 168-bit ciphers
   correct_answer: A
-  explanation: "SSH provides encrypted, integrity-protected remote access for device management sessions."
+  explanation: SSH provides encrypted, integrity-protected remote access for device management sessions.
   source: adapted_from_images
 
 - id: SF-082
   topic: Security Fundamentals
-  subtopic: "Layer 2 Security"
+  subtopic: Layer 2 Security
   type: single_choice
   difficulty: easy
-  tags: [dhcp-snooping, rogue-dhcp, dhcpdiscover]
-  question: "What is used to identify spurious DHCP servers?"
+  tags:
+  - dhcp-snooping
+  - rogue-dhcp
+  - dhcpdiscover
+  question: What is used to identify spurious DHCP servers?
   options:
-    A: "DHCPACK"
-    B: "DHCPREQUEST"
-    C: "DHCPOFFER"
-    D: "DHCPDISCOVER"
+    A: DHCPACK
+    B: DHCPREQUEST
+    C: DHCPOFFER
+    D: DHCPDISCOVER
   correct_answer: C
-  explanation: "Rogue DHCP servers are identified by observing unexpected `DHCPOFFER` messages arriving from untrusted interfaces, because those offers should come only from legitimate DHCP servers."
+  explanation: Rogue DHCP servers are identified by observing unexpected `DHCPOFFER` messages arriving from untrusted interfaces, because those offers should come only from legitimate DHCP servers.
   source: adapted_from_images
 
 - id: SF-083
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: multiple_choice
   difficulty: easy
-  tags: [wpa2-psk, wlc, psk-format]
-  question: "When configuring a WLAN with WPA2 PSK in the Cisco Wireless LAN Controller GUI, which two formats are available to select?"
+  tags:
+  - wpa2-psk
+  - wlc
+  - psk-format
+  question: When configuring a WLAN with WPA2 PSK in the Cisco Wireless LAN Controller GUI, which two formats are available to select?
   options:
-    A: "decimal"
-    B: "ASCII"
-    C: "hexadecimal"
-    D: "binary"
-    E: "base64"
-  correct_answer: [B, C]
-  explanation: "In the WLC WPA2-PSK configuration, the preshared key format can be entered either as ASCII text or as a hexadecimal value."
+    A: decimal
+    B: ASCII
+    C: hexadecimal
+    D: binary
+    E: base64
+  correct_answer:
+  - B
+  - C
+  explanation: In the WLC WPA2-PSK configuration, the preshared key format can be entered either as ASCII text or as a hexadecimal value.
   source: adapted_from_images
 
 - id: SF-084
   topic: Security Fundamentals
-  subtopic: "Access Control Lists"
+  subtopic: Access Control Lists
   type: single_choice
   difficulty: medium
-  tags: [vty, acl, telnet, management-access]
-  exhibit: |
-    ACL snippets shown:
-
-      access-list 101 permit ospf any any
-      access-list 101 permit tcp any any eq 179
-      access-list 101 permit tcp any eq 179 any
-      access-list 101 permit gre any any
-      access-list 101 permit esp any any
-
-      access-list 101 deny ospf any any
-      access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq telnet
-      access-list 101 permit udp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq 500
-      access-list 101 permit udp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq 4500
-      access-list 101 deny ip any any log
-
-      interface ethernet0/0
-        ip address 10.1.1.25 255.255.255.0
-        ip access-group 101 in
-  question: "Refer to the exhibit. A network administrator has been tasked with securing VTY access to a router. Which access-list entry accomplishes this task?"
+  tags:
+  - vty
+  - acl
+  - telnet
+  - management-access
+  exhibit: "ACL snippets shown:\n\n  access-list 101 permit ospf any any\n  access-list 101 permit tcp any any eq 179\n  access-list 101 permit tcp any eq 179 any\n  access-list 101 permit gre any any\n  access-list 101 permit esp any any\n\n  access-list 101 deny ospf any any\n  access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq telnet\n  access-list 101 permit udp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq 500\n  access-list 101 permit udp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq 4500\n  access-list 101 deny ip any any log\n\n  interface ethernet0/0\n    ip address 10.1.1.25 255.255.255.0\n    ip access-group 101 in\n"
+  question: Refer to the exhibit. A network administrator has been tasked with securing VTY access to a router. Which access-list entry accomplishes this task?
   options:
-    A: "`access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq telnet`"
-    B: "`access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq scp`"
-    C: "`access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq https`"
-    D: "`access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq ssh`"
+    A: '`access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq telnet`'
+    B: '`access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq scp`'
+    C: '`access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq https`'
+    D: '`access-list 101 permit tcp 10.1.1.0 0.0.0.255 172.16.1.0 0.0.0.255 eq ssh`'
   correct_answer: D
-  explanation: "To secure VTY access on a router, the ACL entry must permit SSH traffic from the allowed source network to the management destination network. SSH is the secure protocol for remote VTY access."
-  source: 5-Security-Fundamentals_88/SF-084.png
+  explanation: To secure VTY access on a router, the ACL entry must permit SSH traffic from the allowed source network to the management destination network. SSH is the secure protocol for remote VTY access.
+  source: adapted_from_images
 
 - id: SF-085
   topic: Security Fundamentals
-  subtopic: "Access Control Lists"
+  subtopic: Access Control Lists
   type: single_choice
   difficulty: medium
-  tags: [standard-acl, wildcard-mask, source-filtering]
-  exhibit: |
-    Topology:
-
-        10.100.100.0/24 -- Gi0/0 [HQ] Gi0/1 -- 192.168.0.0/16
-
-    Task shown:
-      - Permit traffic from any host on interface Gi0/0
-      - Deny traffic from interface Gi0/1
-  question: "Refer to the exhibit. An access-list is required to permit traffic from any host on interface GigabitEthernet0/0 and deny traffic from interface GigabitEthernet0/1. Which access list must be applied?"
+  tags:
+  - standard-acl
+  - wildcard-mask
+  - source-filtering
+  exhibit: "Topology:\n\n    10.100.100.0/24 -- Gi0/0 [HQ] Gi0/1 -- 192.168.0.0/16\n\nTask shown:\n  - Permit traffic from any host on interface Gi0/0\n  - Deny traffic from interface Gi0/1\n"
+  question: Refer to the exhibit. An access-list is required to permit traffic from any host on interface GigabitEthernet0/0 and deny traffic from interface GigabitEthernet0/1. Which access list must be applied?
   options:
-    A: "`ip access-list standard 99` followed by `permit 10.100.100.0 0.0.0.255` and `deny 192.168.0.0 0.255.255.255`"
-    B: "`ip access-list standard 99` followed by `permit 10.100.0.0 0.0.0.255` and `deny 192.168.0.0 0.255.255.255`"
-    C: "`ip access-list standard 199` followed by `permit 10.100.100.0 0.0.0.255` and `deny 192.168.0.0 0.255.255.255`"
-    D: "`ip access-list standard 199` followed by `permit 10.100.0.0 0.0.0.255` and `deny 192.168.0.0 0.255.255.255`"
+    A: '`ip access-list standard 99` followed by `permit 10.100.100.0 0.0.0.255` and `deny 192.168.0.0 0.255.255.255`'
+    B: '`ip access-list standard 99` followed by `permit 10.100.0.0 0.0.0.255` and `deny 192.168.0.0 0.255.255.255`'
+    C: '`ip access-list standard 199` followed by `permit 10.100.100.0 0.0.0.255` and `deny 192.168.0.0 0.255.255.255`'
+    D: '`ip access-list standard 199` followed by `permit 10.100.0.0 0.0.0.255` and `deny 192.168.0.0 0.255.255.255`'
   correct_answer: A
-  explanation: "A standard ACL filters only on the source address, and the correct permit statement must match the `10.100.100.0/24` network while denying the `192.168.0.0/16` source range."
+  explanation: A standard ACL filters only on the source address, and the correct permit statement must match the `10.100.100.0/24` network while denying the `192.168.0.0/16` source range.
   source: 5-Security-Fundamentals_88/SF-085.png
 
 - id: SF-086
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: single_choice
   difficulty: easy
-  tags: [owe, open-wireless, encryption]
-  question: "What is a function of Opportunistic Wireless Encryption in an environment?"
+  tags:
+  - owe
+  - open-wireless
+  - encryption
+  question: What is a function of Opportunistic Wireless Encryption in an environment?
   options:
-    A: "provide authentication"
-    B: "protect traffic on open networks"
-    C: "offer compression"
-    D: "increase security by using a WEP connection"
+    A: provide authentication
+    B: protect traffic on open networks
+    C: offer compression
+    D: increase security by using a WEP connection
   correct_answer: B
-  explanation: "Opportunistic Wireless Encryption enhances open wireless networks by encrypting client traffic without requiring a shared password."
+  explanation: Opportunistic Wireless Encryption enhances open wireless networks by encrypting client traffic without requiring a shared password.
   source: adapted_from_images
 
 - id: SF-087
   topic: Security Fundamentals
-  subtopic: "Physical Security"
+  subtopic: Physical Security
   type: single_choice
   difficulty: easy
-  tags: [physical-access-control, badge-sharing, tailgating]
-  question: "Which type of security program is violated when a group of employees enters a building using the ID badge of only one person?"
+  tags:
+  - physical-access-control
+  - badge-sharing
+  - tailgating
+  question: Which type of security program is violated when a group of employees enters a building using the ID badge of only one person?
   options:
-    A: "intrusion detection"
-    B: "network authorization"
-    C: "physical access control"
-    D: "user awareness"
+    A: intrusion detection
+    B: network authorization
+    C: physical access control
+    D: user awareness
   correct_answer: C
-  explanation: "Allowing multiple people to enter using one badge bypasses the controls that are meant to regulate authorized physical entry into a facility."
+  explanation: Allowing multiple people to enter using one badge bypasses the controls that are meant to regulate authorized physical entry into a facility.
   source: adapted_from_images
 
 - id: SF-088
   topic: Security Fundamentals
-  subtopic: "Wireless Security"
+  subtopic: Wireless Security
   type: equivalence_buttons
   difficulty: medium
-  tags: [wlc, security-mechanisms, layer2, layer3, drag-and-drop]
-  question: "Drag and drop the Cisco Wireless LAN Controller security settings from the left onto the correct security mechanism categories on the right."
+  tags:
+  - wlc
+  - security-mechanisms
+  - layer2
+  - layer3
+  - drag-and-drop
+  question: Drag and drop the Cisco Wireless LAN Controller security settings from the left onto the correct security mechanism categories on the right.
   premises:
-    - "web policy"
-    - "Passthrough"
-    - "WPA+WPA2"
-    - "802.1X"
+  - web policy
+  - Passthrough
+  - WPA+WPA2
+  - 802.1X
   responses:
-    - "Layer 2 Security Mechanisms"
-    - "Layer 3 Security Mechanisms (for WLAN)"
+  - Layer 2 Security Mechanisms
+  - Layer 3 Security Mechanisms (for WLAN)
   correct_matches:
-    "WPA+WPA2": "Layer 2 Security Mechanisms"
-    "802.1X": "Layer 2 Security Mechanisms"
-    "web policy": "Layer 3 Security Mechanisms (for WLAN)"
-    "Passthrough": "Layer 3 Security Mechanisms (for WLAN)"
-  explanation: "On Cisco WLCs, WPA and 802.1X are Layer 2 WLAN security mechanisms, while web policy and passthrough are categorized as Layer 3 WLAN security mechanisms."
+    WPA+WPA2: Layer 2 Security Mechanisms
+    802.1X: Layer 2 Security Mechanisms
+    web policy: Layer 3 Security Mechanisms (for WLAN)
+    Passthrough: Layer 3 Security Mechanisms (for WLAN)
+  explanation: On Cisco WLCs, WPA and 802.1X are Layer 2 WLAN security mechanisms, while web policy and passthrough are categorized as Layer 3 WLAN security mechanisms.
   source: adapted_from_images
