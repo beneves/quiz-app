@@ -114,58 +114,8 @@ def _study_group_label(group_by: str, value: str) -> str:
     return value
 
 
-def _study_group_icon(group_by: str, value: str) -> str:
-    if group_by == "type":
-        return {
-            "single_choice": "🎯",
-            "multiple_choice": "🧠",
-            "equivalence_buttons": "🧩",
-            "drag_drop": "🧩",
-            "simulation_lab": "🧪",
-        }.get(value, "📘")
-    return "📘"
-
-
-def _study_group_values(questions: list[Question], group_by: str) -> list[str]:
-    if group_by == "type":
-        return available_question_types(questions)
-    return available_topics(questions)
-
-
-def _study_group_pool(questions: list[Question], group_by: str, group_value: str) -> list[Question]:
-    if group_by == "type":
-        return [q for q in questions if str(q.type.value) == group_value]
-    return [q for q in questions if q.topic == group_value]
-
-
 def _normalize_lab_command(text: str) -> str:
     return " ".join((text or "").strip().lower().split())
-
-
-def _question_image_path(cert: str, q: Question) -> str | None:
-    if q.type != QuestionType.SIMULATION_LAB:
-        return None
-    candidate = (q.lab.image if q.lab and q.lab.image else q.source).strip()
-    if not candidate or not candidate.lower().endswith((".png", ".jpg", ".jpeg", ".gif")):
-        return None
-    path = os.path.join(ROOT, "data", cert, "images", candidate)
-    return path if os.path.isfile(path) else None
-
-
-async def _maybe_send_lab_image(update: Update, context: ContextTypes.DEFAULT_TYPE, q: Question) -> None:
-    cert = _ud(context).get("cert", "")
-    path = _question_image_path(cert, q)
-    if not path:
-        return
-    ud = _ud(context)
-    if ud.get("lab_image_for") == q.id:
-        return
-    target = update.callback_query.message if update.callback_query else update.effective_message
-    if target is None:
-        return
-    with open(path, "rb") as fh:
-        await target.reply_photo(photo=fh, caption=f"{q.id} lab image")
-    ud["lab_image_for"] = q.id
 
 
 def _question_image_path(cert: str, q: Question) -> str | None:
@@ -227,8 +177,23 @@ async def _maybe_send_lab_image(update: Update, context: ContextTypes.DEFAULT_TY
     if target is None:
         return
     with open(path, "rb") as fh:
-        await target.reply_photo(photo=fh, caption=f"{q.id} image")
+        sent = await target.reply_photo(photo=fh, caption=f"{q.id} image")
+    ud["lab_image_chat_id"] = sent.chat_id
+    ud["lab_image_message_id"] = sent.message_id
     ud["lab_image_for"] = q.id
+
+
+async def _delete_lab_image(context: ContextTypes.DEFAULT_TYPE) -> None:
+    ud = _ud(context)
+    chat_id = ud.pop("lab_image_chat_id", None)
+    message_id = ud.pop("lab_image_message_id", None)
+    ud.pop("lab_image_for", None)
+    if chat_id is None or message_id is None:
+        return
+    try:
+        await context.bot.delete_message(chat_id=chat_id, message_id=message_id)
+    except Exception as exc:
+        log.debug("Could not delete lab image message: %s", exc)
 
 
 def _ensure_lab_state(ud: dict, q: Question) -> dict:
@@ -312,24 +277,6 @@ async def render_mode_screen(update: Update, context: ContextTypes.DEFAULT_TYPE)
     )
 
 
-async def render_study_group_mode_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    ud = _ud(context)
-    ud["state"] = "study_mode"
-    total = len(ud.get("questions", []))
-    rows = [
-        [("ðŸ“š By Topic", "studymode:topic")],
-        [("ðŸ§© By Type", "studymode:type")],
-        _nav("ðŸ”™ Back"),
-    ]
-    await _edit(
-        update,
-        f"ðŸ“˜ <b>Study Mode</b>  â€”  {esc(ud['cert'])}\n\n"
-        f"Total questions: <b>{total}</b>\n\n"
-        "Choose how you want to organize the questions:",
-        _kb(rows),
-    )
-
-
 async def render_topic_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ud = _ud(context)
     ud["state"] = "topic"
@@ -357,35 +304,6 @@ async def render_topic_screen(update: Update, context: ContextTypes.DEFAULT_TYPE
     await _edit(update, prompt, _kb(rows))
 
 
-async def render_study_group_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    ud = _ud(context)
-    ud["state"] = "study_group"
-    questions = ud["questions"]
-    group_by = ud.get("study_group_by", "topic")
-    values = _study_group_values(questions, group_by)
-    ud["study_group_values"] = values
-
-    rows = []
-    if group_by == "topic":
-        t_ranges = build_topic_ranges(questions)
-        for idx, value in enumerate(values):
-            lo, hi, cnt = t_ranges[value]
-            label = f"{_study_group_icon(group_by, value)} {esc(value)}  #{lo}â€“#{hi}  ({cnt})"
-            rows.append([(label, f"studygroup:{idx}")])
-        title = "ðŸ“š <b>Study by Topic</b>"
-        prompt = "Choose one theme:"
-    else:
-        for idx, value in enumerate(values):
-            pool = _study_group_pool(questions, group_by, value)
-            label = _study_group_label(group_by, value)
-            rows.append([(f"{_study_group_icon(group_by, value)} {esc(label)}  ({len(pool)})", f"studygroup:{idx}")])
-        title = "ðŸ§© <b>Study by Type</b>"
-        prompt = "Choose one question type:"
-
-    rows.append(_nav("ðŸ”™ Back"))
-    await _edit(update, f"{title}\n\n{prompt}", _kb(rows))
-
-
 async def render_count_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Exam mode: choose how many random questions to answer."""
     ud = _ud(context)
@@ -410,7 +328,7 @@ async def render_count_screen(update: Update, context: ContextTypes.DEFAULT_TYPE
     )
 
 
-async def render_study_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def _obsolete_render_study_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Study mode: choose all questions or a block of 10 inside the selected topic."""
     ud = _ud(context)
     ud["state"] = "study_select"
@@ -439,53 +357,7 @@ async def render_study_select_screen(update: Update, context: ContextTypes.DEFAU
     await _edit(update, "\n".join(lines), _kb(rows))
 
 
-async def render_study_group_mode_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    ud = _ud(context)
-    ud["state"] = "study_mode"
-    total = len(ud.get("questions", []))
-    rows = [
-        [("By Type", "studymode:type")],
-        [("By Topic", "studymode:topic")],
-        _nav("Back"),
-    ]
-    await _edit(
-        update,
-        f"<b>Study Mode</b> - {esc(ud['cert'])}\n\n"
-        f"Total questions: <b>{total}</b>\n\n"
-        "Choose how you want to organize the questions:",
-        _kb(rows),
-    )
-
-
-async def render_study_group_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    ud = _ud(context)
-    ud["state"] = "study_group"
-    questions = ud["questions"]
-    group_by = ud.get("study_group_by", "topic")
-    values = _study_group_values(questions, group_by, ud["cert"])
-    ud["study_group_values"] = values
-
-    rows = []
-    if group_by == "topic":
-        t_ranges = build_topic_ranges(questions)
-        for idx, value in enumerate(values):
-            lo, hi, cnt = t_ranges[value]
-            rows.append([(f"{_study_group_icon(group_by, value)} {esc(value)}  #{lo}-{hi}  ({cnt})", f"studygroup:{idx}")])
-        title = "<b>Study by Topic</b>"
-        prompt = "Choose one theme:"
-    else:
-        for idx, value in enumerate(values):
-            pool = _study_group_pool(questions, group_by, value, ud["cert"])
-            label = _study_group_label(group_by, value)
-            rows.append([(f"{_study_group_icon(group_by, value)} {esc(label)}  ({len(pool)})", f"studygroup:{idx}")])
-        title = "<b>Study by Type</b>"
-        prompt = "Choose one question type:"
-
-    rows.append(_nav("Back"))
-    await _edit(update, f"{title}\n\n{prompt}", _kb(rows))
-
-
-async def render_study_select_screen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def _obsolete_render_study_select_screen_a(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ud = _ud(context)
     ud["state"] = "study_select"
     questions = ud["questions"]
@@ -618,7 +490,7 @@ async def on_count(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 # ── study: select range ───────────────────────────────────────────────────────
 
-async def on_study_select(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def _obsolete_on_study_select(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.callback_query.answer()
     parts = update.callback_query.data.split(":")
     ud  = _ud(context)
@@ -656,7 +528,7 @@ async def _start_quiz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 # ── question display ──────────────────────────────────────────────────────────
 
-async def _send_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def _obsolete_send_question_legacy(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ud      = _ud(context)
     session = _session(context)
     q       = session.current_question
@@ -704,7 +576,7 @@ async def _send_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     await _edit(update, text, _build_question_keyboard(q, ud))
 
 
-def _build_question_keyboard(q: Question, ud: dict) -> InlineKeyboardMarkup:
+def _obsolete_build_question_keyboard(q: Question, ud: dict) -> InlineKeyboardMarkup:
     nav = _nav("⚠️ Exit Quiz")
     mode = ud.get("mode", Mode.STUDY)
     study_nav = [("◀ Back Question", "prev"), ("▶ Next Question", "next")] if mode == Mode.STUDY else None
@@ -880,7 +752,7 @@ async def on_lab_reset(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     if not q or q.type != QuestionType.SIMULATION_LAB:
         return
     ud.pop("lab_state", None)
-    ud.pop("lab_image_for", None)
+    await _delete_lab_image(context)
     await _send_question(update, context)
 
 
@@ -979,7 +851,7 @@ async def on_next(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         s.skip_current()
     ud["state"] = "quiz"
     ud.pop("lab_state", None)
-    ud.pop("lab_image_for", None)
+    await _delete_lab_image(context)
     await (_show_result if s.is_finished else _send_question)(update, context)
 
 
@@ -993,7 +865,7 @@ async def on_prev(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         s.back_current()
     ud["state"] = "quiz"
     ud.pop("lab_state", None)
-    ud.pop("lab_image_for", None)
+    await _delete_lab_image(context)
     await _send_question(update, context)
 
 
@@ -1002,6 +874,7 @@ async def on_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     if not _session(context).is_finished:
         await update.callback_query.answer("Answer all questions before viewing results.", show_alert=True)
         return
+    await _delete_lab_image(context)
     await _show_result(update, context)
 
 
@@ -1114,6 +987,7 @@ async def on_nav_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     await update.callback_query.answer()
     ud     = _ud(context)
     target = ud.pop("pending_nav", "home")
+    await _delete_lab_image(context)
     # preserve cert + questions for re-navigation
     cert      = ud.get("cert")
     questions = ud.get("questions")
